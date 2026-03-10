@@ -1,77 +1,73 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// 1. Structural Navigation (Crisp border on scroll)
-const nav = document.querySelector('nav');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
-    else { nav.classList.remove('scrolled'); }
-});
-
-// 2. Joyful Interactions: Magnetic Buttons & Cursor
+// 1. Custom Cursor & Media Reveal Logic
 const cursor = document.querySelector('.cursor');
+const mediaReveal = document.querySelector('.media-reveal');
+const disciplineItems = document.querySelectorAll('.discipline-item');
+const mediaItems = document.querySelectorAll('.media-reveal img, .media-reveal video');
+
 const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 if (!isTouchDevice && cursor) {
+    // Fast cursor follow
+    let mouseX = 0, mouseY = 0;
     document.addEventListener('mousemove', (e) => {
-        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
-    });
-    
-    document.querySelectorAll('a, button, .hover-target').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        mouseX = e.clientX; mouseY = e.clientY;
+        gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.1, ease: "power2.out" });
+        
+        // Slower, delayed follow for the massive media reveal (creates fluid drag effect)
+        if(mediaReveal.classList.contains('active')) {
+            gsap.to(mediaReveal, { x: mouseX, y: mouseY, duration: 0.6, ease: "power3.out" });
+        }
     });
 
-    // Magnetic pull effect
-    document.querySelectorAll('.magnetic-wrap').forEach(el => {
-        el.addEventListener('mousemove', function(e) {
-            const pos = this.getBoundingClientRect();
-            const mx = e.clientX - pos.left - pos.width/2;
-            const my = e.clientY - pos.top - pos.height/2;
-            gsap.to(this, { x: mx * 0.3, y: my * 0.3, duration: 0.5, ease: "power2.out" });
+    // Hover logic for disciplines
+    disciplineItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '0'; // Hide small dot
+            mediaReveal.classList.add('active'); // Show massive media
+            
+            // Show the specific image/video based on data-target
+            const targetId = item.getAttribute('data-target');
+            mediaItems.forEach(media => media.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+            
+            // If it's a video, play it
+            const targetVideo = document.getElementById(targetId);
+            if(targetVideo.tagName === 'VIDEO') targetVideo.play();
         });
-        el.addEventListener('mouseleave', function() {
-            gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+        
+        item.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '1';
+            mediaReveal.classList.remove('active');
+            
+            const targetId = item.getAttribute('data-target');
+            const targetVideo = document.getElementById(targetId);
+            if(targetVideo.tagName === 'VIDEO') targetVideo.pause();
         });
     });
 }
 
-// 3. Smooth Scrolling (Lenis)
+// 2. Smooth Scrolling
 const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-gsap.ticker.lagSmoothing(0);
 
-// 4. Smooth Fade-Up Animations
-document.addEventListener("DOMContentLoaded", () => {
-    
-    document.querySelectorAll('.gsap-reveal').forEach(el => {
-        gsap.fromTo(el, 
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
-              scrollTrigger: { trigger: el, start: "top 85%" }
-            }
-        );
+// 3. Audio Toggle (For the Music Producer)
+const audioBtn = document.querySelector('.audio-btn');
+const bgAudio = new Audio('path/to/your/ambient-track.mp3'); // REPLACE THIS
+bgAudio.loop = true;
+
+if(audioBtn) {
+    audioBtn.addEventListener('click', () => {
+        if(bgAudio.paused) {
+            bgAudio.play();
+            audioBtn.textContent = 'SOUND: ON';
+        } else {
+            bgAudio.pause();
+            audioBtn.textContent = 'SOUND: OFF';
+        }
     });
-
-    document.querySelectorAll('.gsap-parallax').forEach(img => {
-        gsap.to(img, {
-            yPercent: 15, ease: "none",
-            scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true }
-        });
-    });
-
-    // Horizontal Scroll (Desktop only)
-    const horizontalSection = document.querySelector('.horizontal-wrap');
-    if(horizontalSection && window.innerWidth > 768) {
-        let scrollWidth = horizontalSection.scrollWidth - window.innerWidth;
-        gsap.to(horizontalSection, {
-            x: -scrollWidth, ease: "none",
-            scrollTrigger: {
-                trigger: ".horizontal-container", pin: true, scrub: 1,
-                start: "center center", end: () => "+=" + scrollWidth
-            }
-        });
-    }
-});
+}
