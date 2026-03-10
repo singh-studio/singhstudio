@@ -8,43 +8,52 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/swup@4"></script>
 </head>
 <body>
+    <div class="cursor"></div>
 
-    <nav class="nav grid-container">
-        <a href="index.html" class="link-underline text-meta" style="pointer-events: auto;">Singh Studio</a>
-        <div style="display: flex; gap: 2rem; pointer-events: auto;">
-            <a href="about.html" class="link-underline text-meta">Studio</a>
-            <a href="portfolio.html" class="link-underline text-meta">Work</a>
+    <nav>
+        <a href="index.html">Singh Studio</a>
+        <div style="display: flex; gap: 2rem;">
+            <a href="about.html" style="color: var(--accent);">Studio</a>
+            <a href="portfolio.html">Work</a>
+            <a href="cv.html">CV</a>
         </div>
     </nav>
 
-    <main id="swup-main" class="transition-fade">
-        
-        <section class="grid-container grid-12" style="padding-top: 25vh; margin-bottom: var(--space-xl);">
-            <div class="col-span-12 col-start-1">
-                <p class="text-meta reveal-text" style="margin-bottom: var(--space-sm);">The Ethos</p>
-                <h1 class="text-h2 reveal-text" style="max-width: 20ch;">Design is the visual articulation of business strategy.</h1>
-            </div>
-            <div class="col-span-4 col-start-5" style="margin-top: var(--space-lg);">
-                <p class="reveal-text">Singh Studio operates at the intersection of corporate communications, brand identity, and premium digital experience. We don't just build websites; we engineer strategic narrative tools that perform beautifully.</p>
-            </div>
-        </section>
+    <div class="container" style="padding-top: 25vh; margin-bottom: 10vh;">
+        <h1 class="display-text text-massive">THE STUDIO</h1>
+    </div>
 
-        <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
-            <div class="col-span-12 img-wrap reveal-text" style="aspect-ratio: 21/9;">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" data-parallax alt="Studio Ethos">
-            </div>
-        </section>
+    <section class="container" style="margin-bottom: 15vh;">
+        <div style="width: 100%; aspect-ratio: 21/9; overflow: hidden; background: #ccc;">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" alt="Studio Space" class="reveal-img" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </section>
 
-        <footer class="grid-container grid-12" style="padding: var(--space-lg) 0 var(--space-md); border-top: 1px solid var(--color-border);">
-            <div class="col-span-4 col-start-1">
-                <a href="mailto:hello@singhstudio.com" class="text-h3 font-display">hello@singhstudio.com</a>
-            </div>
-        </footer>
+    <section class="container border-top" style="padding: 10vh 0;">
+        <div style="display: flex; flex-wrap: wrap; gap: 4vw;">
+            <div style="flex: 1; min-width: 250px;"><h3 class="text-meta">Capabilities</h3></div>
+            <div style="flex: 3; min-width: 300px;">
+                
+                <div class="border-bottom" style="padding: 2rem 0;">
+                    <h4 class="display-text" style="font-size: 3rem;">BRAND IDENTITY</h4>
+                    <p style="margin-top: 1rem; font-size: 1.125rem;">Crafting cohesive visual systems and brand narratives that position businesses as premium authorities in their sector.</p>
+                </div>
+                
+                <div class="border-bottom" style="padding: 2rem 0;">
+                    <h4 class="display-text" style="font-size: 3rem;">STRATEGIC COMMS</h4>
+                    <p style="margin-top: 1rem; font-size: 1.125rem;">Developing clear, compelling messaging frameworks that align with business objectives and resonate with stakeholders.</p>
+                </div>
+                
+                <div class="border-bottom" style="padding: 2rem 0;">
+                    <h4 class="display-text" style="font-size: 3rem;">DIGITAL UX / UI</h4>
+                    <p style="margin-top: 1rem; font-size: 1.125rem;">Designing high-end, bespoke websites and digital products focusing on aesthetic excellence and smooth motion.</p>
+                </div>
 
-    </main>
+            </div>
+        </div>
+    </section>
 
     <script src="assets/js/main.js"></script>
 </body>
