@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singh Studio | Strategic Design</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=V6">
+    <title>Singh Studio | Multidisciplinary Director</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=V7">
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -12,69 +12,70 @@
 <body>
     <div class="cursor"></div>
 
+    <div class="media-reveal">
+        <img id="media-strategy" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop">
+        <img id="media-photo" src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop">
+        <video id="media-video" src="https://assets.mixkit.co/videos/preview/mixkit-ink-swirling-in-water-238-large.mp4" muted loop playsinline></video>
+        <img id="media-audio" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=800&auto=format&fit=crop">
+    </div>
+
     <nav>
-        <div class="magnetic-wrap"><a href="index.html">Singh Studio</a></div>
-        <div style="display: flex; gap: 2rem; align-items: center;">
-            <div class="magnetic-wrap"><a href="profile.html">Profile</a></div>
-            <div class="magnetic-wrap"><a href="portfolio.html">Index</a></div>
-            <a href="https://meet.google.com/" target="_blank" class="btn-book hover-target">Book Intro ↗</a>
+        <a href="index.html">Singh Studio</a>
+        <div style="display: flex; gap: 2vw; align-items: center;">
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="portfolio.html">Work</a>
+            <a href="cv.html">CV</a>
         </div>
+        <button class="audio-btn">SOUND: OFF</button>
     </nav>
 
-    <header class="container border-bottom" style="padding-top: 25vh; padding-bottom: 10vh;">
-        <h1 class="text-hero font-display gsap-reveal">Designing <span class="italic">strategic</span><br>digital experiences.</h1>
-        <div class="grid-2" style="margin-top: 8vh;">
-            <div class="gsap-reveal"><p class="text-meta">Overview</p></div>
-            <div class="gsap-reveal">
-                <p class="text-p">I am [Your Name], operating as Singh Studio. I engineer high-end digital experiences, brand systems, and communications architecture for ambitious companies.</p>
-                <div class="magnetic-wrap" style="margin-top: 2rem;">
-                    <a href="profile.html" class="text-meta" style="text-decoration: none; border-bottom: 1px solid var(--text); padding-bottom: 4px;">Read Full Profile</a>
-                </div>
-            </div>
+    <header class="container" style="height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative;">
+        <div class="hero-video-wrap">
+            <video src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-lines-background-22445-large.mp4" autoplay muted loop playsinline></video>
+        </div>
+        
+        <div style="color: #fff; z-index: 10;">
+            <p class="text-meta" style="margin-bottom: 2rem;">Multidisciplinary Creative</p>
+            <h1 class="text-hero font-display">I design, capture, and score <span class="italic">strategic narratives.</span></h1>
         </div>
     </header>
 
-    <section class="horizontal-container border-bottom">
-        <div class="container" style="padding-top: 5vh;">
-            <p class="text-meta">Selected Index [01-02]</p>
+    <section class="container discipline-list" style="background: var(--bg);">
+        <div style="margin-bottom: 10vh;">
+            <p class="text-meta" style="color: var(--accent);">Disciplines</p>
+        </div>
+
+        <div class="discipline-item" data-target="media-strategy">
+            <h2 class="font-display">Strategic Communications</h2>
+            <span class="text-meta">01</span>
         </div>
         
-        <div class="horizontal-wrap">
-            <a href="case-study.html" class="work-item hover-target gsap-reveal">
-                <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Aura Architecture"></div>
-                <div>
-                    <h3 class="font-display" style="font-size: 2.5rem;">Aura Architecture</h3>
-                    <p class="text-meta" style="color: #888; margin-top: 0.5rem;">Brand Identity & Digital UX</p>
-                </div>
-            </a>
-            
-            <a href="case-study.html" class="work-item hover-target gsap-reveal" style="transition-delay: 0.1s;">
-                <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop" alt="Lumina Capital"></div>
-                <div>
-                    <h3 class="font-display" style="font-size: 2.5rem;">Lumina Capital</h3>
-                    <p class="text-meta" style="color: #888; margin-top: 0.5rem;">Strategic Communications</p>
-                </div>
-            </a>
+        <div class="discipline-item" data-target="media-photo">
+            <h2 class="font-display">Photography & Art Direction</h2>
+            <span class="text-meta">02</span>
+        </div>
+        
+        <div class="discipline-item" data-target="media-video">
+            <h2 class="font-display">Film & Motion</h2>
+            <span class="text-meta">03</span>
+        </div>
+        
+        <div class="discipline-item" data-target="media-audio">
+            <h2 class="font-display">Music & Audio Production</h2>
+            <span class="text-meta">04</span>
         </div>
     </section>
 
-    <section class="section container border-bottom">
-        <div class="grid-2">
-            <div class="gsap-reveal"><h2 class="text-h2 font-display">Initiate a <span class="italic">project.</span></h2></div>
-            <div class="gsap-reveal">
-                <p class="text-p" style="margin-bottom: 2rem;">Whether you need a complete brand overhaul or a strategic digital execution, everything starts with a conversation. Select a time below to discuss your objectives.</p>
-                <div class="magnetic-wrap">
-                    <a href="https://meet.google.com/" target="_blank" class="btn-book hover-target" style="padding: 1rem 2rem;">Book Video Consultation <span>↗</span></a>
-                </div>
-            </div>
-        </div>
+    <section class="container border-top border-bottom" style="padding: 15vh 0; text-align: center;">
+        <h2 class="font-display" style="font-size: clamp(3rem, 6vw, 6rem); margin-bottom: 2rem;">A single creative vision,<br>executed across <span class="italic">all mediums.</span></h2>
+        <a href="https://meet.google.com/" target="_blank" style="display: inline-block; padding: 1rem 2rem; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 40px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em;">Book Video Consultation ↗</a>
     </section>
 
     <footer class="container" style="padding: 2rem 0; display: flex; justify-content: space-between;">
         <span class="text-meta">&copy; 2026 Singh Studio</span>
-        <div class="magnetic-wrap"><a href="#" class="text-meta hover-target" style="text-decoration: none; color: inherit;">LinkedIn</a></div>
     </footer>
 
-    <script src="assets/js/main.js?v=V6"></script>
+    <script src="assets/js/main.js?v=V7"></script>
 </body>
 </html>
