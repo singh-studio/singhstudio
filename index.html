@@ -3,106 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singh Studio | Strategic Design & Communications</title>
+    <title>Singh Studio | Strategic Design</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
 </head>
 <body>
 
-    <nav class="nav">
-        <a href="index.html" class="nav-logo">Singh Studio</a>
-        <div class="nav-links">
-            <a href="about.html">About</a>
-            <a href="portfolio.html">Work</a>
-            <a href="services.html">Services</a>
-            <a href="cv.html">Director</a>
-            <a href="contact.html">Contact</a>
-        </div>
-        <button class="menu-btn">Menu</button>
+    <nav class="nav grid-container">
+        <a href="index.html" class="link-underline text-meta">Singh Studio</a>
+        <a href="mailto:hello@singhstudio.com" class="link-underline text-meta">Let's Talk</a>
     </nav>
 
-    <div class="menu-overlay">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="portfolio.html">Work</a>
-        <a href="services.html">Services</a>
-        <a href="cv.html">Director CV</a>
-        <a href="contact.html">Contact</a>
-    </div>
-
-    <main>
-        <header class="section hero">
-            <div class="container hero-content">
-                <p class="text-meta hero-stagger" style="margin-bottom: 2rem;">A Premium Creative Agency</p>
-                <h1 class="text-hero hero-stagger">Designing strategic <br>communications & <br>digital experiences.</h1>
-                <p class="text-lg text-muted hero-p hero-stagger">We sit at the intersection of storytelling, brand identity, and intuitive digital UX. Creating thoughtful work that performs as beautifully as it looks.</p>
+    <main id="swup-main" class="transition-fade">
+        
+        <section class="grid-container grid-12" style="padding-top: 25vh; min-height: 80vh;">
+            <div class="col-span-8 col-start-1">
+                <h1 class="text-hero reveal-text">Strategic<br>Communications</h1>
             </div>
-        </header>
-
-        <section class="section container">
-            <h2 class="text-meta gsap-reveal" style="margin-bottom: var(--space-md);">Selected Works</h2>
-            <div class="grid-2">
-                <a href="case-study.html" class="project-card gsap-reveal">
-                    <div class="project-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop" alt="Project 1" class="project-img">
-                    </div>
-                    <div class="project-info">
-                        <div>
-                            <h3 class="project-title">Aura Architecture</h3>
-                            <p class="text-muted">Brand Identity & Digital UX</p>
-                        </div>
-                        <span class="text-meta">2023</span>
-                    </div>
-                </a>
-                <a href="case-study.html" class="project-card gsap-reveal" style="margin-top: 10%;">
-                    <div class="project-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1000&auto=format&fit=crop" alt="Project 2" class="project-img">
-                    </div>
-                    <div class="project-info">
-                        <div>
-                            <h3 class="project-title">Lumina Capital</h3>
-                            <p class="text-muted">Strategic Communications</p>
-                        </div>
-                        <span class="text-meta">2024</span>
-                    </div>
-                </a>
-            </div>
-            <div style="text-align: center; margin-top: var(--space-md);" class="gsap-reveal">
-                <a href="portfolio.html" class="btn">View All Work</a>
+            <div class="col-span-4 col-start-5" style="margin-top: var(--space-md);">
+                <p class="reveal-text">We bridge the gap between deep brand strategy and high-end digital execution. A premium studio for ambitious companies.</p>
+                <div style="margin-top: 2rem;" class="reveal-text">
+                    <a href="portfolio.html" class="link-underline text-meta">View Index</a>
+                </div>
             </div>
         </section>
 
-        <section class="section container">
-            <div style="text-align: center; padding: var(--space-xl) 0;" class="gsap-reveal">
-                <p class="text-meta" style="margin-bottom: 2rem;">Have a project in mind?</p>
-                <a href="contact.html" class="btn-large">Let's build together.</a>
+        <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
+            <div class="col-span-8 col-start-5 img-wrap" style="aspect-ratio: 16/9;">
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop" data-parallax alt="Aura Architecture">
+            </div>
+            <div class="col-span-4 col-start-5" style="margin-top: var(--space-sm);">
+                <h2 class="font-display text-h3">Aura Architecture</h2>
+                <p class="text-meta">Brand Identity & Digital UX</p>
             </div>
         </section>
+
+        <footer class="grid-container grid-12" style="padding: var(--space-lg) 0 var(--space-md); border-top: 1px solid var(--color-border);">
+            <div class="col-span-4">
+                <p class="text-meta">© 2026 Singh Studio</p>
+            </div>
+            <div class="col-span-8" style="text-align: right;">
+                <a href="about.html" class="link-underline text-meta" style="margin-left: 2rem;">Studio Ethos</a>
+                <a href="portfolio.html" class="link-underline text-meta" style="margin-left: 2rem;">Selected Works</a>
+            </div>
+        </footer>
+
     </main>
 
-    <footer class="footer">
-        <div class="container grid-2">
-            <div>
-                <h3 class="nav-logo" style="margin-bottom: 1rem;">Singh Studio</h3>
-                <p class="text-muted">Strategic Communications & Digital Design.</p>
-            </div>
-            <div style="display: flex; gap: 2rem; justify-content: flex-end;">
-                <div>
-                    <p class="text-meta" style="margin-bottom: 1rem; color: var(--color-bg);">Social</p>
-                    <p><a href="#">LinkedIn</a></p>
-                    <p><a href="#">Instagram</a></p>
-                </div>
-                <div>
-                    <p class="text-meta" style="margin-bottom: 1rem; color: var(--color-bg);">Contact</p>
-                    <p><a href="mailto:hello@singhstudio.com">hello@singhstudio.com</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/animations.js"></script>
 </body>
 </html>
