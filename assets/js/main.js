@@ -1,50 +1,64 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// 1. Custom Cursor
+// 1. Joyful Interactions: Magnetic Buttons & Cursor
 const cursor = document.querySelector('.cursor');
-const initCursor = () => {
-    const interactiveElements = document.querySelectorAll('a, button, .work-item, .hover-target');
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+if (!isTouchDevice && cursor) {
     document.addEventListener('mousemove', (e) => {
-        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
     });
-    interactiveElements.forEach(el => {
+    
+    document.querySelectorAll('a, button, .hover-target').forEach(el => {
         el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
     });
-};
-initCursor();
 
-// 2. Lenis Smooth Scroll
-const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: true,
-});
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
+    // Magnetic effect for joy
+    document.querySelectorAll('.magnetic-wrap').forEach(el => {
+        el.addEventListener('mousemove', function(e) {
+            const pos = this.getBoundingClientRect();
+            const mx = e.clientX - pos.left - pos.width/2;
+            const my = e.clientY - pos.top - pos.height/2;
+            gsap.to(this, { x: mx * 0.3, y: my * 0.3, duration: 0.5, ease: "power2.out" });
+        });
+        el.addEventListener('mouseleave', function() {
+            gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+        });
+    });
 }
+
+// 2. Smooth Scrolling (Lenis)
+const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => { lenis.raf(time * 1000); });
 gsap.ticker.lagSmoothing(0);
 
-// 3. Page Specific Animations
+// 3. Smooth Fade-Up Animations (The 20% we were missing)
 document.addEventListener("DOMContentLoaded", () => {
     
-    // Homepage: Hero Parallax
-    if (document.querySelector('.hero-wrapper')) {
-        gsap.to(".hero-img-overlay", {
-            yPercent: -100, ease: "none",
-            scrollTrigger: { trigger: ".hero-wrapper", start: "top top", end: "bottom top", scrub: true }
-        });
-        gsap.to(".hero-text-move", {
-            xPercent: -20, ease: "none",
-            scrollTrigger: { trigger: ".hero-wrapper", start: "top top", end: "bottom top", scrub: true }
-        });
-    }
+    // Staggered text reveals
+    const revealElements = document.querySelectorAll('.gsap-reveal');
+    revealElements.forEach(el => {
+        gsap.fromTo(el, 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
+              scrollTrigger: { trigger: el, start: "top 85%" }
+            }
+        );
+    });
 
-    // Homepage: Horizontal Scroll
+    // Parallax images
+    document.querySelectorAll('.gsap-parallax').forEach(img => {
+        gsap.to(img, {
+            yPercent: 15, ease: "none",
+            scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true }
+        });
+    });
+
+    // Horizontal Scroll - ONLY runs on Desktop so Mobile swipe works natively
     const horizontalSection = document.querySelector('.horizontal-wrap');
     if(horizontalSection && window.innerWidth > 768) {
         let scrollWidth = horizontalSection.scrollWidth - window.innerWidth;
@@ -56,17 +70,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
-    // All Pages: Image Reveal
-    const revealImages = document.querySelectorAll('.reveal-img');
-    revealImages.forEach(img => {
-        gsap.fromTo(img, 
-            { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", scale: 1.2 },
-            { 
-                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", scale: 1, 
-                duration: 1.5, ease: "power4.inOut",
-                scrollTrigger: { trigger: img, start: "top 85%" }
-            }
-        );
-    });
 });
