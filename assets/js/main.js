@@ -1,8 +1,21 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// 1. Smooth Scrolling
+// 1. Custom Cursor
+const cursor = document.querySelector('.cursor');
+const interactiveElements = document.querySelectorAll('a, button, .work-item');
+
+document.addEventListener('mousemove', (e) => {
+    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+});
+
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+});
+
+// 2. Lenis Smooth Scroll
 const lenis = new Lenis({
-    duration: 1.2,
+    duration: 1.5,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smooth: true,
 });
@@ -15,46 +28,60 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => { lenis.raf(time * 1000); });
 gsap.ticker.lagSmoothing(0);
 
-// 2. Swup Page Transitions
-const swup = new Swup({
-    animationSelector: '[class*="transition-"]',
-    containers: ['#swup-main']
+// 3. Hero Parallax Animations
+gsap.to(".hero-img-overlay", {
+    yPercent: -100, // Moves the image up over the text as you scroll
+    ease: "none",
+    scrollTrigger: {
+        trigger: ".hero-wrapper",
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+    }
 });
 
-// 3. Animation Logic
-function initAnimations() {
-    // Reveal Text
-    const revealText = document.querySelectorAll('.reveal-text');
-    if(revealText.length > 0) {
-        gsap.fromTo(revealText, 
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: "power4.out", delay: 0.1 }
-        );
+gsap.to(".hero-text-move", {
+    xPercent: -20, // Slowly moves the massive text left
+    ease: "none",
+    scrollTrigger: {
+        trigger: ".hero-wrapper",
+        start: "top top",
+        end: "bottom top",
+        scrub: true
     }
+});
 
-    // Parallax Images
-    const parallaxImages = document.querySelectorAll('[data-parallax]');
-    parallaxImages.forEach((img) => {
-        gsap.to(img, {
-            scrollTrigger: {
-                trigger: img.parentElement,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            },
-            y: "15%",
-            scale: 1.1,
-            ease: "none"
-        });
+// 4. Horizontal Scroll Portfolio
+const horizontalSection = document.querySelector('.horizontal-wrap');
+if(horizontalSection) {
+    // Calculate how far to scroll based on the width of the content
+    let scrollWidth = horizontalSection.scrollWidth - window.innerWidth;
+    
+    gsap.to(horizontalSection, {
+        x: -scrollWidth,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".horizontal-container",
+            pin: true,
+            scrub: 1,
+            start: "center center",
+            end: () => "+=" + scrollWidth // Scroll distance matches width
+        }
     });
-
-    ScrollTrigger.refresh();
 }
 
-// Run on first load & after every page transition
-document.addEventListener("DOMContentLoaded", initAnimations);
-swup.hooks.on('page:view', () => {
-    window.scrollTo(0, 0);
-    ScrollTrigger.getAll().forEach(t => t.kill()); // Kill old triggers so they don't break
-    initAnimations();
+// 5. Image Reveal (Clip Path)
+const revealImages = document.querySelectorAll('.reveal-img');
+revealImages.forEach(img => {
+    gsap.fromTo(img, 
+        { clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)", scale: 1.2 },
+        { 
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", scale: 1, 
+            duration: 1.5, ease: "power4.inOut",
+            scrollTrigger: {
+                trigger: img,
+                start: "top 85%"
+            }
+        }
+    );
 });
