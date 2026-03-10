@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Singh Studio</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    
+    <link rel="stylesheet" href="assets/css/style.css?v=FINAL">
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-
     <div class="cursor"></div>
 
     <nav>
         <a href="index.html">Singh Studio</a>
-        <a href="mailto:hello@singhstudio.com">Contact</a>
+        <div style="display: flex; gap: 2vw;">
+            <a href="about.html">Studio</a>
+            <a href="portfolio.html">Work</a>
+            <a href="cv.html">Director</a>
+        </div>
     </nav>
 
     <div class="hero-wrapper">
@@ -26,53 +28,47 @@
             </div>
         </div>
         <div class="hero-img-overlay">
-            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop" alt="Architecture" class="reveal-img">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop" class="reveal-img" alt="Architecture">
         </div>
     </div>
 
     <section class="container vh-100 flex-center border-top">
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <div style="max-width: 800px; text-align: center;">
             <p class="text-meta" style="margin-bottom: 2rem; color: var(--accent);">Our Ethos</p>
-            <h2 class="display-text text-h2">WE ENGINEER STRATEGIC NARRATIVES THAT DEMAND ATTENTION.</h2>
+            <h2 class="display-text text-h2">WE ENGINEER STRATEGIC NARRATIVES.</h2>
             <p style="margin: 2rem auto 0; color: #555;">Design is not decoration. It is the visual articulation of business strategy. We build digital experiences for ambitious brands.</p>
         </div>
     </section>
 
     <section class="horizontal-container" style="background: var(--text); color: var(--bg); overflow: hidden;">
         <div class="container" style="padding-top: 10vh; padding-bottom: 5vh;">
-            <p class="text-meta">Selected Index [01-04]</p>
+            <p class="text-meta">Selected Index [01-03]</p>
         </div>
-        
         <div class="horizontal-wrap">
-            <div class="work-item">
+            <a href="case-study.html" class="work-item hover-target" style="text-decoration: none; color: inherit;">
                 <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Aura"></div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                    <h3 class="display-text" style="font-size: 2rem;">AURA ARCH</h3>
-                    <span class="text-meta">Brand Identity</span>
+                    <h3 class="display-text" style="font-size: 2rem;">AURA ARCH</h3><span class="text-meta">View Case</span>
                 </div>
-            </div>
-            
-            <div class="work-item">
+            </a>
+            <a href="case-study.html" class="work-item hover-target" style="text-decoration: none; color: inherit;">
                 <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop" alt="Lumina"></div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                    <h3 class="display-text" style="font-size: 2rem;">LUMINA CAP</h3>
-                    <span class="text-meta">Digital UX</span>
+                    <h3 class="display-text" style="font-size: 2rem;">LUMINA CAP</h3><span class="text-meta">View Case</span>
                 </div>
-            </div>
-
-            <div class="work-item">
+            </a>
+            <a href="case-study.html" class="work-item hover-target" style="text-decoration: none; color: inherit;">
                 <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1200&auto=format&fit=crop" alt="Vertex"></div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                    <h3 class="display-text" style="font-size: 2rem;">VERTEX COMM</h3>
-                    <span class="text-meta">Strategy</span>
+                    <h3 class="display-text" style="font-size: 2rem;">VERTEX COMM</h3><span class="text-meta">View Case</span>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
     <section class="footer-cta container border-bottom">
         <p class="text-meta" style="margin-bottom: 2vh;">Have a project?</p>
-        <a href="mailto:hello@singhstudio.com" class="display-text text-massive">LET'S TALK</a>
+        <a href="mailto:hello@singhstudio.com" class="display-text text-massive hover-target">LET'S TALK</a>
     </section>
 
     <footer class="container" style="padding: 2rem 0; display: flex; justify-content: space-between;">
@@ -80,6 +76,6 @@
         <span class="text-meta">AOTEAROA, NZ</span>
     </footer>
 
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js?v=FINAL"></script>
 </body>
 </html>
