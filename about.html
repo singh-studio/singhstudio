@@ -3,84 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Singh Studio</title>
+    <title>Studio | Singh Studio</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
 </head>
 <body>
 
-    <nav class="nav">
-        <a href="index.html" class="nav-logo">Singh Studio</a>
-        <div class="nav-links">
-            <a href="about.html">About</a>
-            <a href="portfolio.html">Work</a>
-            <a href="services.html">Services</a>
-            <a href="cv.html">Director</a>
-            <a href="contact.html">Contact</a>
-        </div>
-        <button class="menu-btn">Menu</button>
+    <nav class="nav grid-container">
+        <a href="index.html" class="link-underline text-meta">Singh Studio</a>
+        <a href="mailto:hello@singhstudio.com" class="link-underline text-meta">Let's Talk</a>
     </nav>
 
-    <div class="menu-overlay">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="portfolio.html">Work</a>
-        <a href="services.html">Services</a>
-        <a href="cv.html">Director CV</a>
-        <a href="contact.html">Contact</a>
-    </div>
-
-    <main style="padding-top: var(--space-xl);">
+    <main id="swup-main" class="transition-fade">
         
-        <section class="section container">
-            <p class="text-meta gsap-reveal" style="margin-bottom: 2rem;">Our Philosophy</p>
-            <h1 class="text-xxl gsap-reveal" style="max-width: 1200px;">We believe the best digital experiences sit at the intersection of sharp strategy and flawless execution.</h1>
-        </section>
-
-        <section class="section container grid-2 gsap-reveal" style="margin-top: var(--space-md);">
-            <div>
-                <h2 class="text-xl" style="font-family: var(--font-heading); margin-bottom: 1rem;">The Studio</h2>
+        <section class="grid-container grid-12" style="padding-top: 25vh; margin-bottom: var(--space-xl);">
+            <div class="col-span-8 col-start-1">
+                <p class="text-meta reveal-text" style="margin-bottom: var(--space-sm);">The Ethos</p>
+                <h1 class="text-h2 reveal-text">Design is not just visual. It is the articulation of business strategy.</h1>
             </div>
-            <div>
-                <p class="text-lg" style="margin-bottom: 2rem;">Singh Studio was founded on a simple premise: design should solve business problems. We don't just create beautiful websites and brand systems; we engineer strategic communications tools.</p>
-                
-                <p class="text-lg text-muted" style="margin-bottom: 2rem;">By combining deep expertise in corporate communications with high-end digital UX and UI design, we help premium brands articulate their value, engage their stakeholders, and stand out in crowded markets.</p>
-
-                <p class="text-lg text-muted">We partner with ambitious clients who understand that brand identity, digital presence, and content strategy are not separate disciplines, but a single, cohesive narrative.</p>
+            <div class="col-span-4 col-start-5" style="margin-top: var(--space-lg);">
+                <p class="reveal-text">Singh Studio operates at the intersection of corporate communications, brand identity, and premium digital experience. We don't just build websites; we engineer strategic narrative tools.</p>
             </div>
         </section>
 
-        <section class="container gsap-reveal" style="margin: var(--space-xl) auto;">
-            <div style="width: 100%; height: 60vh; background: var(--color-accent); overflow: hidden;">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" alt="Studio Space" style="width: 100%; height: 100%; object-fit: cover;" class="project-img">
+        <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
+            <div class="col-span-12 img-wrap" style="aspect-ratio: 21/9;">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" data-parallax alt="Studio Ethos">
             </div>
         </section>
 
     </main>
 
-    <footer class="footer">
-        <div class="container grid-2">
-            <div>
-                <h3 class="nav-logo" style="margin-bottom: 1rem;">Singh Studio</h3>
-                <p class="text-muted">Strategic Communications & Digital Design.</p>
-            </div>
-            <div style="display: flex; gap: 2rem; justify-content: flex-end;">
-                <div>
-                    <p class="text-meta" style="margin-bottom: 1rem; color: var(--color-bg);">Social</p>
-                    <p><a href="#">LinkedIn</a></p>
-                    <p><a href="#">Instagram</a></p>
-                </div>
-                <div>
-                    <p class="text-meta" style="margin-bottom: 1rem; color: var(--color-bg);">Contact</p>
-                    <p><a href="mailto:hello@singhstudio.com">hello@singhstudio.com</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/animations.js"></script>
 </body>
 </html>
