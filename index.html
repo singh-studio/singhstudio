@@ -3,60 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singh Studio | Strategic Design</title>
+    <title>Singh Studio</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/swup@4"></script>
 </head>
 <body>
 
-    <nav class="nav grid-container">
-        <a href="index.html" class="link-underline text-meta" style="pointer-events: auto;">Singh Studio</a>
-        <div style="display: flex; gap: 2rem; pointer-events: auto;">
-            <a href="about.html" class="link-underline text-meta">Studio</a>
-            <a href="portfolio.html" class="link-underline text-meta">Work</a>
-        </div>
+    <div class="cursor"></div>
+
+    <nav>
+        <a href="index.html">Singh Studio</a>
+        <a href="mailto:hello@singhstudio.com">Contact</a>
     </nav>
 
-    <main id="swup-main" class="transition-fade">
-        
-        <section class="grid-container grid-12" style="padding-top: 25vh; min-height: 80vh;">
-            <div class="col-span-12 col-start-1">
-                <h1 class="text-hero reveal-text">Strategic<br>Communications</h1>
+    <div class="hero-wrapper">
+        <div class="hero-sticky">
+            <div class="container hero-text-move">
+                <h1 class="display-text text-massive">SINGH STUDIO</h1>
             </div>
-            <div class="col-span-4 col-start-5" style="margin-top: var(--space-md);">
-                <p class="reveal-text">We bridge the gap between deep brand strategy and high-end digital execution. A premium studio for ambitious companies.</p>
-                <div style="margin-top: 2rem;" class="reveal-text">
-                    <a href="portfolio.html" class="link-underline text-meta">View Index</a>
+        </div>
+        <div class="hero-img-overlay">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop" alt="Architecture" class="reveal-img">
+        </div>
+    </div>
+
+    <section class="container vh-100 flex-center border-top">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p class="text-meta" style="margin-bottom: 2rem; color: var(--accent);">Our Ethos</p>
+            <h2 class="display-text text-h2">WE ENGINEER STRATEGIC NARRATIVES THAT DEMAND ATTENTION.</h2>
+            <p style="margin: 2rem auto 0; color: #555;">Design is not decoration. It is the visual articulation of business strategy. We build digital experiences for ambitious brands.</p>
+        </div>
+    </section>
+
+    <section class="horizontal-container" style="background: var(--text); color: var(--bg); overflow: hidden;">
+        <div class="container" style="padding-top: 10vh; padding-bottom: 5vh;">
+            <p class="text-meta">Selected Index [01-04]</p>
+        </div>
+        
+        <div class="horizontal-wrap">
+            <div class="work-item">
+                <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Aura"></div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <h3 class="display-text" style="font-size: 2rem;">AURA ARCH</h3>
+                    <span class="text-meta">Brand Identity</span>
                 </div>
             </div>
-        </section>
+            
+            <div class="work-item">
+                <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop" alt="Lumina"></div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <h3 class="display-text" style="font-size: 2rem;">LUMINA CAP</h3>
+                    <span class="text-meta">Digital UX</span>
+                </div>
+            </div>
 
-        <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
-            <div class="col-span-8 col-start-5 img-wrap" style="aspect-ratio: 16/9;">
-                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop" data-parallax alt="Aura Architecture">
+            <div class="work-item">
+                <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1200&auto=format&fit=crop" alt="Vertex"></div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <h3 class="display-text" style="font-size: 2rem;">VERTEX COMM</h3>
+                    <span class="text-meta">Strategy</span>
+                </div>
             </div>
-            <div class="col-span-4 col-start-5" style="margin-top: var(--space-sm);">
-                <h2 class="font-display text-h3">Aura Architecture</h2>
-                <p class="text-meta" style="margin-top: 0.5rem;">Brand Identity & Digital UX</p>
-                <div style="margin-top: 1.5rem;"><a href="case-study.html" class="link-underline text-meta">View Case</a></div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <footer class="grid-container grid-12" style="padding: var(--space-lg) 0 var(--space-md); border-top: 1px solid var(--color-border);">
-            <div class="col-span-4 col-start-1">
-                <a href="mailto:hello@singhstudio.com" class="text-h3 font-display">hello@singhstudio.com</a>
-                <p class="text-meta" style="margin-top: 1rem;">© 2026 Singh Studio</p>
-            </div>
-            <div class="col-span-4 col-start-9" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <a href="cv.html" class="link-underline text-meta" style="width: fit-content;">Director CV</a>
-                <a href="#" class="link-underline text-meta" style="width: fit-content;">LinkedIn</a>
-            </div>
-        </footer>
+    <section class="footer-cta container border-bottom">
+        <p class="text-meta" style="margin-bottom: 2vh;">Have a project?</p>
+        <a href="mailto:hello@singhstudio.com" class="display-text text-massive">LET'S TALK</a>
+    </section>
 
-    </main>
+    <footer class="container" style="padding: 2rem 0; display: flex; justify-content: space-between;">
+        <span class="text-meta">&copy; 2026 SINGH STUDIO</span>
+        <span class="text-meta">AOTEAROA, NZ</span>
+    </footer>
 
     <script src="assets/js/main.js"></script>
 </body>
