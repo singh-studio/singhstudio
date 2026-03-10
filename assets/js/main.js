@@ -1,13 +1,11 @@
+// Register GSAP ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
+
 // Initialize Lenis Smooth Scrolling
 const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
     smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
 });
 
 function raf(time) {
@@ -16,39 +14,53 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// Navigation Hide/Show on Scroll
-let lastScrollY = window.scrollY;
-const nav = document.querySelector('.nav');
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+gsap.ticker.lagSmoothing(0);
 
-lenis.on('scroll', (e) => {
-    if (window.scrollY > 100) {
-        if (window.scrollY > lastScrollY) {
-            nav.classList.add('hidden'); // Scrolling down
-        } else {
-            nav.classList.remove('hidden'); // Scrolling up
-        }
-    } else {
-        nav.classList.remove('hidden');
-    }
-    lastScrollY = window.scrollY;
+// Initialize Swup for Page Transitions
+const swup = new Swup({
+    animationSelector: '[class*="transition-"]',
+    containers: ['#swup-main'] // Only update content inside this ID
 });
 
-// Mobile Menu Toggle
-const menuBtn = document.querySelector('.menu-btn');
-const menuOverlay = document.querySelector('.menu-overlay');
-let menuOpen = false;
+// Master Animation Function
+function initAnimations() {
+    // Reveal lines of text (Basic staggered fade-up for now, easily upgraded to SplitText later)
+    const revealText = document.querySelectorAll('.reveal-text');
+    if(revealText.length > 0) {
+        gsap.fromTo(revealText, 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: "power4.out", delay: 0.2 }
+        );
+    }
 
-if(menuBtn && menuOverlay) {
-    menuBtn.addEventListener('click', () => {
-        menuOpen = !menuOpen;
-        if(menuOpen) {
-            menuOverlay.classList.add('active');
-            menuBtn.textContent = 'Close';
-            lenis.stop(); // Prevent scrolling when menu is open
-        } else {
-            menuOverlay.classList.remove('active');
-            menuBtn.textContent = 'Menu';
-            lenis.start();
-        }
+    // Parallax Images
+    const parallaxImages = document.querySelectorAll('[data-parallax]');
+    parallaxImages.forEach((img) => {
+        gsap.to(img, {
+            scrollTrigger: {
+                trigger: img.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            },
+            y: "15%",
+            scale: 1.1,
+            ease: "none"
+        });
     });
+
+    // Refresh ScrollTrigger after DOM changes
+    ScrollTrigger.refresh();
 }
+
+// Run animations on first load
+document.addEventListener("DOMContentLoaded", initAnimations);
+
+// Re-run animations every time Swup loads a new page
+swup.hooks.on('page:view', () => {
+    window.scrollTo(0, 0);
+    ScrollTrigger.getAll().forEach(t => t.kill()); // Clean up old triggers
+    initAnimations();
+});
