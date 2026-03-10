@@ -1,25 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index | Singh Studio</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/swup@4"></script>
+</head>
 <body>
-    <main style="padding-top: var(--space-xl);">
-        <section class="section container">
-            <h1 class="text-xxl gsap-reveal" style="margin-bottom: var(--space-md);">Selected Work</h1>
-            
-            <div class="grid-2">
-                <a href="case-study.html" class="project-card gsap-reveal">
-                    <div class="project-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1000&auto=format&fit=crop" class="project-img">
-                    </div>
-                    <div class="project-info">
-                        <div><h3 class="project-title">Project Name</h3><p class="text-muted">Category</p></div>
-                        <span class="text-meta">2023</span>
-                    </div>
-                </a>
-                </div>
+
+    <nav class="nav grid-container">
+        <a href="index.html" class="link-underline text-meta">Singh Studio</a>
+        <a href="mailto:hello@singhstudio.com" class="link-underline text-meta">Let's Talk</a>
+    </nav>
+
+    <main id="swup-main" class="transition-fade">
+        
+        <section class="grid-container grid-12" style="padding-top: 25vh; margin-bottom: var(--space-xl);">
+            <div class="col-span-12">
+                <h1 class="text-hero reveal-text">Selected<br>Works</h1>
+            </div>
         </section>
+
+        <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
+            <div class="col-span-12" style="border-top: 1px solid var(--color-border);">
+                
+                <a href="case-study.html" class="grid-12" style="padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border); display: grid; align-items: center;">
+                    <div class="col-span-4 col-start-1 text-h3 font-display">Aura Architecture</div>
+                    <div class="col-span-4 col-start-5 text-meta text-muted">Brand & Digital</div>
+                    <div class="col-span-4 col-start-9" style="text-align: right;"><span class="link-underline text-meta">View Case</span></div>
+                </a>
+
+                <a href="case-study.html" class="grid-12" style="padding: var(--space-md) 0; border-bottom: 1px solid var(--color-border); display: grid; align-items: center;">
+                    <div class="col-span-4 col-start-1 text-h3 font-display">Lumina Capital</div>
+                    <div class="col-span-4 col-start-5 text-meta text-muted">Strategic Comms</div>
+                    <div class="col-span-4 col-start-9" style="text-align: right;"><span class="link-underline text-meta">View Case</span></div>
+                </a>
+
+            </div>
+        </section>
+
     </main>
 
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/animations.js"></script>
 </body>
 </html>
