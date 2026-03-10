@@ -1,11 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500&display=swap');
 
 :root {
-    --bg: #F4F3EE; /* Warm, tactile stone */
-    --text: #1C1C1A; /* Deepest charcoal */
-    --accent: #B25A38; /* A sophisticated, warm terracotta/rust */
-    --border: #E2E0D8; /* Crisp structural lines */
-    
+    --bg: #F4F3EE;
+    --text: #1C1C1A;
+    --accent: #B25A38;
+    --border: #E2E0D8;
     --font-display: 'Instrument Serif', serif;
     --font-body: 'Manrope', sans-serif;
 }
@@ -18,67 +17,59 @@ body {
     overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Cursor (Disabled on mobile) */
+/* Custom Cursor */
 .cursor {
     position: fixed; top: 0; left: 0; width: 10px; height: 10px;
     background: var(--text); border-radius: 50%;
     pointer-events: none; z-index: 9999;
     transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s;
 }
-.cursor.hovered { width: 60px; height: 60px; background: transparent; border: 1px solid var(--text); backdrop-filter: invert(1); }
 @media (hover: none) and (pointer: coarse) { .cursor { display: none !important; } * { cursor: auto !important; } }
 
 /* Typography */
-h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 400; line-height: 1; letter-spacing: 0; }
-.text-hero { font-size: clamp(4rem, 9vw, 9rem); }
-.text-h2 { font-size: clamp(2.5rem, 5vw, 5rem); }
+h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 400; line-height: 0.95; }
+.text-hero { font-size: clamp(3.5rem, 8vw, 9rem); letter-spacing: -0.01em; }
 .text-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
-.text-p { font-size: clamp(1.125rem, 1.5vw, 1.5rem); max-width: 55ch; line-height: 1.5; color: #444; }
 .italic { font-style: italic; }
 
-/* Structural Utilities */
 .container { padding: 0 5vw; }
-.section { padding: 15vh 0; }
-.border-top { border-top: 1px solid var(--border); }
 .border-bottom { border-bottom: 1px solid var(--border); }
-.magnetic-wrap { display: inline-block; cursor: pointer; }
+.border-top { border-top: 1px solid var(--border); }
 
-/* Crisp Navigation */
+/* Navigation */
 nav {
     position: fixed; top: 0; width: 100%; padding: 2rem 5vw;
     display: flex; justify-content: space-between; align-items: center; z-index: 100;
-    background: var(--bg); border-bottom: 1px solid transparent;
-    transition: padding 0.4s ease, border-color 0.4s ease;
+    mix-blend-mode: difference; color: #fff; /* Reverting to difference for that premium video overlap */
 }
-nav.scrolled { padding: 1rem 5vw; border-bottom: 1px solid var(--border); }
-nav a { color: inherit; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; transition: color 0.3s; }
-nav a:hover { color: var(--accent); }
+nav a, nav button { color: inherit; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-body); background: none; border: none; cursor: none; }
 
-/* Conversion Button */
-.btn-book {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--text); color: var(--bg); padding: 0.75rem 1.5rem;
-    border-radius: 40px; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;
-    transition: transform 0.3s ease, background 0.3s ease;
+/* The Multidisciplinary Hover List */
+.discipline-list { padding: 15vh 0; }
+.discipline-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 3vh 0; border-bottom: 1px solid var(--border);
+    cursor: none; transition: opacity 0.3s;
 }
-.btn-book:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+.discipline-item h2 { font-size: clamp(2.5rem, 6vw, 6rem); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.discipline-item:hover { opacity: 1 !important; }
+.discipline-item:hover h2 { transform: translateX(2vw); color: var(--accent); }
+.discipline-list:hover .discipline-item:not(:hover) { opacity: 0.3; }
 
-/* Grids & Images */
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 4vw; }
-@media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; align-items: start; } }
-.img-wrap { overflow: hidden; position: relative; width: 100%; background: var(--border); }
-.img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
-.img-wrap:hover img { transform: scale(1.03); }
-
-/* Horizontal Scroll */
-.horizontal-wrap { height: 100vh; display: flex; flex-wrap: nowrap; align-items: center; padding-left: 5vw; }
-.work-item { flex-shrink: 0; width: 45vw; margin-right: 5vw; display: flex; flex-direction: column; gap: 1.5rem; text-decoration: none; color: inherit; }
-.work-img-wrap { width: 100%; aspect-ratio: 4/5; overflow: hidden; background: var(--border); }
-.work-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.work-item:hover .work-img-wrap img { transform: scale(1.03); }
-
-@media (max-width: 768px) {
-    .horizontal-wrap { height: auto; padding: 5vh 5vw 10vh; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .horizontal-wrap::-webkit-scrollbar { display: none; }
-    .work-item { width: 85vw; scroll-snap-align: center; }
+/* The Floating Media Reveal (Awwwards Magic) */
+.media-reveal {
+    position: fixed; top: 0; left: 0; width: 350px; aspect-ratio: 4/5;
+    pointer-events: none; z-index: 50; overflow: hidden;
+    opacity: 0; transform: translate(-50%, -50%) scale(0.8);
+    transition: opacity 0.4s, transform 0.4s;
 }
+.media-reveal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.media-reveal img, .media-reveal video {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 0.4s;
+}
+.media-reveal img.active, .media-reveal video.active { opacity: 1; }
+
+/* Hero Video */
+.hero-video-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; overflow: hidden; background: #222; }
+.hero-video-wrap video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
