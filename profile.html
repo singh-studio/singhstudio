@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Singh Studio</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=V6">
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <div class="cursor"></div>
+
+    <nav>
+        <div class="magnetic-wrap"><a href="index.html">Singh Studio</a></div>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <div class="magnetic-wrap"><a href="profile.html" style="color: var(--accent);">Profile</a></div>
+            <div class="magnetic-wrap"><a href="portfolio.html">Index</a></div>
+            <a href="https://meet.google.com/" target="_blank" class="btn-book hover-target">Book Intro ↗</a>
+        </div>
+    </nav>
+
+    <header class="container border-bottom" style="padding-top: 25vh; padding-bottom: 10vh;">
+        <h1 class="text-hero font-display gsap-reveal">Profile &<br><span class="italic">Capabilities.</span></h1>
+    </header>
+
+    <section class="section container border-bottom">
+        <div class="grid-2">
+            <div class="gsap-reveal"><p class="text-meta">The Ethos</p></div>
+            <div class="gsap-reveal">
+                <p class="text-p" style="font-size: 1.5rem; color: var(--text);">Design is not decoration. It is the visual articulation of business strategy.</p>
+                <p class="text-p" style="margin-top: 2rem;">Singh Studio sits at the intersection of corporate communications and digital experience design. I partner with clients who understand that brand identity and digital presence are not separate disciplines, but a single cohesive narrative.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container gsap-reveal" style="padding: 10vh 0;">
+        <div class="img-wrap" style="aspect-ratio: 21/9;">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" class="gsap-parallax" alt="Studio Space">
+        </div>
+    </section>
+
+    <section class="section container border-top border-bottom">
+        <div class="grid-2">
+            <div class="gsap-reveal"><p class="text-meta">Disciplines</p></div>
+            <div>
+                <div class="border-bottom gsap-reveal" style="padding-bottom: 2rem; margin-bottom: 2rem;">
+                    <h3 class="text-h2 font-display" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Brand Architecture</h3>
+                    <p class="text-p">Visual identity systems, positioning, and brand guidelines for premium market placement.</p>
+                </div>
+                <div class="border-bottom gsap-reveal" style="padding-bottom: 2rem; margin-bottom: 2rem;">
+                    <h3 class="text-h2 font-display" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Strategic Communications</h3>
+                    <p class="text-p">Messaging frameworks, content strategy, and stakeholder narrative development.</p>
+                </div>
+                <div class="gsap-reveal">
+                    <h3 class="text-h2 font-display" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Digital Experience</h3>
+                    <p class="text-p">High-end UX/UI design, performant web development, and digital product strategy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section container border-bottom">
+        <div class="grid-2">
+            <div class="gsap-reveal">
+                <p class="text-meta" style="margin-bottom: 1rem;">Experience</p>
+                <div class="magnetic-wrap">
+                    <a href="#" style="font-size: 0.85rem; font-weight: 500; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--text); padding-bottom: 2px;">Download PDF Resumé</a>
+                </div>
+            </div>
+            <div>
+                <div class="border-bottom gsap-reveal" style="padding-bottom: 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: baseline;">
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 500;">Founder & Creative Director</h4>
+                        <p class="text-p" style="font-size: 1rem;">Singh Studio</p>
+                    </div>
+                    <span class="text-meta" style="color: var(--accent);">2024 — Present</span>
+                </div>
+                <div class="gsap-reveal" style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: 500;">Senior Communications Strategist</h4>
+                        <p class="text-p" style="font-size: 1rem;">Previous Agency</p>
+                    </div>
+                    <span class="text-meta" style="color: var(--accent);">2020 — 2024</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="container" style="padding: 2rem 0; display: flex; justify-content: space-between;">
+        <span class="text-meta">&copy; 2026 Singh Studio</span>
+    </footer>
+
+    <script src="assets/js/main.js?v=V6"></script>
+</body>
+</html>
