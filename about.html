@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studio | Singh Studio</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -14,27 +13,36 @@
 <body>
 
     <nav class="nav grid-container">
-        <a href="index.html" class="link-underline text-meta">Singh Studio</a>
-        <a href="mailto:hello@singhstudio.com" class="link-underline text-meta">Let's Talk</a>
+        <a href="index.html" class="link-underline text-meta" style="pointer-events: auto;">Singh Studio</a>
+        <div style="display: flex; gap: 2rem; pointer-events: auto;">
+            <a href="about.html" class="link-underline text-meta">Studio</a>
+            <a href="portfolio.html" class="link-underline text-meta">Work</a>
+        </div>
     </nav>
 
     <main id="swup-main" class="transition-fade">
         
         <section class="grid-container grid-12" style="padding-top: 25vh; margin-bottom: var(--space-xl);">
-            <div class="col-span-8 col-start-1">
+            <div class="col-span-12 col-start-1">
                 <p class="text-meta reveal-text" style="margin-bottom: var(--space-sm);">The Ethos</p>
-                <h1 class="text-h2 reveal-text">Design is not just visual. It is the articulation of business strategy.</h1>
+                <h1 class="text-h2 reveal-text" style="max-width: 20ch;">Design is the visual articulation of business strategy.</h1>
             </div>
             <div class="col-span-4 col-start-5" style="margin-top: var(--space-lg);">
-                <p class="reveal-text">Singh Studio operates at the intersection of corporate communications, brand identity, and premium digital experience. We don't just build websites; we engineer strategic narrative tools.</p>
+                <p class="reveal-text">Singh Studio operates at the intersection of corporate communications, brand identity, and premium digital experience. We don't just build websites; we engineer strategic narrative tools that perform beautifully.</p>
             </div>
         </section>
 
         <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
-            <div class="col-span-12 img-wrap" style="aspect-ratio: 21/9;">
+            <div class="col-span-12 img-wrap reveal-text" style="aspect-ratio: 21/9;">
                 <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop" data-parallax alt="Studio Ethos">
             </div>
         </section>
+
+        <footer class="grid-container grid-12" style="padding: var(--space-lg) 0 var(--space-md); border-top: 1px solid var(--color-border);">
+            <div class="col-span-4 col-start-1">
+                <a href="mailto:hello@singhstudio.com" class="text-h3 font-display">hello@singhstudio.com</a>
+            </div>
+        </footer>
 
     </main>
 
