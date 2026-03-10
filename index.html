@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Singh Studio | Strategic Design</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=V4">
+    <link rel="stylesheet" href="assets/css/style.css?v=V6">
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -14,82 +14,59 @@
 
     <nav>
         <div class="magnetic-wrap"><a href="index.html">Singh Studio</a></div>
-        <div style="display: flex; gap: 2rem;">
-            <div class="magnetic-wrap"><a href="about.html">Studio & CV</a></div>
-            <div class="magnetic-wrap"><a href="portfolio.html">Work</a></div>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <div class="magnetic-wrap"><a href="profile.html">Profile</a></div>
+            <div class="magnetic-wrap"><a href="portfolio.html">Index</a></div>
+            <a href="https://meet.google.com/" target="_blank" class="btn-book hover-target">Book Intro ↗</a>
         </div>
     </nav>
 
-    <header class="container" style="padding-top: 30vh; padding-bottom: 15vh;">
-        <h1 class="text-hero font-serif gsap-reveal">Designing <span class="italic">strategic</span><br>digital experiences.</h1>
-        <div class="grid-2" style="margin-top: 5vh;">
-            <div class="gsap-reveal" style="transition-delay: 0.1s;">
-                <p class="text-p">We sit at the intersection of communications, brand identity, and intuitive UX. Creating thoughtful work that performs as beautifully as it looks.</p>
-            </div>
-            <div style="text-align: right;" class="gsap-reveal" style="transition-delay: 0.2s;">
-                <div class="magnetic-wrap">
-                    <a href="#portfolio" class="text-meta" style="text-decoration: none; border-bottom: 1px solid var(--text); padding-bottom: 4px;">Explore the Index</a>
+    <header class="container border-bottom" style="padding-top: 25vh; padding-bottom: 10vh;">
+        <h1 class="text-hero font-display gsap-reveal">Designing <span class="italic">strategic</span><br>digital experiences.</h1>
+        <div class="grid-2" style="margin-top: 8vh;">
+            <div class="gsap-reveal"><p class="text-meta">Overview</p></div>
+            <div class="gsap-reveal">
+                <p class="text-p">I am [Your Name], operating as Singh Studio. I engineer high-end digital experiences, brand systems, and communications architecture for ambitious companies.</p>
+                <div class="magnetic-wrap" style="margin-top: 2rem;">
+                    <a href="profile.html" class="text-meta" style="text-decoration: none; border-bottom: 1px solid var(--text); padding-bottom: 4px;">Read Full Profile</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="section container border-top border-bottom">
-        <div class="grid-2">
-            <div class="img-wrap gsap-reveal" style="aspect-ratio: 4/5; max-width: 80%;">
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200&auto=format&fit=crop" class="gsap-parallax" alt="Director Portrait">
-            </div>
-            <div style="padding-left: 2vw;">
-                <p class="text-meta gsap-reveal" style="margin-bottom: 2rem; color: var(--accent);">The Practitioner</p>
-                <h2 class="text-h2 font-serif gsap-reveal" style="margin-bottom: 2rem;">Led by insight. <br><span class="italic">Driven by design.</span></h2>
-                <p class="text-p gsap-reveal" style="margin-bottom: 2rem;">Hi, I'm [Your Name]. Singh Studio is the culmination of my experience as a strategic communications professional and a hands-on creative. </p>
-                <p class="text-p gsap-reveal" style="margin-bottom: 3rem;">I don't just decorate websites. I partner with ambitious clients to articulate their value, engage their stakeholders, and stand out in crowded markets through bespoke digital execution.</p>
-                
-                <div class="magnetic-wrap gsap-reveal">
-                    <a href="cv.html" class="text-meta" style="text-decoration: none; border-bottom: 1px solid var(--text); padding-bottom: 4px;">View Full Director CV</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="portfolio" class="horizontal-container" style="background: var(--text); color: var(--bg);">
-        <div class="container" style="padding-top: 10vh;">
-            <p class="text-meta">Selected Works [01-03]</p>
+    <section class="horizontal-container border-bottom">
+        <div class="container" style="padding-top: 5vh;">
+            <p class="text-meta">Selected Index [01-02]</p>
         </div>
         
         <div class="horizontal-wrap">
             <a href="case-study.html" class="work-item hover-target gsap-reveal">
                 <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Aura Architecture"></div>
                 <div>
-                    <h3 class="font-serif" style="font-size: 2.5rem;">Aura Architecture</h3>
-                    <p class="text-meta" style="color: #999; margin-top: 0.5rem;">Brand Identity & Digital UX</p>
+                    <h3 class="font-display" style="font-size: 2.5rem;">Aura Architecture</h3>
+                    <p class="text-meta" style="color: #888; margin-top: 0.5rem;">Brand Identity & Digital UX</p>
                 </div>
             </a>
             
             <a href="case-study.html" class="work-item hover-target gsap-reveal" style="transition-delay: 0.1s;">
                 <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop" alt="Lumina Capital"></div>
                 <div>
-                    <h3 class="font-serif" style="font-size: 2.5rem;">Lumina Capital</h3>
-                    <p class="text-meta" style="color: #999; margin-top: 0.5rem;">Strategic Communications</p>
-                </div>
-            </a>
-
-            <a href="case-study.html" class="work-item hover-target gsap-reveal" style="transition-delay: 0.2s;">
-                <div class="work-img-wrap"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1200&auto=format&fit=crop" alt="Vertex"></div>
-                <div>
-                    <h3 class="font-serif" style="font-size: 2.5rem;">Vertex Connect</h3>
-                    <p class="text-meta" style="color: #999; margin-top: 0.5rem;">Brand Strategy</p>
+                    <h3 class="font-display" style="font-size: 2.5rem;">Lumina Capital</h3>
+                    <p class="text-meta" style="color: #888; margin-top: 0.5rem;">Strategic Communications</p>
                 </div>
             </a>
         </div>
     </section>
 
-    <section class="section container border-bottom" style="text-align: center; padding: 20vh 0;">
-        <p class="text-meta gsap-reveal" style="margin-bottom: 2rem;">Have a project in mind?</p>
-        <div class="magnetic-wrap gsap-reveal">
-            <a href="mailto:hello@singhstudio.com" class="font-serif hover-target" style="font-size: clamp(3rem, 8vw, 8rem); text-decoration: none; color: var(--text); line-height: 1;">
-                Let's build <span class="italic">together.</span>
-            </a>
+    <section class="section container border-bottom">
+        <div class="grid-2">
+            <div class="gsap-reveal"><h2 class="text-h2 font-display">Initiate a <span class="italic">project.</span></h2></div>
+            <div class="gsap-reveal">
+                <p class="text-p" style="margin-bottom: 2rem;">Whether you need a complete brand overhaul or a strategic digital execution, everything starts with a conversation. Select a time below to discuss your objectives.</p>
+                <div class="magnetic-wrap">
+                    <a href="https://meet.google.com/" target="_blank" class="btn-book hover-target" style="padding: 1rem 2rem;">Book Video Consultation <span>↗</span></a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -98,6 +75,6 @@
         <div class="magnetic-wrap"><a href="#" class="text-meta hover-target" style="text-decoration: none; color: inherit;">LinkedIn</a></div>
     </footer>
 
-    <script src="assets/js/main.js?v=V4"></script>
+    <script src="assets/js/main.js?v=V6"></script>
 </body>
 </html>
