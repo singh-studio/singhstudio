@@ -8,42 +8,56 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/swup@4"></script>
 </head>
 <body>
+    <div class="cursor"></div>
 
-    <nav class="nav grid-container">
-        <a href="index.html" class="link-underline text-meta" style="pointer-events: auto;">Singh Studio</a>
-        <div style="display: flex; gap: 2rem; pointer-events: auto;">
-            <a href="portfolio.html" class="link-underline text-meta">Back to Index</a>
-        </div>
+    <nav>
+        <a href="index.html">Singh Studio</a>
+        <a href="portfolio.html">Back to Index</a>
     </nav>
 
-    <main id="swup-main" class="transition-fade">
-        
-        <section class="grid-container grid-12" style="padding-top: 20vh; margin-bottom: var(--space-md);">
-            <div class="col-span-12 col-start-1">
-                <p class="text-meta reveal-text" style="margin-bottom: 1rem;">Brand Identity & Digital UX</p>
-                <h1 class="text-hero reveal-text">Aura Architecture</h1>
-            </div>
-        </section>
+    <div class="container" style="padding-top: 25vh; margin-bottom: 5vh;">
+        <h1 class="display-text text-massive">AURA ARCH.</h1>
+    </div>
 
-        <section class="grid-container grid-12" style="margin-bottom: var(--space-xl);">
-            <div class="col-span-12 img-wrap reveal-text" style="aspect-ratio: 16/9;">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop" data-parallax alt="Aura Architecture Hero">
-            </div>
-        </section>
+    <div class="container border-top border-bottom" style="padding: 2rem 4vw; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 10vh;">
+        <div>
+            <p class="text-meta" style="color: var(--accent); margin-bottom: 0.5rem;">Client</p>
+            <p style="font-weight: 500;">Aura Architecture</p>
+        </div>
+        <div>
+            <p class="text-meta" style="color: var(--accent); margin-bottom: 0.5rem;">Role</p>
+            <p style="font-weight: 500;">Brand & Digital UX</p>
+        </div>
+        <div>
+            <p class="text-meta" style="color: var(--accent); margin-bottom: 0.5rem;">Year</p>
+            <p style="font-weight: 500;">2023</p>
+        </div>
+    </div>
 
-        <section class="grid-container grid-12 reveal-text" style="margin-bottom: var(--space-xl);">
-            <div class="col-span-4 col-start-1">
-                <h3 class="text-meta" style="margin-bottom: 1rem;">The Challenge</h3>
-            </div>
-            <div class="col-span-6 col-start-5">
-                <p class="text-p">Aura Architecture required a digital presence that matched the precision and luxury of their physical builds. The previous website failed to articulate their strategic approach to spatial design, relying on generic templates rather than bespoke digital architecture.</p>
-            </div>
-        </section>
+    <section class="container" style="margin-bottom: 15vh;">
+        <div style="width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #ccc;">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop" class="reveal-img" alt="Aura Hero" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </section>
 
-    </main>
+    <section class="container" style="margin-bottom: 15vh; display: flex; flex-wrap: wrap; gap: 4vw;">
+        <div style="flex: 1; min-width: 250px;"><h3 class="text-meta">The Challenge</h3></div>
+        <div style="flex: 3; min-width: 300px;">
+            <p class="text-h2 display-text" style="text-transform: none; line-height: 1.1; margin-bottom: 2rem;">Aura required a digital presence that matched the precision and luxury of their physical builds.</p>
+            <p style="font-size: 1.25rem;">The previous website failed to articulate their strategic approach to spatial design, relying on generic templates rather than bespoke digital architecture. We completely reimagined their brand identity and deployed a frictionless, WebGL-powered portfolio.</p>
+        </div>
+    </section>
+
+    <section class="footer-cta container border-top border-bottom">
+        <p class="text-meta" style="margin-bottom: 2vh;">Next Project</p>
+        <a href="#" class="display-text text-massive hover-target">LUMINA CAP.</a>
+    </section>
+
+    <footer class="container" style="padding: 2rem 0; display: flex; justify-content: space-between;">
+        <span class="text-meta">&copy; 2026 SINGH STUDIO</span>
+    </footer>
 
     <script src="assets/js/main.js"></script>
 </body>
