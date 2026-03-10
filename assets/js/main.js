@@ -1,6 +1,13 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// 1. Joyful Interactions: Magnetic Buttons & Cursor
+// 1. Structural Navigation (Crisp border on scroll)
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
+    else { nav.classList.remove('scrolled'); }
+});
+
+// 2. Joyful Interactions: Magnetic Buttons & Cursor
 const cursor = document.querySelector('.cursor');
 const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
@@ -14,7 +21,7 @@ if (!isTouchDevice && cursor) {
         el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
     });
 
-    // Magnetic effect for joy
+    // Magnetic pull effect
     document.querySelectorAll('.magnetic-wrap').forEach(el => {
         el.addEventListener('mousemove', function(e) {
             const pos = this.getBoundingClientRect();
@@ -28,7 +35,7 @@ if (!isTouchDevice && cursor) {
     });
 }
 
-// 2. Smooth Scrolling (Lenis)
+// 3. Smooth Scrolling (Lenis)
 const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
 function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
@@ -36,21 +43,18 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => { lenis.raf(time * 1000); });
 gsap.ticker.lagSmoothing(0);
 
-// 3. Smooth Fade-Up Animations (The 20% we were missing)
+// 4. Smooth Fade-Up Animations
 document.addEventListener("DOMContentLoaded", () => {
     
-    // Staggered text reveals
-    const revealElements = document.querySelectorAll('.gsap-reveal');
-    revealElements.forEach(el => {
+    document.querySelectorAll('.gsap-reveal').forEach(el => {
         gsap.fromTo(el, 
-            { opacity: 0, y: 40 },
+            { opacity: 0, y: 30 },
             { opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
               scrollTrigger: { trigger: el, start: "top 85%" }
             }
         );
     });
 
-    // Parallax images
     document.querySelectorAll('.gsap-parallax').forEach(img => {
         gsap.to(img, {
             yPercent: 15, ease: "none",
@@ -58,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Horizontal Scroll - ONLY runs on Desktop so Mobile swipe works natively
+    // Horizontal Scroll (Desktop only)
     const horizontalSection = document.querySelector('.horizontal-wrap');
     if(horizontalSection && window.innerWidth > 768) {
         let scrollWidth = horizontalSection.scrollWidth - window.innerWidth;
