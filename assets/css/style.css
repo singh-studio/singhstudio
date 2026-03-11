@@ -1,66 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500&display=swap');
+/* Highful Minds inspired Structural System */
 
 :root {
-    --bg: #F4F3EE;
+    --bg: #F4F3EE; 
     --text: #1C1C1A;
     --accent: #B25A38;
-    --border: #E2E0D8;
-    
+    --border: rgba(28, 28, 26, 0.1); /* Subtle but sharp lines */
     --font-display: 'Instrument Serif', serif;
-    --font-body: 'Manrope', sans-serif;
-
-    /* Grid Safety */
-    --container-padding: clamp(1.5rem, 5vw, 4rem);
+    --font-mono: 'JetBrains Mono', monospace; /* For that numbered list feel */
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-    background-color: var(--bg); color: var(--text);
-    font-family: var(--font-body); line-height: 1.6;
-    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+/* Layout - The Editorial Split */
+.split-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border);
 }
 
-/* THE FIX: Standardized Container */
-.container { 
-    width: 100%; 
-    max-width: 1600px; /* Prevents text stretching too far on ultra-wide monitors */
-    margin: 0 auto; 
-    padding: 0 var(--container-padding); 
+@media (min-width: 900px) {
+    .split-section {
+        grid-template-columns: 40% 60%;
+    }
+    .sticky-col {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding-top: 20vh;
+        border-right: 1px solid var(--border);
+    }
+    .scroll-col {
+        padding-top: 20vh;
+    }
 }
 
-/* Typography */
-h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 400; line-height: 1.1; }
-.text-hero { font-size: clamp(3rem, 8vw, 8.5rem); letter-spacing: -0.02em; }
-.text-h2 { font-size: clamp(2rem, 5vw, 4.5rem); }
-.text-p { font-size: clamp(1.1rem, 1.4vw, 1.35rem); max-width: 60ch; color: #333; }
-.italic { font-style: italic; }
-
-/* Cinematic Hero Adjustment */
-.hero-split {
-    display: flex; flex-direction: column; min-height: 90vh; justify-content: flex-end;
-    padding-bottom: 10vh; position: relative;
+/* Typography - The Massive Overlap */
+.giant-title {
+    font-size: clamp(5rem, 15vw, 18rem);
+    line-height: 0.8;
+    margin-left: -5vw; /* Pulling text off-grid for that editorial look */
+    z-index: 2;
+    position: relative;
+    pointer-events: none;
 }
-.hero-media-bg {
-    position: absolute; top: 0; right: 0; width: 45%; height: 70%;
-    z-index: -1; overflow: hidden; opacity: 0.9;
+
+.num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    display: block;
 }
-.hero-media-bg video, .hero-media-bg img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Nav Fix */
-nav {
-    position: fixed; top: 0; width: 100%; padding: 2rem var(--container-padding);
-    display: flex; justify-content: space-between; align-items: center; z-index: 100;
-    background: var(--bg);
+/* Image Treatment - Highful Style */
+.reveal-img-container {
+    width: 100%;
+    margin-bottom: 10vh;
+    overflow: hidden;
 }
-nav.scrolled { padding: 1.2rem var(--container-padding); border-bottom: 1px solid var(--border); }
 
-/* Grid Layouts */
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-@media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
-
-/* Button Fix */
-.btn-book {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--text); color: var(--bg); padding: 0.8rem 1.8rem;
-    border-radius: 40px; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; font-weight: 500;
+.reveal-img-container img {
+    width: 100%;
+    height: auto;
+    filter: grayscale(20%); /* Subtle editorial mute */
 }
