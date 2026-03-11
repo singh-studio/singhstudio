@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singh Studio | Home</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=V11">
+    <title>Singh Studio | Design & Strategy</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=V12">
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -12,72 +12,68 @@
 <body>
 
     <nav>
-        <a href="index.html" class="active">Home</a>
-        <a href="portfolio.html">Index</a>
-        <a href="cv.html">CV</a>
-        <a href="https://meet.google.com/" target="_blank">Book ↗</a>
+        <a href="index.html" style="font-weight: 600;">Singh Studio®</a>
+        <div style="display: flex; gap: 3rem;">
+            <a href="portfolio.html">Index</a>
+            <a href="cv.html">Director</a>
+            <a href="https://meet.google.com/" target="_blank" style="color: #888;">Book Intro ↗</a>
+        </div>
     </nav>
 
-    <header class="container" style="padding-top: 35vh; padding-bottom: 15vh;">
-        <h1 class="text-hero gsap-reveal">Bespoke <br> <span class="italic">digital</span> art.</h1>
+    <header class="container" style="padding-top: 35vh; padding-bottom: 20vh;">
+        <h1 class="text-hero gsap-reveal">Bespoke<br><span class="italic">digital</span> art.</h1>
     </header>
 
     <section class="container">
-        <div class="index-grid">
-            <div class="sticky-head gsap-reveal">
-                <span class="num">(01)</span> <span class="text-meta">The Studio</span>
+        <div class="index-row">
+            <div class="sticky-meta gsap-reveal">
+                <span class="num">01 / The Studio</span>
             </div>
             <div class="gsap-reveal">
-                <h2 style="font-size: 2.5rem; font-family: var(--font-display); margin-bottom: 2rem;">A multidisciplinary practice sitting at the intersection of strategy and high-fidelity design.</h2>
-                <p>I help visionaries bridge the gap between complex ideas and elegant human interfaces.</p>
+                <h2 style="font-family: var(--font-display); font-size: 3rem; margin-bottom: 3rem;">A multidisciplinary practice crafting modern brand identities and refined web experiences.</h2>
+                <p>I operate at the intersection of communication strategy and high-fidelity design, helping founders bridge the gap between complex vision and elegant human interface.</p>
             </div>
         </div>
     </section>
 
     <section class="container">
-        <div class="index-grid">
-            <div class="sticky-head gsap-reveal">
-                <span class="num">(02)</span> <span class="text-meta">Capabilities</span>
+        <div class="index-row">
+            <div class="sticky-meta gsap-reveal">
+                <span class="num">02 / Services</span>
             </div>
-            <div>
-                <div class="accordion-item gsap-reveal">
-                    <div class="accordion-header">
+            <div class="accordion gsap-reveal">
+                
+                <div class="accordion-item">
+                    <button class="accordion-trigger">
                         <h3>Strategy & Brand</h3>
-                        <span class="num">+</span>
-                    </div>
+                        <span class="num">01</span>
+                    </button>
                     <div class="accordion-content">
-                        <div class="accordion-inner">
-                            <p>We build the structural foundations of your brand. From naming and positioning to a unified narrative that survives the noise.</p>
-                            <div style="margin-top: 1rem;">
-                                <span class="pill-tag">Naming</span><span class="pill-tag">Positioning</span>
-                            </div>
-                        </div>
+                        <p>Visual systems, naming, and core brand strategy for modern industries.</p>
                     </div>
                 </div>
 
-                <div class="accordion-item gsap-reveal">
-                    <div class="accordion-header">
-                        <h3>Digital UX/UI</h3>
-                        <span class="num">+</span>
+                <div class="accordion-item">
+                    <button class="accordion-trigger">
+                        <h3>Digital Design</h3>
+                        <span class="num">02</span>
                     </div>
                     <div class="accordion-content">
-                        <div class="accordion-inner">
-                            <p>Bespoke web experiences and applications. I focus on performance, motion, and refined modernist aesthetics.</p>
-                            <div style="margin-top: 1rem;">
-                                <span class="pill-tag">Framer</span><span class="pill-tag">GSAP</span>
-                            </div>
-                        </div>
+                        <p>High-end UX/UI, WebGL experimentation, and performant web architecture.</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <footer class="container" style="padding: 10vh 0; text-align: center;">
-        <h2 class="text-hero italic gsap-reveal">Let's talk.</h2>
-        <a href="https://meet.google.com/" target="_blank" class="pill-tag" style="margin-top: 2rem; padding: 1rem 2rem;">Book Video Consultation</a>
+    <footer class="container" style="padding: 10vh 0; border-top: 1px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <h2 class="text-hero italic gsap-reveal" style="font-size: clamp(3rem, 8vw, 8rem);">Let's talk.</h2>
+            <p class="num">©2026 Singh Studio</p>
+        </div>
     </footer>
 
-    <script src="assets/js/main.js?v=V11"></script>
+    <script src="assets/js/main.js?v=V12"></script>
 </body>
 </html>
