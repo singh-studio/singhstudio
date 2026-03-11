@@ -1,84 +1,66 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500&display=swap');
 
 :root {
-    --bg: #F4F3EE; /* Warm, tactile stone */
-    --text: #1C1C1A; /* Deepest charcoal */
-    --accent: #B25A38; /* A sophisticated, warm terracotta/rust */
-    --border: #E2E0D8; /* Crisp structural lines */
+    --bg: #F4F3EE;
+    --text: #1C1C1A;
+    --accent: #B25A38;
+    --border: #E2E0D8;
     
     --font-display: 'Instrument Serif', serif;
     --font-body: 'Manrope', sans-serif;
+
+    /* Grid Safety */
+    --container-padding: clamp(1.5rem, 5vw, 4rem);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; background: var(--bg); }
 body {
     background-color: var(--bg); color: var(--text);
-    font-family: var(--font-body); font-weight: 400; line-height: 1.6;
+    font-family: var(--font-body); line-height: 1.6;
     overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Cursor (Disabled on mobile) */
-.cursor {
-    position: fixed; top: 0; left: 0; width: 10px; height: 10px;
-    background: var(--text); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s;
+/* THE FIX: Standardized Container */
+.container { 
+    width: 100%; 
+    max-width: 1600px; /* Prevents text stretching too far on ultra-wide monitors */
+    margin: 0 auto; 
+    padding: 0 var(--container-padding); 
 }
-.cursor.hovered { width: 60px; height: 60px; background: transparent; border: 1px solid var(--text); backdrop-filter: invert(1); }
-@media (hover: none) and (pointer: coarse) { .cursor { display: none !important; } * { cursor: auto !important; } }
 
 /* Typography */
-h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 400; line-height: 1; letter-spacing: 0; }
-.text-hero { font-size: clamp(4rem, 9vw, 9rem); }
-.text-h2 { font-size: clamp(2.5rem, 5vw, 5rem); }
-.text-meta { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
-.text-p { font-size: clamp(1.125rem, 1.5vw, 1.5rem); max-width: 55ch; line-height: 1.5; color: #444; }
+h1, h2, h3, .font-display { font-family: var(--font-display); font-weight: 400; line-height: 1.1; }
+.text-hero { font-size: clamp(3rem, 8vw, 8.5rem); letter-spacing: -0.02em; }
+.text-h2 { font-size: clamp(2rem, 5vw, 4.5rem); }
+.text-p { font-size: clamp(1.1rem, 1.4vw, 1.35rem); max-width: 60ch; color: #333; }
 .italic { font-style: italic; }
 
-/* Structural Utilities */
-.container { padding: 0 5vw; }
-.section { padding: 15vh 0; }
-.border-top { border-top: 1px solid var(--border); }
-.border-bottom { border-bottom: 1px solid var(--border); }
-.magnetic-wrap { display: inline-block; cursor: pointer; }
-
-/* Crisp Navigation */
-nav {
-    position: fixed; top: 0; width: 100%; padding: 2rem 5vw;
-    display: flex; justify-content: space-between; align-items: center; z-index: 100;
-    background: var(--bg); border-bottom: 1px solid transparent;
-    transition: padding 0.4s ease, border-color 0.4s ease;
+/* Cinematic Hero Adjustment */
+.hero-split {
+    display: flex; flex-direction: column; min-height: 90vh; justify-content: flex-end;
+    padding-bottom: 10vh; position: relative;
 }
-nav.scrolled { padding: 1rem 5vw; border-bottom: 1px solid var(--border); }
-nav a { color: inherit; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; transition: color 0.3s; }
-nav a:hover { color: var(--accent); }
+.hero-media-bg {
+    position: absolute; top: 0; right: 0; width: 45%; height: 70%;
+    z-index: -1; overflow: hidden; opacity: 0.9;
+}
+.hero-media-bg video, .hero-media-bg img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Conversion Button */
+/* Nav Fix */
+nav {
+    position: fixed; top: 0; width: 100%; padding: 2rem var(--container-padding);
+    display: flex; justify-content: space-between; align-items: center; z-index: 100;
+    background: var(--bg);
+}
+nav.scrolled { padding: 1.2rem var(--container-padding); border-bottom: 1px solid var(--border); }
+
+/* Grid Layouts */
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+@media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+/* Button Fix */
 .btn-book {
     display: inline-flex; align-items: center; gap: 0.5rem;
-    background: var(--text); color: var(--bg); padding: 0.75rem 1.5rem;
-    border-radius: 40px; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-.btn-book:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
-
-/* Grids & Images */
-.grid-2 { display: grid; grid-template-columns: 1fr; gap: 4vw; }
-@media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; align-items: start; } }
-.img-wrap { overflow: hidden; position: relative; width: 100%; background: var(--border); }
-.img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
-.img-wrap:hover img { transform: scale(1.03); }
-
-/* Horizontal Scroll */
-.horizontal-wrap { height: 100vh; display: flex; flex-wrap: nowrap; align-items: center; padding-left: 5vw; }
-.work-item { flex-shrink: 0; width: 45vw; margin-right: 5vw; display: flex; flex-direction: column; gap: 1.5rem; text-decoration: none; color: inherit; }
-.work-img-wrap { width: 100%; aspect-ratio: 4/5; overflow: hidden; background: var(--border); }
-.work-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.work-item:hover .work-img-wrap img { transform: scale(1.03); }
-
-@media (max-width: 768px) {
-    .horizontal-wrap { height: auto; padding: 5vh 5vw 10vh; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .horizontal-wrap::-webkit-scrollbar { display: none; }
-    .work-item { width: 85vw; scroll-snap-align: center; }
+    background: var(--text); color: var(--bg); padding: 0.8rem 1.8rem;
+    border-radius: 40px; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; font-weight: 500;
 }
