@@ -1,63 +1,69 @@
-/* Highful Minds inspired Structural System */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
     --bg: #F4F3EE; 
     --text: #1C1C1A;
     --accent: #B25A38;
-    --border: rgba(28, 28, 26, 0.1); /* Subtle but sharp lines */
+    --border: rgba(28, 28, 26, 0.15);
     --font-display: 'Instrument Serif', serif;
-    --font-mono: 'JetBrains Mono', monospace; /* For that numbered list feel */
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* Layout - The Editorial Split */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+    background-color: var(--bg); color: var(--text);
+    font-family: var(--font-body); -webkit-font-smoothing: antialiased;
+    line-height: 1.5; overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 0.9; }
+.text-hero { font-size: clamp(4rem, 12vw, 14rem); letter-spacing: -0.03em; }
+.text-h2 { font-size: clamp(2.5rem, 5vw, 5rem); letter-spacing: -0.02em; }
+.text-meta, .num { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); }
+.italic { font-style: italic; }
+p { font-size: clamp(1.1rem, 1.4vw, 1.4rem); max-width: 55ch; color: #333; }
+
+/* Structural Grid */
+.container { width: 100%; padding: 0 5vw; }
+
+nav {
+    position: fixed; top: 0; width: 100%; padding: 1.5rem 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 1000; background: var(--bg); border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+}
+nav.scrolled { padding: 1rem 5vw; border-bottom: 1px solid var(--border); }
+nav a { text-decoration: none; color: inherit; font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; }
+
+/* Highful Split Section */
 .split-section {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: grid; grid-template-columns: 1fr;
     border-top: 1px solid var(--border);
 }
 
 @media (min-width: 900px) {
-    .split-section {
-        grid-template-columns: 40% 60%;
-    }
+    .split-section { grid-template-columns: 4fr 6fr; }
     .sticky-col {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        padding-top: 20vh;
-        border-right: 1px solid var(--border);
+        position: sticky; top: 0; height: 100vh;
+        display: flex; flex-direction: column; justify-content: center;
+        padding: 0 5vw; border-right: 1px solid var(--border);
     }
-    .scroll-col {
-        padding-top: 20vh;
-    }
+    .scroll-col { padding: 20vh 5vw; }
 }
 
-/* Typography - The Massive Overlap */
-.giant-title {
-    font-size: clamp(5rem, 15vw, 18rem);
-    line-height: 0.8;
-    margin-left: -5vw; /* Pulling text off-grid for that editorial look */
-    z-index: 2;
-    position: relative;
-    pointer-events: none;
-}
+/* UI Elements */
+.img-reveal-wrap { width: 100%; overflow: hidden; margin: 4rem 0; background: var(--border); }
+.img-reveal-wrap img { width: 100%; height: auto; display: block; filter: grayscale(10%); }
 
-.num {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    margin-bottom: 2rem;
-    display: block;
+.btn-main {
+    display: inline-flex; padding: 1rem 2rem; background: var(--text); color: var(--bg);
+    border-radius: 40px; text-decoration: none; font-family: var(--font-mono); font-size: 0.7rem;
+    transition: transform 0.3s ease;
 }
-
-/* Image Treatment - Highful Style */
-.reveal-img-container {
-    width: 100%;
-    margin-bottom: 10vh;
-    overflow: hidden;
-}
-
-.reveal-img-container img {
-    width: 100%;
-    height: auto;
-    filter: grayscale(20%); /* Subtle editorial mute */
-}
+.btn-main:hover { transform: translateY(-3px); background: var(--accent); }
