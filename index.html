@@ -1,52 +1,79 @@
-<main id="swup-main">
-    
-    <header class="container" style="padding-top: 20vh; padding-bottom: 10vh;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singh Studio | Strategic Creative</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=V9">
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Singh Studio</a>
+        <div style="display: flex; gap: 2rem;">
+            <a href="cv.html">Director</a>
+            <a href="portfolio.html">Index</a>
+            <a href="https://meet.google.com/" target="_blank">Book Intro ↗</a>
+        </div>
+    </nav>
+
+    <header class="container" style="padding-top: 25vh; padding-bottom: 10vh;">
         <span class="num gsap-reveal">(01) Intro</span>
-        <h1 class="text-hero font-display gsap-reveal">Singh <br> <span class="italic">Studio</span></h1>
+        <h1 class="text-hero gsap-reveal">Singh <br> <span class="italic">Studio</span></h1>
         
-        <div class="split-section" style="margin-top: 10vh;">
-            <div class="sticky-col gsap-reveal">
-                <h2 class="text-h2 font-display">Strategic<br>Creative</h2>
-            </div>
+        <div class="split-section" style="margin-top: 15vh;">
+            <aside class="sticky-col gsap-reveal">
+                <h2 class="text-h2">The Strategic <br> <span class="italic">Creative</span></h2>
+            </aside>
             <div class="scroll-col">
-                <p class="text-p gsap-reveal" style="margin-bottom: 5vh;">We light up working with founders and visionaries who will put anything on the line to make their dream a reality. We help them build that.</p>
+                <p class="gsap-reveal" style="margin-bottom: 3rem;">We light up working with founders and visionaries who will put anything on the line to make their dream a reality. We help them build that.</p>
                 
-                <div class="reveal-img-container gsap-reveal">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200" alt="Studio View">
+                <div class="img-reveal-wrap gsap-reveal">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200" alt="Studio">
                 </div>
                 
-                <p class="text-p gsap-reveal">Singh Studio is a Design & Strategy practice that works across Health, Wellness, Sports & Tech. We believe branding is about how something makes people <span class="italic">feel</span>.</p>
+                <p class="gsap-reveal">Singh Studio is a Design & Strategy practice that works across Health, Wellness, Sports & Tech. We believe branding is about how something makes people <span class="italic">feel</span>.</p>
             </div>
         </div>
     </header>
 
     <section class="split-section">
-        <div class="sticky-col container gsap-reveal">
+        <aside class="sticky-col gsap-reveal">
             <span class="num">(02) What we do</span>
-            <h2 class="text-h2 font-display">Capabilities</h2>
-        </div>
-        <div class="scroll-col container">
+            <h2 class="text-h2">Disciplines</h2>
+        </aside>
+        <div class="scroll-col">
             <div class="border-bottom gsap-reveal" style="padding: 4rem 0;">
-                <h3 class="font-display" style="font-size: 3rem;">Brand Strategy</h3>
-                <p style="margin-top: 1rem; color: #666;">Deep-rooted narratives that define your mission.</p>
+                <h3 style="font-size: 2.5rem;">Strategic Comms</h3>
+                <p style="margin-top: 1rem; color: #666;">Messaging frameworks and stakeholder narratives.</p>
             </div>
             <div class="border-bottom gsap-reveal" style="padding: 4rem 0;">
-                <h3 class="font-display" style="font-size: 3rem;">Digital Design</h3>
-                <p style="margin-top: 1rem; color: #666;">Bespoke UX architectures that convert and inspire.</p>
+                <h3 style="font-size: 2.5rem;">Digital Experience</h3>
+                <p style="margin-top: 1rem; color: #666;">Bespoke UX architectures and high-end design.</p>
             </div>
             <div class="gsap-reveal" style="padding: 4rem 0;">
-                <h3 class="font-display" style="font-size: 3rem;">Content & Lens</h3>
-                <p style="margin-top: 1rem; color: #666;">Cinematic storytelling for the modern attention span.</p>
+                <h3 style="font-size: 2.5rem;">Audio & Visual</h3>
+                <p style="margin-top: 1rem; color: #666;">Cinematic storytelling and original scoring.</p>
             </div>
         </div>
     </section>
 
     <section class="container border-top" style="padding: 20vh 0; text-align: center;">
-        <span class="num gsap-reveal">(03) Contact</span>
-        <h2 class="text-hero font-display gsap-reveal">Let's <span class="italic">build.</span></h2>
-        <div class="magnetic-wrap gsap-reveal" style="margin-top: 5vh;">
-            <a href="https://meet.google.com/" target="_blank" class="btn-book">Book Intro ↗</a>
+        <span class="num gsap-reveal">(03) Start</span>
+        <h2 class="text-hero gsap-reveal">Let's <span class="italic">talk</span></h2>
+        <div style="margin-top: 5vh;" class="gsap-reveal">
+            <a href="https://meet.google.com/" target="_blank" class="btn-main">Book Video Intro ↗</a>
         </div>
     </section>
 
-</main>
+    <footer class="container border-top" style="padding: 2rem 5vw; display: flex; justify-content: space-between;">
+        <span class="num">©2026 Singh Studio</span>
+        <a href="#" class="num">LinkedIn</a>
+    </footer>
+
+    <script src="assets/js/main.js?v=V9"></script>
+</body>
+</html>
