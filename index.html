@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SINGH STUDIO | Strategic Design & Digital Craft</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Singh Studio | Strategic Design & Digital Craft</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;500;600&family=Playfair+Display:italic,wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Lexend:wght@300;500;600&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="assets/css/style.css">
+
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -16,42 +18,101 @@
 <body>
 
     <div class="noise-overlay"></div>
-    <div class="cursor-follower"></div>
 
-    <div class="floating-nav-container">
-        <nav class="floating-nav">
-            <a href="#home" class="nav-item active" data-label="Home">
-                <span class="nav-dot"></span>
-            </a>
-            <div class="nav-divider"></div>
-            <a href="#work" class="nav-item">Work</a>
-            <a href="#services" class="nav-item">Expertise</a>
-            <a href="#about" class="nav-item">Studio</a>
-            <div class="nav-divider"></div>
-            <a href="#contact" class="nav-item contact-trigger">Connect</a>
-        </nav>
-    </div>
+    <div id="main-wrapper">
 
-    <main id="main-wrapper">
-        <section class="hero" id="home">
+        <div class="nav-dock-container">
+            <nav class="nav-dock">
+                <a href="#home" class="nav-item active">Home</a>
+                <div class="nav-divider"></div>
+                <a href="#work" class="nav-item">Work</a>
+                <a href="#services" class="nav-item">Expertise</a>
+                <a href="#about" class="nav-item">About</a>
+                <div class="nav-divider"></div>
+                <a href="#contact" class="nav-item accent">Contact</a>
+            </nav>
+        </div>
+
+        <header class="hero" id="home">
             <div class="container">
                 <div class="hero__content">
-                    <span class="overline split-child">Est. 2026 — London / Global</span>
-                    <h1 class="hero__title">
-                        <span class="split-parent">Strategic <span class="italic">Vision</span></span><br>
-                        <span class="split-parent">By Design.</span>
-                    </h1>
-                    <div class="hero__sub">
-                        <p>Singh Studio translates complex ambitions into high-fidelity digital reality.</p>
+                    <p class="overline reveal">Strategic Communications & Digital Craft</p>
+                    <h1 class="hero__title reveal">We shape <span class="italic">narratives</span> that define the digital frontier.</h1>
+                    <div class="hero__footer reveal">
+                        <p class="hero__subtext">A boutique creative studio building premium brands, immersive experiences, and articulate strategies.</p>
+                        <a href="#work" class="btn">View Selected Work</a>
                     </div>
                 </div>
             </div>
-            <div class="scroll-indicator"><span>SCROLL</span></div>
-        </section>
+        </header>
 
         <section class="intro section-padding" id="about">
+            <div class="container grid-2">
+                <div class="intro__label"><span class="dot"></span> 01 / The Mission</div>
+                <div class="intro__text">
+                    <h2 class="section-title">Design-led strategy for serious growth.</h2>
+                    <p class="lead">Singh Studio sits at the intersection of intelligence and aesthetics. We architect digital presence through communications strategy and high-end UI.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="work section-padding" id="work">
             <div class="container">
-                <h2 class="reveal-text huge-text">We don't follow trends. <br> We architect <span>enduring</span> digital legacies.</h2>
-                <div class="grid-2 mt-large">
-                    <div></div>
-                    <p class="lead">Through rigorous strategy
+                <div class="section-header">
+                    <h2 class="section-title">Selected Works</h2>
+                </div>
+                
+                <div class="work__grid">
+                    <div class="project-card">
+                        <div class="project__img-wrap"><div class="project__img" style="background-color: #1a1a1a;"></div></div>
+                        <div class="project__info">
+                            <span class="project__cat">Brand Identity / Web</span>
+                            <h3 class="project__title">Aura Intelligence</h3>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project__img-wrap"><div class="project__img" style="background-color: #222;"></div></div>
+                        <div class="project__info">
+                            <span class="project__cat">E-Commerce / UX</span>
+                            <h3 class="project__title">Nordic Living</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services section-padding secondary-bg" id="services">
+            <div class="container">
+                <div class="grid-2">
+                    <h2 class="section-title">Expertise</h2>
+                    <div class="services__list">
+                        <div class="service-item">
+                            <h4 class="service-item__title">01 / Digital Strategy</h4>
+                            <p>Articulating your unique value through competitive research and positioning.</p>
+                        </div>
+                        <div class="service-item">
+                            <h4 class="service-item__title">02 / UI/UX Design</h4>
+                            <p>High-fidelity interfaces that prioritize clarity and aesthetic rigor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer section-padding" id="contact">
+            <div class="container">
+                <div class="footer__top">
+                    <h2 class="footer__heading">Ready to build the <span>exceptional?</span></h2>
+                    <a href="mailto:hello@singhstudio.com" class="footer__email">hello@singhstudio.com</a>
+                </div>
+                <div class="footer__bottom">
+                    <div class="footer__legal">© 2026 Singh Studio.</div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
