@@ -3,155 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singh Studio | Strategic Design & Digital Craft</title>
-    <meta name="description" content="Singh Studio: Where strategic communications meet premium digital design.">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Lexend:wght@300;500;600&display=swap" rel="stylesheet">
-    
+    <title>SINGH STUDIO | Premium Creative Strategy</title>
     <link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;600&family=Playfair+Display:italic,wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
 
-    <div id="main-wrapper">
+    <div class="cursor-follower"></div>
 
-        <nav class="nav">
-            <div class="nav__logo">SINGH<span>STUDIO</span></div>
-            <div class="nav__links">
-                <a href="#work" class="nav__link">Work</a>
-                <a href="#services" class="nav__link">Expertise</a>
-                <a href="#about" class="nav__link">About</a>
-                <a href="#contact" class="btn btn--small">Get in Touch</a>
+    <nav class="nav">
+        <div class="nav__logo">SINGH<span>STUDIO</span></div>
+        <div class="nav__cta"><a href="#contact" class="magnetic-btn">Let's Talk</a></div>
+    </nav>
+
+    <main id="main-wrapper">
+        <section class="hero" id="home">
+            <div class="hero__inner">
+                <div class="hero__text-mask">
+                    <h1 class="hero__title">STRATEGIC <br><span class="italic">Vision</span> BY DESIGN.</h1>
+                </div>
+                <div class="hero__sub">
+                    <p>Singh Studio translates complex ambitions into high-fidelity digital reality.</p>
+                </div>
             </div>
-            <div class="nav__mobile-toggle"><span></span><span></span></div>
-        </nav>
+            <div class="scroll-indicator"><span>SCROLL</span></div>
+        </section>
 
-        <header class="hero">
+        <section class="intro section-padding">
             <div class="container">
-                <div class="hero__content">
-                    <p class="overline reveal">Strategic Communications & Digital Craft</p>
-                    <h1 class="hero__title reveal">We shape <span class="italic">narratives</span> that define the digital frontier.</h1>
-                    <div class="hero__footer reveal">
-                        <p class="hero__subtext">A boutique creative studio building premium brands, immersive experiences, and articulate strategies for the modern world.</p>
-                        <a href="#work" class="btn">View Selected Work</a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__visual">
-                <div class="hero__overlay"></div>
-            </div>
-        </header>
-
-        <section class="intro section-padding" id="about">
-            <div class="container grid-2">
-                <div class="intro__label">
-                    <span class="dot"></span> 01 / The Mission
-                </div>
-                <div class="intro__text">
-                    <h2 class="section-title">Design-led strategy for serious growth.</h2>
-                    <p class="lead">Singh Studio sits at the intersection of intelligence and aesthetics. We don’t just build websites; we architect digital presence. By blending communications strategy with high-end UI, we ensure your brand speaks as well as it looks.</p>
-                </div>
+                <h2 class="reveal-text">We don't follow trends. <br> We architect <span>enduring</span> digital legacies.</h2>
             </div>
         </section>
 
-        <section class="work section-padding" id="work">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Selected Works <span class="count">/ 03</span></h2>
-                </div>
-                
-                <div class="work__grid">
-                    <div class="project-card" data-speed="0.05">
-                        <div class="project__img-wrap">
-                            <div class="project__img" style="background-color: #222;"></div> </div>
-                        <div class="project__info">
-                            <span class="project__cat">Brand Identity / Web</span>
-                            <h3 class="project__title">Aura Intelligence</h3>
-                            <p class="project__desc">Positioning an AI-driven data firm for a global Series B launch.</p>
+        <section class="work-horizontal" id="work">
+            <div class="horizontal-wrapper">
+                <div class="project-strip">
+                    <div class="work__header">
+                        <span class="overline">Selected Projects</span>
+                        <h2 class="huge-text">Portfolio</h2>
+                    </div>
+
+                    <div class="project-slide">
+                        <div class="project-slide__inner">
+                            <div class="project-slide__img" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200')"></div>
+                            <div class="project-slide__content">
+                                <h3>Vanguard Global</h3>
+                                <p>Digital Ecosystem / 2024</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="project-card" data-speed="-0.05">
-                        <div class="project__img-wrap">
-                            <div class="project__img" style="background-color: #1a1a1a;"></div> </div>
-                        <div class="project__info">
-                            <span class="project__cat">E-Commerce / UX</span>
-                            <h3 class="project__title">Nordic Living</h3>
-                            <p class="project__desc">A minimalist digital storefront for sustainable architectural furniture.</p>
+                    <div class="project-slide">
+                        <div class="project-slide__inner">
+                            <div class="project-slide__img" style="background-image: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&q=80&w=1200')"></div>
+                            <div class="project-slide__content">
+                                <h3>Ethos Brand</h3>
+                                <p>Identity & Strategy / 2024</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="project-card">
-                        <div class="project__img-wrap">
-                            <div class="project__img" style="background-color: #2a2a2a;"></div> </div>
-                        <div class="project__info">
-                            <span class="project__cat">Editorial / Strategy</span>
-                            <h3 class="project__title">The Perspective</h3>
-                            <p class="project__desc">Crafting a high-end digital publication for modern cultural critique.</p>
+                    <div class="project-slide">
+                        <div class="project-slide__inner">
+                            <div class="project-slide__img" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1200')"></div>
+                            <div class="project-slide__content">
+                                <h3>Lumina UI</h3>
+                                <p>SaaS Design / 2023</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="services section-padding secondary-bg" id="services">
+        <section class="services section-padding" id="services">
             <div class="container">
-                <div class="grid-2">
-                    <h2 class="section-title">Expertise</h2>
-                    <div class="services__list">
-                        <div class="service-item">
-                            <h4 class="service-item__title">01 / Digital Strategy</h4>
-                            <p>Articulating your unique value through competitive research and strategic positioning.</p>
-                        </div>
-                        <div class="service-item">
-                            <h4 class="service-item__title">02 / UI/UX Design</h4>
-                            <p>High-fidelity interfaces that prioritize clarity, user psychology, and aesthetic rigor.</p>
-                        </div>
-                        <div class="service-item">
-                            <h4 class="service-item__title">03 / Creative Development</h4>
-                            <p>Clean, performant, and accessible front-end architecture designed for longevity.</p>
-                        </div>
-                    </div>
+                <div class="service-row" data-img="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500">
+                    <span class="service-num">01</span>
+                    <h2 class="service-title">Digital Strategy</h2>
+                    <p class="service-desc">Turning noise into clarity through data-driven communication maps.</p>
+                </div>
+                <div class="service-row" data-img="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=500">
+                    <span class="service-num">02</span>
+                    <h2 class="service-title">Boutique Design</h2>
+                    <p class="service-desc">Editorial-grade UI/UX that prioritizes the user's emotional journey.</p>
+                </div>
+                <div class="service-row" data-img="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500">
+                    <span class="service-num">03</span>
+                    <h2 class="service-title">Development</h2>
+                    <p class="service-desc">Performant, clean code that brings ambitious designs to life seamlessly.</p>
                 </div>
             </div>
+            <div class="service-float-img"></div>
         </section>
 
-        <section class="founder section-padding">
-            <div class="container grid-2">
-                <div class="founder__image-wrap">
-                    <div class="founder__image" style="background-color: #333;"></div> </div>
-                <div class="founder__content">
-                    <p class="overline">The Founder</p>
-                    <h2 class="section-title">Meet Aman Singh</h2>
-                    <p>With over a decade of experience across global communications and digital design, I founded Singh Studio to bridge the gap between "pretty websites" and strategic business tools. We believe that every pixel should serve a purpose.</p>
-                    <a href="mailto:hello@singhstudio.com" class="text-link">Connect on LinkedIn</a>
+        <footer class="footer" id="contact">
+            <div class="footer__marquee">
+                <div class="marquee__inner">
+                    <span>Let's Build Something — Let's Build Something — </span>
                 </div>
             </div>
-        </section>
-
-        <footer class="footer section-padding" id="contact">
-            <div class="container">
-                <div class="footer__top">
-                    <h2 class="footer__heading">Ready to build the <span>exceptional?</span></h2>
-                    <a href="mailto:hello@singhstudio.com" class="footer__email">hello@singhstudio.com</a>
-                </div>
+            <div class="container footer__main">
+                <a href="mailto:hello@singhstudio.com" class="footer__email">hello@singhstudio.com</a>
                 <div class="footer__bottom">
-                    <div class="footer__legal">© 2024 Singh Studio. All rights reserved.</div>
-                    <div class="footer__socials">
+                    <p>©2026 Singh Studio</p>
+                    <div class="socials">
+                        <a href="#">LinkedIn</a>
                         <a href="#">Instagram</a>
-                        <a href="#">Savee</a>
-                        <a href="#">X (Twitter)</a>
                     </div>
                 </div>
             </div>
         </footer>
-
-    </div>
+    </main>
 
     <script src="assets/js/main.js"></script>
 </body>
