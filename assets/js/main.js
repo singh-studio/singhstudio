@@ -1,101 +1,79 @@
-// Initialize Smooth Scrolling (Lenis)
-const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true
-});
-
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// GSAP Animations
 gsap.registerPlugin(ScrollTrigger);
 
-// 1. Hero Reveal Animation
-const tl = gsap.timeline();
+// 1. Initialize Lenis Smooth Scroll
+const lenis = new Lenis();
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+gsap.ticker.lagSmoothing(0);
 
-tl.from(".hero__title", {
-    y: 100,
-    opacity: 0,
-    duration: 1.2,
-    ease: "power4.out",
-    delay: 0.5
+// 2. Custom Cursor
+const cursor = document.querySelector('.cursor-follower');
+document.addEventListener('mousemove', (e) => {
+    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.3 });
+});
+
+// 3. Hero Entrance Reveal
+const heroTl = gsap.timeline();
+heroTl.from(".hero__title", {
+    y: 150,
+    skewY: 7,
+    duration: 1.5,
+    ease: "power4.out"
 })
-.from(".overline", {
-    opacity: 0,
-    y: 20,
-    duration: 0.8
-}, "-=0.8")
-.from(".hero__footer", {
-    opacity: 0,
-    y: 20,
-    duration: 0.8
-}, "-=0.5");
+.from(".hero__sub", { opacity: 0, y: 20, duration: 1 }, "-=0.5");
 
-// 2. Parallax Scrolling for Project Cards
-document.querySelectorAll('.project-card').forEach(card => {
-    const speed = card.dataset.speed || 0;
+// 4. Horizontal Scroll Portfolio
+const sections = gsap.utils.toArray(".project-slide");
+const strip = document.querySelector(".project-strip");
+
+gsap.to(strip, {
+    x: () => -(strip.scrollWidth - window.innerWidth),
+    ease: "none",
+    scrollTrigger: {
+        trigger: ".work-horizontal",
+        pin: true,
+        scrub: 1,
+        end: () => "+=" + strip.scrollWidth,
+        invalidateOnRefresh: true
+    }
+});
+
+// 5. Service Image Float
+const serviceRows = document.querySelectorAll('.service-row');
+const floatImg = document.querySelector('.service-float-img');
+
+serviceRows.forEach(row => {
+    row.addEventListener('mouseenter', () => {
+        const imgUrl = row.dataset.img;
+        floatImg.style.backgroundImage = `url(${imgUrl})`;
+        gsap.to(floatImg, { opacity: 1, scale: 1, duration: 0.3 });
+    });
     
-    gsap.to(card, {
-        scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-        },
-        y: (i, target) => -ScrollTrigger.maxScroll(window) * (speed / 10),
-        ease: "none"
+    row.addEventListener('mouseleave', () => {
+        gsap.to(floatImg, { opacity: 0, scale: 0.8, duration: 0.3 });
+    });
+    
+    row.addEventListener('mousemove', (e) => {
+        gsap.to(floatImg, { 
+            x: e.clientX + 20, 
+            y: e.clientY - 200, 
+            duration: 0.6, 
+            ease: "power2.out" 
+        });
     });
 });
 
-// 3. Section Fade-In
-const fadeElements = document.querySelectorAll('.section-title, .lead, .service-item');
-
-fadeElements.forEach(el => {
-    gsap.from(el, {
+// 6. Text Reveal on Scroll
+const revealTexts = document.querySelectorAll('.reveal-text');
+revealTexts.forEach(text => {
+    gsap.from(text, {
         scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            toggleActions: "play none none none"
+            trigger: text,
+            start: "top 80%"
         },
         opacity: 0,
-        y: 40,
+        y: 50,
         duration: 1,
         ease: "power3.out"
-    });
-});
-
-// 4. Navigation scroll effect
-let lastScroll = 0;
-window.addEventListener("scroll", () => {
-    const currentScroll = window.pageYOffset;
-    const nav = document.querySelector(".nav");
-    
-    if (currentScroll <= 0) {
-        nav.style.boxShadow = "none";
-        return;
-    }
-    
-    if (currentScroll > lastScroll) {
-        // Scrolling Down
-        gsap.to(nav, { y: -100, duration: 0.3 });
-    } else {
-        // Scrolling Up
-        gsap.to(nav, { y: 0, duration: 0.3, backgroundColor: "rgba(13, 13, 13, 0.8)", backdropFilter: "blur(10px)" });
-    }
-    lastScroll = currentScroll;
-});
-
-// Smooth scroll for nav links
-document.querySelectorAll('.nav__link, .btn').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href.startsWith('#')) {
-            e.preventDefault();
-            lenis.scrollTo(href);
-        }
     });
 });
