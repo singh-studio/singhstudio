@@ -1,146 +1,111 @@
 :root {
-    --color-bg: #080808;
-    --color-text: #f0f0f0;
+    --color-bg: #0a0a0a;
+    --color-text: #f5f5f5;
     --color-accent: #d4af37;
     --font-heading: 'Lexend', sans-serif;
     --font-serif: 'Playfair Display', serif;
 }
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-    background: var(--color-bg);
+    background-color: var(--color-bg);
     color: var(--color-text);
-    font-family: 'Lexend', sans-serif;
+    font-family: var(--font-heading);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Cursor Follower */
-.cursor-follower {
+/* 1. Grain Texture Overlay */
+.noise-overlay {
     position: fixed;
-    width: 20px;
-    height: 20px;
-    background: var(--color-accent);
-    border-radius: 50%;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3e%3cfilter id='n'%3e%3cfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23n)'/%3e%3c/svg%3e");
+    opacity: 0.035;
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference;
-    transition: transform 0.1s ease;
 }
 
-/* Hero Section: Spotlight Effect */
-.hero {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero__title {
-    font-size: clamp(3rem, 10vw, 8rem);
-    line-height: 0.9;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.italic { font-family: var(--font-serif); font-style: italic; text-transform: none; }
-
-/* Horizontal Work Section */
-.work-horizontal {
-    height: 100vh;
-    overflow: hidden;
-    background: #000;
-}
-
-.horizontal-wrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.project-strip {
-    display: flex;
-    padding: 0 10vw;
-    gap: 15vw;
-    align-items: center;
-}
-
-.project-slide {
-    flex-shrink: 0;
-    width: 60vw;
-}
-
-.project-slide__inner {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-slide__img {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(1) contrast(1.2);
-    transition: filter 0.5s ease, transform 0.8s ease;
-}
-
-.project-slide:hover .project-slide__img {
-    filter: grayscale(0) contrast(1);
-    transform: scale(1.05);
-}
-
-/* Services Hover Image Effect */
-.service-row {
-    padding: 4rem 0;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-}
-
-.service-title { font-size: 3rem; transition: transform 0.4s ease; }
-.service-row:hover .service-title { transform: translateX(30px); color: var(--color-accent); }
-
-.service-float-img {
+/* 2. Floating Nav System */
+.floating-nav-container {
     position: fixed;
-    width: 300px;
-    height: 400px;
-    background-size: cover;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0;
-    border-radius: 10px;
-    transition: opacity 0.3s ease;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
 
-/* Footer Marquee */
-.footer__marquee {
-    border-top: 1px solid #222;
-    padding: 2rem 0;
-    overflow: hidden;
-    white-space: nowrap;
+.floating-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 8px 20px;
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
 }
 
-.marquee__inner {
-    display: inline-block;
-    font-size: 8vw;
-    font-weight: 600;
+.nav-item {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    animation: marquee 20s linear infinite;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 5px 0;
+    position: relative;
 }
 
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+.nav-item:hover, .nav-item.active { color: #fff; }
+
+.nav-item::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--color-accent);
+    transition: width 0.3s ease;
 }
 
-@media (max-width: 768px) {
-    .project-slide { width: 85vw; }
-    .service-title { font-size: 1.8rem; }
+.nav-item:hover::after, .nav-item.active::after { width: 100%; }
+
+.nav-divider { width: 1px; height: 15px; background: rgba(255, 255, 255, 0.1); }
+.nav-dot { width: 5px; height: 5px; background: var(--color-accent); border-radius: 50%; display: block; }
+.contact-trigger { color: var(--color-accent) !important; }
+
+/* 3. Typography & Sections */
+.container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+.section-padding { padding: 180px 0; }
+.huge-text { font-size: clamp(2.5rem, 8vw, 6rem); line-height: 0.9; text-transform: uppercase; }
+.italic { font-family: var(--font-serif); font-style: italic; text-transform: none; }
+.overline { color: var(--color-accent); letter-spacing: 0.2em; font-size: 0.8rem; text-transform: uppercase; }
+
+.hero { height: 100vh; display: flex; align-items: center; }
+.hero__title { font-size: clamp(3.5rem, 10vw, 9rem); line-height: 0.85; margin: 20px 0; }
+
+/* 4. Horizontal Scroll */
+.work-horizontal { height: 100vh; background: #000; overflow: hidden; }
+.horizontal-wrapper { height: 100%; display: flex; align-items: center; }
+.project-strip { display: flex; padding: 0 10vw; gap: 10vw; }
+.project-slide { width: 55vw; flex-shrink: 0; }
+.project-slide__inner { aspect-ratio: 16/10; overflow: hidden; position: relative; }
+.project-slide__img { 
+    width: 100%; height: 100%; background-size: cover; background-position: center;
+    filter: grayscale(1); transition: all 0.8s ease;
 }
+.project-slide:hover .project-slide__img { filter: grayscale(0) scale(1.05); }
+
+/* 5. Service Hovers */
+.service-row { border-bottom: 1px solid #222; padding: 3rem 0; display: flex; align-items: center; cursor: pointer; }
+.service-num { font-size: 1rem; color: var(--color-accent); margin-right: 2rem; }
+.service-title { font-size: clamp(2rem, 4vw, 4rem); flex-grow: 1; transition: 0.4s; }
+.service-row:hover .service-title { transform: translateX(20px); color: var(--color-accent); }
+.service-float-img { 
+    position: fixed; width: 280px; height: 380px; border-radius: 10px; 
+    pointer-events: none; opacity: 0; z-index: 100; background-size: cover;
+}
+
+/* 6. Footer Marquee */
+.footer__marquee { border-top: 1px solid #222; padding: 40px 0; overflow: hidden; }
+.marquee__inner { display: inline-block; white-space: nowrap; font-size: 6vw; font-weight: 600; animation: marq 20s linear infinite; }
+@keyframes marq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.footer__email { font-size: clamp(1.5rem, 5vw, 4rem); text-decoration: none; color: #fff; margin: 2rem 0; display: block; }
