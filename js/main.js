@@ -378,7 +378,7 @@ const lerp = (a, b, t) => a + (b - a) * t;
 
 /* Clip-mask reveals for imagery */
 (() => {
-  const els = [...document.querySelectorAll(".lt-item, .ph, .wc-media")];
+  const els = [...document.querySelectorAll(".lt-item, .ph, .wc-media, [data-mask]")];
   if (!els.length) return;
   const perParent = new Map();
   els.forEach((el) => {
