@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo: Harbourside Community Trust — a Singh Studio template</title>
+<meta name="description" content="A demo website for a Lower Hutt community trust, built to show what a Singh Studio template build looks like — warm, direct, and easy for volunteers and donors to use.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/img/ss-logo.png">
+<meta name="theme-color" content="#f3e9d7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;800&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --forest:#2e5339;
+    --forest-deep:#203c29;
+    --sand:#f3e9d7;
+    --sand-deep:#ead9bd;
+    --sunshine:#f2b950;
+    --sunshine-deep:#d99f36;
+    --clay:#c4643b;
+    --ink:#2a2620;
+    --display:'Epilogue', -apple-system, sans-serif;
+    --body:'Karla', -apple-system, sans-serif;
+    --maxw:1180px;
+    --r-lg:20px;
+    --r-md:16px;
+    --r-sm:12px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important}
+  }
+
+  body{
+    margin:0;
+    background:var(--sand);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:68px;
+  }
+
+  img{max-width:100%;display:block}
+  a{color:inherit}
+
+  h1,h2,h3{
+    font-family:var(--display);
+    font-weight:800;
+    line-height:1.1;
+    margin:0 0 0.5em;
+    color:var(--forest-deep);
+  }
+
+  p{margin:0 0 1em}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:clamp(1.25rem, 4vw, 3rem)}
+
+  :focus-visible{
+    outline:3px solid var(--clay);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ===== Buttons ===== */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5em;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:0.95rem;
+    text-decoration:none;
+    padding:0.85em 1.7em;
+    border-radius:999px;
+    border:2px solid transparent;
+    cursor:pointer;
+    transition:background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  @media (prefers-reduced-motion: reduce){
+    .btn:hover{transform:none}
+  }
+  .btn-sunshine{background:var(--sunshine);color:var(--forest-deep);border-color:var(--sunshine)}
+  .btn-sunshine:hover{background:var(--sunshine-deep)}
+  .btn-forest{background:var(--forest);color:var(--sand);border-color:var(--forest)}
+  .btn-forest:hover{background:var(--forest-deep)}
+  .btn-outline{background:transparent;color:var(--forest-deep);border-color:var(--forest-deep)}
+  .btn-outline:hover{background:var(--forest-deep);color:var(--sand)}
+  .btn-clay{background:var(--clay);color:var(--sand);border-color:var(--clay)}
+  .btn-clay:hover{background:#a8532e}
+
+  /* ===== Top nav ===== */
+  .topnav{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:rgba(243,233,215,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:2px solid var(--sand-deep);
+  }
+  .topnav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1.5rem;
+    padding-block:1rem;
+  }
+  .brandname{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:1.25rem;
+    color:var(--forest-deep);
+    text-decoration:none;
+    line-height:1.2;
+  }
+  .navlinks{
+    display:flex;
+    align-items:center;
+    gap:clamp(1rem, 2.4vw, 2rem);
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .navlinks a:not(.btn){
+    text-decoration:none;
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--ink);
+    padding-block:0.3em;
+    border-bottom:2px solid transparent;
+  }
+  .navlinks a:not(.btn):hover{border-bottom-color:var(--clay)}
+  .navlinks .btn-sunshine{padding:0.6em 1.4em;font-size:0.9rem}
+
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:2px solid var(--forest-deep);
+    border-radius:var(--r-sm);
+    padding:0.68em 0.8em;
+    font-size:0.9rem;
+    font-weight:600;
+    font-family:var(--body);
+    cursor:pointer;
+    color:var(--forest-deep);
+  }
+
+  @media (max-width:820px){
+    .navlinks{
+      position:absolute;
+      top:100%;
+      left:0;
+      right:0;
+      flex-direction:column;
+      align-items:flex-start;
+      background:var(--sand);
+      border-bottom:2px solid var(--sand-deep);
+      padding:1rem clamp(1.25rem, 4vw, 3rem) 1.5rem;
+      gap:1rem;
+      display:none;
+    }
+    .navlinks.open{display:flex}
+    .nav-toggle{display:inline-block}
+  }
+
+  /* ===== Hero ===== */
+  .hero{padding-block:clamp(2.5rem, 6vw, 5rem)}
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:clamp(2rem, 5vw, 3.5rem);
+    align-items:center;
+  }
+  .hero-eyebrow{
+    display:inline-block;
+    background:var(--forest);
+    color:var(--sand);
+    font-weight:600;
+    font-size:0.8rem;
+    letter-spacing:0.03em;
+    padding:0.4em 1em;
+    border-radius:999px;
+    margin-bottom:1.2em;
+  }
+  .hero h1{font-size:clamp(2.1rem, 4.6vw, 3.4rem)}
+  .hero-lede{
+    font-size:1.08rem;
+    max-width:44ch;
+    color:#453f34;
+  }
+  .hero-cta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+    margin-top:1.7rem;
+  }
+  .hero-photo-wrap{
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    aspect-ratio:4/3;
+    border:4px solid var(--sand-deep);
+  }
+  .hero-photo-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr}
+    .hero-photo-wrap{order:-1}
+  }
+
+  /* ===== Section shell ===== */
+  section{padding-block:clamp(2.5rem, 5.5vw, 4.5rem)}
+  .section-head{max-width:60ch;margin-bottom:clamp(1.8rem, 4vw, 2.8rem)}
+  .section-head.center{margin-inline:auto;text-align:center}
+  .section-eyebrow{
+    display:inline-block;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--clay);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin-bottom:0.7em;
+  }
+  .section-head h2{font-size:clamp(1.7rem, 3.2vw, 2.3rem)}
+  .section-head p{color:#453f34;font-size:1.02rem;margin-bottom:0}
+
+  /* ===== Impact stats ===== */
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:clamp(1rem, 2.5vw, 1.5rem);
+  }
+  .stat-card{
+    background:#fff;
+    border-radius:var(--r-md);
+    padding:clamp(1.4rem, 2.5vw, 1.8rem) 1.3rem;
+    text-align:center;
+    border:2px solid var(--sand-deep);
+  }
+  .stat-num{
+    display:block;
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(1.8rem, 3.4vw, 2.4rem);
+    color:var(--forest);
+    line-height:1.05;
+    margin-bottom:0.2em;
+  }
+  .stat-label{font-size:0.92rem;color:#453f34;font-weight:600}
+
+  @media (max-width:760px){
+    .stats-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:460px){
+    .stats-grid{grid-template-columns:1fr}
+  }
+
+  /* ===== Programmes ===== */
+  .programmes-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(1.5rem, 3vw, 2.5rem);
+    align-items:start;
+  }
+  .programme-photo-wrap{
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    position:sticky;
+    top:6rem;
+    aspect-ratio:3/4;
+  }
+  .programme-photo-wrap img{width:100%;height:100%;object-fit:cover}
+  .programme-cards{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.2rem;
+  }
+  .programme-card{
+    background:#fff;
+    border-radius:var(--r-md);
+    padding:1.5rem;
+    border:2px solid var(--sand-deep);
+  }
+  .programme-card h3{font-size:1.15rem;margin-bottom:0.4em}
+  .programme-card p{font-size:0.94rem;color:#453f34;margin-bottom:0.7em}
+  .programme-when{
+    display:inline-block;
+    font-size:0.82rem;
+    font-weight:600;
+    color:var(--forest);
+    background:var(--sand);
+    padding:0.3em 0.8em;
+    border-radius:999px;
+  }
+
+  @media (max-width:900px){
+    .programmes-layout{grid-template-columns:1fr}
+    .programme-photo-wrap{position:static;aspect-ratio:16/9}
+  }
+  @media (max-width:560px){
+    .programme-cards{grid-template-columns:1fr}
+  }
+
+  /* ===== Events ===== */
+  .events-list{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+  }
+  .event-row{
+    display:grid;
+    grid-template-columns:96px 1fr;
+    gap:1.3rem;
+    align-items:center;
+    background:#fff;
+    border-radius:var(--r-md);
+    padding:1.2rem 1.4rem;
+    border:2px solid var(--sand-deep);
+  }
+  .event-date{
+    background:var(--forest);
+    color:var(--sand);
+    border-radius:var(--r-sm);
+    text-align:center;
+    padding:0.7em 0.4em;
+  }
+  .event-date .day{
+    display:block;
+    font-family:var(--display);
+    font-weight:800;
+    font-size:1.5rem;
+    line-height:1;
+  }
+  .event-date .mon{
+    display:block;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin-top:0.3em;
+  }
+  .event-row h3{font-size:1.1rem;margin-bottom:0.2em}
+  .event-row p{font-size:0.92rem;color:#453f34;margin-bottom:0}
+
+  @media (max-width:520px){
+    .event-row{grid-template-columns:70px 1fr;gap:1rem;padding:1rem}
+    .event-date .day{font-size:1.2rem}
+  }
+
+  /* ===== Volunteer strip ===== */
+  .volunteer-strip{
+    background:var(--forest);
+    color:var(--sand);
+    border-radius:var(--r-lg);
+    padding:clamp(2rem, 4vw, 3rem);
+    text-align:center;
+  }
+  .volunteer-strip h2{color:var(--sand);font-size:clamp(1.6rem, 3vw, 2.1rem)}
+  .volunteer-strip p{
+    max-width:56ch;
+    margin-inline:auto;
+    color:rgba(243,233,215,0.9);
+    font-size:1.05rem;
+  }
+  .volunteer-strip .btn-sunshine{margin-top:0.6rem}
+
+  /* ===== Supporters ===== */
+  .supporters-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem 1.2rem;
+    justify-content:center;
+    text-align:center;
+  }
+  .supporters-row span{
+    font-weight:600;
+    color:#5c5546;
+    font-size:0.98rem;
+  }
+  .supporters-row span:not(:last-child)::after{
+    content:"·";
+    margin-left:1.2rem;
+    color:var(--sunshine-deep);
+  }
+
+  /* ===== Newsletter ===== */
+  .newsletter-card{
+    background:var(--sunshine);
+    border-radius:var(--r-lg);
+    padding:clamp(1.8rem, 3.5vw, 2.6rem);
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:1.5rem;
+    align-items:center;
+  }
+  .newsletter-copy h2{font-size:clamp(1.4rem, 2.6vw, 1.8rem);margin-bottom:0.3em}
+  .newsletter-copy p{color:#453f27;margin-bottom:0;font-size:0.95rem}
+  .newsletter-form{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.7rem;
+  }
+  .newsletter-form input[type="email"]{
+    font-family:var(--body);
+    font-size:0.95rem;
+    padding:0.85em 1.2em;
+    border-radius:999px;
+    border:2px solid var(--forest-deep);
+    min-width:220px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .newsletter-helper{
+    width:100%;
+    font-size:0.8rem;
+    color:#5c5127;
+    margin-top:0.4rem;
+  }
+
+  @media (max-width:760px){
+    .newsletter-card{grid-template-columns:1fr}
+  }
+
+  /* ===== Footer ===== */
+  footer.site-footer{
+    padding-block:2.5rem;
+    background:var(--forest-deep);
+    color:rgba(243,233,215,0.85);
+  }
+  .footer-grid{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:1.5rem;
+    font-size:0.88rem;
+  }
+  .footer-grid a{
+    color:rgba(243,233,215,0.85);
+    text-decoration:none;
+    border-bottom:1px solid rgba(243,233,215,0.35);
+  }
+  .footer-grid a:hover{color:var(--sunshine);border-color:var(--sunshine)}
+  .footer-charity{font-weight:600;color:var(--sand)}
+
+  /* ===== Demo bar ===== */
+  .ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}
+  .ss-demo-bar a:hover{color:#ff4b2e}
+  @media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wrap">
+    <a href="#top" class="brandname">Harbourside Community Trust</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" onclick="var n=document.getElementById('primary-nav');var open=n.classList.toggle('open');this.setAttribute('aria-expanded',open?'true':'false');this.textContent=open?'Close':'Menu';">Menu</button>
+    <ul class="navlinks" id="primary-nav">
+      <li><a href="#programmes">Programmes</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#volunteer">Volunteer</a></li>
+      <li><a class="btn btn-sunshine" href="#">Donate</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="wrap">
+      <div>
+        <span class="hero-eyebrow">Lower Hutt, since 2012</span>
+        <h1 id="hero-heading">Everyone eats. Everyone belongs.</h1>
+        <p class="hero-lede">Harbourside Community Trust runs the kai nights, mentoring, and classes that keep our corner of the Hutt connected. No means-testing at the door — just a chair, a plate, and a welcome.</p>
+        <div class="hero-cta-row">
+          <a class="btn btn-forest" href="#volunteer">Volunteer</a>
+          <a class="btn btn-outline" href="#">Donate</a>
+        </div>
+      </div>
+      <div class="hero-photo-wrap">
+        <img src="../assets/img/gal-pasifika.jpg" alt="A community gathering in full swing, with people dancing and celebrating together.">
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="impact-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-eyebrow">Our impact</span>
+        <h2 id="impact-heading">What last year looked like</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-num">1,200</span>
+          <span class="stat-label">Meals shared last year</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">85</span>
+          <span class="stat-label">Active volunteers</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">6</span>
+          <span class="stat-label">Weekly programmes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">14</span>
+          <span class="stat-label">Years serving the Hutt</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="programmes" aria-labelledby="programmes-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-eyebrow">Programmes</span>
+        <h2 id="programmes-heading">Something on most nights of the week</h2>
+        <p>Every programme is free to attend. Turn up once, or turn up every week — both are welcome.</p>
+      </div>
+      <div class="programmes-layout">
+        <div class="programme-photo-wrap">
+          <img src="../assets/img/archive/ar-kitchen.jpg" alt="Volunteers preparing food together in the community kitchen.">
+        </div>
+        <div class="programme-cards">
+          <div class="programme-card">
+            <h3>Kai nights</h3>
+            <p>A shared meal, cooked by volunteers, open to anyone who wants company or a hot plate of food.</p>
+            <span class="programme-when">Tuesdays, 6pm</span>
+          </div>
+          <div class="programme-card">
+            <h3>Youth mentoring</h3>
+            <p>One-on-one mentoring for local teens, matched with a trained volunteer for the school year.</p>
+            <span class="programme-when">Wednesdays, 4pm</span>
+          </div>
+          <div class="programme-card">
+            <h3>English conversation classes</h3>
+            <p>Informal, friendly practice for new migrants and refugees — no enrolment or test, just conversation.</p>
+            <span class="programme-when">Thursdays, 10am</span>
+          </div>
+          <div class="programme-card">
+            <h3>Community garden</h3>
+            <p>A shared plot behind the hall — bring gumboots, take home vegetables, meet your neighbours.</p>
+            <span class="programme-when">Saturdays, 9am</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="events" aria-labelledby="events-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-eyebrow">What's on</span>
+        <h2 id="events-heading">Upcoming events</h2>
+      </div>
+      <div class="events-list">
+        <div class="event-row">
+          <div class="event-date"><span class="day">12</span><span class="mon">Jul</span></div>
+          <div>
+            <h3>Matariki kai night</h3>
+            <p>A larger shared meal marking Matariki, with storytelling from local kaumātua.</p>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-date"><span class="day">26</span><span class="mon">Jul</span></div>
+          <div>
+            <h3>Garden working bee</h3>
+            <p>Turning over the winter beds and building two new raised planters — all hands welcome.</p>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-date"><span class="day">09</span><span class="mon">Aug</span></div>
+          <div>
+            <h3>Volunteer welcome evening</h3>
+            <p>Meet the team, hear how each programme runs, and find the role that suits you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="volunteer" aria-labelledby="volunteer-heading">
+    <div class="wrap">
+      <div class="volunteer-strip">
+        <h2 id="volunteer-heading">We always need more hands</h2>
+        <p>Whether it's an hour a week in the kitchen or a school term mentoring a young person, there's a role that fits around your life. No experience needed — just a willingness to show up.</p>
+        <a class="btn btn-sunshine" href="mailto:volunteer@harboursidetrust.org.nz?subject=Volunteering%20enquiry">Start volunteering</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="supporters-heading">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="section-eyebrow">With thanks</span>
+        <h2 id="supporters-heading">Supported by</h2>
+      </div>
+      <div class="supporters-row">
+        <span>Hutt Valley Rotary</span>
+        <span>Petone Rotary</span>
+        <span>Seaview Marine Supplies</span>
+        <span>Ava Grocer</span>
+        <span>Lower Hutt Community Fund</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="newsletter-heading">
+    <div class="wrap">
+      <div class="newsletter-card">
+        <div class="newsletter-copy">
+          <h2 id="newsletter-heading">Stay in the loop</h2>
+          <p>One email a month — programme updates, upcoming events, and where the help is needed most.</p>
+        </div>
+        <form class="newsletter-form" onsubmit="return false;">
+          <label class="sr-only" for="newsletter-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">Email address</label>
+          <input type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email">
+          <button class="btn btn-clay" type="button">Subscribe</button>
+          <span class="newsletter-helper">Goes live with your build.</span>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <span class="footer-charity">Registered Charitable Trust — Lower Hutt, New Zealand</span>
+      <span><a href="mailto:hello@harboursidetrust.org.nz">hello@harboursidetrust.org.nz</a> · <a href="tel:+6445661029">04 566 1029</a></span>
+      <span>© 2026 Harbourside Community Trust. Fictional trust, built for demonstration.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="ss-demo-bar" role="note">
+  <span class="ss-demo-label">Template demo · <strong>The Commons</strong> · a Singh Studio build</span>
+  <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Commons">Make it yours →</a></span>
+</div>
+
+</body>
+</html>

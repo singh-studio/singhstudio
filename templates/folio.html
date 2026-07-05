@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo: ELLISON — a Singh Studio template</title>
+<meta name="description" content="Demo site for Ellison, a fictional Wellington photographer. A live example of The Folio, Singh Studio's editorial portfolio template for photographers and artists.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/img/ss-logo.png">
+<meta name="theme-color" content="#fafaf8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fafaf8;
+    --ink:#141414;
+    --ink-soft:#4a4a46;
+    --ink-faint:#8a8a83;
+    --klein:#2b3cff;
+    --line:rgba(20,20,20,.14);
+    --bar-h:52px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Manrope",ui-sans-serif,system-ui,sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    padding-bottom:calc(var(--bar-h) + 10px);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;height:auto}
+  a{color:inherit;text-decoration:none}
+  p{margin:0}
+  ul{margin:0;padding:0;list-style:none}
+  h1,h2,h3{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-weight:300;letter-spacing:-0.01em;line-height:1}
+  .serif-i{font-style:italic}
+  .wrap{max-width:1320px;margin-inline:auto;padding-inline:clamp(1.15rem,4.5vw,3.5rem)}
+  .label{font-family:"Manrope",sans-serif;font-weight:600;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint)}
+  .label-klein{color:var(--klein)}
+  :focus-visible{outline:2px solid var(--klein);outline-offset:4px}
+  .skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--paper);padding:.6rem 1rem;font-weight:600;z-index:1200;font-size:.85rem}
+  .skip:focus{left:0}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+    .reveal{opacity:1 !important;transform:none !important}
+  }
+
+  /* ===== header ===== */
+  .site-head{position:fixed;top:0;left:0;right:0;z-index:600;background:rgba(250,250,248,.78);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s ease,background .3s ease}
+  .site-head.scrolled{border-color:var(--line)}
+  .head-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.55rem;letter-spacing:.32em;text-transform:uppercase;padding-left:.32em}
+  .head-nav{display:flex;gap:2.2rem}
+  .head-nav a{font-family:"Manrope",sans-serif;font-weight:600;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);transition:color .18s ease;display:flex;align-items:center;padding-block:1.15em}
+  .head-nav a:hover{color:var(--klein)}
+  @media (max-width:560px){.head-nav{gap:1.3rem}.head-nav a{font-size:.68rem;letter-spacing:.1em}.brand{font-size:1.3rem;letter-spacing:.24em}}
+
+  /* ===== hero ===== */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:clamp(2rem,6vw,5rem)}
+  .hero-figure{position:absolute;inset:0;z-index:0;margin:0;overflow:hidden}
+  .hero-figure img{width:100%;height:100%;object-fit:cover;object-position:center 28%}
+  .hero-figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,20,.28) 0%,transparent 26%,transparent 55%,rgba(20,20,20,.42) 100%)}
+  .hero-inner{position:relative;z-index:2;width:100%}
+  .hero-sub{color:#fafaf8;margin-bottom:.4rem;mix-blend-mode:normal}
+  .hero-name{font-family:"Cormorant Garamond",serif;font-weight:300;color:#fafaf8;font-size:clamp(4.2rem,20vw,17rem);letter-spacing:-0.02em;line-height:.82;margin-left:-.02em;text-shadow:0 2px 40px rgba(0,0,0,.25)}
+  .hero-scroll{position:absolute;bottom:clamp(2rem,6vw,5rem);right:0;z-index:2;color:#fafaf8;display:flex;align-items:center;gap:.6rem}
+  .hero-scroll .label{color:rgba(250,250,248,.85)}
+  .hero-scroll .rule{width:44px;height:1px;background:rgba(250,250,248,.7)}
+  @media (max-width:640px){.hero-scroll{display:none}}
+
+  /* ===== section intro ===== */
+  .sec-intro{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding-block:clamp(3.5rem,7vw,6rem) clamp(1.8rem,4vw,3rem)}
+  .sec-intro h2{font-size:clamp(2.4rem,7vw,5rem)}
+  .sec-intro .count{font-family:"Manrope",sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ===== work / masonry ===== */
+  .masonry{columns:3;column-gap:clamp(1rem,2.2vw,2rem)}
+  @media (max-width:1000px){.masonry{columns:2}}
+  @media (max-width:600px){.masonry{columns:1}}
+  .shot{position:relative;break-inside:avoid;margin-bottom:clamp(1rem,2.2vw,2rem);overflow:hidden;background:#eeeeea}
+  .shot img{width:100%;height:auto;transition:transform .9s cubic-bezier(.2,.7,.2,1),filter .5s ease}
+  .shot:hover img{transform:scale(1.035)}
+  .shot figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.4rem 1.3rem 1.15rem;
+    background:linear-gradient(0deg,rgba(20,20,20,.72),transparent);
+    color:#fafaf8;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;
+    opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease}
+  .shot:hover figcaption,.shot:focus-within figcaption{opacity:1;transform:translateY(0)}
+  .shot .cap-title{font-family:"Cormorant Garamond",serif;font-weight:400;font-style:italic;font-size:1.5rem;line-height:1.1}
+  .shot .cap-cat{font-family:"Manrope",sans-serif;font-weight:600;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:#c9ceff;white-space:nowrap;padding-bottom:.35rem}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ===== about ===== */
+  .about{padding-block:clamp(4.5rem,10vw,8rem)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem)}
+  @media (max-width:820px){.about-grid{grid-template-columns:1fr;gap:2.5rem}}
+  .about-lead{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(1.8rem,3.6vw,2.9rem);line-height:1.18;letter-spacing:-0.01em}
+  .about-lead .serif-i{color:var(--ink-soft)}
+  .about-body p{color:var(--ink-soft);font-size:1.02rem;margin-bottom:1.2rem;max-width:46ch}
+  .about-body p:last-child{margin-bottom:0}
+  .services{margin-top:2.5rem;border-top:1px solid var(--line)}
+  .services li{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+  .services li span:first-child{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400;font-size:1.4rem}
+  .services li span:last-child{font-family:"Manrope",sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+  .rates{margin-top:1.8rem;font-family:"Manrope",sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--klein)}
+
+  /* ===== clients ===== */
+  .clients{padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+  .clients .label{display:block;margin-bottom:1.6rem}
+  .clients-line{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:.2rem;row-gap:.4rem;font-family:"Manrope",sans-serif;font-weight:600;font-size:clamp(.72rem,1.6vw,.86rem);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);line-height:2.2;max-width:64ch;margin-inline:auto}
+  .clients-line>span{white-space:nowrap}
+  .clients-line .sep{color:var(--ink-faint);padding-inline:.5rem}
+
+  /* ===== contact ===== */
+  .contact{padding-block:clamp(5rem,11vw,9rem) clamp(3rem,6vw,5rem)}
+  .contact .label{display:block;margin-bottom:1.4rem}
+  .contact-mail{display:inline-block;font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(2.4rem,8vw,6.5rem);letter-spacing:-0.02em;line-height:.95;transition:color .25s ease}
+  .contact-mail:hover{color:var(--klein)}
+  .contact-meta{display:flex;flex-wrap:wrap;gap:.6rem 3rem;margin-top:3rem;color:var(--ink-soft);font-size:.95rem}
+  .contact-meta b{font-family:"Manrope",sans-serif;font-weight:600;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:.35rem}
+
+  /* ===== footer ===== */
+  footer{border-top:1px solid var(--line);padding-block:2.4rem 2rem}
+  .foot-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .foot-brand{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.3rem;letter-spacing:.3em;text-transform:uppercase;padding-left:.3em}
+  .foot-inner p{font-family:"Manrope",sans-serif;font-size:.74rem;letter-spacing:.06em;color:var(--ink-faint)}
+  .foot-credit{font-style:italic;font-family:"Cormorant Garamond",serif !important;font-size:.98rem !important;letter-spacing:0 !important;color:var(--ink-soft) !important}
+
+  /* ===== demo bar ===== */
+  .ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}
+  .ss-demo-bar a:hover{color:#ff4b2e}
+  @media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Skip to work</a>
+
+<header class="site-head" id="siteHead">
+  <div class="wrap head-inner">
+    <a class="brand" href="#top" aria-label="Ellison home">Ellison</a>
+    <nav class="head-nav" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" aria-label="Introduction">
+    <figure class="hero-figure">
+      <img src="../assets/img/hero-dancer-red.jpg" width="1500" height="2000" alt="A dancer in a flowing red garment caught mid-movement against a dark studio backdrop." fetchpriority="high">
+    </figure>
+    <div class="wrap hero-inner">
+      <p class="hero-sub label">Photographer — Te Whanganui-a-Tara</p>
+      <h1 class="hero-name">Ellison</h1>
+    </div>
+    <div class="wrap hero-scroll" aria-hidden="true">
+      <span class="label">Scroll</span><span class="rule"></span>
+    </div>
+  </section>
+
+  <!-- ===== WORK ===== -->
+  <section id="work" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="sec-intro">
+        <h2 id="work-h">Selected <span class="serif-i">work</span></h2>
+        <span class="count">Twelve frames · 2019–2026</span>
+      </div>
+
+      <div class="masonry">
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/gal-brass-rain.jpg" width="600" height="663" loading="lazy" alt="A brass band musician playing in the rain, water beading on the instrument.">
+          <figcaption><span class="cap-title">Brass in the rain</span><span class="cap-cat label-klein">Documentary</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-dancer-dark.jpg" width="600" height="800" loading="lazy" alt="A lone dancer lit from one side against near-black, arms extended.">
+          <figcaption><span class="cap-title">Held breath</span><span class="cap-cat label-klein">Movement</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/gal-braided-river.jpg" width="600" height="400" loading="lazy" alt="An aerial view of a braided river winding across a wide South Island plain.">
+          <figcaption><span class="cap-title">Braided river, Canterbury</span><span class="cap-cat label-klein">Landscape</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-window-light.jpg" width="600" height="789" loading="lazy" alt="A figure standing in soft light beside a tall window, face turned away.">
+          <figcaption><span class="cap-title">Window light</span><span class="cap-cat label-klein">Portrait</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/gal-kakahu.jpg" width="600" height="338" loading="lazy" alt="A finely woven kākahu cloak laid out, feathers catching the light.">
+          <figcaption><span class="cap-title">Kākahu</span><span class="cap-cat label-klein">Documentary</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-dancers-leap.jpg" width="600" height="450" loading="lazy" alt="Two dancers mid-leap in unison, feet clear of the floor.">
+          <figcaption><span class="cap-title">Two, mid-air</span><span class="cap-cat label-klein">Movement</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-orange-cloth.jpg" width="600" height="800" loading="lazy" alt="A dancer wrapped in bright orange cloth swirling around the body.">
+          <figcaption><span class="cap-title">Orange, in motion</span><span class="cap-cat label-klein">Movement</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/gal-ferry-teal.jpg" width="600" height="355" loading="lazy" alt="A Cook Strait ferry crossing teal-green water under a pale sky.">
+          <figcaption><span class="cap-title">Crossing the strait</span><span class="cap-cat label-klein">Landscape</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-alley-bw.jpg" width="600" height="762" loading="lazy" alt="A black-and-white study of a narrow city alley with a single passing figure.">
+          <figcaption><span class="cap-title">Alley, after rain</span><span class="cap-cat label-klein">Documentary</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-bride-bouquet.jpg" width="600" height="456" loading="lazy" alt="A bride holding a loose wildflower bouquet, hands and flowers in close focus.">
+          <figcaption><span class="cap-title">The bouquet</span><span class="cap-cat label-klein">Portrait</span></figcaption>
+        </figure>
+        <figure class="shot reveal" tabindex="0">
+          <img src="../assets/img/archive/ar-snow-range.jpg" width="600" height="419" loading="lazy" alt="A snow-covered mountain range under low cloud, ridgelines fading into distance.">
+          <figcaption><span class="cap-title">Snowline</span><span class="cap-cat label-klein">Landscape</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about" id="about" aria-labelledby="about-h">
+    <div class="wrap about-grid">
+      <div>
+        <span class="label" id="about-h">About</span>
+        <p class="about-lead" style="margin-top:1.4rem">Ellison makes photographs about <span class="serif-i">movement, weather and the moment just before</span> something happens.</p>
+      </div>
+      <div class="about-body">
+        <p>Based in Te Whanganui-a-Tara Wellington, Ellison has spent the better part of a decade photographing dancers, ceremonies and the wilder edges of the New Zealand coast. The work sits somewhere between documentary and portrait — patient, quiet, and unhurried, always waiting for the frame to arrive rather than forcing it.</p>
+        <p>Commissions have taken the practice from black-sand beaches on the west coast to marae, editorial studios and the occasional wedding marquee in a southerly. Every project starts with a conversation and a walk, and ends with a considered edit — never a memory card dumped into a folder.</p>
+        <ul class="services">
+          <li><span>Weddings &amp; ceremonies</span><span>Full day</span></li>
+          <li><span>Editorial &amp; portraits</span><span>Studio or location</span></li>
+          <li><span>Documentary commissions</span><span>By project</span></li>
+        </ul>
+        <p class="rates">Rates on enquiry</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CLIENTS ===== -->
+  <section class="clients" aria-label="Selected clients">
+    <div class="wrap">
+      <span class="label">Selected clients</span>
+      <p class="clients-line">
+        <span>Royal NZ Ballet</span><span class="sep">/</span><span>Te Papa Tongarewa</span><span class="sep">/</span><span>Kōwhai Press</span><span class="sep">/</span><span>Wellington Festival</span><span class="sep">/</span><span>Manawa Collective</span><span class="sep">/</span><span>Fern &amp; Field Weddings</span><span class="sep">/</span><span>Southerly Journal</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <span class="label" id="contact-h">Contact</span>
+      <a class="contact-mail" href="mailto:hello@ellison.example">hello@ellison.example</a>
+      <div class="contact-meta">
+        <span><b>Studio</b>Te Aro, Wellington 6011</span>
+        <span><b>Enquiries</b>Weddings, editorial &amp; commissions</span>
+        <span><b>Instagram</b>@ellison.photo</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <span class="foot-brand">Ellison</span>
+      <p class="foot-credit">Photography from the Singh Studio archive.</p>
+      <p>© 2026 Ellison · A fictional demo</p>
+    </div>
+  </footer>
+
+</main>
+
+<div class="ss-demo-bar" role="note">
+  <span class="ss-demo-label">Template demo · <strong>The Folio</strong> · a Singh Studio build</span>
+  <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Folio">Make it yours →</a></span>
+</div>
+
+<script>
+  (function(){
+    // subtle header hairline on scroll
+    var head=document.getElementById('siteHead');
+    if(head){
+      var onScroll=function(){head.classList.toggle('scrolled',window.scrollY>40);};
+      onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+    }
+    // reveal-on-scroll, reduced-motion guarded
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var items=document.querySelectorAll('.reveal');
+    if(reduce||!('IntersectionObserver'in window)){
+      items.forEach(function(el){el.classList.add('in');});
+      return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    items.forEach(function(el){io.observe(el);});
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Demo: North End Candle Co. — a Singh Studio template</title>
+<meta name="description" content="North End Candle Co. — a fictional Petone candlemaker. A working demo of Singh Studio's small-retail &amp; product template: shop grid, hero product, stockists and newsletter.">
+<link rel="icon" href="../assets/img/ss-logo.png">
+<meta name="theme-color" content="#f1eae0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   NORTH END CANDLE CO. — Singh Studio template demo
+   Palette: bone / ink / moss / flame amber
+   Type: DM Serif Display (display) · Karla (body/UI)
+   ============================================================ */
+
+:root{
+  --bone: #f1eae0;
+  --bone-2: #e8dfd1;
+  --ink: #221f1b;
+  --ink-soft: #4a453e;
+  --moss: #59604a;
+  --moss-dark: #454a39;
+  --amber: #d98324;
+  --amber-dark: #b56b1a;
+  --amber-glow: #ffb35c;
+  --line: rgba(34,31,27,0.14);
+  --line-soft: rgba(34,31,27,0.08);
+  --paper: #faf6ef;
+
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --wrap: min(1180px, 92vw);
+  --radius: 14px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after{ box-sizing: border-box; margin:0; padding:0; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  padding-bottom: 4.75rem; /* clearance for fixed demo bar (wraps to 2 lines at narrow widths) */
+  overflow-x: hidden;
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+ul{ list-style:none; }
+button{ font: inherit; color: inherit; }
+
+h1,h2,h3{
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+/* Focus visibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible{
+  outline: 2.5px solid var(--amber-dark);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.skip-link{
+  position:absolute; left:1rem; top:-4rem;
+  background: var(--ink); color: var(--bone);
+  padding: .7rem 1.1rem; font-weight:600; font-size:.85rem;
+  border-radius: 0 0 8px 8px;
+  z-index: 500;
+  transition: top .2s var(--ease);
+}
+.skip-link:focus{ top:0; }
+
+.wrap{ width: var(--wrap); margin-inline: auto; }
+
+/* ---------- Announcement bar ---------- */
+.announce{
+  background: var(--moss);
+  color: var(--bone);
+  text-align: center;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  padding: .55rem 1rem;
+}
+
+/* ---------- Nav ---------- */
+.site-nav{
+  position: sticky; top:0; z-index: 60;
+  background: rgba(241,234,224,0.92);
+  backdrop-filter: blur(10px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+}
+.site-nav .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  gap: 1.5rem;
+  padding-block: 1.05rem;
+}
+.wordmark{
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: .01em;
+  display:flex; align-items:baseline; gap:.35rem;
+}
+.wordmark em{ font-style: italic; color: var(--amber); }
+
+.nav-links{
+  display:flex; align-items:center; gap: clamp(1.2rem, 3vw, 2.2rem);
+}
+.nav-links a{
+  text-decoration:none;
+  font-weight: 600;
+  font-size: .95rem;
+  position: relative;
+  padding-block: .2rem;
+}
+.nav-links a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-2px;
+  height: 2px; background: var(--amber);
+  transition: right .25s var(--ease);
+}
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after{ right:0; }
+
+.cart-btn{
+  display:flex; align-items:center; gap:.5rem;
+  background: var(--ink); color: var(--bone);
+  border:0; border-radius: 999px;
+  padding: .55rem 1.1rem;
+  font-weight:700; font-size:.88rem;
+  cursor: not-allowed;
+  opacity: .92;
+}
+.cart-btn svg{ width:17px; height:17px; }
+.cart-count{
+  background: var(--amber); color: var(--ink);
+  border-radius:999px; min-width:1.35rem; height:1.35rem;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:.72rem; font-weight:800;
+  padding-inline: .15rem;
+}
+
+/* ================= CANDLE COMPONENT =================
+   .candle = container; modifiers set size + vessel tint.
+   Structure: vessel (gradient) > wax-top (highlight) > wick > flame (glow)
+   sitting on an oval shadow.
+======================================================== */
+.candle{
+  --vs: 1;                 /* vessel scale */
+  --v1: #e7ded0;           /* vessel top tint */
+  --v2: #cabf9e;           /* vessel base tint */
+  --wax: #f6f1e6;          /* wax surface */
+  position: relative;
+  width: calc(96px * var(--vs));
+  height: calc(128px * var(--vs));
+  margin-inline:auto;
+}
+.candle .shadow{
+  position:absolute; left:50%; bottom:calc(-10px * var(--vs));
+  width: calc(84px * var(--vs)); height: calc(18px * var(--vs));
+  background: radial-gradient(ellipse at center, rgba(34,31,27,0.28), rgba(34,31,27,0) 72%);
+  transform: translateX(-50%);
+  filter: blur(1px);
+}
+.candle .vessel{
+  position:absolute; left:0; right:0; bottom:0;
+  height: calc(104px * var(--vs));
+  border-radius: calc(13px * var(--vs)) calc(13px * var(--vs)) calc(17px * var(--vs)) calc(17px * var(--vs));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--v1) 88%, white) 0%, var(--v1) 22%, var(--v2) 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.55),
+    inset 0 -14px 20px rgba(34,31,27,.16),
+    0 10px 18px -8px rgba(34,31,27,.35);
+}
+.candle .vessel::before{ /* rim highlight sheen */
+  content:"";
+  position:absolute; top:calc(6px * var(--vs)); left:calc(8px * var(--vs));
+  width: calc(14px * var(--vs)); height: calc(60% * 1);
+  border-radius: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0) 80%);
+  filter: blur(1px);
+  opacity:.8;
+}
+.candle .wax{
+  position:absolute; left: calc(6px * var(--vs)); right: calc(6px * var(--vs));
+  top: calc(-6px * var(--vs));
+  height: calc(14px * var(--vs));
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 38% 35%, #fffdf8, var(--wax) 60%, color-mix(in srgb, var(--wax) 70%, var(--v2)) 100%);
+  box-shadow: 0 1px 2px rgba(34,31,27,.15);
+}
+.candle .wick{
+  position:absolute; left:50%; top: calc(-16px * var(--vs));
+  width: 2px; height: calc(12px * var(--vs));
+  background: linear-gradient(180deg,#3a2f22,#171310);
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+.candle .flame{
+  position:absolute; left:50%; top: calc(-38px * var(--vs));
+  width: calc(13px * var(--vs)); height: calc(20px * var(--vs));
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 70%, #fff6d8 0%, var(--amber-glow) 38%, var(--amber) 68%, var(--amber-dark) 100%);
+  border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+  box-shadow:
+    0 0 10px 3px rgba(217,131,36,.55),
+    0 0 26px 10px rgba(217,131,36,.28),
+    0 0 48px 20px rgba(255,179,92,.14);
+  animation: flicker 3.2s ease-in-out infinite;
+}
+.candle .flame::after{
+  content:"";
+  position:absolute; inset: 28% 30% 18% 30%;
+  background: radial-gradient(circle, #fffef0, rgba(255,254,240,0) 70%);
+  border-radius:50%;
+}
+@keyframes flicker{
+  0%, 100%{ transform: translateX(-50%) scale(1) rotate(0deg); }
+  20%{ transform: translateX(-50%) scale(1.03,0.97) rotate(-1.5deg); }
+  45%{ transform: translateX(-52%) scale(0.97,1.04) rotate(1deg); }
+  70%{ transform: translateX(-48%) scale(1.02,0.98) rotate(-1deg); }
+  85%{ transform: translateX(-50%) scale(1,1.02) rotate(0.5deg); }
+}
+@media (prefers-reduced-motion: reduce){
+  .candle .flame{ animation:none; }
+}
+
+/* Size modifiers */
+.candle--lg{ --vs: 1.85; }
+.candle--md{ --vs: 1; }
+.candle--sm{ --vs: .82; }
+
+/* Vessel tint modifiers (per scent) */
+.candle--smoke{  --v1:#dcd6c6; --v2:#8f8a76; --wax:#efe9da; }
+.candle--doris{  --v1:#e3c9c6; --v2:#8c4a49; --wax:#f4e3df; }
+.candle--light{  --v1:#f2e6c9; --v2:#d9b45c; --wax:#fbf3df; }
+.candle--bush{   --v1:#d6ddc6; --v2:#5f6e46; --wax:#f0f3e2; }
+.candle--rain{   --v1:#cdd8d9; --v2:#4c6a6d; --wax:#e9f1f1; }
+.candle--library{--v1:#ddd0bb; --v2:#7a5b3a; --wax:#f2e9d7; }
+.candle--sunday{ --v1:#ecdcd0; --v2:#c98a55; --wax:#faf0e4; }
+
+/* ---------- Hero ---------- */
+.hero{
+  padding-block: clamp(3rem, 7vw, 6rem);
+  border-bottom: 1px solid var(--line);
+}
+.hero .wrap{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  align-items:center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+.hero-art{
+  display:flex; align-items:center; justify-content:center;
+  min-height: 320px;
+  background:
+    radial-gradient(ellipse at 50% 78%, rgba(89,96,74,.14), rgba(89,96,74,0) 60%),
+    var(--paper);
+  border-radius: calc(var(--radius) + 10px);
+  border: 1px solid var(--line-soft);
+  padding: 2.5rem 1rem;
+}
+.hero-copy .kicker{
+  display:inline-block;
+  font-weight:700; font-size:.78rem;
+  letter-spacing:.12em; text-transform:uppercase;
+  color: var(--moss-dark);
+  margin-bottom: .9rem;
+}
+.hero-copy h1{
+  font-size: clamp(2.4rem, 5.2vw, 4rem);
+  margin-bottom: .9rem;
+}
+.hero-copy h1 em{ font-style:italic; color: var(--amber-dark); }
+.scent-line{
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.4rem;
+  max-width: 42ch;
+}
+.price-row{
+  display:flex; align-items:center; gap:1.4rem;
+  margin-bottom: 1.6rem;
+}
+.price{
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  color: var(--ink);
+}
+.price small{ font-size:.95rem; font-family: var(--font-body); color: var(--ink-soft); font-weight:600; }
+
+.btn{
+  display:inline-flex; align-items:center; gap:.55rem;
+  border:0; border-radius:999px;
+  font-weight:700; font-size:.95rem;
+  padding: .85rem 1.6rem;
+  cursor:pointer;
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-color .18s var(--ease);
+}
+.btn-primary{
+  background: var(--ink); color: var(--bone);
+  box-shadow: 0 8px 18px -8px rgba(34,31,27,.5);
+}
+.btn-primary:hover{ background: var(--amber-dark); transform: translateY(-2px); }
+.btn-primary:active{ transform: translateY(0); }
+
+.btn-sm{
+  padding: .55rem 1.15rem;
+  font-size: .85rem;
+  width: 100%;
+  justify-content:center;
+  background: var(--ink); color: var(--bone);
+  border-radius: 999px;
+}
+.btn-sm:hover{ background: var(--amber-dark); }
+
+/* ---------- Section scaffolding ---------- */
+section{ padding-block: clamp(3.5rem, 7vw, 6rem); }
+.section-head{
+  max-width: 60ch;
+  margin-bottom: clamp(2rem, 5vw, 3.2rem);
+}
+.section-head .kicker{
+  font-weight:700; font-size:.78rem;
+  letter-spacing:.12em; text-transform:uppercase;
+  color: var(--moss-dark);
+  display:block; margin-bottom:.6rem;
+}
+.section-head h2{ font-size: clamp(1.9rem, 4vw, 2.7rem); }
+.section-head p{ color: var(--ink-soft); margin-top:.8rem; font-size:1.05rem; }
+
+.alt-bg{ background: var(--bone-2); }
+
+/* ---------- Shop grid ---------- */
+.shop-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 2.5vw, 2rem);
+}
+.product-card{
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 2rem 1.4rem 1.6rem;
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
+  transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
+}
+.product-card:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px -18px rgba(34,31,27,.35);
+  border-color: rgba(217,131,36,.35);
+}
+.product-card .candle{ margin-bottom: 1.6rem; }
+.product-name{
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin-bottom: .3rem;
+}
+.product-notes{
+  font-size: .88rem;
+  color: var(--ink-soft);
+  margin-bottom: .9rem;
+  min-height: 2.6em;
+}
+.product-price{
+  font-weight:700; font-size:1.05rem;
+  margin-bottom: 1.1rem;
+  color: var(--ink);
+}
+
+/* ---------- Story strip ---------- */
+.story-strip .wrap{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items:start;
+}
+.story-strip h2{ font-size: clamp(2rem, 4.5vw, 3rem); margin-bottom:1.4rem; }
+.story-strip h2 em{ font-style:italic; color: var(--amber-dark); }
+.story-copy p{ margin-bottom: 1.1rem; color: var(--ink-soft); font-size:1.05rem; max-width: 56ch; }
+.story-copy p:last-child{ margin-bottom:0; }
+
+/* ---------- Values ---------- */
+.values-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+}
+.value-card{
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 2.2rem 1.6rem;
+  text-align:center;
+}
+.value-icon{
+  width:52px; height:52px; margin:0 auto 1.2rem;
+  display:flex; align-items:center; justify-content:center;
+  background: var(--bone-2);
+  border-radius:50%;
+  color: var(--moss-dark);
+}
+.value-icon svg{ width:26px; height:26px; }
+.value-card h3{ font-size:1.25rem; margin-bottom:.5rem; }
+.value-card p{ color: var(--ink-soft); font-size:.95rem; }
+
+/* ---------- Stockists ---------- */
+.stockist-row{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+.stockist-card{
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.3rem;
+  background: var(--paper);
+}
+.stockist-card h3{
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom:.35rem;
+}
+.stockist-card p{ font-size:.88rem; color: var(--ink-soft); }
+
+/* ---------- Newsletter ---------- */
+.newsletter{
+  background: var(--ink);
+  color: var(--bone);
+  border-radius: calc(var(--radius) + 8px);
+  padding: clamp(2.2rem, 5vw, 3.5rem);
+  display:flex; align-items:center; justify-content:space-between;
+  gap: 2rem; flex-wrap:wrap;
+}
+.newsletter h2{ font-size: clamp(1.7rem, 3.5vw, 2.3rem); margin-bottom:.4rem; }
+.newsletter h2 em{ font-style:italic; color: var(--amber-glow); }
+.newsletter p{ color: rgba(241,234,224,.72); font-size:.95rem; }
+.newsletter-form{
+  display:flex; gap:.7rem; flex-wrap:wrap;
+  flex: 1 1 380px;
+  max-width: 460px;
+}
+.newsletter-form input{
+  flex:1 1 200px;
+  background: rgba(241,234,224,.08);
+  border: 1px solid rgba(241,234,224,.25);
+  color: var(--bone);
+  border-radius: 999px;
+  padding: .8rem 1.2rem;
+  font: inherit; font-size:.95rem;
+}
+.newsletter-form input::placeholder{ color: rgba(241,234,224,.5); }
+.newsletter-form .btn-primary{
+  background: var(--amber);
+  flex: 0 0 auto;
+}
+.newsletter-form .btn-primary:hover{ background: var(--amber-glow); color: var(--ink); }
+.form-helper{
+  width:100%;
+  font-size:.78rem;
+  color: rgba(241,234,224,.55);
+  margin-top:.3rem;
+}
+
+/* ---------- Footer ---------- */
+footer.site-footer{
+  border-top: 1px solid var(--line);
+  padding-block: 2.6rem;
+}
+.footer-row{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  gap:2rem; flex-wrap:wrap;
+}
+.footer-row .wordmark{ margin-bottom:.6rem; }
+.footer-meta{ font-size:.85rem; color: var(--ink-soft); line-height:1.8; }
+.footer-meta a{ text-decoration:underline; text-underline-offset:2px; }
+.footer-links{ display:flex; gap:1.6rem; flex-wrap:wrap; }
+.footer-links a{ font-size:.85rem; font-weight:600; text-decoration:none; }
+.footer-links a:hover{ color: var(--amber-dark); }
+
+/* ---------- Toast ---------- */
+.toast{
+  position: fixed;
+  left:50%;
+  bottom: calc(3.2rem + 1.1rem);
+  transform: translateX(-50%) translateY(12px);
+  background: var(--ink);
+  color: var(--bone);
+  padding: .9rem 1.4rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  font-weight:600;
+  max-width: min(92vw, 420px);
+  text-align:center;
+  box-shadow: 0 12px 28px -10px rgba(0,0,0,.45);
+  z-index: 900;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .28s var(--ease), transform .28s var(--ease);
+}
+.toast.is-visible{
+  opacity:1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (prefers-reduced-motion: reduce){
+  .toast{ transition: opacity .01ms; transform: translateX(-50%); }
+  .toast.is-visible{ transform: translateX(-50%); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px){
+  .hero .wrap{ grid-template-columns: 1fr; }
+  .hero-art{ order:-1; }
+  .shop-grid{ grid-template-columns: repeat(2, 1fr); }
+  .values-grid{ grid-template-columns: 1fr; }
+  .stockist-row{ grid-template-columns: repeat(2, 1fr); }
+  .story-strip .wrap{ grid-template-columns: 1fr; }
+  .newsletter{ flex-direction:column; align-items:flex-start; }
+}
+
+@media (max-width: 620px){
+  .nav-links{ display:none; }
+  .site-nav .wrap{ justify-content:space-between; }
+  .shop-grid{ grid-template-columns: 1fr 1fr; gap:.9rem; }
+  .product-card{ padding: 1.4rem .9rem 1.2rem; }
+  .stockist-row{ grid-template-columns: 1fr; }
+  .footer-row{ flex-direction:column; }
+}
+
+@media (max-width: 420px){
+  .shop-grid{ grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="announce" role="note">Free NZ shipping over $60</div>
+
+<header>
+  <nav class="site-nav" aria-label="Primary">
+    <div class="wrap">
+      <a href="#main" class="wordmark">North <em>End</em></a>
+      <ul class="nav-links">
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#stockists">Stockists</a></li>
+      </ul>
+      <button type="button" class="cart-btn" title="Demo only" aria-label="Cart, 0 items (demo only)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+        Cart <span class="cart-count">0</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="wrap">
+      <div class="hero-art" aria-hidden="true">
+        <div class="candle candle--lg candle--smoke">
+          <div class="shadow"></div>
+          <div class="vessel"></div>
+          <div class="wax"></div>
+          <div class="wick"></div>
+          <div class="flame"></div>
+        </div>
+      </div>
+      <div class="hero-copy">
+        <span class="kicker">Bestseller</span>
+        <h1 id="hero-heading">Harbour <em>Smoke</em></h1>
+        <p class="scent-line">Toitoi, driftwood &amp; a whisper of sea salt — poured for evenings when the westerly's up.</p>
+        <div class="price-row">
+          <span class="price">$42<small>&nbsp;NZD</small></span>
+        </div>
+        <button type="button" class="btn btn-primary" data-add-to-cart data-product="Harbour Smoke">
+          Add to cart
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP GRID -->
+  <section id="shop" aria-labelledby="shop-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">The range</span>
+        <h2 id="shop-heading">Six scents, one street.</h2>
+        <p>Small-batch pours named for the corners of the harbour we work from. New scents arrive with the seasons.</p>
+      </div>
+
+      <div class="shop-grid">
+
+        <article class="product-card">
+          <div class="candle candle--md candle--doris" aria-hidden="true">
+            <div class="shadow"></div><div class="vessel"></div><div class="wax"></div><div class="wick"></div><div class="flame"></div>
+          </div>
+          <h3 class="product-name">Black Doris</h3>
+          <p class="product-notes">Stewed plum, clove &amp; a dark wax finish.</p>
+          <p class="product-price">$38</p>
+          <button type="button" class="btn-sm" data-add-to-cart data-product="Black Doris">Add to cart</button>
+        </article>
+
+        <article class="product-card">
+          <div class="candle candle--md candle--light" aria-hidden="true">
+            <div class="shadow"></div><div class="vessel"></div><div class="wax"></div><div class="wick"></div><div class="flame"></div>
+          </div>
+          <h3 class="product-name">First Light</h3>
+          <p class="product-notes">Grapefruit, ginger &amp; a bright wash of citrus.</p>
+          <p class="product-price">$36</p>
+          <button type="button" class="btn-sm" data-add-to-cart data-product="First Light">Add to cart</button>
+        </article>
+
+        <article class="product-card">
+          <div class="candle candle--md candle--bush" aria-hidden="true">
+            <div class="shadow"></div><div class="vessel"></div><div class="wax"></div><div class="wick"></div><div class="flame"></div>
+          </div>
+          <h3 class="product-name">Bush Walk</h3>
+          <p class="product-notes">Kawakawa, damp moss &amp; cut fern.</p>
+          <p class="product-price">$40</p>
+          <button type="button" class="btn-sm" data-add-to-cart data-product="Bush Walk">Add to cart</button>
+        </article>
+
+        <article class="product-card">
+          <div class="candle candle--md candle--rain" aria-hidden="true">
+            <div class="shadow"></div><div class="vessel"></div><div class="wax"></div><div class="wick"></div><div class="flame"></div>
+          </div>
+          <h3 class="product-name">Pōneke Rain</h3>
+          <p class="product-notes">Wet concrete, cedar &amp; cool grey musk.</p>
+          <p class="product-price">$40</p>
+          <button type="button" class="btn-sm" data-add-to-cart data-product="Pōneke Rain">Add to cart</button>
+        </article>
+
+        <article class="product-card">
+          <div class="candle candle--md candle--library" aria-hidden="true">
+            <div class="shadow"></div><div class="vessel"></div><div class="wax"></div><div class="wick"></div><div class="flame"></div>
+          </div>
+          <h3 class="product-name">Library</h3>
+          <p class="product-notes">Old paper, sandalwood &amp; a low amber base.</p>
+          <p class="product-price">$48</p>
+          <button type="button" class="btn-sm" data-add-to-cart data-product="Library">Add to cart</button>
+        </article>
+
+        <article class="product-card">
+          <div class="candle candle--md candle--sunday" aria-hidden="true">
+            <div class="shadow"></div><div class="vessel"></div><div class="wax"></div><div class="wick"></div><div class="flame"></div>
+          </div>
+          <h3 class="product-name">Sunday</h3>
+          <p class="product-notes">Fig, warm butter &amp; toasted brown sugar.</p>
+          <p class="product-price">$40</p>
+          <button type="button" class="btn-sm" data-add-to-cart data-product="Sunday">Add to cart</button>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY STRIP -->
+  <section id="story" class="story-strip alt-bg" aria-labelledby="story-heading">
+    <div class="wrap">
+      <div>
+        <h2 id="story-heading">Poured in <em>Petone</em>.</h2>
+      </div>
+      <div class="story-copy">
+        <p>We melt soy wax in a converted garage two streets back from the beach, in batches small enough that one person can keep an eye on every pour. Cotton wicks, no dyes, no shortcuts — if a scent doesn't smell right at the testing stage, it doesn't go in a vessel.</p>
+        <p>Empty jar? Bring it back for a refill at 20% off, or drop it at any of our stockists. We wash, re-pour and relabel — same vessel, new scent if you fancy a change. It's a small system, but it means fewer jars in landfill and a bit more reason to visit the shop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section aria-labelledby="values-heading">
+    <div class="wrap">
+      <h2 id="values-heading" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">What we build around</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path d="M4 21h16"/><path d="M9 7V4a3 3 0 0 1 6 0v3"/></svg></div>
+          <h3>Refillable vessels</h3>
+          <p>Every jar is designed for a second, third and fourth life at our refill counter.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C9 6 7 9 7 12a5 5 0 0 0 10 0c0-3-2-6-5-10Z"/><path d="M12 22v-6"/></svg></div>
+          <h3>Soy &amp; cotton wicks</h3>
+          <p>No paraffin, no dyes, no lead — just soy wax and a plain cotton wick.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 11h18"/><path d="M8 7V4h8v3"/></svg></div>
+          <h3>Made in small batches</h3>
+          <p>We pour in runs of a few dozen, tested and topped up by hand each time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STOCKISTS -->
+  <section id="stockists" class="alt-bg" aria-labelledby="stockists-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Find us</span>
+        <h2 id="stockists-heading">Around the region.</h2>
+        <p>North End candles sit on shelves at a few shops we like, mostly a short drive from home.</p>
+      </div>
+      <div class="stockist-row">
+        <div class="stockist-card">
+          <h3>Jackson Street Mercantile</h3>
+          <p>Petone</p>
+        </div>
+        <div class="stockist-card">
+          <h3>Cuba &amp; Co. General Store</h3>
+          <p>Te Aro, Wellington</p>
+        </div>
+        <div class="stockist-card">
+          <h3>The Kilbirnie Pantry</h3>
+          <p>Kilbirnie, Wellington</p>
+        </div>
+        <div class="stockist-card">
+          <h3>Greytown Home &amp; Gift</h3>
+          <p>Greytown, Wairarapa</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section aria-labelledby="newsletter-heading">
+    <div class="wrap">
+      <div class="newsletter">
+        <div>
+          <h2 id="newsletter-heading">New scents, <em>first</em>.</h2>
+          <p>One email a season. No spam, just what's new at the workbench.</p>
+        </div>
+        <form class="newsletter-form" onsubmit="return false;">
+          <label for="newsletter-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">Email address</label>
+          <input type="email" id="newsletter-email" placeholder="you@example.com" autocomplete="email">
+          <button type="button" class="btn btn-primary">Subscribe</button>
+          <span class="form-helper">Goes live with your build.</span>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <div>
+      <a href="#main" class="wordmark">North <em>End</em></a>
+      <p class="footer-meta">
+        Petone, Wellington · <a href="mailto:hello@northendcandle.co.nz">hello@northendcandle.co.nz</a><br>
+        Returns accepted within 14 days, unused &amp; in original packaging. (Demo copy — no real orders are placed here.)
+      </p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#shop">Shop</a>
+      <a href="#story">Story</a>
+      <a href="#stockists">Stockists</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var toastEl = document.getElementById("toast");
+  var hideTimer = null;
+
+  function showToast(message){
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+    toastEl.textContent = message;
+    toastEl.classList.add("is-visible");
+    hideTimer = setTimeout(function(){
+      toastEl.classList.remove("is-visible");
+      hideTimer = null;
+    }, 3000);
+  }
+
+  var buttons = document.querySelectorAll("[data-add-to-cart]");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function(){
+      showToast("Demo only — your build connects to a real store.");
+    });
+  }
+})();
+</script>
+
+<div class="ss-demo-bar" role="note">
+  <span class="ss-demo-label">Template demo · <strong>The Storefront</strong> · a Singh Studio build</span>
+  <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Storefront">Make it yours →</a></span>
+</div>
+<style>.ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}.ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}.ss-demo-bar a:hover{color:#ff4b2e}@media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}</style>
+
+</body>
+</html>

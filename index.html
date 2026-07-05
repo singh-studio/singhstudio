@@ -1,137 +1,605 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NZ">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SINGH STUDIO | Premium Creative Strategy</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;600&family=Playfair+Display:italic,wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Singh Studio: Web Design &amp; Communications Studio, Aotearoa NZ</title>
+  <meta name="description" content="Singh Studio is a multidisciplinary communications studio in Aotearoa New Zealand — web design first — backed by strategy, apps, AI, photography, film and sound, all in service of the message.">
+  <meta property="og:title" content="Singh Studio — Every discipline. One message.">
+  <meta property="og:description" content="Singh Studio is a multidisciplinary communications studio in Aotearoa New Zealand — web design first — backed by strategy, apps, AI, photography, film and sound, all in service of the message.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Singh Studio">
+  <meta property="og:locale" content="en_NZ">
+  <meta property="og:image" content="https://singhstudio.co.nz/assets/img/hero-kris-portrait.jpg">
+  <meta name="theme-color" content="#0c0b09">
+  <link rel="icon" type="image/png" href="assets/img/ss-logo.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="canonical" href="https://singhstudio.co.nz/">
+  <link rel="prefetch" href="archive.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="assets/fonts/switzer-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Singh Studio",
+    "description": "Multidisciplinary communications studio — strategy, photography, film, audio, web, apps and AI.",
+    "email": "kris@singhstudio.co.nz",
+    "founder": { "@type": "Person", "name": "Kris Singh" },
+    "areaServed": "New Zealand",
+    "knowsAbout": ["Web design","App development","Communications strategy","AI systems","Photography","Video production","Audio production"]
+  }
+  </script>
 </head>
-<body>
+<body data-loading>
 
-    <div class="noise-overlay"></div>
-    <div class="cursor-follower"></div>
+  <!-- ///////////////////////////////////// PRELOADER -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-mark">
+      <span class="lm-s">S</span><span class="lm-dot">·</span><span class="lm-slash">/</span><span class="lm-dot">·</span><span class="lm-s">S</span>
+    </div>
+    <div class="loader-foot">
+      <span class="loader-word">EVERY DISCIPLINE / ONE MESSAGE</span>
+      <span class="loader-count" id="loaderCount">000</span>
+    </div>
+  </div>
 
-    <div class="nav-dock-container">
-        <nav class="nav-dock">
-            <a href="#home" class="nav-item active">Home</a>
-            <div class="nav-divider"></div>
-            <a href="#work" class="nav-item">Work</a>
-            <a href="#services" class="nav-item">Expertise</a>
-            <div class="nav-divider"></div>
-            <a href="#contact" class="nav-item nav-accent">Connect</a>
-        </nav>
+  <!-- ///////////////////////////////////// CHROME -->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor-slash">/</span><span class="cursor-label" id="cursorLabel"></span></div>
+
+  <header class="nav nav-hero" id="nav">
+    <a class="nav-mark" href="#top" aria-label="Singh Studio — home">
+      <span>S</span><span class="nm-dot">·</span><span class="nm-slash">/</span><span class="nm-dot">·</span><span>S</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work"><span class="nl-num">01</span>Work</a>
+      <a href="#index"><span class="nl-num">02</span>Services</a>
+      <a href="templates.html"><span class="nl-num">03</span>Templates</a>
+      <a href="together.html"><span class="nl-num">04</span>Engagements</a>
+      <a href="#studio"><span class="nl-num">05</span>Studio</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-clock" id="navClock" aria-hidden="true">NZ&nbsp;—&nbsp;00:00:00</span>
+      <a class="btn btn-solid btn-book" href="#contact" data-cursor="BOOK">Book a call</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile overlay menu -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu-links" aria-label="Menu">
+      <a href="#work"><em>01</em>Work</a>
+      <a href="#index"><em>02</em>Services</a>
+      <a href="templates.html"><em>03</em>Templates</a>
+      <a href="together.html"><em>04</em>Engagements</a>
+      <a href="#studio"><em>05</em>Studio</a>
+      <a href="#contact" class="menu-cta"><em>06</em>Book a call</a>
+    </nav>
+    <p class="menu-foot">Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz</p>
+  </div>
+
+  <main id="main">
+
+    <!-- ///////////////////////////////////// HERO -->
+    <section class="hero" id="top">
+      <figure class="hero-media" aria-hidden="true" data-plx="0.055">
+        <picture>
+          <source type="image/webp" srcset="assets/img/hero-kris-portrait-900.webp 900w, assets/img/hero-kris-portrait.webp 1800w" sizes="100vw">
+          <img src="assets/img/hero-kris-portrait.jpg"
+             srcset="assets/img/hero-kris-portrait-900.jpg 900w, assets/img/hero-kris-portrait.jpg 1800w"
+             sizes="100vw" width="1800" height="1200" alt="" fetchpriority="high" decoding="async">
+        </picture>
+      </figure>
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <div class="hero-body">
+        <p class="hero-eyebrow" data-reveal>
+          <span class="red">/</span>&nbsp;Websites, films and campaigns for people with something to say, based in Aotearoa&nbsp;New&nbsp;Zealand
+        </p>
+        <h1 class="hero-title" aria-label="Singh Studio">
+          <span class="ht-line"><span class="ht-inner" data-hero-line>SINGH</span></span>
+          <span class="ht-line ht-line-2">
+            <span class="ht-inner" data-hero-line><em class="ht-slash" aria-hidden="true">/</em>STUDIO</span>
+          </span>
+        </h1>
+        <div class="hero-under">
+          <p class="hero-serif" data-reveal style="--i:5">Every discipline, <em>in service of the message.</em></p>
+          <div class="hero-ctas" data-reveal style="--i:6">
+            <a class="btn btn-solid" href="#contact" data-magnetic data-cursor="BOOK">Book a 20-min call</a>
+            <a class="btn btn-ghost" href="#work" data-magnetic data-cursor="GO">See the work</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-foot" aria-hidden="true">
+        <span class="hf-scroll">Scroll<span class="hf-line"></span></span>
+        <span class="hf-frame">FR&nbsp;000&nbsp;—&nbsp;KRIS&nbsp;SINGH&nbsp;/&nbsp;DIRECTOR</span>
+      </div>
+    </section>
+
+    <!-- ///////////////////////////////////// CLIENT PROOF -->
+    <div class="proof">
+      <p class="proof-label">Trusted across Aotearoa<br>10+ years, 25+ organisations</p>
+      <p class="proof-names" aria-label="Selected clients">
+        <span>The Salvation Army NZ</span> <i>/</i>
+        <span>Amplify</span> <i>/</i>
+        <span>More Conference</span> <i>/</i>
+        <span>Band Camp</span> <i>/</i>
+        <span>Joy Florals</span> <i>/</i>
+        <span>Butterfly Builds</span> <i>/</i>
+        <span>Wellington Church Network</span> <i>/</i>
+        <span>Firezone</span> <i>/</i>
+        <span>AFC Financial Care</span> <i>/</i>
+        <span>Peniel Trust</span> <i>/</i>
+        <span>Albany Bays</span> <i>/</i>
+        <span>HardKase</span> <i>/</i>
+        <span>Next Gen</span> <i>/</i>
+        <span>NDCU</span> <i>/</i>
+        <span>MSB Tour</span>
+      </p>
     </div>
 
-    <nav class="nav">
-        <div class="nav__logo">SINGH<span>STUDIO</span></div>
-        <div class="nav__cta"><a href="#contact" class="magnetic-btn">Let's Talk</a></div>
-    </nav>
+    <!-- ///////////////////////////////////// POSITION -->
+    <section class="position section-light" id="position">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">01 /</span> Position</p>
+      </div>
+      <h2 class="position-statement" data-words>
+        Most studios sell deliverables. Singh Studio starts with the message, then builds whatever carries it best: a website, an app, a campaign, a film, a photograph, a room full of sound.
+      </h2>
+    </section>
 
-    <main id="main-wrapper">
-        <section class="hero" id="home">
-            <div class="hero__inner">
-                <div class="hero__text-mask">
-                    <h1 class="hero__title">STRATEGIC <br><span class="italic">Vision</span> BY DESIGN.</h1>
-                </div>
-                <div class="hero__sub">
-                    <p>Singh Studio translates complex ambitions into high-fidelity digital reality.</p>
-                </div>
+    <!-- ///////////////////////////////////// INDEX / DISCIPLINES -->
+    <section class="index" id="index">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">02 /</span> Services</p>
+        <p class="section-note">Seven disciplines. Click to open.</p>
+      </div>
+
+      <div class="index-list" id="indexList">
+
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/01</span>
+            <span class="ix-title">Web Design</span>
+            <span class="ix-tags">design · build · CMS</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>Fast, handsome sites your team can actually run: conference platforms, brand sites and landing pages that read as well as they load.</p>
+              <ul><li>Design systems &amp; UI</li><li>Build &amp; CMS setup</li><li>Performance &amp; SEO</li><li>Care &amp; iteration</li></ul>
             </div>
-            <div class="scroll-indicator"><span>SCROLL</span></div>
-        </section>
+          </div>
+        </div>
 
-        <section class="intro section-padding" id="intro">
-            <div class="container">
-                <h2 class="reveal-text">We don't follow trends. <br> We architect <span>enduring</span> digital legacies.</h2>
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/02</span>
+            <span class="ix-title">Strategy &amp; Comms</span>
+            <span class="ix-tags">positioning · messaging · campaigns · media</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>The thinking layer, and where every job here starts. Positioning, narrative, key messages and the plan for where they travel, whether that’s internal, external, or six columns deep in the press.</p>
+              <ul><li>Comms strategy &amp; planning</li><li>Message architecture</li><li>Campaign development</li><li>Media &amp; issues management</li></ul>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <section class="work-horizontal" id="work">
-            <div class="horizontal-wrapper">
-                <div class="project-strip">
-                    <div class="work__header">
-                        <span class="overline">Selected Projects</span>
-                        <h2 class="huge-text">Portfolio</h2>
-                    </div>
-
-                    <div class="project-slide">
-                        <div class="project-slide__inner">
-                            <div class="project-slide__img" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200')"></div>
-                            <div class="project-slide__content">
-                                <h3>Vanguard Global</h3>
-                                <p>Digital Ecosystem / 2024</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-slide">
-                        <div class="project-slide__inner">
-                            <div class="project-slide__img" style="background-image: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&q=80&w=1200')"></div>
-                            <div class="project-slide__content">
-                                <h3>Ethos Brand</h3>
-                                <p>Identity & Strategy / 2024</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-slide">
-                        <div class="project-slide__inner">
-                            <div class="project-slide__img" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1200')"></div>
-                            <div class="project-slide__content">
-                                <h3>Lumina UI</h3>
-                                <p>SaaS Design / 2023</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/03</span>
+            <span class="ix-title">App Development</span>
+            <span class="ix-tags">product · prototypes · tools</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>Small, sharp software: internal tools, member platforms and prototypes that get an idea in front of real users fast.</p>
+              <ul><li>Product design</li><li>Web apps &amp; platforms</li><li>Rapid prototyping</li><li>Integrations</li></ul>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <section class="services section-padding" id="services">
-            <div class="container">
-                <div class="service-row" data-img="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500">
-                    <span class="service-num">01</span>
-                    <h2 class="service-title">Digital Strategy</h2>
-                    <p class="service-desc">Turning noise into clarity through data-driven communication maps.</p>
-                </div>
-                <div class="service-row" data-img="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=500">
-                    <span class="service-num">02</span>
-                    <h2 class="service-title">Boutique Design</h2>
-                    <p class="service-desc">Editorial-grade UI/UX that prioritizes the user's emotional journey.</p>
-                </div>
-                <div class="service-row" data-img="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500">
-                    <span class="service-num">03</span>
-                    <h2 class="service-title">Development</h2>
-                    <p class="service-desc">Performant, clean code that brings ambitious designs to life seamlessly.</p>
-                </div>
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/04</span>
+            <span class="ix-title">AI Systems</span>
+            <span class="ix-tags">automation · agents · advisory</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>Practical AI wired into real workflows: content pipelines, agents and automations that save Tuesdays, not just make headlines. Plus straight-talking advisory for teams working out where to start.</p>
+              <ul><li>Workflow automation</li><li>Custom agents &amp; assistants</li><li>Content &amp; comms pipelines</li><li>AI strategy &amp; training</li></ul>
             </div>
-            <div class="service-float-img"></div>
-        </section>
+          </div>
+        </div>
 
-        <footer class="footer" id="contact">
-            <div class="footer__marquee">
-                <div class="marquee__inner">
-                    <span>Let's Build Something — Let's Build Something — </span>
-                </div>
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/05</span>
+            <span class="ix-title">Photography</span>
+            <span class="ix-tags">editorial · documentary · commercial</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>Stills that hold a story. Studio builds, brand libraries, events, and the quiet documentary frames in between. See the <a href="#light-table">light table</a> below.</p>
+              <ul><li>Brand &amp; campaign shoots</li><li>Editorial &amp; portraiture</li><li>Events &amp; documentary</li><li>Retouch &amp; colour</li></ul>
             </div>
-            <div class="container footer__main">
-                <a href="mailto:hello@singhstudio.com" class="footer__email">hello@singhstudio.com</a>
-                <div class="footer__bottom">
-                    <p>©2026 Singh Studio</p>
-                    <div class="socials">
-                        <a href="#">LinkedIn</a>
-                        <a href="#">Instagram</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </main>
+          </div>
+        </div>
 
-    <script src="assets/js/main.js"></script>
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/06</span>
+            <span class="ix-title">Video &amp; Film</span>
+            <span class="ix-tags">direction · production · post</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>Concept to colour grade, directed, shot and finished under one roof: brand films, broadcast openers, event coverage and social cuts.</p>
+              <ul><li>Direction &amp; production</li><li>Edit, grade &amp; motion</li><li>Broadcast &amp; event packages</li><li>Social-first formats</li></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ix-row">
+          <button class="ix-head" aria-expanded="false">
+            <span class="ix-num">/07</span>
+            <span class="ix-title">Audio &amp; Music</span>
+            <span class="ix-tags">production · composition · mix</span>
+            <span class="ix-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="ix-body">
+            <div class="ix-body-in">
+              <p>Original score, sound design, podcasts and mixes. The message has a sound, and default library music isn’t it.</p>
+              <ul><li>Music production &amp; composition</li><li>Podcast &amp; voice production</li><li>Sound design for film</li><li>Mix &amp; master</li></ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ///////////////////////////////////// WORK -->
+    <section class="work section-light" id="work">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">03 /</span> Selected work</p>
+        <p class="section-note">Web-led builds. Open a card for the full case.</p>
+      </div>
+
+      <div class="work-grid">
+        <a class="work-card" href="case-amplify.html" data-cursor="CASE">
+          <figure class="wc-media"><img src="assets/img/work-amplify.jpg" alt="Amplify conference website design" width="1600" height="934" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>Amplify Conference</h3>
+            <p class="wc-desc">National youth conference platform, three years running.</p>
+            <p class="wc-tags">Web · Identity · Motion <span>2023–25</span></p>
+          </div>
+        </a>
+        <a class="work-card" href="case-more.html" data-cursor="CASE">
+          <figure class="wc-media"><img src="assets/img/work-more.jpg" alt="More Conference website design" width="1600" height="935" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>More Conference</h3>
+            <p class="wc-desc">Conference site and campaign for a national gathering.</p>
+            <p class="wc-tags">Web · Campaign <span>2023–24</span></p>
+          </div>
+        </a>
+        <a class="work-card" href="case-bandcamp.html" data-cursor="CASE">
+          <figure class="wc-media"><img src="assets/img/work-bandcamp.jpg" alt="Band Camp website design" width="1600" height="777" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>Band Camp</h3>
+            <p class="wc-desc">Brand and build for a national music camp.</p>
+            <p class="wc-tags">Web · Photography <span>2024</span></p>
+          </div>
+        </a>
+        <a class="work-card" href="case-firezone.html" data-cursor="CASE">
+          <figure class="wc-media"><img src="assets/img/work-firezone.jpg" alt="Firezone website design" width="1600" height="930" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>Firezone</h3>
+            <p class="wc-desc">Community platform for a nationwide youth network.</p>
+            <p class="wc-tags">Web · Brand <span>2023</span></p>
+          </div>
+        </a>
+      </div>
+
+      <div class="work-stats" data-reveal>
+        <div class="stat"><span class="stat-num"><span data-count-to="10">0</span>+</span><span class="stat-label">years behind code,<br>cameras &amp; consoles</span></div>
+        <div class="stat"><span class="stat-num"><span data-count-to="25">0</span>+</span><span class="stat-label">organisations<br>served</span></div>
+        <div class="stat"><span class="stat-num"><span data-count-to="7">0</span></span><span class="stat-label">disciplines<br>under one roof</span></div>
+        <div class="stat"><span class="stat-num"><span data-count-to="1">0</span></span><span class="stat-label">point of contact,<br>start to shipped</span></div>
+      </div>
+
+      <a class="tpl-banner" href="templates.html" data-reveal data-cursor="GO">
+        <span class="tpl-banner-kicker"><span class="red">/</span> New</span>
+        <span class="tpl-banner-title">Website templates: proven layouts, tailored and built for you</span>
+        <span class="tpl-banner-cta">Browse the shelf →</span>
+      </a>
+
+    </section>
+
+    <!-- ///////////////////////////////////// VOICES -->
+    <section class="voices" id="voices">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">04 /</span> Voices</p>
+        <p class="section-note">Two minutes with the people we make for.</p>
+      </div>
+      <div class="voices-slider">
+        <div class="voices-track" id="voicesTrack" tabindex="0" aria-label="Testimonials — use arrow buttons to browse">
+
+          <article class="voice" data-kind="video">
+            <div class="voice-media">
+              <video src="assets/video/joy-florals-feature.mp4" poster="assets/img/voice-joy-poster.jpg" preload="none" playsinline></video>
+              <button class="voice-play" aria-label="Play — Joy Florals brand feature">
+                <span class="vp-pill">▶&nbsp;&nbsp;Play the film — 1:57</span>
+              </button>
+              <span class="voice-badge">Film / shot &amp; scored in-house</span>
+            </div>
+            <footer>
+              <span class="voice-name">Joy Florals</span>
+              <span class="voice-role">Brand feature: direction, camera, edit, score</span>
+            </footer>
+          </article>
+
+          <article class="voice voice-reserved" data-kind="text">
+            <p class="voice-quote">The best endorsements are specific, so we’re collecting ours properly: signed, dated, on the record.</p>
+            <footer>
+              <span class="voice-name">This seat is saved</span>
+              <span class="voice-role">Client words landing here soon</span>
+            </footer>
+          </article>
+
+        </div>
+        <div class="voices-ctl">
+          <button id="voicePrev" aria-label="Previous voice">←</button>
+          <span id="voiceCount">01 / 02</span>
+          <button id="voiceNext" aria-label="Next voice">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ///////////////////////////////////// PROCESS -->
+    <section class="process" id="process">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">05 /</span> How it runs</p>
+        <p class="section-note">Four steps. No account managers in between.</p>
+      </div>
+      <div class="process-grid">
+        <div class="step" data-reveal>
+          <span class="step-num">/01</span>
+          <h3>Kōrero</h3>
+          <p>A 20-minute call. The problem in your words, no deck, no discovery-phase invoice.</p>
+        </div>
+        <div class="step" data-reveal style="--i:1">
+          <span class="step-num">/02</span>
+          <h3>The message</h3>
+          <p>Strategy first: what we’re saying, who it’s for, and where it has to land.</p>
+        </div>
+        <div class="step" data-reveal style="--i:2">
+          <span class="step-num">/03</span>
+          <h3>Production</h3>
+          <p>Design and build first: sites, apps, campaigns, films. Whatever carries it best, made in-house.</p>
+        </div>
+        <div class="step" data-reveal style="--i:3">
+          <span class="step-num">/04</span>
+          <h3>Ship &amp; steer</h3>
+          <p>Launch, measure, adjust. The one who took the brief stays to steer it.</p>
+        </div>
+      </div>
+      <p class="process-tail" data-reveal>Most briefs go from first call to shipped inside a month. <a href="together.html">See how engagements work&nbsp;→</a></p>
+    </section>
+
+    <!-- ///////////////////////////////////// STUDIO -->
+    <section class="studio section-light" id="studio">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">06 /</span> The studio</p>
+        <p class="section-note">Small by design. Senior by default.</p>
+      </div>
+      <div class="studio-grid">
+        <div class="studio-visual">
+          <figure class="sv-main" data-reveal>
+            <img src="assets/img/kris-portrait.jpg" alt="Kris Singh — director of Singh Studio" width="1200" height="1200" loading="lazy" decoding="async">
+            <figcaption><i>/</i>Kris Singh, Director</figcaption>
+          </figure>
+          <figure class="sv-candid" data-reveal style="--i:2">
+            <img src="assets/img/kris-enroute.jpg" alt="Kris looking out an aircraft window at golden hour" width="825" height="1100" loading="lazy" decoding="async">
+            <figcaption>En route: wherever the brief is</figcaption>
+          </figure>
+        </div>
+        <div class="studio-copy">
+          <h2 data-reveal>Run by Kris Singh.<br>Built around <em>your message.</em></h2>
+          <p class="studio-lede" data-reveal style="--i:1">Communications professional by trade. Web designer and builder by obsession, with a camera bag never far away.</p>
+          <p data-reveal style="--i:2">Deliberately small: one senior person takes the brief, holds the strategy and makes the work. No juniors learning on your budget, no account layer in between. A production floor’s range behind a single desk.</p>
+          <dl class="studio-facts" data-reveal style="--i:3">
+            <div class="fact">
+              <dt>Base</dt>
+              <dd>Aotearoa New Zealand, working anywhere</dd>
+            </div>
+            <div class="fact">
+              <dt>Background</dt>
+              <dd>10+ years in communications &amp; production</dd>
+            </div>
+            <div class="fact">
+              <dt>Range</dt>
+              <dd>Web, apps &amp; AI, backed by photography, film &amp; sound</dd>
+            </div>
+            <div class="fact">
+              <dt>Status</dt>
+              <dd data-booking-window>Currently booking</dd>
+            </div>
+          </dl>
+          <p class="studio-more" data-reveal style="--i:4"><a class="btn btn-ghost" href="kris.html" data-cursor="GO">Full profile &amp; CV →</a></p>
+          <p class="studio-quote" data-reveal style="--i:5">“If it carries the message, <em>it’s in scope.”</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ///////////////////////////////////// LIGHT TABLE -->
+    <section class="lt" id="light-table">
+      <div class="lt-sticky">
+        <div class="section-head lt-head">
+          <p class="eyebrow"><span class="red">/</span> From the archive</p>
+          <p class="section-note lt-note"><span class="lt-drag-hint">Keep scrolling — the table moves sideways. </span><a href="archive.html">Browse the full archive →</a></p>
+        </div>
+        <div class="lt-track" id="ltTrack">
+
+          <figure class="lt-item lt-tall" data-cursor="VIEW">
+            <img src="assets/img/hero-dancer-red.jpg" alt="Dancer mid-turn in a burst of red pigment, studio shoot" width="1500" height="2000" loading="lazy" decoding="async">
+            <figcaption>FR 001: Movement study / pigment</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <img src="assets/img/gal-dancer-floor.jpg" alt="Dancer seated on a white studio floor cut by diagonal shadows" width="1600" height="1200" loading="lazy" decoding="async">
+            <figcaption>FR 002: Movement study / shadow</figcaption>
+          </figure>
+          <figure class="lt-item lt-tall" data-cursor="VIEW">
+            <img src="assets/img/gal-brass-rain.jpg" alt="Brass band musician playing in the rain during a street parade" width="1447" height="1600" loading="lazy" decoding="async">
+            <figcaption>FR 003: Brass in the rain / documentary</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <img src="assets/img/gal-pasifika.jpg" alt="Pasifika dancers in red mid-performance on an arena floor" width="1600" height="1079" loading="lazy" decoding="async">
+            <figcaption>FR 004: Festival floor / performance</figcaption>
+          </figure>
+          <figure class="lt-item lt-tall" data-cursor="VIEW">
+            <img src="assets/img/gal-onset-bts.jpg" alt="Overhead view of a director and dancer on a white studio cyclorama" width="1200" height="1600" loading="lazy" decoding="async">
+            <figcaption>FR 005: On set / production</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <img src="assets/img/gal-joy-florals.jpg" alt="Florist holding a bouquet in golden backlight" width="1600" height="982" loading="lazy" decoding="async">
+            <figcaption>FR 006: Joy Florals / commercial</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <img src="assets/img/gal-kakahu.jpg" alt="Bride in a feathered cloak looking back through native bush" width="1600" height="901" loading="lazy" decoding="async">
+            <figcaption>FR 007: The cloak / ceremony</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <picture>
+              <source type="image/webp" srcset="assets/img/gal-cafe-doc.webp">
+              <img src="assets/img/gal-cafe-doc.jpg" alt="Girl laughing across a café table, warm documentary tones" width="1571" height="1600" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>FR 008: Café / documentary</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <img src="assets/img/gal-braided-river.jpg" alt="Braided river running between dark mountain ranges" width="1600" height="1066" loading="lazy" decoding="async">
+            <figcaption>FR 009: Braided river / landscape</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <picture>
+              <source type="image/webp" srcset="assets/img/gal-brick-walker.webp">
+              <img src="assets/img/gal-brick-walker.jpg" alt="Pedestrian passing a long red brick wall" width="1600" height="1319" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>FR 010: Red wall / street</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <img src="assets/img/gal-ferry-teal.jpg" alt="Interislander ferry crossing a dark blue harbour at dusk" width="1600" height="946" loading="lazy" decoding="async">
+            <figcaption>FR 011: Harbour crossing / dusk</figcaption>
+          </figure>
+          <figure class="lt-item" data-cursor="VIEW">
+            <picture>
+              <source type="image/webp" srcset="assets/img/gal-stone-bridge.webp">
+              <img src="assets/img/gal-stone-bridge.jpg" alt="Figure crossing an old stone bridge in dark green bush" width="1600" height="965" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>FR 012: Stone bridge / wander</figcaption>
+          </figure>
+
+          <a class="lt-item lt-end" href="archive.html" data-cursor="OPEN">
+            <span class="lt-end-slash">/</span>
+            <span class="lt-end-text">See the<br>full archive</span>
+            <span class="lt-end-cta">40 frames / 4 sets →</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ///////////////////////////////////// CONTACT -->
+    <section class="contact" id="contact">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">07 /</span> Start</p>
+      </div>
+      <h2 class="contact-title" aria-label="Let's talk">
+        <span class="ht-line"><span class="ht-inner" data-contact-line>LET’S</span></span>
+        <span class="ht-line"><span class="ht-inner" data-contact-line><em class="ht-slash" aria-hidden="true">/</em>TALK</span></span>
+      </h2>
+
+      <div class="contact-card" data-reveal>
+        <div class="cc-row">
+          <span class="cc-label">Format</span>
+          <span class="cc-value">Intro call, 20 minutes, Google&nbsp;Meet</span>
+        </div>
+        <div class="cc-row">
+          <span class="cc-label">Agenda</span>
+          <span class="cc-value">No deck required. Bring the problem, we’ll bring the questions.</span>
+        </div>
+        <div class="cc-row">
+          <span class="cc-label">Engagements</span>
+          <span class="cc-value">Project · Retainer · Sprint. <a class="cc-link" href="together.html">Full details →</a></span>
+        </div>
+        <div class="cc-row">
+          <span class="cc-label">Availability</span>
+          <span class="cc-value"><span class="dot" aria-hidden="true"></span><span id="bookingWindow">Currently booking</span></span>
+        </div>
+        <div class="cc-actions">
+          <a class="btn btn-solid btn-big" id="bookBtn" href="#" data-magnetic data-cursor="BOOK">
+            Book a Google&nbsp;Meet <span class="btn-arrow">→</span>
+          </a>
+          <a class="cc-alt" href="mailto:kris@singhstudio.co.nz?subject=Project%20enquiry%20—%20Singh%20Studio">or write: kris@singhstudio.co.nz</a>
+        </div>
+      </div>
+      <p class="cc-note" data-reveal style="--i:2">Replies within one business day, NZT. Usually faster.</p>
+    </section>
+
+  </main>
+
+  <!-- ///////////////////////////////////// FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <span class="footer-mark" aria-hidden="true">S·/·S</span>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#work">Work</a>
+        <a href="templates.html">Templates</a>
+        <a href="together.html">Engagements</a>
+        <a href="#index">Services</a>
+        <a href="archive.html">Archive</a>
+        <a href="thoughts.html">Thoughts</a>
+        <a href="kris.html">Profile</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/" rel="noopener" target="_blank">Instagram</a>
+        <a href="https://www.linkedin.com/" rel="noopener" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> Singh Studio, Aotearoa New Zealand</span>
+      <a class="footer-mail" href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a>
+      <span class="footer-hint">Press <kbd>/</kbd> anywhere. The slash starts the conversation</span>
+      <span class="footer-note">Designed &amp; built in-house. Obviously.</span>
+    </div>
+  </footer>
+
+  <!-- ///////////////////////////////////// LIGHTBOX -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">Close&nbsp;×</button>
+    <figure>
+      <img id="lightboxImg" src="" alt="">
+      <figcaption id="lightboxCap"></figcaption>
+    </figure>
+  </dialog>
+
+  <script src="js/main.js" defer></script>
 </body>
 </html>
