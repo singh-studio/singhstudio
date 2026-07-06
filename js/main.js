@@ -11,7 +11,7 @@
    Until then, the book buttons fall back to a pre-filled email.
 ------------------------------------------------------------ */
 const CONFIG = {
-  bookingUrl: "", // ← paste Google Calendar appointment-schedule link here
+  bookingUrl: "https://calendar.app.google/vMWDbHmj9NgqmHc48",
   email: "kris@singhstudio.co.nz",
 };
 
