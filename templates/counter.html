@@ -15,7 +15,6 @@
 <style>
   :root{
     --cream:#f7f0e4;
-    --cream-2:#efe5d3;
     --espresso:#33261d;
     --espresso-soft:#5a4638;
     --terracotta:#c96f4a;
@@ -48,54 +47,95 @@
   button{font-family:inherit}
   .wrap{max-width:1120px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,3rem)}
   :focus-visible{outline:3px solid var(--terracotta);outline-offset:3px}
-  .italic{font-style:italic;font-weight:500}
+  em{font-style:italic}
+  [data-page]:focus{outline:none}
+  html.js main > [data-page]{display:none}
+  html.js main > [data-page].is-active{display:block}
 
-  /* ===== Header ===== */
+  /* ===== Masthead ===== */
   header.site{
-    padding-block:clamp(2rem,5vw,3rem) clamp(1.2rem,3vw,1.8rem);
+    padding-block:clamp(1.6rem,4vw,2.4rem) clamp(1rem,2.5vw,1.4rem);
     text-align:center;
   }
-  .brand-name{
+  .steam{width:56px;height:auto;display:block;margin-inline:auto}
+  .steam path{fill:none;stroke:var(--terracotta);stroke-width:2;stroke-linecap:round}
+  .masthead{margin-top:.2rem}
+  .logo{
     font-size:clamp(1.9rem,5vw,2.7rem);
     letter-spacing:.01em;
+    display:block;
   }
   .brand-sub{
-    margin-top:.5rem;
+    margin-top:.4rem;
     font-size:1rem;
     color:var(--espresso-soft);
     font-weight:600;
     letter-spacing:.03em;
   }
-  .hours-pill{
+  .status-chip{
     display:inline-flex;align-items:center;gap:.5rem;
     margin-top:1.1rem;
     background:var(--espresso);color:var(--cream);
     padding:.5rem 1.1rem;border-radius:999px;
     font-size:.82rem;font-weight:800;letter-spacing:.03em;
+    transition:background .2s ease;
   }
-  .hours-pill i{width:7px;height:7px;border-radius:50%;background:var(--terracotta-dim);flex:none}
+  .status-chip.is-open{background:var(--sage)}
+  .st-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta-dim);flex:none}
+  .status-chip.is-open .st-dot{background:var(--cream)}
 
   nav.site-nav{
     display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(1rem,3vw,2rem);
-    margin-top:1.6rem;padding-top:1.3rem;border-top:1px solid var(--line);
+    margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--line);
   }
   nav.site-nav a{
     font-size:.85rem;font-weight:600;text-decoration:none;letter-spacing:.02em;
     padding-bottom:.2rem;border-bottom:2px solid transparent;
   }
-  nav.site-nav a:hover{border-color:var(--terracotta)}
+  nav.site-nav a:hover{border-color:var(--terracotta-dim)}
+  nav.site-nav a[aria-current="page"]{border-bottom:2px solid var(--terracotta)}
 
-  /* ===== Steam divider ===== */
-  .steam-divider{
-    display:flex;justify-content:center;padding-block:.6rem;
-  }
-  .steam-divider svg{width:60px;height:22px}
-  .steam-divider path{
-    fill:none;stroke:var(--terracotta-dim);stroke-width:2.5;stroke-linecap:round;
+  /* ===== Mobile menu button ===== */
+  .m-btn{display:none}
+  .m-menu{display:none}
+  @media (max-width:820px){
+    .m-btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+      margin-top:1.3rem;background:transparent;border:1px solid var(--espresso);
+      color:var(--espresso);border-radius:999px;padding:.55rem 1.2rem;
+      font-size:.82rem;font-weight:800;letter-spacing:.03em;cursor:pointer;
+    }
+    nav.site-nav{display:none}
+    .m-menu{
+      position:fixed;inset:0;z-index:900;
+      background:var(--cream);padding:clamp(4.5rem,14vw,6rem) 1.5rem 2rem;
+      overflow-y:auto;
+    }
+    .m-menu.open{display:flex;flex-direction:column;align-items:center;gap:1.6rem}
+    .m-menu a{
+      font-family:"Fraunces",serif;font-size:1.6rem;font-weight:600;
+      text-decoration:none;color:var(--espresso);
+    }
+    .m-menu a[aria-current="page"]{color:var(--terracotta)}
+    .m-close{
+      position:absolute;top:1.1rem;right:1.3rem;background:transparent;border:none;
+      font-size:1rem;font-weight:800;letter-spacing:.05em;color:var(--espresso);
+      cursor:pointer;padding:.6rem;
+    }
+    body.menu-locked{overflow:hidden}
   }
 
-  /* ===== Hero ===== */
-  .hero{padding-block:clamp(1.5rem,4vw,2.5rem) clamp(3rem,7vw,5rem)}
+  /* ===== Section shell ===== */
+  section.page-sec{padding-block:clamp(2.5rem,6vw,4rem)}
+  .section-head{text-align:center;max-width:56ch;margin-inline:auto;margin-bottom:clamp(1.8rem,4vw,2.6rem)}
+  .section-kicker{
+    display:block;font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--sage);margin-bottom:.6rem;
+  }
+  .section-head h1{font-size:clamp(1.8rem,4vw,2.5rem)}
+
+  /* ===== Hero (home) ===== */
+  .hero{padding-block:clamp(1.2rem,3vw,2rem) clamp(2.5rem,6vw,4rem)}
   .hero-grid{
     display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.5rem,4vw,3rem);align-items:center;
   }
@@ -103,75 +143,75 @@
     font-size:clamp(2.1rem,5.5vw,3.6rem);
     line-height:1.05;
   }
+  .hero h1 em{color:var(--terracotta);font-style:italic}
   .hero-line{
     margin-top:1.2rem;font-size:clamp(1.02rem,2vw,1.18rem);color:var(--espresso-soft);max-width:42ch;
   }
-  .hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:1.8rem}
-  .btn{
-    display:inline-flex;align-items:center;gap:.5rem;
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:.5rem;margin-top:1.7rem;
     padding:.9rem 1.6rem;border-radius:999px;
-    font-size:.92rem;font-weight:800;text-decoration:none;border:2px solid transparent;
-    cursor:pointer;
+    font-size:.92rem;font-weight:800;text-decoration:none;
+    background:var(--terracotta);color:var(--cream);
   }
-  .btn-primary{background:var(--terracotta);color:var(--cream)}
-  .btn-primary:hover{background:#b85f3c}
-  .btn-outline{border-color:var(--espresso);color:var(--espresso);background:transparent}
-  .btn-outline:hover{border-color:var(--terracotta);color:var(--terracotta)}
-
+  .hero-cta:hover{background:#b85f3c}
   .hero-photo{
     position:relative;border-radius:18px;overflow:hidden;
     aspect-ratio:4/5;box-shadow:0 20px 40px -18px rgba(51,38,29,.35);
   }
   .hero-photo img{width:100%;height:100%;object-fit:cover}
-  .hero-photo::after{
-    content:"";position:absolute;inset:0;border-radius:18px;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
-  }
-
   @media (max-width:820px){
     .hero-grid{grid-template-columns:1fr}
     .hero-photo{aspect-ratio:16/10;order:-1}
   }
 
-  /* ===== Section shell ===== */
-  section{padding-block:clamp(3rem,7vw,4.5rem)}
-  .section-head{text-align:center;max-width:56ch;margin-inline:auto;margin-bottom:clamp(2rem,4.5vw,2.8rem)}
-  .section-kicker{
-    display:block;font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--sage);margin-bottom:.6rem;
+  /* ===== Home: today + cabinet teaser ===== */
+  .today-line{
+    text-align:center;font-size:.98rem;font-weight:600;color:var(--espresso-soft);
+    margin-top:clamp(2.5rem,6vw,3.5rem);
   }
-  .section-head h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+  .cabinet-teaser{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(1.4rem,4vw,2.6rem);
+    margin-top:1.6rem;text-align:center;
+  }
+  .cabinet-item{font-size:1rem}
+  .cabinet-item .cn{font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:1.15rem;display:block}
+  .cabinet-item .cp{color:var(--espresso-soft);font-size:.9rem}
+  .whole-menu{
+    display:block;text-align:center;margin-top:1.8rem;font-weight:800;font-size:.95rem;
+    text-decoration:none;color:var(--terracotta);
+  }
+  .whole-menu:hover{color:#a85736}
 
-  /* ===== Info card row ===== */
-  .info-row{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;
+  /* ===== Menu page — the printed piece ===== */
+  .menu-kicker{
+    display:block;text-align:center;font-size:.78rem;font-weight:800;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--sage);margin-bottom:.7rem;
   }
-  .info-card{
-    background:var(--cream-2);border-radius:16px;padding:1.75rem;
-    border:1px solid var(--line);
+  .menu-h1{
+    font-size:clamp(2.6rem,7vw,4.5rem);text-align:center;margin-bottom:clamp(2rem,5vw,3rem);
   }
-  .info-card h3{font-size:1.05rem;margin-bottom:.7rem;letter-spacing:0}
-  .info-card p{color:var(--espresso-soft);font-size:.95rem}
-  .info-card p + p{margin-top:.3rem}
+  .menu-body{
+    max-width:900px;margin-inline:auto;
+  }
+  @media (min-width:900px){
+    .menu-body{columns:2;column-gap:4rem}
+  }
+  .menu-group{break-inside:avoid;margin-bottom:2.4rem}
+  .menu-group h2{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:1.5rem;
+    margin-bottom:1rem;color:var(--terracotta);
+  }
+  .mi{display:flex;align-items:baseline;margin-bottom:.6rem}
+  .mi-n{font-size:1rem;font-weight:600}
+  .mi-n .dm{font-variant:small-caps;font-weight:800;font-size:.82em;color:var(--sage);letter-spacing:.02em}
+  .mi-dots{flex:1;border-bottom:2px dotted var(--line);margin:0 .5rem .35rem}
+  .mi-p{font-size:.98rem;font-weight:800;white-space:nowrap}
+  .menu-foot{
+    text-align:center;font-family:"Fraunces",serif;font-style:italic;font-weight:500;
+    color:var(--espresso-soft);margin-top:clamp(2rem,5vw,3rem);font-size:1.02rem;
+  }
 
-  /* ===== Menu ===== */
-  .menu-grid{
-    display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(2rem,5vw,3.5rem);
-  }
-  .menu-col h3{
-    font-size:1.35rem;padding-bottom:.7rem;margin-bottom:1.3rem;border-bottom:2px solid var(--terracotta-dim);
-  }
-  .menu-item{display:flex;justify-content:space-between;gap:1rem;margin-bottom:1.15rem}
-  .menu-item-name{font-weight:600;font-size:1rem;display:flex;align-items:baseline;gap:.45rem;flex-wrap:wrap}
-  .menu-item-desc{color:var(--espresso-soft);font-size:.88rem;margin-top:.2rem;max-width:38ch}
-  .menu-item-price{font-weight:800;font-size:.98rem;white-space:nowrap;color:var(--espresso)}
-  .menu-mark{
-    font-size:.68rem;font-weight:800;color:var(--sage);border:1px solid var(--sage);
-    border-radius:5px;padding:.05rem .35rem;letter-spacing:.02em;
-  }
-  @media (max-width:760px){.menu-grid{grid-template-columns:1fr}}
-
-  /* ===== Story strip ===== */
+  /* ===== Story ===== */
   .story-grid{
     display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,3rem);align-items:center;
   }
@@ -184,34 +224,51 @@
   .story-photo img{width:100%;height:100%;object-fit:cover}
   @media (max-width:820px){.story-grid{grid-template-columns:1fr}.story-photo{order:-1}}
 
-  /* ===== Gallery ===== */
-  .gallery-grid{
-    display:grid;grid-template-columns:repeat(6,1fr);gap:.85rem;
+  /* ===== Gallery: film strip ===== */
+  .strip{
+    display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:1rem;
+    mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
   }
-  .gallery-tile{
-    aspect-ratio:1/1;border-radius:12px;overflow:hidden;position:relative;
+  .frame{
+    scroll-snap-align:center;flex:0 0 min(420px,78vw);
   }
-  .gallery-tile img{width:100%;height:100%;object-fit:cover}
-  .g-cream{background:var(--cream-2)}
-  .g-terracotta{background:var(--terracotta)}
-  .g-sage{background:var(--sage)}
-  .g-espresso{background:var(--espresso)}
-  .g-tex::before{
-    content:"";position:absolute;inset:0;
-    background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 6px,transparent 6px 12px);
+  .frame img{
+    width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;
+    box-shadow:0 14px 28px -16px rgba(51,38,29,.32);
   }
-  @media (max-width:760px){.gallery-grid{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:440px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+  .frame figcaption{
+    margin-top:.8rem;text-align:center;font-family:"Fraunces",serif;font-style:italic;
+    font-weight:500;color:var(--espresso-soft);font-size:1.02rem;
+  }
 
-  /* ===== Reviews ===== */
-  .review-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;
+  /* ===== Find us ===== */
+  .status-big{
+    font-family:"Fraunces",serif;font-weight:600;text-align:center;
+    font-size:clamp(4rem,14vw,10rem);line-height:1;color:var(--terracotta);
+    margin-bottom:.4rem;
   }
-  .review-card{
-    background:var(--cream-2);border-radius:16px;padding:1.6rem 1.75rem;border:1px solid var(--line);
+  .status-big.is-open{color:var(--sage)}
+  .status-sentence{
+    text-align:center;font-size:1.05rem;font-weight:600;color:var(--espresso-soft);
+    margin-bottom:clamp(2.5rem,6vw,3.5rem);
   }
-  .review-quote{font-size:1rem;font-style:italic;font-family:"Fraunces",serif;font-weight:500;color:var(--espresso)}
-  .review-name{margin-top:.9rem;font-size:.82rem;font-weight:800;letter-spacing:.03em;color:var(--terracotta)}
+  .status-sentence .st-dot{display:none}
+  .hours-table{
+    width:100%;max-width:460px;margin-inline:auto;border-collapse:collapse;
+  }
+  .hours-table td{
+    padding:.65rem 1rem;border-bottom:1px solid var(--line);font-size:1rem;
+  }
+  .hours-table td:first-child{font-weight:600}
+  .hours-table td:last-child{text-align:right;color:var(--espresso-soft)}
+  .hours-table tr.today{background:rgba(201,111,74,.12)}
+  .hours-table tr.today td{font-weight:800;color:var(--espresso)}
+  .find-address{
+    text-align:center;margin-top:clamp(2.2rem,5vw,3rem);font-size:1.05rem;
+  }
+  .find-address p{margin-bottom:.5rem;color:var(--espresso-soft)}
+  .find-address p:first-child{font-weight:700;color:var(--espresso);font-size:1.15rem}
 
   /* ===== Footer ===== */
   footer{
@@ -235,229 +292,189 @@
     font-size:.78rem;color:rgba(247,240,228,.55);
     display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;
   }
+
+  /* ===== Demo bar ===== */
+  .ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}
+  .ss-demo-bar a:hover{color:#ff4b2e}
+  @media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}
 </style>
 </head>
 <body>
 
 <header class="site">
   <div class="wrap">
-    <p class="brand-name">Little Harbour Café</p>
-    <p class="brand-sub">Petone, since 2019</p>
-    <span class="hours-pill"><i></i>Open 7–3 daily</span>
+    <svg class="steam" viewBox="0 0 60 32" aria-hidden="true">
+      <path d="M12 30 C8 24, 16 20, 12 14 C8 8, 14 6, 12 2" />
+      <path d="M30 30 C26 24, 34 20, 30 14 C26 8, 32 6, 30 2" />
+      <path d="M48 30 C44 24, 52 20, 48 14 C44 8, 50 6, 48 2" />
+    </svg>
+    <div class="masthead">
+      <span class="logo">Little Harbour Café</span>
+      <p class="brand-sub">Petone, since 2019</p>
+      <p class="status-chip" data-status><span class="st-dot"></span><span class="st-txt"></span></p>
+    </div>
+
+    <button class="m-btn" type="button" aria-expanded="false" aria-controls="mnav">Menu</button>
+
     <nav class="site-nav" aria-label="Primary">
-      <a href="#find-us">Hours &amp; find us</a>
-      <a href="#menu">Menu</a>
-      <a href="#story">Our story</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#reviews">Reviews</a>
+      <a href="#/home" data-nav>Home</a>
+      <a href="#/menu" data-nav>Menu</a>
+      <a href="#/story" data-nav>Story</a>
+      <a href="#/gallery" data-nav>Gallery</a>
+      <a href="#/find-us" data-nav>Find us</a>
     </nav>
+  </div>
+
+  <div class="m-menu" id="mnav">
+    <button class="m-close" type="button" aria-label="Close menu">CLOSE ✕</button>
+    <a href="#/home" data-nav>Home</a>
+    <a href="#/menu" data-nav>Menu</a>
+    <a href="#/story" data-nav>Story</a>
+    <a href="#/gallery" data-nav>Gallery</a>
+    <a href="#/find-us" data-nav>Find us</a>
   </div>
 </header>
 
-<div class="steam-divider" aria-hidden="true">
-  <svg viewBox="0 0 60 22"><path d="M4 20c4-4 4-8 0-12s-4-8 0-12M18 20c4-4 4-8 0-12s-4-8 0-12M32 20c4-4 4-8 0-12s-4-8 0-12M46 20c4-4 4-8 0-12s-4-8 0-12"/></svg>
-</div>
-
 <main>
 
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-text">
-        <h1>Good mornings <span class="italic">live here.</span></h1>
-        <p class="hero-line">A small harbourside café doing proper flat whites, warm baking and a menu built around whoever walked in the door hungry. Come as you are.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#menu">See the menu</a>
-          <a class="btn btn-outline" href="#find-us">Find us</a>
+  <section data-page="home" class="page-sec">
+    <div class="wrap hero">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <h1 data-anim>Good mornings <em>live here.</em></h1>
+          <p class="hero-line" data-anim>A small harbourside café doing proper flat whites, honest kai and the occasional custard square miracle.</p>
+          <a class="hero-cta" href="#/menu" data-nav data-anim>See the menu →</a>
+        </div>
+        <div class="hero-photo">
+          <img src="../assets/img/gal-cafe-doc.jpg" loading="eager" alt="The bright, plant-filled interior of Little Harbour Café with the counter and coffee machine in view.">
         </div>
       </div>
-      <div class="hero-photo">
-        <img src="../assets/img/gal-cafe-doc.jpg" alt="The bright, plant-filled interior of Little Harbour Café with the counter and coffee machine in view.">
-      </div>
     </div>
-  </section>
 
-  <section id="find-us">
     <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">The essentials</span>
-        <h2>Hours &amp; find us</h2>
+      <p class="today-line" data-today></p>
+      <div class="cabinet-teaser">
+        <span class="cabinet-item"><span class="cn">Cheese scone</span><span class="cp">$7</span></span>
+        <span class="cabinet-item"><span class="cn">Afghan</span><span class="cp">$6</span></span>
+        <span class="cabinet-item"><span class="cn">Custard square</span><span class="cp">$7</span></span>
       </div>
-      <div class="info-row">
-        <article class="info-card">
-          <h3>Hours</h3>
-          <p>Monday–Sunday</p>
-          <p>7am – 3pm</p>
-        </article>
-        <article class="info-card">
-          <h3>Address</h3>
-          <p>18 Jackson Street</p>
-          <p>Petone, Lower Hutt</p>
-        </article>
-        <article class="info-card">
-          <h3>House rules</h3>
-          <p>Dog friendly.</p>
-          <p>Kid chaos welcome.</p>
-        </article>
-      </div>
+      <a class="whole-menu" href="#/menu" data-nav>The whole menu →</a>
     </div>
   </section>
 
-  <section id="menu">
+  <section data-page="menu" class="page-sec">
     <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">What we're pouring &amp; plating</span>
-        <h2>Menu</h2>
-      </div>
-      <div class="menu-grid">
-        <div class="menu-col">
-          <h3>Coffee</h3>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Flat white</p>
-            </div>
-            <p class="menu-item-price">$5.50</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Long black</p>
-            </div>
-            <p class="menu-item-price">$5.00</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Cappuccino</p>
-            </div>
-            <p class="menu-item-price">$5.50</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Mocha</p>
-            </div>
-            <p class="menu-item-price">$6.00</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Batch brew</p>
-              <p class="menu-item-desc">Rotating single origin, filter-brewed.</p>
-            </div>
-            <p class="menu-item-price">$5.00</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Chai latte</p>
-            </div>
-            <p class="menu-item-price">$5.80</p>
-          </div>
+      <span class="menu-kicker">Summer — printed weekly</span>
+      <h1 class="menu-h1">The menu.</h1>
+
+      <div class="menu-body">
+        <div class="menu-group">
+          <h2>Morning — til 11</h2>
+          <p class="mi" data-anim><span class="mi-n">Crumpets, whipped butter, mānuka honey</span><span class="mi-dots"></span><span class="mi-p">12</span></p>
+          <p class="mi" data-anim><span class="mi-n">Bircher, poached apricot <span class="dm">(v)</span></span><span class="mi-dots"></span><span class="mi-p">14</span></p>
+          <p class="mi" data-anim><span class="mi-n">Creamed corn on toast, chilli crunch <span class="dm">(v)</span></span><span class="mi-dots"></span><span class="mi-p">16</span></p>
+          <p class="mi" data-anim><span class="mi-n">Kedgeree, soft egg</span><span class="mi-dots"></span><span class="mi-p">22</span></p>
+          <p class="mi" data-anim><span class="mi-n">The Fry — bacon, eggs, hash, relish</span><span class="mi-dots"></span><span class="mi-p">24</span></p>
         </div>
-        <div class="menu-col">
-          <h3>Kitchen</h3>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Sourdough &amp; jam <span class="menu-mark">v</span></p>
-              <p class="menu-item-desc">Toasted, with house-made seasonal jam and cultured butter.</p>
-            </div>
-            <p class="menu-item-price">$9.50</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Big breakfast</p>
-              <p class="menu-item-desc">Eggs, bacon, roasted tomato, sourdough and greens.</p>
-            </div>
-            <p class="menu-item-price">$24.00</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Shakshuka <span class="menu-mark">v</span> <span class="menu-mark">gf</span></p>
-              <p class="menu-item-desc">Baked eggs in a smoky tomato and capsicum sauce, flatbread on the side.</p>
-            </div>
-            <p class="menu-item-price">$21.00</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Harbour bowl <span class="menu-mark">gf</span></p>
-              <p class="menu-item-desc">Kūmara, greens, poached egg, feta and a lemon tahini dressing.</p>
-            </div>
-            <p class="menu-item-price">$19.50</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Banana bread</p>
-              <p class="menu-item-desc">Warmed, with butter and a drizzle of honey.</p>
-            </div>
-            <p class="menu-item-price">$8.00</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Soup of the day <span class="menu-mark">v</span></p>
-              <p class="menu-item-desc">Ask what's on today — always with fresh sourdough.</p>
-            </div>
-            <p class="menu-item-price">$14.50</p>
-          </div>
-          <div class="menu-item">
-            <div>
-              <p class="menu-item-name">Kids' beans on toast</p>
-            </div>
-            <p class="menu-item-price">$7.00</p>
-          </div>
+
+        <div class="menu-group">
+          <h2>All day</h2>
+          <p class="mi" data-anim><span class="mi-n">Fish sandwich, tartare, pickles</span><span class="mi-dots"></span><span class="mi-p">19</span></p>
+          <p class="mi" data-anim><span class="mi-n">Miso mushrooms on sourdough <span class="dm">(v)</span></span><span class="mi-dots"></span><span class="mi-p">18</span></p>
+          <p class="mi" data-anim><span class="mi-n">Lamb shoulder roll, mint slaw</span><span class="mi-dots"></span><span class="mi-p">21</span></p>
+          <p class="mi" data-anim><span class="mi-n">Kūmara &amp; feta fritters <span class="dm">(gf)</span></span><span class="mi-dots"></span><span class="mi-p">18</span></p>
+          <p class="mi" data-anim><span class="mi-n">Market fish, brown butter, greens <span class="dm">(gf)</span></span><span class="mi-dots"></span><span class="mi-p">28</span></p>
+        </div>
+
+        <div class="menu-group">
+          <h2>Cabinet</h2>
+          <p class="mi" data-anim><span class="mi-n">Cheese scone</span><span class="mi-dots"></span><span class="mi-p">7</span></p>
+          <p class="mi" data-anim><span class="mi-n">Louise slice</span><span class="mi-dots"></span><span class="mi-p">6</span></p>
+          <p class="mi" data-anim><span class="mi-n">Afghan</span><span class="mi-dots"></span><span class="mi-p">6</span></p>
+          <p class="mi" data-anim><span class="mi-n">Custard square</span><span class="mi-dots"></span><span class="mi-p">7</span></p>
+        </div>
+
+        <div class="menu-group">
+          <h2>Coffee — Coffee Supreme</h2>
+          <p class="mi" data-anim><span class="mi-n">Espresso</span><span class="mi-dots"></span><span class="mi-p">4.5</span></p>
+          <p class="mi" data-anim><span class="mi-n">Flat white</span><span class="mi-dots"></span><span class="mi-p">5.5</span></p>
+          <p class="mi" data-anim><span class="mi-n">Batch filter</span><span class="mi-dots"></span><span class="mi-p">5</span></p>
+          <p class="mi" data-anim><span class="mi-n">Mocha</span><span class="mi-dots"></span><span class="mi-p">6</span></p>
+          <p class="mi" data-anim><span class="mi-n">Iced long black</span><span class="mi-dots"></span><span class="mi-p">6.5</span></p>
+          <p class="mi" data-anim><span class="mi-n">Hot chocolate</span><span class="mi-dots"></span><span class="mi-p">5.5</span></p>
         </div>
       </div>
+
+      <p class="menu-foot">Menu changes with the season — this one's summer's. Dietaries welcome, yell out.</p>
     </div>
   </section>
 
-  <section id="story">
+  <section data-page="story" class="page-sec">
     <div class="wrap story-grid">
       <div class="story-text">
         <span class="section-kicker">Our story</span>
-        <h2 style="margin-bottom:1.1rem">A café built around the neighbourhood</h2>
-        <p>Little Harbour started as a coffee cart on Jackson Street and grew into a proper sit-down café once the regulars started asking for somewhere to actually sit down. We're still run by the same two people who started it — just with better chairs now.</p>
-        <p>We buy flowers from the stall two doors down every Friday, bake most mornings before sunrise, and keep the menu small enough that everything on it is something we'd genuinely want to eat ourselves.</p>
+        <h1 style="margin-bottom:1.1rem;font-size:clamp(1.8rem,4vw,2.5rem)" data-anim>A café built around the neighbourhood.</h1>
+        <p data-anim>We opened with four tables, a secondhand Linea and a theory: if the coffee's right and the welcome's real, Petone would do the rest. It did.</p>
+        <p data-anim>The fish comes off the wharf, the veges from the Saturday market, and half the art on the walls is by regulars under ten.</p>
       </div>
       <div class="story-photo">
-        <img src="../assets/img/gal-joy-florals.jpg" alt="A warm still-life of fresh flowers on a café table, part of the Little Harbour Café's Friday flower delivery.">
+        <img src="../assets/img/gal-joy-florals.jpg" loading="lazy" alt="A warm still-life of fresh flowers on a café table, part of the Little Harbour Café's Friday flower delivery.">
       </div>
     </div>
   </section>
 
-  <section id="gallery">
+  <section data-page="gallery" class="page-sec">
     <div class="wrap">
       <div class="section-head">
         <span class="section-kicker">A little look inside</span>
-        <h2>Gallery</h2>
+        <h1>Gallery</h1>
       </div>
-      <div class="gallery-grid">
-        <div class="gallery-tile">
-          <img src="../assets/img/gal-cafe-doc.jpg" alt="Little Harbour Café's counter and coffee machine.">
-        </div>
-        <div class="gallery-tile g-terracotta g-tex" role="img" aria-label="Terracotta colour tile in the Little Harbour Café palette"></div>
-        <div class="gallery-tile">
-          <img src="../assets/img/gal-joy-florals.jpg" alt="Fresh flowers on a café table at Little Harbour Café.">
-        </div>
-        <div class="gallery-tile g-sage" role="img" aria-label="Sage colour tile in the Little Harbour Café palette"></div>
-        <div class="gallery-tile g-cream g-tex" role="img" aria-label="Cream textured tile in the Little Harbour Café palette"></div>
-        <div class="gallery-tile g-espresso" role="img" aria-label="Espresso colour tile in the Little Harbour Café palette"></div>
+      <div class="strip">
+        <figure class="frame">
+          <img src="../assets/img/gal-cafe-doc.jpg" loading="lazy" alt="Little Harbour Café's counter and coffee machine.">
+          <figcaption>the regulars</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="../assets/img/gal-joy-florals.jpg" loading="lazy" alt="Fresh flowers on a café table at Little Harbour Café.">
+          <figcaption>tuesday's flowers</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="../assets/img/gal-brick-walker.jpg" loading="lazy" alt="A person walking past a brick building on Jackson Street, Petone.">
+          <figcaption>jackson street</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="../assets/img/gal-ferry-teal.jpg" loading="lazy" alt="The Petone to Wellington commuter ferry crossing the harbour.">
+          <figcaption>the commute</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="../assets/img/gal-pasifika.jpg" loading="lazy" alt="Festival-goers celebrating Pasifika weekend near the waterfront.">
+          <figcaption>festival weekend</figcaption>
+        </figure>
       </div>
     </div>
   </section>
 
-  <section id="reviews">
+  <section data-page="find-us" class="page-sec">
     <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Kind words</span>
-        <h2>What the regulars say</h2>
-      </div>
-      <div class="review-grid">
-        <article class="review-card">
-          <p class="review-quote">"Best flat white in Petone, no contest. The staff know my order before I've said a word."</p>
-          <p class="review-name">— Aroha</p>
-        </article>
-        <article class="review-card">
-          <p class="review-quote">"Brought the dog and the toddler and nobody batted an eyelid. That's a rare café combo."</p>
-          <p class="review-name">— Ben</p>
-        </article>
-        <article class="review-card">
-          <p class="review-quote">"The shakshuka is worth crossing the harbour for. Went back three times in one week."</p>
-          <p class="review-name">— Meera</p>
-        </article>
+      <p class="status-big" data-status-big>OPEN</p>
+      <p class="status-sentence" data-status><span class="st-dot"></span><span class="st-txt"></span></p>
+
+      <table class="hours-table">
+        <tbody>
+          <tr data-dow="1"><td>Monday</td><td>7am – 3pm</td></tr>
+          <tr data-dow="2"><td>Tuesday</td><td>7am – 3pm</td></tr>
+          <tr data-dow="3"><td>Wednesday</td><td>7am – 3pm</td></tr>
+          <tr data-dow="4"><td>Thursday</td><td>7am – 3pm</td></tr>
+          <tr data-dow="5"><td>Friday</td><td>7am – 3pm</td></tr>
+          <tr data-dow="6"><td>Saturday</td><td>8am – 2pm</td></tr>
+          <tr data-dow="7"><td>Sunday</td><td>8am – 2pm</td></tr>
+        </tbody>
+      </table>
+
+      <div class="find-address">
+        <p>2 Beach Street, Petone — Lower Hutt</p>
+        <p>Walk in — no bookings under six. Dogs outside, sorry team.</p>
       </div>
     </div>
   </section>
@@ -469,12 +486,13 @@
     <div class="footer-grid">
       <div>
         <h3>Find us</h3>
-        <p>18 Jackson Street</p>
+        <p>2 Beach Street</p>
         <p>Petone, Lower Hutt</p>
       </div>
       <div>
         <h3>Hours</h3>
-        <p>Open daily, 7am – 3pm</p>
+        <p>Mon–Fri 7am – 3pm</p>
+        <p>Sat–Sun 8am – 2pm</p>
       </div>
       <div>
         <h3>Say hello</h3>
@@ -493,7 +511,141 @@
   <span class="ss-demo-label">Template demo · <strong>The Counter</strong> · a Singh Studio build</span>
   <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Counter">Make it yours →</a></span>
 </div>
-<style>.ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}.ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}.ss-demo-bar a:hover{color:#ff4b2e}@media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}</style>
+
+<script>
+(function () {
+  var HOURS = [null,[7,15],[7,15],[7,15],[7,15],[7,15],[8,14],[8,14]]; // index 1=Mon..7=Sun
+  function nowNZ() {
+    var p = new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+    var g = {}; p.forEach(function (x) { g[x.type] = x.value; });
+    var dowMap = { Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6, Sun:7 };
+    return { dow: dowMap[g.weekday], mins: (+g.hour) * 60 + (+g.minute) };
+  }
+  function fmt(h) { var ap = h >= 12 ? 'pm' : 'am'; var hh = h % 12 || 12; return hh + ':00' + ap; }
+  window.__cafeStatus = function (t) {
+    t = t || nowNZ();
+    var today = HOURS[t.dow];
+    if (today && t.mins >= today[0] * 60 && t.mins < today[1] * 60) return { open: true, label: 'Open now — closes ' + fmt(today[1]) };
+    if (today && t.mins < today[0] * 60) return { open: false, label: 'Closed — opens ' + fmt(today[0]) + ' today' };
+    var d = t.dow, add = 0;
+    while (add < 8) { add++; d = d % 7 + 1; if (HOURS[d]) break; }
+    var when = add === 1 ? 'tomorrow' : 'on ' + ['','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][d];
+    return { open: false, label: 'Closed — opens ' + fmt(HOURS[d][0]) + ' ' + when };
+  };
+  function paint() {
+    var s = window.__cafeStatus();
+    document.querySelectorAll('[data-status]').forEach(function (el) {
+      el.classList.toggle('is-open', s.open);
+      var txt = el.querySelector('.st-txt');
+      if (txt) txt.textContent = s.label; else el.textContent = s.label;
+    });
+    var big = document.querySelector('[data-status-big]');
+    if (big) { big.textContent = s.open ? 'OPEN' : 'CLOSED'; big.classList.toggle('is-open', s.open); }
+    var t = nowNZ(); document.querySelectorAll('[data-dow]').forEach(function (r) { r.classList.toggle('today', +r.getAttribute('data-dow') === t.dow); });
+    var today = HOURS[t.dow];
+    var todayEl = document.querySelector('[data-today]');
+    if (todayEl) { todayEl.textContent = today ? ('Today: ' + fmt(today[0]) + ' – ' + fmt(today[1])) : 'Today: closed'; }
+  }
+  paint(); setInterval(paint, 60000);
+})();
+</script>
+
+<script>
+(function () {
+  var btn = document.querySelector('.m-btn'), menu = document.getElementById('mnav');
+  if (!btn || !menu) return;
+  function set(open) {
+    btn.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-locked', open);
+    if (!open) btn.focus({ preventScroll: true });
+  }
+  window.__closeMenu = function (refocus) {
+    if (menu.classList.contains('open')) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); document.body.classList.remove('menu-locked'); if (refocus !== false) btn.focus({ preventScroll: true }); }
+  };
+  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.__closeMenu(); });
+  var closeBtn = menu.querySelector('.m-close');
+  if (closeBtn) closeBtn.addEventListener('click', function () { window.__closeMenu(); });
+  menu.querySelectorAll('a[data-nav]').forEach(function (a) { a.addEventListener('click', function () { window.__closeMenu(false); }); });
+})();
+</script>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var pages = {};
+  document.querySelectorAll('[data-page]').forEach(function (s) { pages[s.getAttribute('data-page')] = s; });
+  var current = null;
+  function parse() {
+    var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
+    if (!h) return { page: 'home', param: null };
+    if (pages[h]) return { page: h, param: null };
+    var head = h.split('/')[0];
+    if (pages[head + '/:']) return { page: head + '/:', param: h.slice(head.length + 1) || null };
+    return { page: 'home', param: null };
+  }
+  function show(first) {
+    var r = parse();
+    var next = pages[r.page] || pages.home;
+    if (window.__pageSetup) { try { window.__pageSetup(r.page, r.param, next); } catch (e) {} }
+    if (next !== current) {
+      if (current) current.classList.remove('is-active');
+      next.classList.add('is-active');
+      current = next;
+    }
+    document.querySelectorAll('a[data-nav]').forEach(function (a) {
+      var t = a.getAttribute('href').replace(/^#\//, '') || 'home';
+      a.setAttribute('aria-current', t === r.page.split('/')[0] ? 'page' : 'false');
+    });
+    if (!first) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
+    window.scrollTo(0, 0);
+    if (window.__closeMenu) window.__closeMenu(false);
+    if (!first && window.__pageEnter) { try { window.__pageEnter(next); } catch (e) {} }
+  }
+  window.addEventListener('hashchange', function () { show(false); });
+  show(true);
+})();
+</script>
+
+<script type="module">
+try {
+  const { animate, createTimeline, stagger, svg, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+  const REDUCED = () => sessionStorage.getItem('ss_reduced') === '1'
+    || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $  = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  window.__pageEnter = (section) => {
+    if (REDUCED()) return;
+    const els = $$('[data-anim]', section);
+    if (!els.length) return;
+    els.forEach((e) => { e.style.opacity = '0'; });
+    animate(els, { opacity: [0, 1], translateY: [14, 0], duration: 560, ease: 'outQuint', delay: stagger(40) });
+  };
+  if (!REDUCED()) {
+    const heroEls = $$('.hero [data-anim]');
+    heroEls.forEach((e) => { e.style.opacity = '0'; });
+    createTimeline({ defaults: { ease: 'outQuint' } })
+      .add('.masthead .logo', { opacity: [0, 1], translateY: [10, 0], duration: 550 })
+      .add(svg.createDrawable('.steam path'), { draw: '0 1', duration: 1100, ease: 'inOutQuad', delay: stagger(140) }, '-=300')
+      .add('.status-chip', { opacity: [0, 1], scale: [.92, 1], duration: 450, ease: 'outBack' }, '-=400')
+      .add(heroEls, { opacity: [0, 1], translateY: [14, 0], duration: 550, delay: stagger(70) }, '-=250');
+
+    const strip = $('.strip');
+    if (strip && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target, { opacity: [0, 1], translateX: [24, 0], duration: 600, ease: 'outQuad' });
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .25 });
+      $$('.strip img').forEach((img) => { img.style.opacity = '0'; io.observe(img); });
+    }
+  }
+} catch (e) { /* CDN down: fully functional, no motion */ }
+</script>
 
 </body>
 </html>
