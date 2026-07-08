@@ -92,7 +92,6 @@
   .topbar .btn{padding:.6rem 1.15rem;font-size:.86rem}
   @media (max-width:820px){
     .nav-links{display:none}
-    .m-btn{display:inline-flex}
   }
   @media (max-width:560px){
     .topbar .btn-acid{padding:.55rem .95rem;font-size:.82rem}
@@ -103,6 +102,9 @@
     display:none;background:transparent;border:1px solid var(--line-2);color:var(--ink);
     width:40px;height:40px;align-items:center;justify-content:center;border-radius:2px;cursor:pointer;
     position:relative;z-index:110;
+  }
+  @media (max-width:820px){
+    .m-btn{display:inline-flex} /* must follow the base display:none rule — cascade order, equal specificity */
   }
   .m-btn span{display:block;width:18px;height:2px;background:var(--ink);position:relative}
   .m-btn span::before,.m-btn span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--ink)}
@@ -406,7 +408,23 @@
           <button type="button" class="tt-tab" id="tt-day1" data-day="1" aria-pressed="true">Day 1 — Fri 13</button>
           <button type="button" class="tt-tab" id="tt-day2" data-day="2" aria-pressed="false">Day 2 — Sat 14</button>
         </div>
-        <div class="tt-stages" id="tt-stages" aria-live="polite"></div>
+        <div class="tt-stages" id="tt-stages" aria-live="polite">
+          <!-- Static Day 1 fallback: renderTT() replaces this when JS runs -->
+          <div class="tt-col"><h2 class="tt-stage-h">MAIN HALL</h2>
+            <div class="tt-row"><span class="tt-time mono">09:00</span><div><p class="tt-title">Pōwhiri &amp; opening</p><p class="tt-who">Mana whenua + hosts</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">10:00</span><div><p class="tt-title">Kaupapa-led teams</p><p class="tt-who">Troy Baker-Hōne</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">11:30</span><div><p class="tt-title">Shipping culture, not features</p><p class="tt-who">Elena Vaske</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">14:00</span><div><p class="tt-title">Burnout is a design flaw</p><p class="tt-who">Lou Barrett</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">16:00</span><div><p class="tt-title">Panel: The next apprenticeships</p><p class="tt-who">Raghavan, Kahu, Thorne</p></div></div>
+          </div>
+          <div class="tt-col"><h2 class="tt-stage-h">WORKSHOP ROOM</h2>
+            <div class="tt-row"><span class="tt-time mono">10:00</span><div><p class="tt-title">Critique clinic (bring work)</p><p class="tt-who">Ruby Thorne</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">11:30</span><div><p class="tt-title">Saying no, kindly</p><p class="tt-who">Dr Min-Ju Pae</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">13:30</span><div><p class="tt-title">Reo for the workplace</p><p class="tt-who">Hana Te Rire</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">15:00</span><div><p class="tt-title">Decision journals</p><p class="tt-who">Greta Lindqvist</p></div></div>
+            <div class="tt-row"><span class="tt-time mono">16:30</span><div><p class="tt-title">Open studio</p><p class="tt-who">All workshop leads</p></div></div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
