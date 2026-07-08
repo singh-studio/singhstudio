@@ -41,7 +41,9 @@ Insert these verbatim where a task says "insert Pattern X". `{{PLACEHOLDERS}}` a
   document.querySelectorAll('[data-page]').forEach(function (s) { pages[s.getAttribute('data-page')] = s; });
   var current = null;
   function parse() {
-    var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
+    var h = location.hash.replace(/^#\/?/, '');
+    try { h = decodeURIComponent(h); } catch (e) {} // malformed hash (#/%) must not blank the page
+    h = h.replace(/\/$/, '');
     if (!h) return { page: 'home', param: null };
     if (pages[h]) return { page: h, param: null };
     var head = h.split('/')[0];

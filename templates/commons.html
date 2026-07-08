@@ -841,7 +841,7 @@
             </div>
             <button class="btn btn-forest" type="submit">Send it in</button>
           </form>
-          <div class="notice success" style="--tilt:-0.8deg" data-tilt="-0.8" id="vol-success" hidden>
+          <div class="notice success" style="--tilt:-0.8deg" data-tilt="-0.8" id="vol-success" role="status" tabindex="-1" hidden>
             <h3>Thanks!</h3>
             <p>Nau mai, haere mai — we'll be in touch within the week.</p>
           </div>
@@ -935,18 +935,23 @@
 
     function clearError(input) {
       input.classList.remove('err');
+      input.removeAttribute('aria-invalid');
+      input.removeAttribute('aria-describedby');
       var msg = input.parentNode.querySelector('.err-msg');
       if (msg) msg.parentNode.removeChild(msg);
     }
 
     function setError(input) {
       input.classList.add('err');
+      input.setAttribute('aria-invalid', 'true');
       if (!input.parentNode.querySelector('.err-msg')) {
         var msg = document.createElement('span');
         msg.className = 'err-msg';
+        msg.id = input.id + '-err';
         msg.textContent = "Required — we'd love to know who's coming.";
         input.parentNode.appendChild(msg);
       }
+      input.setAttribute('aria-describedby', input.id + '-err');
     }
 
     [nameInput, emailInput].forEach(function (input) {
@@ -968,7 +973,10 @@
       });
       if (valid) {
         form.hidden = true;
-        if (successCard) successCard.hidden = false;
+        if (successCard) {
+          successCard.hidden = false;
+          successCard.focus({ preventScroll: false });
+        }
       }
     });
   }
@@ -1000,7 +1008,9 @@
   document.querySelectorAll('[data-page]').forEach(function (s) { pages[s.getAttribute('data-page')] = s; });
   var current = null;
   function parse() {
-    var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
+    var h = location.hash.replace(/^#\/?/, '');
+    try { h = decodeURIComponent(h); } catch (e) {}
+    h = h.replace(/\/$/, '');
     if (!h) return { page: 'home', param: null };
     if (pages[h]) return { page: h, param: null };
     var head = h.split('/')[0];
@@ -1032,7 +1042,7 @@
 
 <script type="module">
 try {
-  const { animate, createTimeline, stagger, svg, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+  const { animate, createTimeline, stagger, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
   const REDUCED = () => sessionStorage.getItem('ss_reduced') === '1'
     || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $  = (s, r) => (r || document).querySelector(s);
