@@ -21,6 +21,25 @@ const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const lerp = (a, b, t) => a + (b - a) * t;
 
 /* ============================================================
+   TRACKING — provider-agnostic wrapper. No provider is loaded
+   yet (D1 pending); this must no-op safely until one is.
+   ============================================================ */
+
+/* Track — thin wrapper so the provider can change without touching call sites */
+const track = (name, props = {}) => {
+  try {
+    if (window.gtag) gtag("event", name, props);
+    else if (window.plausible) plausible(name, { props });
+  } catch { /* analytics must never break the page */ }
+};
+
+/* Delegated click tracking — one listener, not per-element */
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-track]");
+  if (el) track(el.dataset.track, { label: el.dataset.trackLabel || el.textContent.trim().slice(0, 60) });
+});
+
+/* ============================================================
    PRELOADER
    ============================================================ */
 (() => {
@@ -115,6 +134,10 @@ const lerp = (a, b, t) => a + (b - a) * t;
   const menu = document.getElementById("menu");
   let lastY = window.scrollY;
 
+  // Dialog semantics — set once, the menu is a modal overlay whenever open
+  menu.setAttribute("role", "dialog");
+  menu.setAttribute("aria-modal", "true");
+
   window.addEventListener("scroll", () => {
     const y = window.scrollY;
     nav.classList.toggle("scrolled", y > 60);
@@ -131,9 +154,39 @@ const lerp = (a, b, t) => a + (b - a) * t;
     burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     menu.setAttribute("aria-hidden", String(!open));
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      const first = menu.querySelector("a, button");
+      if (first) first.focus();
+    } else {
+      burger.focus();
+    }
   };
   burger.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
   menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+
+  // Focus trap + Escape while the menu is open
+  menu.addEventListener("keydown", (e) => {
+    if (!menu.classList.contains("open")) return;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setMenu(false);
+      return;
+    }
+
+    if (e.key !== "Tab") return;
+    const focusable = [...menu.querySelectorAll("a, button")].filter((el) => !el.disabled);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 })();
 
 /* ============================================================
@@ -215,20 +268,46 @@ const lerp = (a, b, t) => a + (b - a) * t;
 (() => {
   const rows = [...document.querySelectorAll(".ix-row")];
   if (!rows.length) return;
+
+  const closeAll = () => {
+    rows.forEach((r) => {
+      r.classList.remove("open");
+      r.querySelector(".ix-head").setAttribute("aria-expanded", "false");
+    });
+  };
+
+  const openRow = (row, { scroll } = {}) => {
+    closeAll();
+    row.classList.add("open");
+    row.querySelector(".ix-head").setAttribute("aria-expanded", "true");
+    history.replaceState(null, "", "#" + row.id);
+    if (scroll) {
+      row.scrollIntoView({ block: "center", behavior: prefersReduced ? "auto" : "smooth" });
+    }
+  };
+
   rows.forEach((row) => {
     const head = row.querySelector(".ix-head");
     head.addEventListener("click", () => {
       const isOpen = row.classList.contains("open");
-      rows.forEach((r) => {
-        r.classList.remove("open");
-        r.querySelector(".ix-head").setAttribute("aria-expanded", "false");
-      });
-      if (!isOpen) {
-        row.classList.add("open");
-        head.setAttribute("aria-expanded", "true");
+      if (isOpen) {
+        closeAll();
+        history.replaceState(null, "", "#index");
+      } else {
+        openRow(row);
       }
     });
   });
+
+  // Deep links — open the matching row on load and on hash changes,
+  // without disturbing the plain "#index" nav link.
+  const applyHash = () => {
+    const id = location.hash.slice(1);
+    const row = rows.find((r) => r.id === id);
+    if (row) openRow(row, { scroll: true });
+  };
+  applyHash();
+  window.addEventListener("hashchange", applyHash);
 })();
 
 /* ============================================================

@@ -127,6 +127,22 @@ const PRIORITY_LABEL = {
   const state = { type: null, priority: null };
   const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- persistence — survive a trip to a demo and back ---- */
+  const STORE_KEY = "ss-finder";
+  const saveState = () => {
+    try { sessionStorage.setItem(STORE_KEY, JSON.stringify({ type: state.type, priority: state.priority })); }
+    catch { /* private mode — persistence is a nicety, not a requirement */ }
+  };
+  const clearState = () => {
+    try { sessionStorage.removeItem(STORE_KEY); } catch { /* private mode */ }
+  };
+  const loadState = () => {
+    try {
+      const raw = sessionStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  };
+
   /* ---- filter map: type → the data-filter value(s) that match ---- */
   const TYPE_FILTER = {
     trade: ["trade"],
@@ -198,7 +214,7 @@ const PRIORITY_LABEL = {
       (note ? ' <span class="tr-note">&middot; ' + note + "</span>" : "") +
       "</p>" +
       '<p class="tr-why">' + why + "</p>" +
-      '<a class="tr-demo" href="' + tpl.demo + '" data-cursor="OPEN">View the demo <span aria-hidden="true">&rarr;</span></a>';
+      '<a class="tr-demo" href="' + tpl.demo + '" data-cursor="OPEN" data-track="demo_view" data-track-label="' + key + '">View the demo <span aria-hidden="true">&rarr;</span></a>';
 
     card.insertBefore(ribbon, card.firstChild);
     return card;
@@ -233,6 +249,7 @@ const PRIORITY_LABEL = {
     setPriorityEnabled(false);
     removeRibbon();
     cards.forEach((c) => { c.hidden = false; }); // show all seven
+    clearState();
   };
 
   /* ---- events: type chips ---- */
@@ -244,6 +261,7 @@ const PRIORITY_LABEL = {
       pressGroup(prioBtns, null);
       setPriorityEnabled(true);
       update({ scroll: true });
+      saveState();
     });
   });
 
@@ -254,6 +272,7 @@ const PRIORITY_LABEL = {
       state.priority = btn.dataset.priority;
       pressGroup(prioBtns, btn);
       update({ scroll: false });      // refine in place, no jump
+      saveState();
     });
   });
 
@@ -266,4 +285,19 @@ const PRIORITY_LABEL = {
 
   /* start muted */
   setPriorityEnabled(false);
+
+  /* ---- restore — replay the stored pick through the real click
+     handlers above, so filtering, the ribbon and aria-pressed all
+     come back exactly as a live pick would set them. ---- */
+  const stored = loadState();
+  if (stored && stored.type) {
+    const typeBtn = typeBtns.find((b) => b.dataset.type === stored.type);
+    if (typeBtn) {
+      typeBtn.click();
+      if (stored.priority) {
+        const prioBtn = prioBtns.find((b) => b.dataset.priority === stored.priority);
+        if (prioBtn) prioBtn.click();
+      }
+    }
+  }
 })();

@@ -2266,3 +2266,16 @@ body, section, .footer, .menu, .set-tabs, .proof {
 .section-light .tpl-ribbon .tr-demo { color: var(--ink); }
 .tpl-ribbon .tr-demo span { color: var(--red); transition: transform 0.35s var(--ease-out); }
 .tpl-ribbon .tr-demo:hover span { transform: translateX(4px); }
+
+/* ============================================================
+   PRINT — kris.html reads as a clean CV
+   ============================================================ */
+@media print {
+  .nav, .menu, .footer, .cursor, .grain, .progress, .to-top-btn,
+  .btn, .case-next, .theme-toggle { display: none !important; }
+  body { background: #fff; color: #111; font-size: 11pt; }
+  .sub-hero { padding-top: 0; }
+  a { color: #111; text-decoration: none; }
+  .case-meta dt, .eyebrow, .fact dt { color: #444; }
+  section { padding-block: 1.2rem; break-inside: avoid; }
+}

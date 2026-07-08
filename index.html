@@ -66,7 +66,7 @@
     </nav>
     <div class="nav-right">
       <span class="nav-clock" id="navClock" aria-hidden="true">NZ&nbsp;—&nbsp;00:00:00</span>
-      <a class="btn btn-solid btn-book" href="#contact" data-cursor="BOOK">Book a call</a>
+      <a class="btn btn-solid btn-book" href="#contact" data-cursor="BOOK" data-track="book_click" data-track-label="nav">Book a call</a>
       <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
         <span></span><span></span>
       </button>
@@ -112,7 +112,7 @@
         <div class="hero-under">
           <p class="hero-serif" data-reveal style="--i:5">Telling stories <em>that matter.</em></p>
           <div class="hero-ctas" data-reveal style="--i:6">
-            <a class="btn btn-solid" href="#contact" data-magnetic data-cursor="BOOK">Book a 20-min call</a>
+            <a class="btn btn-solid" href="#contact" data-magnetic data-cursor="BOOK" data-track="book_click" data-track-label="hero">Book a 20-min call</a>
             <a class="btn btn-ghost" href="#work" data-magnetic data-cursor="GO">See the work</a>
           </div>
         </div>
@@ -165,7 +165,7 @@
 
       <div class="index-list" id="indexList">
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-web-design">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/01</span>
             <span class="ix-title">Web Design</span>
@@ -181,7 +181,7 @@
           </div>
         </div>
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-strategy-comms">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/02</span>
             <span class="ix-title">Strategy &amp; Comms</span>
@@ -196,7 +196,7 @@
           </div>
         </div>
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-app-development">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/03</span>
             <span class="ix-title">App Development</span>
@@ -211,7 +211,7 @@
           </div>
         </div>
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-ai-systems">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/04</span>
             <span class="ix-title">AI Systems</span>
@@ -226,7 +226,7 @@
           </div>
         </div>
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-photography">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/05</span>
             <span class="ix-title">Photography</span>
@@ -241,7 +241,7 @@
           </div>
         </div>
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-video-film">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/06</span>
             <span class="ix-title">Video &amp; Film</span>
@@ -256,7 +256,7 @@
           </div>
         </div>
 
-        <div class="ix-row">
+        <div class="ix-row" id="d-audio-music">
           <button class="ix-head" aria-expanded="false">
             <span class="ix-num">/07</span>
             <span class="ix-title">Audio &amp; Music</span>
@@ -552,7 +552,7 @@
           <span class="cc-value"><span class="dot" aria-hidden="true"></span><span id="bookingWindow">Currently booking</span></span>
         </div>
         <div class="cc-actions">
-          <a class="btn btn-solid btn-big" id="bookBtn" href="#" data-magnetic data-cursor="BOOK">
+          <a class="btn btn-solid btn-big" id="bookBtn" href="#" data-magnetic data-cursor="BOOK" data-track="book_click" data-track-label="contact_card">
             Book a Google&nbsp;Meet <span class="btn-arrow">→</span>
           </a>
           <a class="cc-alt" href="mailto:kris@singhstudio.co.nz?subject=Project%20enquiry%20—%20Singh%20Studio">or write: kris@singhstudio.co.nz</a>
@@ -577,7 +577,7 @@
     </div>
     <div class="footer-bottom">
       <span>© <span id="year">2026</span> Singh Studio, Aotearoa New Zealand</span>
-      <a class="footer-mail" href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a>
+      <a class="footer-mail" href="mailto:kris@singhstudio.co.nz" data-track="email_click">kris@singhstudio.co.nz</a>
       <span class="footer-hint">Press <kbd>/</kbd> anywhere. The slash starts the conversation</span>
       <span class="footer-note">Designed &amp; built in-house. Obviously.</span>
     </div>
