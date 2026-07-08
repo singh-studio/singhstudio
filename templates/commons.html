@@ -30,6 +30,11 @@
     --r-lg:20px;
     --r-md:16px;
     --r-sm:12px;
+    --paper-1:#fffdf8;
+    --paper-2:#fbf6ea;
+    --paper-3:#f3ead6;
+    --tape:rgba(233,214,160,.55);
+    --err:#c0392b;
   }
 
   *,*::before,*::after{box-sizing:border-box}
@@ -70,6 +75,11 @@
     outline-offset:3px;
     border-radius:4px;
   }
+
+  /* ===== Router page shell ===== */
+  html.js main > [data-page]{display:none}
+  html.js main > [data-page].is-active{display:block}
+  [data-page]:focus{outline:none}
 
   /* ===== Buttons ===== */
   .btn{
@@ -114,6 +124,7 @@
     justify-content:space-between;
     gap:1.5rem;
     padding-block:1rem;
+    position:relative;
   }
   .brandname{
     font-family:var(--display);
@@ -140,9 +151,10 @@
     border-bottom:2px solid transparent;
   }
   .navlinks a:not(.btn):hover{border-bottom-color:var(--clay)}
+  .navlinks a:not(.btn)[aria-current="page"]{border-bottom-color:var(--forest)}
   .navlinks .btn-sunshine{padding:0.6em 1.4em;font-size:0.9rem}
 
-  .nav-toggle{
+  .m-btn{
     display:none;
     background:none;
     border:2px solid var(--forest-deep);
@@ -156,7 +168,9 @@
   }
 
   @media (max-width:820px){
-    .navlinks{
+    .navlinks{display:none}
+    .m-btn{display:inline-block}
+    .m-menu{
       position:absolute;
       top:100%;
       left:0;
@@ -169,8 +183,8 @@
       gap:1rem;
       display:none;
     }
-    .navlinks.open{display:flex}
-    .nav-toggle{display:inline-block}
+    .m-menu.open{display:flex}
+    body.menu-locked{overflow:hidden}
   }
 
   /* ===== Hero ===== */
@@ -214,6 +228,7 @@
     width:100%;
     height:100%;
     object-fit:cover;
+    will-change:transform;
   }
 
   @media (max-width:900px){
@@ -224,7 +239,6 @@
   /* ===== Section shell ===== */
   section{padding-block:clamp(2.5rem, 5.5vw, 4.5rem)}
   .section-head{max-width:60ch;margin-bottom:clamp(1.8rem, 4vw, 2.8rem)}
-  .section-head.center{margin-inline:auto;text-align:center}
   .section-eyebrow{
     display:inline-block;
     font-size:0.85rem;
@@ -236,201 +250,327 @@
   }
   .section-head h2{font-size:clamp(1.7rem, 3.2vw, 2.3rem)}
   .section-head p{color:#453f34;font-size:1.02rem;margin-bottom:0}
+  h1.page-h1{font-size:clamp(2rem, 4.2vw, 2.9rem);margin-bottom:0.4em}
+  .page-lede{max-width:56ch;color:#453f34;font-size:1.05rem}
+
+  /* ===== Noticeboard grammar ===== */
+  .board{
+    background:var(--sand-deep);
+    border-radius:var(--r-lg);
+    padding:clamp(1.6rem, 4vw, 2.6rem) clamp(1.2rem, 3.5vw, 2.2rem);
+    background-image:
+      linear-gradient(rgba(42,38,32,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(42,38,32,.05) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  .notice-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:clamp(1.6rem, 3vw, 2.4rem) clamp(1.3rem, 3vw, 2rem);
+  }
+  .notice-grid.cols-4{grid-template-columns:repeat(4, 1fr)}
+  .notice{
+    position:relative;
+    border:1px solid rgba(42,38,32,.12);
+    box-shadow:0 10px 24px rgba(42,38,32,.10);
+    border-radius:4px;
+    padding:1.6rem 1.4rem 1.5rem;
+    transform:rotate(var(--tilt));
+  }
+  .notice::before{
+    content:"";
+    position:absolute;
+    top:-13px;
+    left:50%;
+    width:88px;
+    height:26px;
+    background:var(--tape);
+    transform:translateX(-50%) rotate(-2deg);
+  }
+  .notice:nth-of-type(3n+1){background:var(--paper-1)}
+  .notice:nth-of-type(3n+2){background:var(--paper-2)}
+  .notice:nth-of-type(3n){background:var(--paper-3)}
+  .notice h3{font-size:1.15rem;margin-bottom:0.35em}
+  .notice p{font-size:0.95rem;color:#453f34;margin-bottom:0.8em}
+  .notice .n-when{
+    display:inline-block;
+    font-size:0.82rem;
+    font-weight:600;
+    color:var(--forest);
+    background:rgba(46,83,57,0.09);
+    padding:0.3em 0.8em;
+    border-radius:999px;
+  }
+  .notice .n-meta{
+    display:flex;
+    flex-direction:column;
+    gap:0.45em;
+    margin-top:0.9em;
+    padding-top:0.9em;
+    border-top:1px dashed rgba(42,38,32,.2);
+  }
+  .notice .n-meta div{font-size:0.86rem;display:flex;gap:0.5em}
+  .notice .n-meta .n-label{
+    font-family:ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--forest);
+    flex:0 0 auto;
+    min-width:4.4em;
+  }
+  .notice .n-meta .n-val{color:#453f34}
+  .notice.success{max-width:52ch;margin-inline:auto;text-align:center}
+  .notice.success p{margin-bottom:0}
+
+  .board-link{
+    display:inline-flex;
+    align-items:center;
+    gap:0.4em;
+    margin-top:clamp(1.6rem, 3vw, 2.2rem);
+    font-weight:600;
+    text-decoration:none;
+    color:var(--forest-deep);
+    border-bottom:2px solid var(--sunshine-deep);
+    padding-bottom:0.15em;
+  }
+  .board-link:hover{color:var(--clay);border-bottom-color:var(--clay)}
+
+  @media (max-width:900px){
+    .notice-grid,.notice-grid.cols-4{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .notice-grid,.notice-grid.cols-4{grid-template-columns:1fr}
+  }
 
   /* ===== Impact stats ===== */
   .stats-grid{
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(3, 1fr);
     gap:clamp(1rem, 2.5vw, 1.5rem);
   }
   .stat-card{
-    background:#fff;
-    border-radius:var(--r-md);
-    padding:clamp(1.4rem, 2.5vw, 1.8rem) 1.3rem;
     text-align:center;
-    border:2px solid var(--sand-deep);
+    padding:0.5rem 1rem;
   }
   .stat-num{
     display:block;
     font-family:var(--display);
     font-weight:800;
-    font-size:clamp(1.8rem, 3.4vw, 2.4rem);
+    font-size:clamp(2rem, 4vw, 2.8rem);
     color:var(--forest);
     line-height:1.05;
-    margin-bottom:0.2em;
+    margin-bottom:0.25em;
   }
-  .stat-label{font-size:0.92rem;color:#453f34;font-weight:600}
+  .stat-label{
+    font-size:0.82rem;
+    color:#5c5546;
+    font-weight:600;
+    font-variant:small-caps;
+    letter-spacing:0.04em;
+  }
 
-  @media (max-width:760px){
-    .stats-grid{grid-template-columns:1fr 1fr}
-  }
-  @media (max-width:460px){
+  @media (max-width:640px){
     .stats-grid{grid-template-columns:1fr}
   }
 
-  /* ===== Programmes ===== */
-  .programmes-layout{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:clamp(1.5rem, 3vw, 2.5rem);
-    align-items:start;
+  /* ===== Events filter ===== */
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.7rem;
+    margin-bottom:1.3rem;
   }
-  .programme-photo-wrap{
-    border-radius:var(--r-lg);
-    overflow:hidden;
-    position:sticky;
-    top:6rem;
-    aspect-ratio:3/4;
-  }
-  .programme-photo-wrap img{width:100%;height:100%;object-fit:cover}
-  .programme-cards{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:1.2rem;
-  }
-  .programme-card{
-    background:#fff;
-    border-radius:var(--r-md);
-    padding:1.5rem;
-    border:2px solid var(--sand-deep);
-  }
-  .programme-card h3{font-size:1.15rem;margin-bottom:0.4em}
-  .programme-card p{font-size:0.94rem;color:#453f34;margin-bottom:0.7em}
-  .programme-when{
-    display:inline-block;
-    font-size:0.82rem;
+  .chip{
+    font-family:var(--body);
     font-weight:600;
-    color:var(--forest);
-    background:var(--sand);
-    padding:0.3em 0.8em;
+    font-size:0.85rem;
+    letter-spacing:0.02em;
+    background:#fff;
+    color:var(--forest-deep);
+    border:2px solid var(--sand-deep);
     border-radius:999px;
+    padding:0.55em 1.2em;
+    cursor:pointer;
+    transition:background-color .18s ease, color .18s ease, border-color .18s ease;
   }
-
-  @media (max-width:900px){
-    .programmes-layout{grid-template-columns:1fr}
-    .programme-photo-wrap{position:static;aspect-ratio:16/9}
+  .chip:hover{border-color:var(--forest)}
+  .chip[aria-pressed="true"]{background:var(--forest);color:var(--sand);border-color:var(--forest)}
+  .ev-count{
+    font-size:0.88rem;
+    color:#5c5546;
+    font-weight:600;
+    margin-bottom:1.2rem;
   }
-  @media (max-width:560px){
-    .programme-cards{grid-template-columns:1fr}
-  }
-
-  /* ===== Events ===== */
   .events-list{
     display:flex;
     flex-direction:column;
     gap:1rem;
   }
-  .event-row{
+  .ev{
     display:grid;
-    grid-template-columns:96px 1fr;
+    grid-template-columns:84px 1fr auto;
     gap:1.3rem;
     align-items:center;
     background:#fff;
     border-radius:var(--r-md);
-    padding:1.2rem 1.4rem;
+    padding:1.1rem 1.3rem;
     border:2px solid var(--sand-deep);
   }
-  .event-date{
+  .ev.hide{display:none}
+  .ev-date{
     background:var(--forest);
     color:var(--sand);
     border-radius:var(--r-sm);
     text-align:center;
-    padding:0.7em 0.4em;
+    padding:0.6em 0.3em;
+    font-family:ui-monospace, 'SFMono-Regular', Menlo, monospace;
   }
-  .event-date .day{
+  .ev-date .ev-day{
     display:block;
-    font-family:var(--display);
     font-weight:800;
-    font-size:1.5rem;
-    line-height:1;
+    font-size:1.15rem;
+    line-height:1.15;
   }
-  .event-date .mon{
+  .ev-date .ev-mon{
     display:block;
-    font-size:0.72rem;
+    font-size:0.68rem;
     letter-spacing:0.06em;
     text-transform:uppercase;
-    margin-top:0.3em;
+    margin-top:0.15em;
   }
-  .event-row h3{font-size:1.1rem;margin-bottom:0.2em}
-  .event-row p{font-size:0.92rem;color:#453f34;margin-bottom:0}
-
-  @media (max-width:520px){
-    .event-row{grid-template-columns:70px 1fr;gap:1rem;padding:1rem}
-    .event-date .day{font-size:1.2rem}
-  }
-
-  /* ===== Volunteer strip ===== */
-  .volunteer-strip{
-    background:var(--forest);
-    color:var(--sand);
-    border-radius:var(--r-lg);
-    padding:clamp(2rem, 4vw, 3rem);
-    text-align:center;
-  }
-  .volunteer-strip h2{color:var(--sand);font-size:clamp(1.6rem, 3vw, 2.1rem)}
-  .volunteer-strip p{
-    max-width:56ch;
-    margin-inline:auto;
-    color:rgba(243,233,215,0.9);
-    font-size:1.05rem;
-  }
-  .volunteer-strip .btn-sunshine{margin-top:0.6rem}
-
-  /* ===== Supporters ===== */
-  .supporters-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0.6rem 1.2rem;
-    justify-content:center;
-    text-align:center;
-  }
-  .supporters-row span{
+  .ev-name{font-family:var(--display);font-weight:800;font-size:1.05rem;color:var(--forest-deep)}
+  .ev-tag{
+    justify-self:end;
+    font-size:0.72rem;
     font-weight:600;
-    color:#5c5546;
-    font-size:0.98rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:0.4em 0.9em;
+    border-radius:999px;
+    background:var(--sand);
+    color:var(--forest);
+    white-space:nowrap;
   }
-  .supporters-row span:not(:last-child)::after{
-    content:"·";
-    margin-left:1.2rem;
-    color:var(--sunshine-deep);
+  .ev[data-type="kai"] .ev-tag{background:#f2ded0;color:var(--clay)}
+  .ev[data-type="whanau"] .ev-tag{background:#e4ecdf;color:var(--forest)}
+  .ev[data-type="learning"] .ev-tag{background:#fbe9c6;color:#8a611c}
+  .ev[data-type="fundraiser"] .ev-tag{background:#f6d9d0;color:#a8432a}
+
+  @media (max-width:560px){
+    .ev{grid-template-columns:64px 1fr;padding:0.95rem 1.1rem}
+    .ev-tag{grid-column:1 / -1;justify-self:start;margin-top:0.3em}
   }
 
-  /* ===== Newsletter ===== */
-  .newsletter-card{
-    background:var(--sunshine);
-    border-radius:var(--r-lg);
-    padding:clamp(1.8rem, 3.5vw, 2.6rem);
+  /* ===== Volunteer form ===== */
+  .vol-layout{
     display:grid;
-    grid-template-columns:1fr auto;
-    gap:1.5rem;
-    align-items:center;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:clamp(2rem, 4vw, 3.5rem);
+    align-items:start;
   }
-  .newsletter-copy h2{font-size:clamp(1.4rem, 2.6vw, 1.8rem);margin-bottom:0.3em}
-  .newsletter-copy p{color:#453f27;margin-bottom:0;font-size:0.95rem}
-  .newsletter-form{
-    display:flex;
-    flex-wrap:wrap;
-    gap:0.7rem;
+  .vol-form-card{
+    background:#fff;
+    border-radius:var(--r-lg);
+    border:2px solid var(--sand-deep);
+    padding:clamp(1.6rem, 3vw, 2.4rem);
   }
-  .newsletter-form input[type="email"]{
+  .f-field{margin-bottom:1.3rem}
+  .f-field label.f-label{
+    display:block;
+    font-weight:600;
+    font-size:0.92rem;
+    margin-bottom:0.45em;
+    color:var(--forest-deep);
+  }
+  .f-field input[type="text"],
+  .f-field input[type="email"]{
+    width:100%;
     font-family:var(--body);
-    font-size:0.95rem;
-    padding:0.85em 1.2em;
-    border-radius:999px;
-    border:2px solid var(--forest-deep);
-    min-width:220px;
+    font-size:0.98rem;
+    padding:0.75em 1em;
+    border-radius:var(--r-sm);
+    border:2px solid var(--sand-deep);
     background:#fff;
     color:var(--ink);
   }
-  .newsletter-helper{
-    width:100%;
-    font-size:0.8rem;
-    color:#5c5127;
-    margin-top:0.4rem;
+  .f-field input.err{outline:2px solid var(--err);border-color:var(--err)}
+  .err-msg{
+    color:var(--err);
+    font-size:0.82rem;
+    font-weight:600;
+    margin-top:0.4em;
+  }
+  .f-check-group,.f-radio-group{
+    display:flex;
+    flex-direction:column;
+    gap:0.55em;
+  }
+  .f-check-group label,.f-radio-group label{
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+    font-size:0.95rem;
+    font-weight:400;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .f-check-group input,.f-radio-group input{
+    width:1.1em;
+    height:1.1em;
+    accent-color:var(--forest);
+  }
+  .vol-form-card .btn{margin-top:0.4rem}
+  .vol-side{padding-top:0.5rem}
+  .vol-side h3{font-size:1.05rem;margin-bottom:0.5em}
+  .vol-side p{font-size:0.95rem;color:#453f34}
+
+  @media (max-width:820px){
+    .vol-layout{grid-template-columns:1fr}
+    .vol-side{order:-1}
   }
 
-  @media (max-width:760px){
-    .newsletter-card{grid-template-columns:1fr}
+  /* ===== Donate page ===== */
+  .impact-rows{
+    display:flex;
+    flex-direction:column;
+  }
+  .impact-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1.5rem;
+    padding-block:1.3rem;
+    border-bottom:2px solid var(--sand-deep);
+  }
+  .impact-row:first-child{border-top:2px solid var(--sand-deep)}
+  .impact-amount{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(1.8rem, 3.4vw, 2.4rem);
+    color:var(--forest);
+    flex:0 0 auto;
+  }
+  .impact-desc{font-size:1.02rem;color:#453f34;text-align:right}
+
+  @media (max-width:600px){
+    .impact-row{flex-direction:column;align-items:flex-start;gap:0.3rem}
+    .impact-desc{text-align:left}
+  }
+
+  .notice.donate-details{
+    max-width:44ch;
+    margin-top:clamp(2rem, 4vw, 2.8rem);
+    font-family:ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  }
+  .notice.donate-details .dd-line{font-size:1.02rem;margin-bottom:0.3em}
+  .notice.donate-details .dd-fine{
+    font-family:var(--body);
+    font-size:0.85rem;
+    color:#5c5546;
+    margin-top:0.8em;
+    margin-bottom:0;
   }
 
   /* ===== Footer ===== */
@@ -454,6 +594,16 @@
   .footer-grid a:hover{color:var(--sunshine);border-color:var(--sunshine)}
   .footer-charity{font-weight:600;color:var(--sand)}
 
+  /* ===== Photo strip (programmes) ===== */
+  .photo-strip{
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    aspect-ratio:21/8;
+    margin-bottom:clamp(1.8rem, 4vw, 2.6rem);
+    border:4px solid var(--sand-deep);
+  }
+  .photo-strip img{width:100%;height:100%;object-fit:cover}
+
   /* ===== Demo bar ===== */
   .ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
   .ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}
@@ -465,171 +615,267 @@
 
 <header class="topnav">
   <div class="wrap">
-    <a href="#top" class="brandname">Harbourside Community Trust</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" onclick="var n=document.getElementById('primary-nav');var open=n.classList.toggle('open');this.setAttribute('aria-expanded',open?'true':'false');this.textContent=open?'Close':'Menu';">Menu</button>
-    <ul class="navlinks" id="primary-nav">
-      <li><a href="#programmes">Programmes</a></li>
-      <li><a href="#events">Events</a></li>
-      <li><a href="#volunteer">Volunteer</a></li>
-      <li><a class="btn btn-sunshine" href="#">Donate</a></li>
+    <a href="#/" class="brandname">Harbourside Community Trust</a>
+    <button class="m-btn" type="button" aria-expanded="false" aria-controls="mnav">Menu</button>
+    <ul class="navlinks m-menu" id="mnav">
+      <li><a href="#/programmes" data-nav aria-current="false">Programmes</a></li>
+      <li><a href="#/events" data-nav aria-current="false">Events</a></li>
+      <li><a href="#/volunteer" data-nav aria-current="false">Volunteer</a></li>
+      <li><a class="btn btn-sunshine" href="#/donate" data-nav aria-current="false">Donate</a></li>
     </ul>
   </div>
 </header>
 
 <main id="top">
 
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="wrap">
-      <div>
-        <span class="hero-eyebrow">Lower Hutt, since 2012</span>
-        <h1 id="hero-heading">Everyone eats. Everyone belongs.</h1>
-        <p class="hero-lede">Harbourside Community Trust runs the kai nights, mentoring, and classes that keep our corner of the Hutt connected. No means-testing at the door — just a chair, a plate, and a welcome.</p>
-        <div class="hero-cta-row">
-          <a class="btn btn-forest" href="#volunteer">Volunteer</a>
-          <a class="btn btn-outline" href="#">Donate</a>
+  <section data-page="home">
+
+    <div class="hero" aria-labelledby="hero-heading">
+      <div class="wrap">
+        <div>
+          <span class="hero-eyebrow">Lower Hutt, since 2012</span>
+          <h1 id="hero-heading">Everyone eats. Everyone belongs.</h1>
+          <p class="hero-lede h-fade">Harbourside Community Trust runs the kai nights, mentoring, and classes that keep our corner of the Hutt connected. No means-testing at the door — just a chair, a plate, and a welcome.</p>
+          <div class="hero-cta-row h-fade">
+            <a class="btn btn-forest" href="#/volunteer" data-nav>Volunteer</a>
+            <a class="btn btn-outline" href="#/donate" data-nav>Donate</a>
+          </div>
+        </div>
+        <div class="hero-photo-wrap">
+          <img src="../assets/img/gal-pasifika.jpg" alt="A community gathering in full swing, with people dancing and celebrating together." loading="eager">
         </div>
       </div>
-      <div class="hero-photo-wrap">
-        <img src="../assets/img/gal-pasifika.jpg" alt="A community gathering in full swing, with people dancing and celebrating together.">
+    </div>
+
+    <section aria-labelledby="board-heading">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-eyebrow">This week</span>
+          <h2 id="board-heading">This week on the board</h2>
+        </div>
+        <div class="board">
+          <div class="notice-grid">
+            <div class="notice" style="--tilt:-1.2deg" data-tilt="-1.2">
+              <h3>Kai Nights</h3>
+              <span class="n-when">Tuesday &amp; Thursday, 5:30pm</span>
+            </div>
+            <div class="notice" style="--tilt:.8deg" data-tilt=".8">
+              <h3>Homework Club</h3>
+              <span class="n-when">Mon–Wed, 3:30–5pm</span>
+            </div>
+            <div class="notice" style="--tilt:-0.6deg" data-tilt="-0.6">
+              <h3>Repair Café</h3>
+              <span class="n-when">First Saturday monthly, 10am–1pm</span>
+            </div>
+          </div>
+        </div>
+        <a class="board-link" href="#/programmes" data-nav>The whole board →</a>
+      </div>
+    </section>
+
+    <section aria-labelledby="impact-heading">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="section-eyebrow">Our impact</span>
+          <h2 id="impact-heading">What last year looked like</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card" data-anim>
+            <span class="stat-num" data-count="48000">48,000</span>
+            <span class="stat-label">Meals shared</span>
+          </div>
+          <div class="stat-card" data-anim>
+            <span class="stat-num" data-count="130">130</span>
+            <span class="stat-label">Tamariki in homework club</span>
+          </div>
+          <div class="stat-card" data-anim>
+            <span class="stat-num" data-count="12">12</span>
+            <span class="stat-label">Years on the harbour</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+  <section data-page="programmes">
+    <div class="wrap">
+      <h1 class="page-h1" data-anim>The board.</h1>
+      <div class="photo-strip">
+        <img src="../assets/img/gal-kakahu.jpg" alt="Kākahu detail at a community celebration" loading="lazy">
+      </div>
+      <div class="board">
+        <div class="notice-grid cols-4">
+          <div class="notice" style="--tilt:-1.2deg" data-tilt="-1.2">
+            <h3>Kai Nights</h3>
+            <p>Shared dinner, no questions at the door.</p>
+            <div class="n-meta">
+              <div><span class="n-label">When</span><span class="n-val">Tuesday &amp; Thursday, 5:30pm</span></div>
+              <div><span class="n-label">Where</span><span class="n-val">The hall, 4 Marine Parade</span></div>
+              <div><span class="n-label">Bring</span><span class="n-val">Nothing but whoever's hungry</span></div>
+            </div>
+          </div>
+          <div class="notice" style="--tilt:.8deg" data-tilt=".8">
+            <h3>Homework Club</h3>
+            <p>Years 4–10, tutors who remember being stuck.</p>
+            <div class="n-meta">
+              <div><span class="n-label">When</span><span class="n-val">Mon–Wed, 3:30–5pm</span></div>
+              <div><span class="n-label">Where</span><span class="n-val">The back room</span></div>
+              <div><span class="n-label">Bring</span><span class="n-val">The homework, we've got the snacks</span></div>
+            </div>
+          </div>
+          <div class="notice" style="--tilt:-0.6deg" data-tilt="-0.6">
+            <h3>Te Reo for Beginners</h3>
+            <p>Kanohi ki te kanohi, ka pai to start wherever you are.</p>
+            <div class="n-meta">
+              <div><span class="n-label">When</span><span class="n-val">Thursday, 7pm</span></div>
+              <div><span class="n-label">Where</span><span class="n-val">The hall</span></div>
+              <div><span class="n-label">Bring</span><span class="n-val">A notebook and a bit of nerve</span></div>
+            </div>
+          </div>
+          <div class="notice" style="--tilt:1.4deg" data-tilt="1.4">
+            <h3>Repair Café</h3>
+            <p>Toasters, trousers, bikes — fixed together, free.</p>
+            <div class="n-meta">
+              <div><span class="n-label">When</span><span class="n-val">First Saturday monthly, 10am–1pm</span></div>
+              <div><span class="n-label">Where</span><span class="n-val">The carpark (fine weather)</span></div>
+              <div><span class="n-label">Bring</span><span class="n-val">The broken thing</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section aria-labelledby="impact-heading">
+  <section data-page="events">
     <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">Our impact</span>
-        <h2 id="impact-heading">What last year looked like</h2>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-num">1,200</span>
-          <span class="stat-label">Meals shared last year</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num">85</span>
-          <span class="stat-label">Active volunteers</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num">6</span>
-          <span class="stat-label">Weekly programmes</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num">14</span>
-          <span class="stat-label">Years serving the Hutt</span>
-        </div>
-      </div>
-    </div>
-  </section>
+      <h1 class="page-h1" data-anim>Coming up.</h1>
 
-  <section id="programmes" aria-labelledby="programmes-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">Programmes</span>
-        <h2 id="programmes-heading">Something on most nights of the week</h2>
-        <p>Every programme is free to attend. Turn up once, or turn up every week — both are welcome.</p>
+      <div class="chip-row" role="group" aria-label="Filter events by type">
+        <button type="button" class="chip" data-type="all" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-type="kai" aria-pressed="true">Kai</button>
+        <button type="button" class="chip" data-type="whanau" aria-pressed="true">Whānau</button>
+        <button type="button" class="chip" data-type="learning" aria-pressed="true">Learning</button>
+        <button type="button" class="chip" data-type="fundraiser" aria-pressed="true">Fundraiser</button>
       </div>
-      <div class="programmes-layout">
-        <div class="programme-photo-wrap">
-          <img src="../assets/img/archive/ar-kitchen.jpg" alt="Volunteers preparing food together in the community kitchen.">
-        </div>
-        <div class="programme-cards">
-          <div class="programme-card">
-            <h3>Kai nights</h3>
-            <p>A shared meal, cooked by volunteers, open to anyone who wants company or a hot plate of food.</p>
-            <span class="programme-when">Tuesdays, 6pm</span>
-          </div>
-          <div class="programme-card">
-            <h3>Youth mentoring</h3>
-            <p>One-on-one mentoring for local teens, matched with a trained volunteer for the school year.</p>
-            <span class="programme-when">Wednesdays, 4pm</span>
-          </div>
-          <div class="programme-card">
-            <h3>English conversation classes</h3>
-            <p>Informal, friendly practice for new migrants and refugees — no enrolment or test, just conversation.</p>
-            <span class="programme-when">Thursdays, 10am</span>
-          </div>
-          <div class="programme-card">
-            <h3>Community garden</h3>
-            <p>A shared plot behind the hall — bring gumboots, take home vegetables, meet your neighbours.</p>
-            <span class="programme-when">Saturdays, 9am</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+      <p class="ev-count" aria-live="polite">Showing 8 of 8</p>
 
-  <section id="events" aria-labelledby="events-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">What's on</span>
-        <h2 id="events-heading">Upcoming events</h2>
-      </div>
       <div class="events-list">
-        <div class="event-row">
-          <div class="event-date"><span class="day">12</span><span class="mon">Jul</span></div>
-          <div>
-            <h3>Matariki kai night</h3>
-            <p>A larger shared meal marking Matariki, with storytelling from local kaumātua.</p>
-          </div>
+        <div class="ev" data-type="kai">
+          <div class="ev-date"><span class="ev-day">14</span><span class="ev-mon">Jul</span></div>
+          <span class="ev-name">Kai Night</span>
+          <span class="ev-tag">Kai</span>
         </div>
-        <div class="event-row">
-          <div class="event-date"><span class="day">26</span><span class="mon">Jul</span></div>
-          <div>
-            <h3>Garden working bee</h3>
-            <p>Turning over the winter beds and building two new raised planters — all hands welcome.</p>
-          </div>
+        <div class="ev" data-type="whanau">
+          <div class="ev-date"><span class="ev-day">18</span><span class="ev-mon">Jul</span></div>
+          <span class="ev-name">Matariki Whānau Day</span>
+          <span class="ev-tag">Whānau</span>
         </div>
-        <div class="event-row">
-          <div class="event-date"><span class="day">09</span><span class="mon">Aug</span></div>
-          <div>
-            <h3>Volunteer welcome evening</h3>
-            <p>Meet the team, hear how each programme runs, and find the role that suits you.</p>
-          </div>
+        <div class="ev" data-type="learning">
+          <div class="ev-date"><span class="ev-day">23</span><span class="ev-mon">Jul</span></div>
+          <span class="ev-name">Te Reo — new intake pōwhiri</span>
+          <span class="ev-tag">Learning</span>
+        </div>
+        <div class="ev" data-type="whanau">
+          <div class="ev-date"><span class="ev-day">1</span><span class="ev-mon">Aug</span></div>
+          <span class="ev-name">Repair Café</span>
+          <span class="ev-tag">Whānau</span>
+        </div>
+        <div class="ev" data-type="kai">
+          <div class="ev-date"><span class="ev-day">4</span><span class="ev-mon">Aug</span></div>
+          <span class="ev-name">Kai Night — 400th dinner!</span>
+          <span class="ev-tag">Kai</span>
+        </div>
+        <div class="ev" data-type="fundraiser">
+          <div class="ev-date"><span class="ev-day">8</span><span class="ev-mon">Aug</span></div>
+          <span class="ev-name">Quiz Night at the Workingmen's Club</span>
+          <span class="ev-tag">Fundraiser</span>
+        </div>
+        <div class="ev" data-type="learning">
+          <div class="ev-date"><span class="ev-day">12</span><span class="ev-mon">Aug</span></div>
+          <span class="ev-name">Homework Club showcase</span>
+          <span class="ev-tag">Learning</span>
+        </div>
+        <div class="ev" data-type="whanau">
+          <div class="ev-date"><span class="ev-day">30</span><span class="ev-mon">Aug</span></div>
+          <span class="ev-name">Harbour Clean-up + sausage sizzle</span>
+          <span class="ev-tag">Whānau</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="volunteer" aria-labelledby="volunteer-heading">
+  <section data-page="volunteer">
     <div class="wrap">
-      <div class="volunteer-strip">
-        <h2 id="volunteer-heading">We always need more hands</h2>
-        <p>Whether it's an hour a week in the kitchen or a school term mentoring a young person, there's a role that fits around your life. No experience needed — just a willingness to show up.</p>
-        <a class="btn btn-sunshine" href="mailto:volunteer@harboursidetrust.org.nz?subject=Volunteering%20enquiry">Start volunteering</a>
-      </div>
-    </div>
-  </section>
+      <h1 class="page-h1" data-anim>Lend a hand.</h1>
+      <p class="page-lede" data-anim>Two hours a week keeps the board full. No CV required — just turn up as yourself.</p>
 
-  <section aria-labelledby="supporters-heading">
-    <div class="wrap">
-      <div class="section-head center">
-        <span class="section-eyebrow">With thanks</span>
-        <h2 id="supporters-heading">Supported by</h2>
-      </div>
-      <div class="supporters-row">
-        <span>Hutt Valley Rotary</span>
-        <span>Petone Rotary</span>
-        <span>Seaview Marine Supplies</span>
-        <span>Ava Grocer</span>
-        <span>Lower Hutt Community Fund</span>
-      </div>
-    </div>
-  </section>
-
-  <section aria-labelledby="newsletter-heading">
-    <div class="wrap">
-      <div class="newsletter-card">
-        <div class="newsletter-copy">
-          <h2 id="newsletter-heading">Stay in the loop</h2>
-          <p>One email a month — programme updates, upcoming events, and where the help is needed most.</p>
+      <div class="vol-layout">
+        <div>
+          <form class="vol-form-card" id="vol-form" novalidate>
+            <div class="f-field">
+              <label class="f-label" for="vol-name">Name*</label>
+              <input type="text" id="vol-name" name="name" required autocomplete="name">
+            </div>
+            <div class="f-field">
+              <label class="f-label" for="vol-email">Email*</label>
+              <input type="email" id="vol-email" name="email" required autocomplete="email">
+            </div>
+            <div class="f-field">
+              <span class="f-label" id="vol-help-label">I can help with</span>
+              <div class="f-check-group" role="group" aria-labelledby="vol-help-label">
+                <label><input type="checkbox" name="help" value="cooking"> Cooking &amp; kai</label>
+                <label><input type="checkbox" name="help" value="tutoring"> Tutoring</label>
+                <label><input type="checkbox" name="help" value="driving"> Driving &amp; pickups</label>
+                <label><input type="checkbox" name="help" value="fixing"> Fixing things</label>
+                <label><input type="checkbox" name="help" value="events"> Events &amp; setup</label>
+              </div>
+            </div>
+            <div class="f-field">
+              <span class="f-label" id="vol-avail-label">Availability</span>
+              <div class="f-radio-group" role="radiogroup" aria-labelledby="vol-avail-label">
+                <label><input type="radio" name="availability" value="weekdays"> Weekdays</label>
+                <label><input type="radio" name="availability" value="evenings"> Evenings</label>
+                <label><input type="radio" name="availability" value="weekends"> Weekends</label>
+              </div>
+            </div>
+            <button class="btn btn-forest" type="submit">Send it in</button>
+          </form>
+          <div class="notice success" style="--tilt:-0.8deg" data-tilt="-0.8" id="vol-success" hidden>
+            <h3>Thanks!</h3>
+            <p>Nau mai, haere mai — we'll be in touch within the week.</p>
+          </div>
         </div>
-        <form class="newsletter-form" onsubmit="return false;">
-          <label class="sr-only" for="newsletter-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">Email address</label>
-          <input type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email">
-          <button class="btn btn-clay" type="button">Subscribe</button>
-          <span class="newsletter-helper">Goes live with your build.</span>
-        </form>
+        <div class="vol-side">
+          <h3>What it's really like</h3>
+          <p>Most volunteers start with one shift and stay for years. You'll get a five-minute run-through on your first night, a regular crew who'll know your name by week two, and exactly zero pressure to commit beyond what suits you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-page="donate">
+    <div class="wrap">
+      <h1 class="page-h1" data-anim>Keep the pot full.</h1>
+      <div class="impact-rows" data-anim>
+        <div class="impact-row">
+          <span class="impact-amount">$25</span>
+          <span class="impact-desc">feeds a family at kai night</span>
+        </div>
+        <div class="impact-row">
+          <span class="impact-amount">$60</span>
+          <span class="impact-desc">a term of homework club snacks for one kid</span>
+        </div>
+        <div class="impact-row">
+          <span class="impact-amount">$250</span>
+          <span class="impact-desc">one whole Tuesday, sorted</span>
+        </div>
+      </div>
+      <div class="notice donate-details" style="--tilt:1deg" data-tilt="1">
+        <p class="dd-line">Harbourside Community Trust</p>
+        <p class="dd-line">02-0500-0345678-00</p>
+        <p class="dd-line">Ref: KOHA</p>
+        <p class="dd-fine">Registered charity CC-58214. Receipts for anything over $5 — email us.</p>
       </div>
     </div>
   </section>
@@ -650,6 +896,202 @@
   <span class="ss-demo-label">Template demo · <strong>The Commons</strong> · a Singh Studio build</span>
   <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Commons">Make it yours →</a></span>
 </div>
+
+<script>
+(function () {
+  // Events filter
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var evs = Array.prototype.slice.call(document.querySelectorAll('.ev'));
+  var countEl = document.querySelector('.ev-count');
+  var total = document.querySelectorAll('.ev').length;
+
+  function applyFilter(type) {
+    var shown = 0;
+    evs.forEach(function (ev) {
+      var match = type === 'all' || ev.getAttribute('data-type') === type;
+      ev.classList.toggle('hide', !match);
+      if (match) shown++;
+    });
+    if (countEl) countEl.textContent = 'Showing ' + shown + ' of ' + total;
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var type = chip.getAttribute('data-type');
+      chips.forEach(function (c) {
+        c.setAttribute('aria-pressed', String(c === chip));
+      });
+      applyFilter(type);
+    });
+  });
+
+  // Volunteer form validation
+  var form = document.getElementById('vol-form');
+  if (form) {
+    var nameInput = document.getElementById('vol-name');
+    var emailInput = document.getElementById('vol-email');
+    var successCard = document.getElementById('vol-success');
+
+    function clearError(input) {
+      input.classList.remove('err');
+      var msg = input.parentNode.querySelector('.err-msg');
+      if (msg) msg.parentNode.removeChild(msg);
+    }
+
+    function setError(input) {
+      input.classList.add('err');
+      if (!input.parentNode.querySelector('.err-msg')) {
+        var msg = document.createElement('span');
+        msg.className = 'err-msg';
+        msg.textContent = "Required — we'd love to know who's coming.";
+        input.parentNode.appendChild(msg);
+      }
+    }
+
+    [nameInput, emailInput].forEach(function (input) {
+      input.addEventListener('input', function () {
+        if (input.value.trim()) clearError(input);
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var valid = true;
+      [nameInput, emailInput].forEach(function (input) {
+        if (!input.value.trim()) {
+          setError(input);
+          valid = false;
+        } else {
+          clearError(input);
+        }
+      });
+      if (valid) {
+        form.hidden = true;
+        if (successCard) successCard.hidden = false;
+      }
+    });
+  }
+})();
+</script>
+
+<script>
+(function () {
+  var btn = document.querySelector('.m-btn'), menu = document.getElementById('mnav');
+  if (!btn || !menu) return;
+  function set(open) {
+    btn.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-locked', open);
+    if (!open) btn.focus({ preventScroll: true });
+  }
+  window.__closeMenu = function (refocus) {
+    if (menu.classList.contains('open')) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); document.body.classList.remove('menu-locked'); if (refocus !== false) btn.focus({ preventScroll: true }); }
+  };
+  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.__closeMenu(); });
+})();
+</script>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var pages = {};
+  document.querySelectorAll('[data-page]').forEach(function (s) { pages[s.getAttribute('data-page')] = s; });
+  var current = null;
+  function parse() {
+    var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
+    if (!h) return { page: 'home', param: null };
+    if (pages[h]) return { page: h, param: null };
+    var head = h.split('/')[0];
+    if (pages[head + '/:']) return { page: head + '/:', param: h.slice(head.length + 1) || null };
+    return { page: 'home', param: null };
+  }
+  function show(first) {
+    var r = parse();
+    var next = pages[r.page] || pages.home;
+    if (window.__pageSetup) { try { window.__pageSetup(r.page, r.param, next); } catch (e) {} }
+    if (next !== current) {
+      if (current) current.classList.remove('is-active');
+      next.classList.add('is-active');
+      current = next;
+    }
+    document.querySelectorAll('a[data-nav]').forEach(function (a) {
+      var t = a.getAttribute('href').replace(/^#\//, '') || 'home';
+      a.setAttribute('aria-current', t === r.page.split('/')[0] ? 'page' : 'false');
+    });
+    if (!first) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
+    window.scrollTo(0, 0);
+    if (window.__closeMenu) window.__closeMenu(false);
+    if (!first && window.__pageEnter) { try { window.__pageEnter(next); } catch (e) {} }
+  }
+  window.addEventListener('hashchange', function () { show(false); });
+  show(true);
+})();
+</script>
+
+<script type="module">
+try {
+  const { animate, createTimeline, stagger, svg, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+  const REDUCED = () => sessionStorage.getItem('ss_reduced') === '1'
+    || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $  = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  window.__pageEnter = (section) => {
+    if (REDUCED()) return;
+    const notices = $$('.notice[data-tilt]', section);
+    notices.forEach((e) => { e.style.opacity = '0'; });
+    if (notices.length) {
+      notices.forEach((e, i) => {
+        animate(e, { rotate: [0, e.getAttribute('data-tilt') + 'deg'], translateY: [18, 0], opacity: [0, 1],
+          duration: 620, ease: 'outQuint', delay: i * 80 });
+      });
+    }
+    const els = $$('[data-anim]', section).filter((e) => !e.matches('.notice'));
+    if (els.length) {
+      els.forEach((e) => { e.style.opacity = '0'; });
+      animate(els, { opacity: [0, 1], translateY: [18, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+    }
+  };
+  if (!REDUCED()) {
+    createTimeline({ defaults: { ease: 'outQuint' } })
+      .add('.hero h1', { opacity: [0, 1], translateY: [20, 0], duration: 600 })
+      .add($$('.hero .h-fade'), { opacity: [0, 1], duration: 450, delay: stagger(80) }, '-=300');
+
+    const heroImg = $('.hero-photo-wrap img');
+    if (heroImg) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = Math.max(-28, Math.min(28, -window.scrollY * 0.06));
+          heroImg.style.transform = `translateY(${y}px)`;
+          ticking = false;
+        });
+      }, { passive: true });
+    }
+
+    const counters = $$('[data-count]');
+    if (counters.length && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          io.unobserve(el);
+          animate({ v: 0 }, {
+            v: +el.getAttribute('data-count'),
+            duration: 1100,
+            ease: 'outExpo',
+            modifier: utils.round(0),
+            onUpdate: (a) => { el.textContent = (+a.targets[0].v).toLocaleString('en-NZ'); }
+          });
+        });
+      }, { threshold: 0.4 });
+      counters.forEach((el) => io.observe(el));
+    }
+  }
+} catch (e) { /* CDN down: fully functional, no motion */ }
+</script>
 
 </body>
 </html>
