@@ -637,6 +637,7 @@ try {
     if (!els.length) return;
     els.forEach((e) => { e.style.opacity = '0'; });
     animate(els, { opacity: [0, 1], translateY: [26, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+    setTimeout(() => { els.forEach((e) => { e.style.opacity = ''; e.style.transform = ''; }); }, 2500);
   };
   if (!REDUCED()) {
     createTimeline({ defaults: { ease: 'outExpo' } })

@@ -642,6 +642,7 @@ try {
     if (!els.length) return;
     els.forEach((e) => { e.style.opacity = '0'; });
     animate(els, { opacity: [0, 1], translateY: [14, 0], duration: 560, ease: 'outQuint', delay: stagger(40) });
+    setTimeout(function () { els.forEach(function (e) { e.style.opacity = ''; e.style.transform = ''; }); }, 2500);
   };
   if (!REDUCED()) {
     const heroEls = $$('.hero [data-anim]');

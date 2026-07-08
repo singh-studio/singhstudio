@@ -438,6 +438,7 @@ try {
     if (els.length) {
       els.forEach((e) => { e.style.opacity = '0'; });
       animate(els, { opacity: [0, 1], translateY: [22, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+      setTimeout(() => { els.forEach((e) => { e.style.opacity = ''; e.style.transform = ''; }); }, 2500);
     }
     $$('.proj-img', section).forEach((img) => { img.style.clipPath = 'inset(0 0 14% 0)'; projObserver.observe(img); });
   };

@@ -776,7 +776,13 @@ window.PRODUCTS = [
 <script>
 (function () {
   var KEY = 'ne-cart';
-  function get() { try { return JSON.parse(sessionStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function get() {
+    try {
+      var c = JSON.parse(sessionStorage.getItem(KEY)) || {};
+      Object.keys(c).forEach(function (id) { if (!find(id) || !(c[id] > 0)) delete c[id]; });
+      return c;
+    } catch (e) { return {}; }
+  }
   function set(c) { sessionStorage.setItem(KEY, JSON.stringify(c)); render(); }
   function find(id) { return window.PRODUCTS.find(function (p) { return p.id === id; }); }
   function count(c) { return Object.values(c).reduce(function (a, b) { return a + b; }, 0); }
@@ -832,7 +838,6 @@ window.PRODUCTS = [
       + '<span class="pa-notes">' + p.notes.join(' · ') + '</span>'
       + '</div></div>';
   }
-  window.prodArtHTML = prodArtHTML;
 
   function prodCardHTML(p) {
     return '<a class="prod-link" href="#/product/' + p.id + '" data-nav data-fam="' + p.fam + '">'
@@ -1004,7 +1009,7 @@ window.PRODUCTS = [
 
 <script type="module">
 try {
-  const { animate, createTimeline, stagger, svg, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+  const { animate, createTimeline, stagger, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
   const REDUCED = () => sessionStorage.getItem('ss_reduced') === '1'
     || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $  = (s, r) => (r || document).querySelector(s);
@@ -1033,6 +1038,7 @@ try {
     if (els.length) {
       els.forEach((e) => { e.style.opacity = '0'; });
       animate(els, { opacity: [0, 1], translateY: [16, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+      setTimeout(() => { els.forEach((e) => { e.style.opacity = ''; e.style.transform = ''; }); }, 2500);
     }
     runCounters(section);
   };
@@ -1040,12 +1046,14 @@ try {
   if (!REDUCED()) {
     const heroArt = $('.hero .prod-art');
     if (heroArt) heroArt.style.opacity = '0';
-    $$('.hero h1, .hero .h-meta').forEach((e) => { e.style.opacity = '0'; });
+    if ($('.hero .prod-art')) {
+      $$('.hero h1, .hero .h-meta').forEach((e) => { e.style.opacity = '0'; });
 
-    createTimeline({ defaults: { ease: 'outQuint' } })
-      .add('.hero .prod-art', { opacity: [0, 1], translateY: [26, 0], duration: 650 })
-      .add('.hero h1', { opacity: [0, 1], translateY: [18, 0], duration: 600 }, '-=380')
-      .add($$('.hero .h-meta'), { opacity: [0, 1], duration: 450, delay: stagger(70) }, '-=320');
+      createTimeline({ defaults: { ease: 'outQuint' } })
+        .add('.hero .prod-art', { opacity: [0, 1], translateY: [26, 0], duration: 650 })
+        .add('.hero h1', { opacity: [0, 1], translateY: [18, 0], duration: 600 }, '-=380')
+        .add($$('.hero .h-meta'), { opacity: [0, 1], duration: 450, delay: stagger(70) }, '-=320');
+    }
 
     const noteWords = $$('.note-word');
     if (noteWords.length) {

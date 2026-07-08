@@ -1028,6 +1028,7 @@ try {
     if (!els.length) return;
     els.forEach((e) => { e.style.opacity = '0'; });
     animate(els, { opacity: [0, 1], translateY: [16, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+    setTimeout(function () { els.forEach(function (e) { e.style.opacity = ''; e.style.transform = ''; }); }, 2500);
   };
 
   if (!REDUCED()) {
@@ -1079,6 +1080,9 @@ try {
     // Outer safety net: on very slow devices, or if IntersectionObserver delivery
     // itself is delayed/suspended, guarantee figures and rules are correct within
     // a few seconds regardless of whether the per-element observer ever fired.
+    // Note: rules/figures inside non-default pages are display:none when observed
+    // above, so IO may never fire for them — this sweep is what lands their final
+    // state before a user typically reaches those pages.
     setTimeout(() => {
       $$('.fig [data-count]').forEach((el) => {
         const end = +el.getAttribute('data-count');

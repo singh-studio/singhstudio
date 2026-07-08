@@ -109,6 +109,7 @@ try {
     if (!els.length) return;
     els.forEach((e) => { e.style.opacity = '0'; });
     animate(els, { opacity: [0, 1], translateY: [{{ENTER_Y}}, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+    setTimeout(() => { els.forEach((e) => { e.style.opacity = ''; e.style.transform = ''; }); }, 2500); // engine-stall rescue: primed content must never stay hidden
   };
   if (!REDUCED()) {
     {{HERO_TIMELINE}}
