@@ -6,36 +6,38 @@ Every human-visible copy block on the site, page by page, in the order a visitor
 
 Not included: ARIA labels, `aria-hidden` decorative strings, JSON-LD/schema values that mirror visible copy, and JS-only strings (console messages, class names). Meta titles/descriptions and og: tags **are** included, since buyers and search results read those.
 
+**Re-verified 2026-07-08 (post-elevation, Wave 6).** index.html's document head, preloader, nav labels and hero copy (the surfaces a brand-reconciliation pass explicitly rewrote) have been re-checked against the live HTML and corrected below where they'd drifted — old positioning ("web design first", "Every discipline. One message.") is gone sitewide, and nav is now 4 items (Disciplines/Work/Thoughts/Kris) not 5. Section numbering (01–07) itself hadn't actually changed — only two eyebrow *labels* had ("02 / Services" → "02 / Disciplines", "06 / The studio" → "06 / Kris"), both corrected below. Everything **below** the sections marked "corrected"/checked `[x]` in this pass (case pages, together.html, kris.html, archive.html, thoughts.html body copy, templates.html) was spot-checked for a few high-risk claims (frame counts, meta-description truncation — both confirmed fixed independently, see `LAUNCH-CHECKLIST.md`) but was not re-verified line-by-line — a full re-audit of ~250 content rows was out of scope for this pass. Treat unmarked `[ ]` rows as "probably still accurate, not guaranteed" rather than "verified."
+
 ---
 
 ## index.html (homepage)
 
-### Document head / meta
+### Document head / meta — corrected 2026-07-08
 
-- [ ] **Meta title** — `index.html`, grep `Web Design &amp; Communications Studio, Aotearoa NZ` — *"Singh Studio: Web Design & Communications Studio, Aotearoa NZ"* — job: browser tab + primary search snippet title, keep under ~60 characters.
-- [ ] **Meta description** — `index.html`, grep `Singh Studio is a multidisciplinary communications studio` — *"Singh Studio is a multidisciplinary communications studio in Aotearoa New Zealand — web design first — backed by strategy, apps, AI, photography, film and sound, all in service of the message."* — job: search-result snippet, sell the range in one breath.
-- [ ] **og:title** — `index.html`, grep `Every discipline. One message.` — *"Singh Studio — Every discipline. One message."* — job: link-share headline (Slack/iMessage/socials).
-- [ ] **og:description** — `index.html`, grep `A multidisciplinary communications studio: strategy` — *"A multidisciplinary communications studio: strategy, photography, film, audio, web, apps and AI. Book a 20-minute Google Meet."* — job: link-share body copy, ends on a CTA.
+- [x] **Meta title** — `index.html`, grep `A Multidisciplinary Creative Studio, Aotearoa NZ` — *"Singh Studio — A Multidisciplinary Creative Studio, Aotearoa NZ"* — job: browser tab + primary search snippet title, keep under ~60 characters.
+- [x] **Meta description** — `index.html`, grep `Singh Studio is a multidisciplinary creative studio` — *"Singh Studio is a multidisciplinary creative studio in Aotearoa New Zealand. Strategy-led web, film, photography, audio, apps and AI. Telling stories that matter."* — job: search-result snippet, sell the range in one breath, ends on the brand line.
+- [x] **og:title** — `index.html`, grep `Telling stories that matter.` — *"Singh Studio — Telling stories that matter."* — job: link-share headline (Slack/iMessage/socials).
+- [x] **og:description** — `index.html`, grep `og:description` — identical to meta description above (this is enforced by `bin/check-site.py` now — og:description must equal meta description on every indexable page).
 
-### Preloader
+### Preloader — corrected 2026-07-08
 
-- [ ] **Loader wordmark** — `index.html`, grep `EVERY DISCIPLINE / ONE MESSAGE` — *"EVERY DISCIPLINE / ONE MESSAGE"* — job: first thing a visitor reads, sets tone in one line.
+- [x] **Loader wordmark** — `index.html`, grep `TELLING STORIES / THAT MATTER` — *"TELLING STORIES / THAT MATTER"* — job: first thing a visitor reads, sets tone in one line, matches the hero serif line below.
 
-### Nav (repeats on every page — see "Sitewide repeating blocks" below for the footer twin)
+### Nav (repeats on every page — see "Sitewide repeating blocks" below for the footer twin) — corrected 2026-07-08
 
-- [ ] **Primary nav labels** — `index.html`, grep `<span class="nl-num">01</span>Work` — *Work / Services / Templates / Engagements / Studio* — job: wayfinding, keep to one word each.
-- [ ] **Nav book button** — `index.html`, grep `btn-book" href="#contact"` — *"Book a call"* — job: persistent CTA, never lengthen past 2 words or it wraps.
-- [ ] **Mobile menu footer line** — `index.html`, grep `menu-foot` — *"Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz"* — job: reassurance + contact in the overlay menu.
+- [x] **Primary nav labels** — `index.html`, grep `<span class="nl-num">01</span>Disciplines` — *Disciplines / Work / Thoughts / Kris* — job: wayfinding, 4 items not 5 (Services/Templates/Engagements/Studio consolidated or moved). `bin/check-site.py` enforces this label set + order sitewide now (nav/menu/footer all compared).
+- [ ] **Nav book button** — `index.html`, grep `btn-book" href="#contact"` — *"Book a call"* — job: persistent CTA, never lengthen past 2 words or it wraps. (Unchanged.)
+- [ ] **Mobile menu footer line** — `index.html`, grep `menu-foot` — *"Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz"* — job: reassurance + contact in the overlay menu. (Unchanged.)
 
-### Hero
+### Hero — corrected 2026-07-08
 
-- [ ] **Hero eyebrow / promise line** — `index.html`, grep `Websites, films and campaigns for people` — *"/ Websites, films and campaigns for people with something to say, based in Aotearoa New Zealand"* — job: hero promise, currently 16 words — trim toward 12 if you tighten it.
-- [ ] **Hero title** — `index.html`, grep `SINGH</span>` — *"SINGH / STUDIO"* — job: brand lockup, structural — leave as is.
-- [ ] **Hero serif line** — `index.html`, grep `Every discipline, <em>in service` — *"Every discipline, in service of the message."* — job: the one-sentence thesis, sits under the logo.
-- [ ] **Hero CTA — primary** — `index.html`, grep `Book a 20-min call</a>` — *"Book a 20-min call"* — job: main hero conversion button.
-- [ ] **Hero CTA — secondary** — `index.html`, grep `See the work</a>` — *"See the work"* — job: low-commitment escape hatch for browsers.
-- [ ] **Hero scroll hint** — `index.html`, grep `hf-scroll` — *"Scroll"* — job: microcopy, nudges the first scroll.
-- [ ] **Hero frame caption** — `index.html`, grep `FR&nbsp;001&nbsp;—&nbsp;MOVEMENT` — *"FR 001 — MOVEMENT STUDY / PIGMENT"* — job: photo-credit-style microcopy under the hero image, must match whatever hero photo ships.
+- [x] **Hero eyebrow / promise line** — `index.html`, grep `A multidisciplinary creative studio in Aotearoa` — *"/ A multidisciplinary creative studio in Aotearoa New Zealand."* — job: hero promise, now matches the sitewide brand line exactly (see head/meta above).
+- [ ] **Hero title** — `index.html`, grep `SINGH</span>` — *"SINGH / STUDIO"* — job: brand lockup, structural — leave as is. (Unchanged.)
+- [x] **Hero serif line** — `index.html`, grep `Telling stories <em>that matter` — *"Telling stories that matter."* — job: the one-sentence thesis, sits under the logo, matches the preloader word exactly.
+- [ ] **Hero CTA — primary** — `index.html`, grep `Book a 20-min call</a>` — *"Book a 20-min call"* — job: main hero conversion button. (Unchanged; now also carries `data-track="book_click" data-track-label="hero"`.)
+- [ ] **Hero CTA — secondary** — `index.html`, grep `See the work</a>` — *"See the work"* — job: low-commitment escape hatch for browsers. (Unchanged.)
+- [ ] **Hero scroll hint** — `index.html`, grep `hf-scroll` — *"Scroll"* — job: microcopy, nudges the first scroll. (Unchanged.)
+- [x] **Hero frame caption** — `index.html`, grep `FR&nbsp;000&nbsp;—&nbsp;KRIS` — *"FR 000 — KRIS SINGH / DIRECTOR"* — job: photo-credit-style microcopy under the hero image, now matches the current hero photo (`hero-kris-portrait.jpg`, a brick-wall portrait — the hero moved off the red-pigment dancer shot referenced in the old row here).
 
 ### Client proof band
 
@@ -47,9 +49,9 @@ Not included: ARIA labels, `aria-hidden` decorative strings, JSON-LD/schema valu
 - [ ] **Section eyebrow** — `index.html`, grep `01 /</span> Position` — *"01 / Position"* — job: section wayfinding label.
 - [ ] **Position statement** — `index.html`, grep `Most studios sell deliverables` — *"Most studios sell deliverables. Singh Studio starts with the message, then builds whatever carries it best: a website, an app, a campaign, a film, a photograph, a room full of sound."* — job: the studio’s positioning thesis, one big verified claim — keep it a single confident sentence-family.
 
-### 02 / Services (seven accordion rows)
+### 02 / Disciplines (seven accordion rows — heading corrected 2026-07-08, was "02 / Services")
 
-- [ ] **Section eyebrow + note** — `index.html`, grep `02 /</span> Services` — *"02 / Services"* / *"Seven disciplines. Click to open."* — job: section label + interaction hint.
+- [x] **Section eyebrow + note** — `index.html`, grep `02 /</span> Disciplines` — *"02 / Disciplines"* / *"Seven disciplines. Click to open."* — job: section label + interaction hint. (Eyebrow corrected 2026-07-08 — was "Services", now matches the "Disciplines" nav label.)
 - [ ] **/01 Web Design** — `index.html`, grep `Fast, handsome sites your team can actually run` — *"Fast, handsome sites your team can actually run: conference platforms, brand sites and landing pages that read as well as they load."* + tag line *"design · build · CMS"* + bullets *Design systems & UI / Build & CMS setup / Performance & SEO / Care & iteration* — job: sell the lead discipline in one sentence, first of seven so it sets the tone.
 - [ ] **/02 Strategy & Comms** — `index.html`, grep `The thinking layer, and where every job here starts` — *"The thinking layer, and where every job here starts. Positioning, narrative, key messages and the plan for where they travel, whether that’s internal, external, or six columns deep in the press."* + tag *"positioning · messaging · campaigns · media"* + bullets *Comms strategy & planning / Message architecture / Campaign development / Media & issues management* — job: justify why a "web studio" also does strategy.
 - [ ] **/03 App Development** — `index.html`, grep `Small, sharp software: internal tools` — *"Small, sharp software: internal tools, member platforms and prototypes that get an idea in front of real users fast."* + tag *"product · prototypes · tools"* + bullets *Product design / Web apps & platforms / Rapid prototyping / Integrations* — job: scope-set expectations (small/sharp, not enterprise).
@@ -84,9 +86,9 @@ Not included: ARIA labels, `aria-hidden` decorative strings, JSON-LD/schema valu
 - [ ] **Step /04 Ship & steer** — `index.html`, grep `Launch, measure, adjust. The one who took the brief` — *"Launch, measure, adjust. The one who took the brief stays to steer it."*
 - [ ] **Process tail line** — `index.html`, grep `Most briefs go from first call to shipped` — *"Most briefs go from first call to shipped inside a month. See how engagements work →"* — job: closing claim + cross-link to together.html, keep the timeframe honest.
 
-### 06 / The studio
+### 06 / Kris (heading corrected 2026-07-08, was "06 / The studio")
 
-- [ ] **Section eyebrow + note** — `index.html`, grep `06 /</span> The studio` — *"06 / The studio"* / *"Small by design. Senior by default."*
+- [x] **Section eyebrow + note** — `index.html`, grep `06 /</span> Kris` — *"06 / Kris"* / *"Small by design. Senior by default."* (Eyebrow corrected 2026-07-08 — was "The studio", note text unchanged.)
 - [ ] **Portrait figcaption** — `index.html`, grep `Kris Singh, Director` — *"Kris Singh, Director"*.
 - [ ] **Candid figcaption** — `index.html`, grep `En route: wherever the brief is` — *"En route: wherever the brief is"*.
 - [ ] **Studio heading** — `index.html`, grep `Run by Kris Singh.<br>Built around` — *"Run by Kris Singh. Built around your message."*
@@ -531,16 +533,16 @@ Not included: ARIA labels, `aria-hidden` decorative strings, JSON-LD/schema valu
 
 ---
 
-## Sitewide repeating blocks (appear identically across most/all root pages)
+## Sitewide repeating blocks (appear identically across most/all root pages) — corrected 2026-07-08
 
-These blocks are duplicated verbatim across pages rather than pulled from a shared template (no build step, remember), so a wording change means editing every file that contains it. Listed once here; don’t re-edit page by page without a find-and-replace pass.
+These blocks are duplicated verbatim across pages rather than pulled from a shared template (no build step, remember), so a wording change means editing every file that contains it. Listed once here; don’t re-edit page by page without a find-and-replace pass. **`bin/check-site.py` now enforces the nav/menu/footer label rows below automatically on every push** — it fails the build if any of the 12 nav'd pages' labels or order drift from each other, so manual cross-page grepping for these three specifically is no longer the only safety net.
 
-- [ ] **Primary nav** (`nav-links`) — appears on all 12 non-404 pages, grep `<span class="nl-num">01</span>Work` — *Work / Services / Templates / Engagements / Studio*.
-- [ ] **Mobile menu** (`menu-links` + `menu-foot`) — same 12 pages, grep `menu-foot` — *"Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz"*.
-- [ ] **Footer nav** (`footer-links`) — same 12 pages, grep `<a href="index.html#work">Work</a>` — *Work / Templates / Engagements / Services / Archive / Thoughts / Profile / Contact*.
-- [ ] **Footer social links (PLACEHOLDER — BLOCKER)** — 12 of 13 root pages (all except 404.html), grep `https://www.instagram.com/" rel="noopener"` — currently generic *instagram.com* and *linkedin.com* home URLs, not profile-specific. See Launch Checklist for the full file list.
-- [ ] **Footer copyright + mail + hint** — same 12 pages, grep `© <span id="year">` — *"© [year] Singh Studio, Aotearoa New Zealand"*, mailto *kris@singhstudio.co.nz*, hint *"Press / anywhere — the slash starts the conversation"* (index.html’s own copy of this hint has no em dash: *"The slash starts the conversation"* directly follows a comma, not a dash — a very minor wording variant, worth normalising).
-- [ ] **Footer note "Designed & built in-house. Obviously."** — 11 of 13 root pages (all except archive.html’s *"Every frame above — ours."* and 404.html’s *"Wrong turn, right studio."*) — grep `Designed &amp; built in-house. Obviously.`
+- [x] **Primary nav** (`nav-links`) — appears on all 12 non-404 pages, grep `<span class="nl-num">01</span>Disciplines` — *Disciplines / Work / Thoughts / Kris*. (Corrected — was *Work / Services / Templates / Engagements / Studio*, a 5-item set from before the brand-reconciliation pass.)
+- [ ] **Mobile menu** (`menu-links` + `menu-foot`) — same 12 pages, grep `menu-foot` — labels *Disciplines / Work / Thoughts / Kris / Book a call*, foot text *"Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz"* (foot text unchanged).
+- [x] **Footer nav** (`footer-links`) — same 12 pages, grep `<a href="#index">Disciplines</a>` (or `index.html#index` on non-homepage pages) — *Disciplines / Work / Thoughts / Kris / Contact*. (Corrected — was an 8-item list, *Work / Templates / Engagements / Services / Archive / Thoughts / Profile / Contact*, that no longer matches any page's actual footer.)
+- [x] ~~**Footer social links (PLACEHOLDER — BLOCKER)**~~ — **RESOLVED, differently than scoped** — social links were removed sitewide rather than filled in with real URLs (no real profiles existed). No footer page has a social-links row currently. See `README.md`'s "Social links — removed, how to re-add" for the markup to bring them back once real profile URLs exist.
+- [ ] **Footer copyright + mail + hint** — same 12 pages, grep `© <span id="year">` — *"© [year] Singh Studio, Aotearoa New Zealand"*, mailto *kris@singhstudio.co.nz*, hint *"Press / anywhere. The slash starts the conversation"* (checked 2026-07-08: index.html now reads "Press <kbd>/</kbd> anywhere. The slash starts the conversation" with a full stop; other pages use an em dash in the same spot — "Press / anywhere — the slash starts the conversation" — this em-dash/full-stop split is real and still present, not fixed in this pass, worth normalising).
+- [ ] **Footer note "Designed & built in-house. Obviously."** — 11 of 13 root pages (all except archive.html’s *"Every frame above — ours."* and 404.html’s *"Wrong turn, right studio."*) — grep `Designed &amp; built in-house. Obviously.` (Unchanged.)
 
 ---
 

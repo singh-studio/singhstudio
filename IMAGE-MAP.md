@@ -4,6 +4,8 @@ Every image slot on the site: what it is, its actual pixel size (read via `sips`
 
 **Reading a row**: *Path* is relative to `Website/`. *Actual size* is the real pixel dimensions of the file on disk today. *Used* lists every page + role. *Display* describes how the CSS frames it (cover-crop vs. contain, aspect ratio, orientation). *Replacement spec* is the minimum you need to hand the ingest script for a like-for-like swap.
 
+**Re-verified 2026-07-08 (post-elevation, Wave 6).** WebP coverage is now sitewide — every jpg with a `.webp` sibling on disk is wrapped in a `<picture>` (the `hero-dancer-red.webp` row below was the one remaining gap; it's now wired in). `bin/check-site.py`'s orphan-asset check runs on every push and will flag it again if a future image gets a `.webp` sibling generated but never wrapped in a `<picture>`.
+
 ---
 
 ## Hero + brand
@@ -14,10 +16,10 @@ Every image slot on the site: what it is, its actual pixel size (read via `sips`
 | `assets/img/hero-kris-portrait-900.jpg` | 900×600 (landscape) | index.html hero `<img>`/`<source>` srcset at the 900w breakpoint only | Same crop as the 1800 version, smaller responsive variant | Same photo, same crop, just smaller — produced via `bin/ingest-images.sh` (or `sips -Z 900`) alongside the main export. |
 | `assets/img/hero-kris-portrait.webp` | 1800×1200 | Same as `hero-kris-portrait.jpg` — webp `<source>` variant | Same as above | Auto-produced alongside the jpg (ffmpeg webp pass). |
 | `assets/img/hero-kris-portrait-900.webp` | 900×600 | Same as `hero-kris-portrait-900.jpg` — webp `<source>` variant at 900w | Same as above | Same note as the -900 jpg above. |
-| `assets/img/hero-dancer-red.jpg` | 1500×2000 (portrait) | index.html light table FR 001 (`lt-tall`); together.html og:image; templates.html og:image; archive.html og:image + Movement set frame #1; `templates/folio.html` hero image (as `../assets/img/hero-dancer-red.jpg`) | Light table: tall card, native aspect. Folio demo: hero image, native ratio. | Portrait orientation, **min 1500×2000** (2:3-ish), strong single subject reads at both full-bleed and thumbnail scale. Still reused in 5 places — check all of them before swapping, even though it's no longer the homepage hero. |
-| `assets/img/hero-dancer-red-900.jpg` | 900×1200 (portrait) | Unused since the homepage hero moved to `hero-kris-portrait.jpg` — kept on disk in case you want it back | Same crop as the 1500 version, smaller responsive variant | No longer wired into any page. Safe to delete once you're sure you won't revert the hero. |
-| `assets/img/hero-dancer-red.webp` | 1500×2000 | Same as `hero-dancer-red.jpg` — webp `<source>` variant | Same as above | Auto-produced by the ingest script alongside the jpg (ffmpeg webp pass). |
-| `assets/img/hero-dancer-red-900.webp` | 900×1200 | Unused, same as `hero-dancer-red-900.jpg` above | Same as above | Same note as the -900 jpg above. |
+| `assets/img/hero-dancer-red.jpg` | 1500×2000 (portrait) | index.html light table FR 001 (`lt-tall`); together.html og:image; templates.html og:image; archive.html og:image + Movement set frame #1; `templates/folio.html` hero image (as `../assets/img/hero-dancer-red.jpg`) | Light table, archive masonry and the Folio demo hero all wrap this in a `<picture>` with the `.webp` sibling below as the `<source>` (added 2026-07-08 — was a bare `<img>` before, which is why `bin/check-site.py`'s orphan check flagged the unused webp). og:image tags stay pointed at the `.jpg` directly (og:image only supports one URL). | Portrait orientation, **min 1500×2000** (2:3-ish), strong single subject reads at both full-bleed and thumbnail scale. Still reused in 5 places — check all of them before swapping, even though it's no longer the homepage hero. |
+| `assets/img/hero-dancer-red.webp` | 1500×2000 | Same as `hero-dancer-red.jpg` — webp `<source>` variant, now actually wired into a `<picture>` in all three markup usages above (see note above; was previously generated but unused) | Same as above | Auto-produced by the ingest script alongside the jpg (ffmpeg webp pass). |
+
+*(`hero-dancer-red-900.jpg`/`.webp` — the 900w responsive variants once listed here — were removed from disk in an earlier repo-hygiene pass, verified zero references at the time. If you see them mentioned elsewhere, that's stale; they no longer exist.)*
 | `assets/img/ss-logo.png` | 115×115 (square) | **Favicon on all 13 root pages + all 7 template demos** (`<link rel="icon">`) | Browser tab icon | Square, simple enough to read at 16–32px. If you redesign the mark, export at minimum 128×128 and keep the filename so you don't have to touch 20 files. |
 | `assets/img/apple-touch-icon.png` | 180×180 (square) | Home-screen icon on all 12 root pages **except 404.html** (`<link rel="apple-touch-icon">`) | iOS/Android "add to home screen" icon | Square, 180×180 exactly (Apple's spec), no transparency (iOS adds its own rounding/background). |
 
@@ -171,18 +173,38 @@ All seven demos link their favicon to `../assets/img/ss-logo.png` — if you eve
 4. Don't touch the tab's superscript count or `#archiveCount` — `js/archive.js` recounts both automatically from the DOM the next time the page loads.
 5. If it's striking enough for the homepage too, also add a matching `<figure class="lt-item" data-cursor="VIEW">` block to index.html's `#ltTrack`, with the next sequential `FR 0XX` figcaption number — this one **does** need manual renumbering, and so does the light-table end-card's hard-coded "40 frames / 4 sets" text (see the reconciliation note above).
 
-### To swap the hero
+### To swap the hero — corrected 2026-07-08
 
-1. Pick the new hero photo — portrait orientation, the same rough 3:4-ish ratio as `hero-dancer-red.jpg` (1500×2000) works best with the existing crop/scrim CSS.
-2. Run it through `bin/ingest-images.sh` with the `--hero` flag (2000px long edge) and a clear slug, e.g. `./bin/ingest-images.sh --hero --slug hero-newshot _incoming/my-photo.jpg`.
-3. Manually also produce a 900px-wide companion (the site's responsive `srcset` expects both a full-size and a `-900` variant) — export/resize a second pass at 900px long edge, named `hero-newshot-900.jpg` (plus its `.webp`).
-4. Update index.html's hero `<picture>` block (both the `<source>` and `<img>` `srcset`/`src` attributes) to point at the new filenames, and update the `width`/`height` attributes to match the new file's real dimensions.
-5. Update the hero frame caption ("FR 001 — MOVEMENT STUDY / PIGMENT") to describe the new photo.
-6. Update every og:image tag that currently points at `hero-dancer-red.jpg` (index.html, together.html, templates.html, archive.html — 4 files) unless you're deliberately keeping the old photo as the "share" image while using a new one in the hero itself.
-7. If `templates/folio.html` should also show the new hero shot (it currently reuses the old one as its own demo hero), update its `<img src>` too — otherwise the old photo will keep appearing there even after your homepage hero has moved on.
+**Current hero (as of this pass): `hero-kris-portrait.jpg`, 1800×1200 landscape** (a brick-wall
+portrait of Kris), not the older `hero-dancer-red.jpg` this recipe used to describe — that photo
+moved off the homepage hero role a while back and is now only a light-table/archive/og:image
+asset (see the rows above). This recipe was written before that swap and never got updated
+until now; the steps below describe the *current* hero image's actual specs.
+
+1. Pick the new hero photo — this hero slot is currently **landscape**, roughly 3:2
+   (1800×1200), cropped via `object-fit: cover` with `object-position: 70% 12%` so the subject
+   sits right-of-centre, upper third (clear space on the left for the "SINGH/STUDIO" wordmark).
+   A portrait photo would need the crop/scrim CSS re-checked, not just the file swapped.
+2. Run it through `bin/ingest-images.sh` with the `--hero` flag and a clear slug, e.g.
+   `./bin/ingest-images.sh --hero --slug hero-newshot _incoming/my-photo.jpg`.
+3. Manually also produce a 900px-wide companion (the site's responsive `srcset` expects both a
+   full-size and a `-900` variant) — export/resize a second pass at 900px long edge, named
+   `hero-newshot-900.jpg` (plus its `.webp`).
+4. Update index.html's hero `<picture>` block (both the `<source>` and `<img>` `srcset`/`src`
+   attributes) to point at the new filenames, and update the `width`/`height` attributes to
+   match the new file's real dimensions.
+5. Update the hero frame caption (currently `"FR 000 — KRIS SINGH / DIRECTOR"`, grep
+   `FR&nbsp;000&nbsp;—&nbsp;KRIS`) to describe the new photo.
+6. **index.html's own og:image already points at the current hero** (`hero-kris-portrait.jpg`)
+   — update it alongside the hero itself. together.html/templates.html/archive.html's og:image
+   tags deliberately still point at `hero-dancer-red.jpg` (a separate, older decision — see the
+   og:image usage table above) and are unaffected by a hero swap unless you choose to change
+   those too.
+7. Run `python3 bin/check-site.py` after — it'll catch a missing file or a broken path
+   immediately rather than leaving a silent 404 in the `<picture>` block.
 
 ---
 
-## Totals
+## Totals — recounted 2026-07-08
 
-**56 distinct image files inventoried**: 22 JPEGs in `assets/img/` (including the video poster and both portraits) + 2 icon PNGs (`ss-logo.png`, `apple-touch-icon.png`) + 7 `.webp` companions for the JPEGs that have one + 25 JPEGs in `assets/img/archive/`. Plus **1 video asset** (`joy-florals-feature.mp4`). Across **≈90 usage instances** sitewide (counting each page/role a file appears in separately, including og:image tags and demo cross-uses).
+**87 distinct image files on disk today**: 23 JPEGs in `assets/img/` (including the video poster and both portraits) + 3 icon PNGs (`ss-logo.png`, `apple-touch-icon.png`, and `favicon-32.png` — added by the favicon-set work) + 12 `.webp` companions in `assets/img/` + 25 JPEGs in `assets/img/archive/` + 24 `.webp` companions in `assets/img/archive/`. Plus **1 video asset** (`joy-florals-feature.mp4`). The row-by-row counts above (originally "56 files... 7 webp companions... 25 JPEGs in archive with NO webp coverage") predate the sitewide WebP programme — webp coverage now extends into `assets/img/archive/`, 24 of its 25 jpgs have a webp sibling (the one exception, `ar-dancer-dark.jpg`, is 72KB — below the 150KB threshold the WebP pass targeted, so its absence is by design, not a gap). Usage-instance count not recounted in this pass — treat the old "≈90 usage instances" figure as a rough historical estimate, not current.

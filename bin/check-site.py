@@ -5,12 +5,14 @@ check-site.py — Singh Studio site QA brain.
 Python 3, stdlib only. Exit non-zero on any FAIL.
 
 Checks:
+  0. Encoding           — every tracked html/css/js/xml/txt file is valid UTF-8 (pre-flight;
+                           a file that fails this reads as "" everywhere else instead of crashing).
   1. Link resolution   — every href/src/srcset/poster in tracked HTML resolves on disk.
   2. Orphan assets      — nothing under assets/ is unreferenced (excludes _incoming/).
   3. Nav consistency    — nav/menu/footer label sets + order identical across the 12 nav'd pages.
   4. Head metadata      — unique <title>, meta description sane, canonical matches filename,
                            og:description === meta description, on every indexable page.
-  5. Feeds              — sitemap.xml / feed.xml parse as XML; sitemap count == indexable page count.
+  5. Feeds              — sitemap.xml / feed.xml well-formed; sitemap count == indexable page count.
   6. Tag balance         — HTMLParser stack-based balance check per page.
   7. node --check        — syntax-checks the site's JS files (skipped w/ warning if node absent).
 
@@ -110,9 +112,29 @@ def strip_comments(html):
     return re.sub(r"<!--.*?-->", "", html, flags=re.DOTALL)
 
 
+_decode_errors = {}  # path -> error message, populated lazily by read()
+_read_cache = {}
+
+
 def read(path):
-    with open(os.path.join(ROOT, path), "r", encoding="utf-8") as fh:
-        return fh.read()
+    """Read a repo-relative file as UTF-8 text.
+
+    A file that fails to decode is recorded in _decode_errors (surfaced by its own check,
+    see check_encoding) and read() returns "" for it instead of raising — so a single
+    corrupt/binary/mis-encoded file degrades every other check gracefully (empty text means
+    "no matches found", never a false PASS) rather than crashing the whole run with a
+    traceback that looks like the checker itself is broken.
+    """
+    if path in _read_cache:
+        return _read_cache[path]
+    try:
+        with open(os.path.join(ROOT, path), "r", encoding="utf-8") as fh:
+            text = fh.read()
+    except UnicodeDecodeError as e:
+        _decode_errors[path] = str(e)
+        text = ""
+    _read_cache[path] = text
+    return text
 
 
 _ATTR_RE = re.compile(
@@ -168,6 +190,26 @@ def resolve_local_path(page_path, url):
         candidate = os.path.normpath(os.path.join(page_dir, path_part))
     candidate = candidate.replace(os.sep, "/")
     return candidate
+
+
+# ========================================================================================
+# Check 0 — encoding (pre-flight; must run before anything else calls read())
+# ========================================================================================
+
+def check_encoding():
+    """Every tracked HTML/CSS/JS file must be valid UTF-8. This runs first and eagerly
+    reads everything so _decode_errors is fully populated before any other check — a file
+    that fails here still gets treated as "" (empty) by every other check rather than
+    crashing them, but it's reported once, clearly, right at the top."""
+    text_files = [f for f in ALL_FILES if f.endswith((".html", ".css", ".js", ".xml", ".txt"))]
+    for f in text_files:
+        read(f)  # populates _decode_errors as a side effect
+    ok = not _decode_errors
+    if ok:
+        detail = f"{len(text_files)} text files, all valid UTF-8"
+    else:
+        detail = "\n    ".join(f"{p}: {err}" for p, err in sorted(_decode_errors.items()))
+    record("0. Encoding (UTF-8)", ok, detail)
 
 
 # ========================================================================================
@@ -547,6 +589,7 @@ def check_js_syntax():
 # ========================================================================================
 
 def main():
+    check_encoding()
     check_links()
     check_orphans()
     check_nav_consistency()
