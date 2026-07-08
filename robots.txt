@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://singhstudio.co.nz/sitemap.xml
+Sitemap: https://www.singhstudio.co.nz/sitemap.xml

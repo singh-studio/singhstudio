@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <title>Singh Studio — Thoughts</title>
-  <link>https://singhstudio.co.nz/thoughts.html</link>
-  <atom:link href="https://singhstudio.co.nz/feed.xml" rel="self" type="application/rss+xml"/>
+  <link>https://www.singhstudio.co.nz/thoughts.html</link>
+  <atom:link href="https://www.singhstudio.co.nz/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Occasional observations on messages, websites, and the people they're for.</description>
   <language>en-nz</language>
   <item>
     <title>Start with the message</title>
-    <link>https://singhstudio.co.nz/thought-start-with-the-message.html</link>
-    <guid>https://singhstudio.co.nz/thought-start-with-the-message.html</guid>
+    <link>https://www.singhstudio.co.nz/thought-start-with-the-message.html</link>
+    <guid>https://www.singhstudio.co.nz/thought-start-with-the-message.html</guid>
     <pubDate>Mon, 01 Jun 2026 09:00:00 +1200</pubDate>
     <description>Why the artefact is the last decision, not the first.</description>
   </item>
   <item>
     <title>The 20-minute brief</title>
-    <link>https://singhstudio.co.nz/thought-the-20-minute-brief.html</link>
-    <guid>https://singhstudio.co.nz/thought-the-20-minute-brief.html</guid>
+    <link>https://www.singhstudio.co.nz/thought-the-20-minute-brief.html</link>
+    <guid>https://www.singhstudio.co.nz/thought-the-20-minute-brief.html</guid>
     <pubDate>Fri, 01 May 2026 09:00:00 +1200</pubDate>
     <description>What to bring to an intro call — and what to leave at home.</description>
   </item>
