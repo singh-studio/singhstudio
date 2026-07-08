@@ -11,11 +11,10 @@
 <meta name="theme-color" content="#191b1d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,800;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --charcoal:#191b1d;
-    --charcoal-2:#221f1c;
     --concrete:#eceae6;
     --concrete-dim:#d9d6cf;
     --amber:#ffb400;
@@ -23,6 +22,7 @@
     --red:#d64000;
     --line:rgba(236,234,230,.14);
     --demo-bar-h:52px;
+    --mono:ui-monospace,"SFMono-Regular",Menlo,monospace;
   }
   *,*::before,*::after{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -30,9 +30,17 @@
     html{scroll-behavior:auto}
     *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
   }
+  html.js main>[data-page]{display:none}
+  html.js main>[data-page].is-active{display:block}
+  [data-page]:focus{outline:none}
+
   body{
     margin:0;
     background:var(--charcoal);
+    background-image:
+      linear-gradient(rgba(236,234,230,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(236,234,230,.05) 1px,transparent 1px);
+    background-size:56px 56px;
     color:var(--concrete);
     font-family:"Archivo",ui-sans-serif,system-ui,sans-serif;
     font-weight:400;
@@ -40,7 +48,7 @@
     padding-bottom:calc(var(--demo-bar-h) + 8px);
     -webkit-font-smoothing:antialiased;
   }
-  img{max-width:100%;display:block}
+  img,svg{max-width:100%;display:block}
   a{color:inherit}
   h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;margin:0}
   p{margin:0}
@@ -48,6 +56,31 @@
   button{font-family:inherit}
   .wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,3rem)}
   :focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+
+  /* ===== Dimension line component ===== */
+  .dim{position:relative;margin-block:1.6rem 2.4rem;padding-top:1.4rem}
+  .dim-label{
+    display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--amber-dim);margin-bottom:.55rem;
+  }
+  .dim-rule{display:block;position:relative;width:100%;height:1px;background:var(--amber);transform-origin:left}
+  .dim-rule::before,.dim-rule::after{
+    content:"";position:absolute;top:-8px;width:1px;height:16px;background:var(--amber);
+  }
+  .dim-rule::before{left:0}
+  .dim-rule::after{right:0}
+
+  /* ===== Hazard tape divider ===== */
+  .tape{
+    height:14px;
+    background:repeating-linear-gradient(45deg,var(--amber) 0 14px,var(--charcoal) 14px 28px);
+    background-size:56px 56px;
+    border-block:1px solid rgba(0,0,0,.35);
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .tape{animation:tapecrawl 14s linear infinite}
+  }
+  @keyframes tapecrawl{to{background-position:56px 0}}
 
   /* ===== Top bar ===== */
   .topbar{
@@ -63,15 +96,17 @@
     font-size:clamp(1.15rem,2.4vw,1.5rem);
     font-weight:900;letter-spacing:.03em;
     display:flex;align-items:baseline;gap:.4rem;
+    text-decoration:none;
   }
   .wordmark span{color:var(--amber)}
   .topnav{display:flex;align-items:center;gap:clamp(1rem,2.5vw,2.1rem)}
-  .topnav a{
+  .nav-links{display:flex;gap:clamp(1rem,2.5vw,2.1rem)}
+  .nav-links a{
     font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
     text-decoration:none;padding:.3rem 0;border-bottom:2px solid transparent;
   }
-  .topnav a:hover{border-color:var(--amber)}
-  .nav-links{display:flex;gap:clamp(1rem,2.5vw,2.1rem)}
+  .nav-links a:hover{border-color:var(--amber)}
+  .nav-links a[aria-current="page"]{border-color:var(--amber);color:var(--amber)}
   .btn-phone{
     display:inline-flex;align-items:center;gap:.5rem;
     background:var(--amber);color:var(--charcoal);
@@ -81,19 +116,42 @@
   }
   .btn-phone:hover{background:#ffc23d}
   .btn-phone i{width:14px;height:14px;border:2px solid var(--charcoal);border-radius:50%;display:inline-block;flex:none}
-  .menu-toggle{display:none}
+
+  /* ===== Mobile menu button + panel (Pattern C contract) ===== */
+  .m-btn{
+    display:none;background:transparent;border:1px solid var(--line);color:var(--concrete);
+    width:40px;height:40px;align-items:center;justify-content:center;border-radius:2px;cursor:pointer;
+    position:relative;z-index:110;
+  }
+  .m-btn span{display:block;width:18px;height:2px;background:var(--concrete);position:relative}
+  .m-btn span::before,.m-btn span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--concrete)}
+  .m-btn span::before{top:-6px}
+  .m-btn span::after{top:6px}
+  .m-menu{
+    position:fixed;inset:0 0 var(--demo-bar-h) 0;
+    transform:translateY(-102%);
+    transition:transform .45s cubic-bezier(.22,.9,.24,1);
+    z-index:90;background:var(--charcoal);
+    display:flex;flex-direction:column;justify-content:center;gap:.4rem;
+    padding-inline:clamp(1.5rem,8vw,4rem);
+    background-image:
+      linear-gradient(rgba(236,234,230,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(236,234,230,.05) 1px,transparent 1px);
+    background-size:56px 56px;
+  }
+  .m-menu.open{transform:none}
+  body.menu-locked{overflow:hidden}
+  .m-menu a{
+    display:block;font-family:var(--mono);font-weight:600;font-size:clamp(1.5rem,7vw,2.2rem);
+    letter-spacing:.04em;text-transform:uppercase;color:var(--amber);
+    padding-block:.4em;border-bottom:1px solid var(--line);text-decoration:none;
+  }
+  .m-menu a[aria-current="page"]{color:var(--concrete)}
+  .m-menu-foot{margin-top:2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--concrete-dim)}
 
   @media (max-width:820px){
     .nav-links{display:none}
-    .menu-toggle{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:40px;height:40px;background:transparent;border:1px solid var(--line);color:var(--concrete);
-      border-radius:2px;
-    }
-    .menu-toggle span{display:block;width:18px;height:2px;background:var(--concrete);position:relative}
-    .menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--concrete)}
-    .menu-toggle span::before{top:-6px}
-    .menu-toggle span::after{top:6px}
+    .m-btn{display:inline-flex}
   }
 
   /* ===== Hero ===== */
@@ -102,14 +160,17 @@
     position:relative;
   }
   .hero-eyebrow{
+    font-family:var(--mono);
     font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
     color:var(--amber);margin-bottom:1rem;display:block;
   }
   .hero h1{
     font-size:clamp(2.4rem,7vw,5rem);
-    line-height:.98;
-    max-width:14ch;
+    line-height:1.02;
+    max-width:16ch;
   }
+  .hl-wrap{display:block;overflow:hidden}
+  .hl{display:block}
   .hero-sub{
     margin-top:1.4rem;
     font-size:clamp(1.02rem,2vw,1.25rem);
@@ -130,159 +191,160 @@
   .btn-outline{border-color:var(--concrete);color:var(--concrete);background:transparent}
   .btn-outline:hover{border-color:var(--amber);color:var(--amber)}
 
-  .hazard{
-    height:16px;
-    background:repeating-linear-gradient(135deg,var(--amber) 0 22px,var(--charcoal) 22px 44px);
-    border-block:1px solid rgba(0,0,0,.35);
-  }
-
-  /* ===== Trust strip ===== */
-  .trust{
-    background:var(--charcoal-2);
-    border-bottom:1px solid var(--line);
-    padding-block:1.1rem;
-  }
-  .trust ul{
-    display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem 2.4rem;
-  }
-  .trust li{
-    font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;
-    font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-    color:var(--concrete-dim);
-    display:flex;align-items:center;gap:.6rem;
-  }
-  .trust li::before{content:"";width:7px;height:7px;background:var(--amber);flex:none}
-
   /* ===== Section shell ===== */
   section{padding-block:clamp(3.5rem,8vw,5.5rem)}
   .section-head{margin-bottom:clamp(2rem,4.5vw,3rem);max-width:60ch}
   .section-kicker{
+    font-family:var(--mono);
     font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);
     display:block;margin-bottom:.7rem;
   }
-  .section-head h2{font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.05}
+  .section-head h1{font-size:clamp(2rem,5vw,3rem);line-height:1.05}
+  .section-head p{color:var(--concrete-dim);margin-top:1rem;font-size:1.05rem;max-width:52ch}
 
-  /* ===== Services ===== */
-  .services-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;
-    background:var(--line);border:1px solid var(--line);
-  }
-  .service-tile{
-    background:var(--charcoal);padding:2rem 1.75rem;
-    display:flex;flex-direction:column;gap:1.1rem;
-  }
-  .svc-icon{width:40px;height:40px;position:relative;flex:none}
-  .svc-icon i{position:absolute;display:block;background:var(--amber)}
-  /* new builds: layered squares */
-  .icon-newbuild i:nth-child(1){width:26px;height:26px;border:3px solid var(--amber);background:transparent;left:0;top:12px}
-  .icon-newbuild i:nth-child(2){width:26px;height:26px;border:3px solid var(--concrete);background:transparent;left:12px;top:0}
-  /* renovations: overlapping bars */
-  .icon-reno i:nth-child(1){width:34px;height:6px;left:3px;top:9px}
-  .icon-reno i:nth-child(2){width:34px;height:6px;left:3px;top:19px;background:var(--concrete)}
-  .icon-reno i:nth-child(3){width:6px;height:34px;left:17px;top:3px;background:var(--charcoal);border:3px solid var(--amber)}
-  /* decks & fences: parallel posts */
-  .icon-deck i{width:5px;height:34px;top:3px;background:var(--amber)}
-  .icon-deck i:nth-child(1){left:3px}
-  .icon-deck i:nth-child(2){left:13px;height:28px;top:9px;background:var(--concrete)}
-  .icon-deck i:nth-child(3){left:23px}
-  .icon-deck i:nth-child(4){left:33px;height:28px;top:9px;background:var(--concrete)}
-  /* reclads: diagonal panel */
-  .icon-reclad{overflow:hidden;border:3px solid var(--concrete)}
-  .icon-reclad i{width:70px;height:6px;background:var(--amber);left:-16px;top:8px;transform:rotate(-32deg);transform-origin:left center}
-  .icon-reclad i:nth-child(2){top:20px}
-  .icon-reclad i:nth-child(3){top:32px;background:var(--concrete)}
-  /* bathrooms: square + circle (tap) */
-  .icon-bath i:nth-child(1){width:34px;height:34px;border:3px solid var(--amber);background:transparent;left:0;top:0}
-  .icon-bath i:nth-child(2){width:10px;height:10px;border-radius:50%;left:12px;top:12px;background:var(--concrete)}
-  /* minor works: small ticks grid */
-  .icon-minor i{width:9px;height:9px}
-  .icon-minor i:nth-child(1){left:0;top:0}
-  .icon-minor i:nth-child(2){left:15px;top:0;background:var(--concrete)}
-  .icon-minor i:nth-child(3){left:0;top:15px;background:var(--concrete)}
-  .icon-minor i:nth-child(4){left:15px;top:15px}
-  .icon-minor i:nth-child(5){left:7px;top:30px;width:20px;height:4px;background:var(--red)}
+  /* ===== Stats strip ===== */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+  .stat{background:var(--charcoal);padding:2rem 1.5rem;text-align:center}
+  .stat-num{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(2.6rem,6vw,4.2rem);color:var(--amber);line-height:1}
+  .stat-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--concrete-dim);margin-top:.6rem}
 
-  .service-tile h3{font-size:1.15rem;letter-spacing:0}
-  .service-tile p{color:var(--concrete-dim);font-size:.94rem}
-
-  /* ===== Recent jobs ===== */
-  .jobs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
-  .job-card{border:1px solid var(--line)}
-  .job-block{height:180px;position:relative;overflow:hidden}
-  .job-block::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-45deg,rgba(0,0,0,.12) 0 2px,transparent 2px 14px)}
-  .job-1 .job-block{background:var(--amber)}
-  .job-2 .job-block{background:#4a4640}
-  .job-3 .job-block{background:var(--red)}
-  .job-tag{
-    position:absolute;top:1rem;left:1rem;
-    background:var(--charcoal);color:var(--concrete);
-    font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;
-    padding:.35rem .7rem;
+  /* ===== Featured service rows (home) ===== */
+  .svc-rows{display:flex;flex-direction:column}
+  .svc-row{
+    display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:1rem;
+    padding-block:1.4rem;border-top:1px solid var(--amber);
   }
-  .job-body{padding:1.4rem 1.5rem 1.6rem;background:var(--charcoal-2)}
-  .job-body h3{font-size:1.05rem;letter-spacing:0;margin-bottom:.5rem}
-  .job-body p{color:var(--concrete-dim);font-size:.9rem}
+  .svc-rows>.svc-row:last-child{border-bottom:1px solid var(--amber)}
+  .svc-row h3{font-size:1.15rem;letter-spacing:0}
+  .svc-row .svc-rate{font-family:var(--mono);color:var(--amber);font-size:.92rem;white-space:nowrap}
+  .svc-row .svc-includes{grid-column:1/-1;color:var(--concrete-dim);font-size:.9rem;margin-top:.4rem}
+  .svc-more{margin-top:1.6rem}
+  .svc-more a{
+    font-family:var(--mono);font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--amber);text-decoration:none;border-bottom:1px solid var(--amber);padding-bottom:.15rem;
+  }
+  .svc-more a:hover{color:#ffc23d;border-color:#ffc23d}
+
+  /* ===== Job teaser (home) ===== */
+  .job-teaser{
+    display:block;border:1px solid var(--line);padding:clamp(1.75rem,4vw,2.5rem);text-decoration:none;
+    position:relative;
+  }
+  .job-teaser:hover{border-color:var(--amber)}
+  .job-teaser .dim-label{margin-bottom:0}
+  .job-teaser h3{font-size:clamp(1.4rem,3vw,1.9rem);margin-top:.6rem}
+  .job-teaser p{color:var(--concrete-dim);margin-top:.6rem;max-width:50ch}
+  .job-teaser .go{
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);
+    margin-top:1.1rem;display:inline-block;
+  }
+
+  /* ===== Rate card (services page) ===== */
+  .rate-rows{border-top:1px solid var(--line)}
+  .rate-row{
+    display:grid;grid-template-columns:1fr auto;align-items:start;gap:1rem 1.5rem;
+    padding-block:1.6rem;border-bottom:1px solid var(--line);
+  }
+  .rate-row h2{font-size:1.2rem;letter-spacing:0;font-weight:800}
+  .rate-row .rate-includes{grid-column:1/-1;color:var(--concrete-dim);font-size:.95rem}
+  .rate-row .rate-price{
+    font-family:var(--mono);color:var(--amber);font-size:1.05rem;font-weight:600;white-space:nowrap;text-align:right;
+  }
+  .rate-foot{
+    margin-top:2rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--concrete-dim);
+  }
+
+  /* ===== Jobs page ===== */
+  .job-entry{padding-block:clamp(2.5rem,5vw,3.5rem);border-top:1px solid var(--line)}
+  .job-entry:first-of-type{border-top:none}
+  .job-entry h2{font-size:clamp(1.5rem,3.5vw,2.1rem)}
   .job-meta{
-    margin-top:.9rem;display:flex;gap:1rem;
-    font-family:ui-monospace,Menlo,monospace;font-size:.75rem;color:var(--amber);letter-spacing:.04em;
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-dim);
+    margin-top:.5rem;
   }
+  .job-scope{color:var(--concrete-dim);margin-top:1rem;max-width:60ch;font-size:1rem}
+  .job-entry .ba{margin-top:1.6rem;max-width:640px}
 
-  /* ===== Testimonials ===== */
-  .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
-  .testi-card{
-    background:var(--charcoal-2);border:1px solid var(--line);border-left:4px solid var(--amber);
-    padding:1.75rem;
+  /* ===== Before/after slider ===== */
+  .ba{position:relative;aspect-ratio:16/9;border:1px solid var(--line);overflow:hidden;background:var(--charcoal)}
+  .ba-after,.ba-before{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem}
+  .ba-range{position:absolute;inset:0;opacity:0;cursor:ew-resize;width:100%;height:100%;margin:0}
+  .ba-handle{position:absolute;top:0;bottom:0;width:2px;background:var(--amber);pointer-events:none;left:50%}
+  .ba-handle::before{
+    content:"";position:absolute;top:50%;left:50%;width:14px;height:14px;background:var(--amber);
+    transform:translate(-50%,-50%) rotate(45deg);
   }
-  .testi-quote{font-size:1.05rem;line-height:1.55;color:var(--concrete)}
-  .testi-quote::before{content:"\201C"}
-  .testi-quote::after{content:"\201D"}
-  .testi-name{
-    margin-top:1.1rem;font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;color:var(--amber-dim);
+  .ba-range:focus-visible~.ba-handle{box-shadow:0 0 0 3px rgba(255,180,0,.4)}
+  .ba-tag{
+    position:absolute;bottom:.7rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--concrete-dim);pointer-events:none;
   }
+  .ba-tag-l{left:.9rem}
+  .ba-tag-r{right:.9rem}
 
-  /* ===== Service area ===== */
-  .area-wrap{
-    background:var(--charcoal-2);border:1px solid var(--line);padding:clamp(2rem,5vw,3rem);
-  }
-  .area-list{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem 1.5rem;margin-top:1.6rem;
-  }
-  .area-list li{
-    font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.7rem;
-    padding-block:.4rem;border-bottom:1px solid var(--line);
-  }
-  .area-list li::before{content:"";width:8px;height:8px;background:var(--amber);flex:none}
+  /* ===== Reviews page ===== */
+  .rating-strip{font-family:var(--mono);font-size:1rem;letter-spacing:.06em;color:var(--amber);margin-bottom:2.5rem}
+  .rating-strip .stars{color:var(--amber)}
+  .quotes{display:flex;flex-direction:column;gap:2.2rem}
+  .pull-quote{border-top:1px solid var(--amber);padding-top:1.4rem;max-width:70ch}
+  .pull-quote p{font-weight:600;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--concrete);line-height:1.35}
+  .pull-quote p::before{content:"\201C "}
+  .pull-quote p::after{content:" \201D"}
 
-  /* ===== Quote form ===== */
+  /* ===== Docket / quote form ===== */
+  .docket-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+  .docket-num{font-family:var(--mono);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-dim)}
   .form-shell{
-    background:var(--charcoal-2);border:1px solid var(--line);
-    padding:clamp(2rem,5vw,3rem);
-    display:grid;gap:1.4rem;
+    border:1px solid var(--line);
+    padding:clamp(1.75rem,5vw,3rem);
+    display:grid;gap:0;
   }
   .form-row{display:grid;gap:1.4rem;grid-template-columns:1fr 1fr}
-  .field{display:flex;flex-direction:column;gap:.5rem}
+  .field{display:flex;flex-direction:column;gap:.5rem;padding-block:1.3rem;border-top:1px solid var(--amber)}
+  .form-row .field{border-top:none}
+  .form-row{border-top:1px solid var(--amber);margin-top:0}
   .field label{
-    font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--concrete-dim);
+    font-family:var(--mono);
+    font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--concrete-dim);
   }
+  .field .req{color:var(--amber)}
   .field input,.field select,.field textarea{
     background:var(--charcoal);border:1px solid var(--line);color:var(--concrete);
     padding:.85rem 1rem;font-family:inherit;font-size:.96rem;border-radius:2px;
   }
   .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--amber)}
   .field textarea{resize:vertical;min-height:110px}
-  .form-submit-row{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+  .field.err input,.field.err textarea,.field.err select,.field-full.err input,.field-full.err textarea,.field-full.err select{outline:2px solid var(--red);border-color:var(--red)}
+  .err-msg{color:var(--red);font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;margin-top:.3rem}
+  .radio-row{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem}
+  .radio-opt{display:flex;align-items:center;gap:.5rem;font-size:.9rem;cursor:pointer}
+  .radio-opt input{width:auto;padding:0;accent-color:var(--amber)}
+  .field-full{grid-column:1/-1;padding-block:1.3rem;border-top:1px solid var(--amber)}
+  .form-submit-row{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;padding-top:1.6rem}
   .form-helper{font-size:.85rem;color:var(--concrete-dim);font-style:italic}
-  @media (max-width:640px){.form-row{grid-template-columns:1fr}}
+  @media (max-width:640px){.form-row{grid-template-columns:1fr;gap:0}.form-row .field{border-top:1px solid var(--amber)}.form-row .field:first-child{border-top:none}}
+
+  .docket-success{
+    display:none;
+    border:3px solid var(--amber);
+    padding:clamp(2rem,6vw,3.5rem);
+    transform:rotate(-3deg);
+    max-width:44ch;
+    margin-inline:auto;
+  }
+  .docket-success.show{display:block}
+  .docket-success h2{font-size:clamp(1.6rem,4vw,2.3rem)}
+  .docket-success p{color:var(--concrete-dim);margin-top:1rem;font-size:1rem}
 
   /* ===== Footer ===== */
   footer{
     border-top:1px solid var(--line);padding-block:clamp(2.5rem,6vw,3.5rem);
-    background:var(--charcoal-2);
   }
   .footer-grid{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;
   }
-  .footer-grid h3{font-size:.85rem;letter-spacing:.08em;color:var(--amber);margin-bottom:.9rem}
+  .footer-grid h3{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:.9rem;font-weight:600}
   .footer-grid p,.footer-grid a{
     font-size:.92rem;color:var(--concrete-dim);text-decoration:none;line-height:1.8;display:block;
   }
@@ -292,230 +354,383 @@
     font-size:.78rem;color:var(--concrete-dim);opacity:.7;
     display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;
   }
-
-  /* ===== Mobile sticky call bar ===== */
-  .mobile-call{
-    display:none;
-  }
-  @media (max-width:720px){
-    .mobile-call{
-      display:flex;position:fixed;left:0;right:0;
-      bottom:var(--demo-bar-h);z-index:490;
-      background:var(--amber);color:var(--charcoal);
-      align-items:center;justify-content:center;gap:.6rem;
-      padding:.85rem 1rem;text-decoration:none;
-      font-weight:900;font-size:.92rem;letter-spacing:.03em;text-transform:uppercase;
-      border-top:2px solid var(--charcoal);
-    }
-    body{padding-bottom:calc(var(--demo-bar-h) + 54px + 3rem)}
-  }
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <div class="wrap topbar-inner">
-    <a href="#top" class="wordmark">RIDGELINE<span>.</span></a>
+    <a href="#/" data-nav class="wordmark">RIDGELINE<span>.</span></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#services">Services</a>
-      <a href="#jobs">Recent jobs</a>
-      <a href="#testimonials">Reviews</a>
-      <a href="#area">Service area</a>
-      <a href="#quote">Get a quote</a>
+      <a href="#/services" data-nav>Services</a>
+      <a href="#/jobs" data-nav>Recent jobs</a>
+      <a href="#/reviews" data-nav>Reviews</a>
+      <a href="#/quote" data-nav>Get a quote</a>
     </nav>
     <div style="display:flex;align-items:center;gap:.75rem">
       <a class="btn-phone" href="tel:+64275550148"><i></i>027 555 0148</a>
-      <button class="menu-toggle" type="button" title="Demo — menu not wired" aria-label="Menu"><span></span></button>
+      <button class="m-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mnav"><span></span></button>
     </div>
   </div>
 </header>
 
+<nav id="mnav" class="m-menu" aria-label="Mobile">
+  <a href="#/" data-nav>Home</a>
+  <a href="#/services" data-nav>Services</a>
+  <a href="#/jobs" data-nav>Recent jobs</a>
+  <a href="#/reviews" data-nav>Reviews</a>
+  <a href="#/quote" data-nav>Get a quote</a>
+  <p class="m-menu-foot">Kāpiti Coast &amp; Wellington</p>
+</nav>
+
 <main id="top">
 
-  <section class="hero">
-    <div class="wrap">
-      <span class="hero-eyebrow">Kāpiti Coast &amp; Wellington</span>
-      <h1>Built right. Built once.</h1>
-      <p class="hero-sub">Ridgeline Builders handles new builds, renovations and reclads across the Kāpiti Coast and Wellington region — straight quotes, LBP-licensed crews, and a job site you won't be embarrassed to walk past.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#quote">Get a quote</a>
-        <a class="btn btn-outline" href="tel:+64275550148">Call now — 027 555 0148</a>
+  <!-- ================= HOME ================= -->
+  <div data-page="home">
+
+    <section class="hero">
+      <div class="wrap">
+        <span class="hero-eyebrow">Kāpiti Coast &amp; Wellington</span>
+        <h1>
+          <span class="hl-wrap"><span class="hl">Built right.</span></span>
+          <span class="hl-wrap"><span class="hl">Built once.</span></span>
+        </h1>
+        <div class="dim h-fade">
+          <span class="dim-label">Site: Kāpiti Coast — Est. 2012 — LBP Licensed</span>
+          <span class="dim-rule"></span>
+        </div>
+        <p class="hero-sub h-fade">Ridgeline Builders handles new builds, renovations and reclads across the Kāpiti Coast and Wellington region — straight quotes, LBP-licensed crews, and a job site you won't be embarrassed to walk past.</p>
+        <div class="hero-ctas h-fade">
+          <a class="btn btn-primary" href="#/quote" data-nav>Get a quote</a>
+          <a class="btn btn-outline" href="tel:+64275550148">Call now — 027 555 0148</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="hazard" role="presentation"></div>
+    <div class="tape" role="presentation"></div>
 
-  <div class="trust">
-    <div class="wrap">
-      <ul>
-        <li>LBP Licensed</li>
-        <li>Fully insured</li>
-        <li>12-year workmanship guarantee</li>
-      </ul>
-    </div>
+    <section id="stats-section">
+      <div class="wrap">
+        <div class="stats">
+          <div class="stat" data-anim data-count="127">
+            <div class="stat-num">127</div>
+            <div class="stat-label">Jobs signed off</div>
+          </div>
+          <div class="stat" data-anim data-count="14">
+            <div class="stat-num">14</div>
+            <div class="stat-label">Years on the tools</div>
+          </div>
+          <div class="stat" data-anim data-count="5.0">
+            <div class="stat-num">5.0</div>
+            <div class="stat-label">Google rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head" data-anim>
+          <span class="section-kicker">What we do</span>
+          <h1>Three ways we're usually on site</h1>
+        </div>
+        <div class="svc-rows">
+          <div class="svc-row" data-anim>
+            <h3>New builds</h3>
+            <span class="svc-rate">from $3,400/m²</span>
+            <p class="svc-includes">Architectural or group, foundations to handover.</p>
+          </div>
+          <div class="svc-row" data-anim>
+            <h3>Reclads</h3>
+            <span class="svc-rate">from $180,000</span>
+            <p class="svc-includes">Weathertight remediation, all claddings.</p>
+          </div>
+          <div class="svc-row" data-anim>
+            <h3>Decks &amp; pergolas</h3>
+            <span class="svc-rate">from $14,000</span>
+            <p class="svc-includes">Kwila, vitex or pine, consent handled.</p>
+          </div>
+        </div>
+        <div class="svc-more" data-anim>
+          <a href="#/services" data-nav>Full rate card →</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <a class="job-teaser" href="#/jobs" data-nav data-anim>
+          <span class="dim-label">Featured job</span>
+          <h3>Seatoun reclad — see the plan become the build</h3>
+          <p>Full recloak in vertical cedar over cavity, new joinery throughout. The leaks stopped; the value didn't.</p>
+          <span class="go">View the job →</span>
+        </a>
+      </div>
+    </section>
+
   </div>
 
-  <section id="services">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">What we do</span>
-        <h2>Six ways we can help</h2>
+  <!-- ================= SERVICES / RATE CARD ================= -->
+  <div data-page="services">
+    <section>
+      <div class="wrap">
+        <div class="section-head" data-anim>
+          <span class="section-kicker">The rate card</span>
+          <h1>The rate card.</h1>
+          <p>Straight numbers, before we've even met. Final quote on site, always in writing.</p>
+        </div>
+        <div class="rate-rows">
+          <div class="rate-row" data-anim>
+            <h2>New builds</h2>
+            <span class="rate-price">from $3,400/m²</span>
+            <p class="rate-includes">Architectural or group, foundations to handover.</p>
+          </div>
+          <div class="rate-row" data-anim>
+            <h2>Renovations</h2>
+            <span class="rate-price">from $48,000</span>
+            <p class="rate-includes">Kitchens, bathrooms, knock-throughs.</p>
+          </div>
+          <div class="rate-row" data-anim>
+            <h2>Reclads</h2>
+            <span class="rate-price">from $180,000</span>
+            <p class="rate-includes">Weathertight remediation, all claddings.</p>
+          </div>
+          <div class="rate-row" data-anim>
+            <h2>Decks &amp; pergolas</h2>
+            <span class="rate-price">from $14,000</span>
+            <p class="rate-includes">Kwila, vitex or pine, consent handled.</p>
+          </div>
+          <div class="rate-row" data-anim>
+            <h2>Fences &amp; retaining</h2>
+            <span class="rate-price">from $260/m</span>
+            <p class="rate-includes">Boundary, pool, keystone.</p>
+          </div>
+          <div class="rate-row" data-anim>
+            <h2>Insurance &amp; repairs</h2>
+            <span class="rate-price">quoted on scope</span>
+            <p class="rate-includes">EQC scopes, make-safes, reinstatement.</p>
+          </div>
+        </div>
+        <p class="rate-foot" data-anim>GST included. Site visit within 5 working days.</p>
       </div>
-      <div class="services-grid">
-        <article class="service-tile">
-          <div class="svc-icon icon-newbuild"><i></i><i></i></div>
-          <h3>New builds</h3>
-          <p>Ground-up homes and standalone units, from consent to key handover.</p>
-        </article>
-        <article class="service-tile">
-          <div class="svc-icon icon-reno"><i></i><i></i><i></i></div>
-          <h3>Renovations</h3>
-          <p>Kitchens, living spaces and full-home renovations that actually finish on time.</p>
-        </article>
-        <article class="service-tile">
-          <div class="svc-icon icon-deck"><i></i><i></i><i></i><i></i></div>
-          <h3>Decks &amp; fences</h3>
-          <p>Outdoor living and boundary work built for salt air and southerlies.</p>
-        </article>
-        <article class="service-tile">
-          <div class="svc-icon icon-reclad"><i></i><i></i><i></i></div>
-          <h3>Reclads</h3>
-          <p>Weathertightness fixes and full recladding for tired or leaky exteriors.</p>
-        </article>
-        <article class="service-tile">
-          <div class="svc-icon icon-bath"><i></i><i></i></div>
-          <h3>Bathrooms</h3>
-          <p>Waterproofed, warm and built to last — no shortcuts on the membrane.</p>
-        </article>
-        <article class="service-tile">
-          <div class="svc-icon icon-minor"><i></i><i></i><i></i><i></i><i></i></div>
-          <h3>Minor works</h3>
-          <p>Repairs, small alterations and the jobs other builders won't call back for.</p>
-        </article>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <section id="jobs">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Recent jobs</span>
-        <h2>On the tools this year</h2>
-      </div>
-      <div class="jobs-grid">
-        <article class="job-card job-1">
-          <div class="job-block"><span class="job-tag">Recladded</span></div>
-          <div class="job-body">
-            <h3>Full reclad &amp; weathertightness fix</h3>
-            <p>A 1990s board-and-batten home stripped back to framing and rebuilt with a ventilated cavity system.</p>
-            <div class="job-meta"><span>Raumati Beach</span><span>9 weeks</span></div>
-          </div>
-        </article>
-        <article class="job-card job-2">
-          <div class="job-block"><span class="job-tag">Renovated</span></div>
-          <div class="job-body">
-            <h3>Kitchen &amp; living renovation</h3>
-            <p>Wall removed to open up the kitchen and living area, plus a new scullery and bifold doors to the deck.</p>
-            <div class="job-meta"><span>Khandallah</span><span>6 weeks</span></div>
-          </div>
-        </article>
-        <article class="job-card job-3">
-          <div class="job-block"><span class="job-tag">New build</span></div>
-          <div class="job-body">
-            <h3>Three-bedroom standalone home</h3>
-            <p>Ground-up build on a sloping section, including retaining, decking and a double garage.</p>
-            <div class="job-meta"><span>Paraparaumu</span><span>7 months</span></div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
+  <!-- ================= JOBS ================= -->
+  <div data-page="jobs">
+    <section>
+      <div class="wrap">
+        <div class="section-head" data-anim>
+          <span class="section-kicker">Portfolio</span>
+          <h1>Recent jobs.</h1>
+        </div>
 
-  <section id="testimonials">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">What clients say</span>
-        <h2>Straight talk, no surprises</h2>
-      </div>
-      <div class="testi-grid">
-        <article class="testi-card">
-          <p class="testi-quote">Turned up when they said they would, every single day. The reclad quote was the price we paid — no surprise extras.</p>
-          <p class="testi-name">Dave — Raumati Beach</p>
-        </article>
-        <article class="testi-card">
-          <p class="testi-quote">Our kitchen reno was done in six weeks flat. The crew left the site tidy every afternoon, which our neighbours actually commented on.</p>
-          <p class="testi-name">Priya — Khandallah</p>
-        </article>
-        <article class="testi-card">
-          <p class="testi-quote">Built our new place on a tricky sloping section without a single hiccup on the retaining. Would use Ridgeline again tomorrow.</p>
-          <p class="testi-name">Michael — Paraparaumu</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="area">
-    <div class="wrap">
-      <div class="area-wrap">
-        <div class="section-head" style="margin-bottom:0">
-          <span class="section-kicker">Where we work</span>
-          <h2>Service area</h2>
-        </div>
-        <ul class="area-list">
-          <li>Paraparaumu</li>
-          <li>Raumati Beach</li>
-          <li>Waikanae</li>
-          <li>Ōtaki</li>
-          <li>Khandallah</li>
-          <li>Johnsonville</li>
-          <li>Tawa</li>
-          <li>Wellington CBD</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="quote">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Get in touch</span>
-        <h2>Get a quote</h2>
-      </div>
-      <form class="form-shell" aria-label="Quote request (demo)">
-        <div class="form-row">
-          <div class="field">
-            <label for="qf-name">Name</label>
-            <input id="qf-name" type="text" name="name" placeholder="Your full name" autocomplete="name">
+        <article class="job-entry" data-anim>
+          <h2>Seatoun reclad</h2>
+          <p class="job-meta">10 months · Weathertight remediation</p>
+          <p class="job-scope">Full recloak in vertical cedar over cavity, new joinery throughout. The leaks stopped; the value didn't.</p>
+          <div class="ba" id="ba1">
+            <div class="ba-after">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Seatoun reclad — completed house elevation">
+                <rect x="80" y="150" width="300" height="160" fill="var(--concrete)" />
+                <polygon points="80,150 230,60 380,150" fill="var(--amber)" />
+                <rect x="380" y="190" width="180" height="120" fill="var(--concrete)" />
+                <rect x="120" y="200" width="60" height="60" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" /><rect x="220" y="200" width="60" height="60" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <rect x="310" y="220" width="44" height="90" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <rect x="420" y="220" width="50" height="50" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" /><rect x="490" y="220" width="50" height="50" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <line x1="40" y1="310" x2="600" y2="310" stroke="var(--concrete)" stroke-width="1.5" />
+              </svg>
+            </div>
+            <div class="ba-before">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Seatoun reclad — architectural plan">
+                <g fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="5 4">
+                  <rect x="80" y="150" width="300" height="160" />
+                  <polygon points="80,150 230,60 380,150" />
+                  <rect x="380" y="190" width="180" height="120" />
+                  <rect x="120" y="200" width="60" height="60" /><rect x="220" y="200" width="60" height="60" />
+                  <rect x="310" y="220" width="44" height="90" />
+                  <rect x="420" y="220" width="50" height="50" /><rect x="490" y="220" width="50" height="50" />
+                  <line x1="40" y1="310" x2="600" y2="310" />
+                </g>
+              </svg>
+            </div>
+            <div class="ba-handle" aria-hidden="true"></div>
+            <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag between plan and built">
+            <span class="ba-tag ba-tag-l">THE PLAN</span><span class="ba-tag ba-tag-r">THE BUILD</span>
           </div>
-          <div class="field">
-            <label for="qf-phone">Phone</label>
-            <input id="qf-phone" type="tel" name="phone" placeholder="027 555 0148" autocomplete="tel">
+        </article>
+
+        <article class="job-entry" data-anim>
+          <h2>Aro Valley villa extension</h2>
+          <p class="job-meta">6 months · Heritage street</p>
+          <p class="job-scope">Four metres out the back without losing the villa's face. Council said yes first time.</p>
+          <div class="ba" id="ba2">
+            <div class="ba-after">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Aro Valley villa extension — completed house elevation">
+                <rect x="80" y="150" width="300" height="160" fill="var(--concrete)" />
+                <polygon points="80,150 230,60 380,150" fill="var(--amber)" />
+                <rect x="380" y="190" width="180" height="120" fill="var(--concrete)" transform="translate(640,0) scale(-1,1) translate(-620,0) translate(-160,0)" />
+                <rect x="120" y="200" width="60" height="60" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" /><rect x="220" y="200" width="60" height="60" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <rect x="310" y="220" width="44" height="90" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <rect x="420" y="220" width="50" height="50" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" transform="translate(640,0) scale(-1,1) translate(-620,0) translate(-160,0)" /><rect x="490" y="220" width="50" height="50" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" transform="translate(640,0) scale(-1,1) translate(-620,0) translate(-160,0)" />
+                <line x1="40" y1="310" x2="600" y2="310" stroke="var(--concrete)" stroke-width="1.5" />
+              </svg>
+            </div>
+            <div class="ba-before">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Aro Valley villa extension — architectural plan">
+                <g fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="5 4">
+                  <rect x="80" y="150" width="300" height="160" />
+                  <polygon points="80,150 230,60 380,150" />
+                  <rect x="380" y="190" width="180" height="120" transform="translate(640,0) scale(-1,1) translate(-620,0) translate(-160,0)" />
+                  <rect x="120" y="200" width="60" height="60" /><rect x="220" y="200" width="60" height="60" />
+                  <rect x="310" y="220" width="44" height="90" />
+                  <rect x="420" y="220" width="50" height="50" transform="translate(640,0) scale(-1,1) translate(-620,0) translate(-160,0)" /><rect x="490" y="220" width="50" height="50" transform="translate(640,0) scale(-1,1) translate(-620,0) translate(-160,0)" />
+                  <line x1="40" y1="310" x2="600" y2="310" />
+                </g>
+              </svg>
+            </div>
+            <div class="ba-handle" aria-hidden="true"></div>
+            <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag between plan and built">
+            <span class="ba-tag ba-tag-l">THE PLAN</span><span class="ba-tag ba-tag-r">THE BUILD</span>
+          </div>
+        </article>
+
+        <article class="job-entry" data-anim>
+          <h2>Raumati deck &amp; pergola</h2>
+          <p class="job-meta">3 weeks · Kwila + louvres</p>
+          <p class="job-scope">Sixty square metres of afternoon sun, engineered for the northerly.</p>
+          <div class="ba" id="ba3">
+            <div class="ba-after">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Raumati deck and pergola — completed house elevation">
+                <rect x="80" y="150" width="300" height="160" fill="var(--concrete)" />
+                <polygon points="80,150 230,60 380,150" fill="var(--amber)" />
+                <rect x="120" y="200" width="60" height="60" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" /><rect x="220" y="200" width="60" height="60" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <rect x="310" y="220" width="44" height="90" fill="var(--charcoal)" stroke="var(--concrete)" stroke-width="1" />
+                <rect x="380" y="290" width="200" height="20" fill="var(--amber-dim)" />
+                <line x1="400" y1="290" x2="400" y2="310" stroke="var(--charcoal)" stroke-width="2" />
+                <line x1="440" y1="290" x2="440" y2="310" stroke="var(--charcoal)" stroke-width="2" />
+                <line x1="480" y1="290" x2="480" y2="310" stroke="var(--charcoal)" stroke-width="2" />
+                <line x1="520" y1="290" x2="520" y2="310" stroke="var(--charcoal)" stroke-width="2" />
+                <line x1="560" y1="290" x2="560" y2="310" stroke="var(--charcoal)" stroke-width="2" />
+                <line x1="40" y1="310" x2="600" y2="310" stroke="var(--concrete)" stroke-width="1.5" />
+              </svg>
+            </div>
+            <div class="ba-before">
+              <svg viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Raumati deck and pergola — architectural plan">
+                <g fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="5 4">
+                  <rect x="80" y="150" width="300" height="160" />
+                  <polygon points="80,150 230,60 380,150" />
+                  <rect x="120" y="200" width="60" height="60" /><rect x="220" y="200" width="60" height="60" />
+                  <rect x="310" y="220" width="44" height="90" />
+                  <rect x="380" y="290" width="200" height="20" />
+                  <line x1="40" y1="310" x2="600" y2="310" />
+                </g>
+              </svg>
+            </div>
+            <div class="ba-handle" aria-hidden="true"></div>
+            <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag between plan and built">
+            <span class="ba-tag ba-tag-l">THE PLAN</span><span class="ba-tag ba-tag-r">THE BUILD</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= REVIEWS ================= -->
+  <div data-page="reviews">
+    <section>
+      <div class="wrap">
+        <div class="section-head" data-anim>
+          <span class="section-kicker">Reviews</span>
+          <h1>Word gets around.</h1>
+        </div>
+        <p class="rating-strip" data-anim>5.0 <span class="stars">★★★★★</span> — 41 Google reviews</p>
+        <div class="quotes">
+          <div class="pull-quote" data-anim>
+            <p>Quoted on Tuesday, started when they said they would, finished under it.</p>
+            <span class="job-meta">— Mele T, Tawa</span>
+          </div>
+          <div class="pull-quote" data-anim>
+            <p>Our third build with Ridgeline. There won't be a fourth builder.</p>
+            <span class="job-meta">— Craig &amp; Jo M, Waikanae</span>
+          </div>
+          <div class="pull-quote" data-anim>
+            <p>The site was cleaner than my kitchen every single Friday.</p>
+            <span class="job-meta">— Priya S, Kelburn</span>
           </div>
         </div>
-        <div class="field">
-          <label for="qf-job">Job type</label>
-          <select id="qf-job" name="job-type">
-            <option value="">Select a job type</option>
-            <option value="new-build">New build</option>
-            <option value="renovation">Renovation</option>
-            <option value="deck-fence">Decks &amp; fences</option>
-            <option value="reclad">Reclad</option>
-            <option value="bathroom">Bathroom</option>
-            <option value="minor-works">Minor works</option>
-          </select>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= QUOTE / DOCKET ================= -->
+  <div data-page="quote">
+    <section>
+      <div class="wrap">
+        <div class="docket-head" data-anim>
+          <div class="section-head" style="margin-bottom:0">
+            <span class="section-kicker">Get in touch</span>
+            <h1>Get a quote.</h1>
+          </div>
+          <span class="docket-num">Docket #2026-041</span>
         </div>
-        <div class="field">
-          <label for="qf-message">Tell us about the job</label>
-          <textarea id="qf-message" name="message" placeholder="A few details on scope, timing and address"></textarea>
+
+        <form class="form-shell" id="quote-form" aria-label="Quote request (demo)" data-anim novalidate>
+          <div class="form-row">
+            <div class="field" id="field-name">
+              <label for="qf-name">Name <span class="req">*</span></label>
+              <input id="qf-name" type="text" name="name" placeholder="Your full name" autocomplete="name" required>
+            </div>
+            <div class="field" id="field-phone">
+              <label for="qf-phone">Phone <span class="req">*</span></label>
+              <input id="qf-phone" type="tel" name="phone" placeholder="027 555 0148" autocomplete="tel" required>
+            </div>
+          </div>
+          <div class="field" id="field-suburb">
+            <label for="qf-suburb">Suburb</label>
+            <input id="qf-suburb" type="text" name="suburb" placeholder="Where's the job?" autocomplete="address-level2">
+          </div>
+          <div class="field" id="field-jobtype">
+            <label for="qf-jobtype">Job type</label>
+            <select id="qf-jobtype" name="job-type">
+              <option value="">Select a job type</option>
+              <option value="new-build">New build</option>
+              <option value="renovation">Renovation</option>
+              <option value="reclad">Reclad</option>
+              <option value="deck-fence">Deck or fence</option>
+              <option value="repair">Repair</option>
+            </select>
+          </div>
+          <div class="field" id="field-timeframe">
+            <label id="timeframe-label">Timeframe</label>
+            <div class="radio-row" role="radiogroup" aria-labelledby="timeframe-label">
+              <label class="radio-opt"><input type="radio" name="timeframe" value="asap" checked> ASAP</label>
+              <label class="radio-opt"><input type="radio" name="timeframe" value="1-3-months"> 1–3 months</label>
+              <label class="radio-opt"><input type="radio" name="timeframe" value="this-year"> This year</label>
+              <label class="radio-opt"><input type="radio" name="timeframe" value="just-pricing"> Just pricing</label>
+            </div>
+          </div>
+          <div class="field-full" id="field-job">
+            <div class="field" style="padding:0;border-top:none">
+              <label for="qf-job">The job <span class="req">*</span></label>
+              <textarea id="qf-job" name="job" placeholder="A few details on scope, timing and address" required></textarea>
+            </div>
+          </div>
+          <div class="form-submit-row">
+            <button class="btn btn-primary" type="submit">Lodge the docket</button>
+            <p class="form-helper">This form goes live with your build.</p>
+          </div>
+        </form>
+
+        <div class="docket-success" id="docket-success">
+          <h2>Docket lodged.</h2>
+          <p>We call you within one working day. Keep the phone handy.</p>
         </div>
-        <div class="form-submit-row">
-          <button class="btn btn-primary" type="button" title="Demo form">Send quote request</button>
-          <p class="form-helper">This form goes live with your build.</p>
-        </div>
-      </form>
-    </div>
-  </section>
+
+      </div>
+    </section>
+  </div>
 
 </main>
 
@@ -545,13 +760,184 @@
   </div>
 </footer>
 
-<a class="mobile-call" href="tel:+64275550148">Call Ridgeline — 027 555 0148</a>
-
 <div class="ss-demo-bar" role="note">
   <span class="ss-demo-label">Template demo · <strong>The Toolbelt</strong> · a Singh Studio build</span>
   <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Toolbelt">Make it yours →</a></span>
 </div>
 <style>.ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}.ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}.ss-demo-bar a:hover{color:#ff4b2e}@media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}</style>
+
+<!-- ============ Plain script: before/after slider ============ -->
+<script>
+(function () {
+  document.querySelectorAll('.ba').forEach(function (ba) {
+    var r = ba.querySelector('.ba-range'), before = ba.querySelector('.ba-before'), h = ba.querySelector('.ba-handle');
+    function set(v) { before.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)'; h.style.left = v + '%'; }
+    r.addEventListener('input', function () { set(+r.value); });
+    set(50);
+  });
+})();
+</script>
+
+<!-- ============ Plain script: quote form validation ============ -->
+<script>
+(function () {
+  var form = document.getElementById('quote-form');
+  if (!form) return;
+  var success = document.getElementById('docket-success');
+  var requiredFields = [
+    { id: 'field-name', input: 'qf-name' },
+    { id: 'field-phone', input: 'qf-phone' },
+    { id: 'field-job', input: 'qf-job' }
+  ];
+
+  function clearError(fieldId) {
+    var field = document.getElementById(fieldId);
+    if (!field) return;
+    field.classList.remove('err');
+    var msg = field.querySelector('.err-msg');
+    if (msg) msg.remove();
+  }
+
+  function setError(fieldId) {
+    var field = document.getElementById(fieldId);
+    if (!field || field.classList.contains('err')) return;
+    field.classList.add('err');
+    var p = document.createElement('p');
+    p.className = 'err-msg';
+    p.textContent = "Required — we can't quote a blank.";
+    field.appendChild(p);
+  }
+
+  requiredFields.forEach(function (rf) {
+    var input = document.getElementById(rf.input);
+    if (!input) return;
+    input.addEventListener('input', function () { clearError(rf.id); });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var valid = true;
+    requiredFields.forEach(function (rf) {
+      var input = document.getElementById(rf.input);
+      if (!input || !input.value.trim()) {
+        setError(rf.id);
+        valid = false;
+      } else {
+        clearError(rf.id);
+      }
+    });
+    if (!valid) return;
+    form.style.display = 'none';
+    success.classList.add('show');
+  });
+})();
+</script>
+
+<!-- ============ Pattern C: mobile menu ============ -->
+<script>
+(function () {
+  var btn = document.querySelector('.m-btn'), menu = document.getElementById('mnav');
+  if (!btn || !menu) return;
+  function set(open) {
+    btn.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-locked', open);
+    if (!open) btn.focus({ preventScroll: true });
+  }
+  window.__closeMenu = function (refocus) {
+    if (menu.classList.contains('open')) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); document.body.classList.remove('menu-locked'); if (refocus !== false) btn.focus({ preventScroll: true }); }
+  };
+  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.__closeMenu(); });
+})();
+</script>
+
+<!-- ============ Pattern A: hash router ============ -->
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var pages = {};
+  document.querySelectorAll('[data-page]').forEach(function (s) { pages[s.getAttribute('data-page')] = s; });
+  var current = null;
+  function parse() {
+    var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
+    if (!h) return { page: 'home', param: null };
+    if (pages[h]) return { page: h, param: null };
+    var head = h.split('/')[0];
+    if (pages[head + '/:']) return { page: head + '/:', param: h.slice(head.length + 1) || null };
+    return { page: 'home', param: null };
+  }
+  function show(first) {
+    var r = parse();
+    var next = pages[r.page] || pages.home;
+    if (window.__pageSetup) { try { window.__pageSetup(r.page, r.param, next); } catch (e) {} }
+    if (next !== current) {
+      if (current) current.classList.remove('is-active');
+      next.classList.add('is-active');
+      current = next;
+    }
+    document.querySelectorAll('a[data-nav]').forEach(function (a) {
+      var t = a.getAttribute('href').replace(/^#\//, '') || 'home';
+      a.setAttribute('aria-current', t === r.page.split('/')[0] ? 'page' : 'false');
+    });
+    if (!first) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
+    window.scrollTo(0, 0);
+    if (window.__closeMenu) window.__closeMenu(false);
+    if (!first && window.__pageEnter) { try { window.__pageEnter(next); } catch (e) {} }
+  }
+  window.addEventListener('hashchange', function () { show(false); });
+  show(true);
+})();
+</script>
+
+<!-- ============ Pattern B: motion boot (module) ============ -->
+<script type="module">
+try {
+  const { animate, createTimeline, stagger, svg, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+  const REDUCED = () => sessionStorage.getItem('ss_reduced') === '1'
+    || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $  = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  window.__pageEnter = (section) => {
+    if (REDUCED()) return;
+    const els = $$('[data-anim]', section);
+    if (!els.length) return;
+    els.forEach((e) => { e.style.opacity = '0'; });
+    animate(els, { opacity: [0, 1], translateY: [24, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+  };
+  if (!REDUCED()) {
+    createTimeline({ defaults: { ease: 'outQuint' } })
+      .add($$('.hero .hl'), { translateY: ['110%', '0%'], duration: 700, delay: stagger(110) })
+      .add($$('.hero .dim .dim-rule'), { scaleX: [0, 1], duration: 500, ease: 'outQuad' }, '-=250')
+      .add($$('.hero .h-fade'), { opacity: [0, 1], duration: 500, delay: stagger(80) }, '-=200');
+  }
+  const statEls = $$('.stat[data-count]');
+  if (statEls.length) {
+    if (REDUCED()) {
+      // Static final numbers already in HTML — no-JS correctness preserved.
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const numEl = el.querySelector('.stat-num');
+          const raw = el.getAttribute('data-count');
+          const decimal = raw.includes('.') ? 1 : 0;
+          animate({ v: 0 }, {
+            v: parseFloat(raw),
+            duration: 1100,
+            ease: 'outExpo',
+            modifier: utils.round(decimal),
+            onUpdate: (a) => { numEl.textContent = String(a.targets[0].v); }
+          });
+          io.unobserve(el);
+        });
+      }, { threshold: 0.4 });
+      statEls.forEach((el) => io.observe(el));
+    }
+  }
+} catch (e) { /* CDN down: fully functional, no motion */ }
+</script>
 
 </body>
 </html>
