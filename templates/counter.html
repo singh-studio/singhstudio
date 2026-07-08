@@ -615,8 +615,27 @@ try {
     || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $  = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const stripIO = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animate(entry.target, { opacity: [0, 1], translateX: [24, 0], duration: 600, ease: 'outQuad' });
+        stripIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: .25 }) : null;
+  // Arm gallery images only while their section is visible — IO never fires for display:none elements
+  const armGallery = (root) => {
+    if (!stripIO || REDUCED()) return;
+    $$('.strip img', root).forEach((img) => {
+      if (img.dataset.ioArmed) return;
+      img.dataset.ioArmed = '1';
+      img.style.opacity = '0';
+      stripIO.observe(img);
+    });
+  };
   window.__pageEnter = (section) => {
     if (REDUCED()) return;
+    if (section.getAttribute('data-page') === 'gallery') armGallery(section);
     const els = $$('[data-anim]', section);
     if (!els.length) return;
     els.forEach((e) => { e.style.opacity = '0'; });
@@ -631,18 +650,8 @@ try {
       .add('.status-chip', { opacity: [0, 1], scale: [.92, 1], duration: 450, ease: 'outBack' }, '-=400')
       .add(heroEls, { opacity: [0, 1], translateY: [14, 0], duration: 550, delay: stagger(70) }, '-=250');
 
-    const strip = $('.strip');
-    if (strip && 'IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animate(entry.target, { opacity: [0, 1], translateX: [24, 0], duration: 600, ease: 'outQuad' });
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: .25 });
-      $$('.strip img').forEach((img) => { img.style.opacity = '0'; io.observe(img); });
-    }
+    const galleryActive = document.querySelector('[data-page="gallery"].is-active');
+    if (galleryActive) armGallery(galleryActive);
   }
 } catch (e) { /* CDN down: fully functional, no motion */ }
 </script>
