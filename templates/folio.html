@@ -62,6 +62,7 @@
   /* ===== router / page visibility ===== */
   html.js main > [data-page]{display:none}
   html.js main > [data-page].is-active{display:block}
+  [data-page]:focus{outline:none}
 
   /* ===== header ===== */
   .site-head{position:fixed;top:0;left:0;right:0;z-index:600;background:rgba(250,250,248,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -134,7 +135,8 @@
   .proj{padding-block:clamp(7rem,14vw,9.5rem) clamp(4rem,10vw,7rem)}
   .proj-title{font-size:clamp(2.6rem,7vw,5.5rem);margin-top:.6rem;color:#f5f5f2}
   .proj-note{font-family:var(--display);font-weight:300;font-style:italic;font-size:clamp(1.3rem,2.6vw,1.7rem);line-height:1.4;max-width:52ch;color:var(--dark-soft);margin-top:1.6rem}
-  .proj-img{width:100%;height:auto;margin-top:clamp(2.5rem,6vw,4rem);clip-path:inset(0 0 0% 0)}
+  .proj-img{width:100%;height:auto;margin-top:clamp(2.5rem,6vw,4rem);clip-path:inset(0 0 0% 0);cursor:zoom-in}
+  .proj-img:focus-visible{outline:2px solid var(--red);outline-offset:4px}
   .proj-foot{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;margin-top:clamp(3rem,7vw,5rem);padding-top:1.6rem;border-top:1px solid rgba(201,201,196,.22)}
   .proj-foot a{font-family:var(--display);font-weight:300;font-style:italic;font-size:clamp(1.2rem,2.4vw,1.6rem);color:#f5f5f2;transition:color .25s ease}
   .proj-foot a:hover{color:var(--red)}
@@ -241,7 +243,7 @@
     <div class="wrap about">
       <div class="about-grid">
         <figure class="about-portrait" data-anim>
-          <img src="../assets/img/gal-kakahu.jpg" alt="A finely woven kākahu cloak laid out, feathers catching the light.">
+          <img src="../assets/img/gal-kakahu.jpg" loading="lazy" alt="A finely woven kākahu cloak laid out, feathers catching the light.">
         </figure>
         <div class="about-copy">
           <h2 data-anim>The person behind the glass.</h2>
@@ -315,12 +317,13 @@ window.PROJECTS = [
     if (page !== 'work/:') return;
     var i = window.PROJECTS.findIndex(function (p) { return p.slug === param; });
     if (i < 0) { i = 0; }
-    var p = window.PROJECTS[i], prev = window.PROJECTS[(i + 7) % 8], next = window.PROJECTS[(i + 1) % 8];
+    var L = window.PROJECTS.length;
+    var p = window.PROJECTS[i], prev = window.PROJECTS[(i + L - 1) % L], next = window.PROJECTS[(i + 1) % L];
     section.querySelector('[data-proj]').innerHTML =
       '<p class="kicker" data-anim>' + p.cat + ' — ' + p.year + '</p>'
       + '<h1 class="proj-title" data-anim>' + p.title + '</h1>'
       + '<p class="proj-note" data-anim>' + p.note + '</p>'
-      + p.imgs.map(function (src, k) { return '<img class="proj-img" data-zoom="' + k + '" src="../assets/img/' + src + '" alt="' + p.title + ' — image ' + (k + 1) + '">'; }).join('')
+      + p.imgs.map(function (src, k) { return '<img class="proj-img" tabindex="0" role="button" loading="lazy" data-zoom="' + k + '" src="../assets/img/' + src + '" alt="' + p.title + ' — image ' + (k + 1) + '. Press Enter to enlarge.">'; }).join('')
       + '<nav class="proj-foot"><a data-nav href="#/work/' + prev.slug + '">← ' + prev.title + '</a>'
       + '<a data-nav href="#/work/' + next.slug + '">' + next.title + ' →</a></nav>';
     window.__curImgs = p.imgs;
@@ -330,12 +333,13 @@ window.PROJECTS = [
   lb.innerHTML = '<img alt=""><p class="lb-count"></p><button class="lb-x" aria-label="Close">×</button>';
   document.body.appendChild(lb);
   var lbi = 0;
-  function lbShow() { lb.querySelector('img').src = '../assets/img/' + window.__curImgs[lbi]; lb.querySelector('.lb-count').textContent = (lbi + 1) + ' / ' + window.__curImgs.length; }
+  function lbShow() { var im = lb.querySelector('img'); im.src = '../assets/img/' + window.__curImgs[lbi]; var t = document.querySelector('.proj-title'); im.alt = (t ? t.textContent + ' — ' : '') + 'enlarged image ' + (lbi + 1) + ' of ' + window.__curImgs.length; lb.querySelector('.lb-count').textContent = (lbi + 1) + ' / ' + window.__curImgs.length; }
   document.addEventListener('click', function (e) {
     if (e.target.matches('.proj-img')) { lbi = +e.target.getAttribute('data-zoom'); lbShow(); lb.showModal(); }
     if (e.target.matches('.lb-x') || e.target === lb) lb.close();
   });
   document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.proj-img')) { e.preventDefault(); e.target.click(); return; }
     if (!lb.open || !window.__curImgs) return;
     if (e.key === 'ArrowRight') { lbi = (lbi + 1) % window.__curImgs.length; lbShow(); }
     if (e.key === 'ArrowLeft') { lbi = (lbi + window.__curImgs.length - 1) % window.__curImgs.length; lbShow(); }
@@ -388,6 +392,7 @@ window.PROJECTS = [
       var t = a.getAttribute('href').replace(/^#\//, '') || 'home';
       a.setAttribute('aria-current', t === r.page.split('/')[0] ? 'page' : 'false');
     });
+    if (!first) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
     window.scrollTo(0, 0);
     if (window.__closeMenu) window.__closeMenu(false);
     if (!first && window.__pageEnter) { try { window.__pageEnter(next); } catch (e) {} }
