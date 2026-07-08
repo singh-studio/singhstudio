@@ -692,7 +692,7 @@ Markup: `.cd` with 4 tiles `<div class="cd-t" data-cd="DAYS"><span class="cd-n">
 
 **8c — hover + entrance:** card hover (CSS): `.tpl-card:hover{transform:translateY(-6px)}` + `.tpl-card:hover .tpl-mock{transform:perspective(700px) rotateX(1.2deg) rotateY(-1.2deg)}`, transitions 250ms `var(--ease-out)`, shadow deepen. Keep the existing `[data-reveal]`/`--i` entrance exactly as is (root page — do NOT add anime.js here; the site's reveal system already handles it).
 
-**8d — finder persistence** (`js/templates.js`): read the file first; it has chip-filter logic + a recommendation ribbon with maps at the top. Add:
+**8d — finder persistence** (`js/templates.js`): **RESOLVED AT IMPLEMENTATION — already existed.** The file ships `STORE_KEY = "ss-finder"` with saveState/loadState/clearState wired through the real chip-click path (landed in a prior elevation wave; ELEVATION-PLAN T3.3 was stale). Verified end-to-end 2026-07-09; no changes made. The snippet below is retained for the record only. Original spec: read the file first; it has chip-filter logic + a recommendation ribbon with maps at the top. Add:
 ```js
 // persistence (T3.3)
 const FKEY = 'tpl-finder';
