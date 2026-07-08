@@ -753,10 +753,10 @@
 
       <div class="chip-row" role="group" aria-label="Filter events by type">
         <button type="button" class="chip" data-type="all" aria-pressed="true">All</button>
-        <button type="button" class="chip" data-type="kai" aria-pressed="true">Kai</button>
-        <button type="button" class="chip" data-type="whanau" aria-pressed="true">Whānau</button>
-        <button type="button" class="chip" data-type="learning" aria-pressed="true">Learning</button>
-        <button type="button" class="chip" data-type="fundraiser" aria-pressed="true">Fundraiser</button>
+        <button type="button" class="chip" data-type="kai" aria-pressed="false">Kai</button>
+        <button type="button" class="chip" data-type="whanau" aria-pressed="false">Whānau</button>
+        <button type="button" class="chip" data-type="learning" aria-pressed="false">Learning</button>
+        <button type="button" class="chip" data-type="fundraiser" aria-pressed="false">Fundraiser</button>
       </div>
       <p class="ev-count" aria-live="polite">Showing 8 of 8</p>
 
@@ -924,6 +924,7 @@
       applyFilter(type);
     });
   });
+  applyFilter('all');
 
   // Volunteer form validation
   var form = document.getElementById('vol-form');
