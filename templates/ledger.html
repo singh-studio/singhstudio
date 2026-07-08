@@ -27,6 +27,7 @@
     --serif:'Source Serif 4', Georgia, serif;
     --sans:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --maxw:1180px;
+    --demo-bar-h:52px;
   }
 
   *,*::before,*::after{box-sizing:border-box}
@@ -44,7 +45,7 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
-    padding-bottom:64px;
+    padding-bottom:var(--demo-bar-h);
   }
 
   img{max-width:100%;display:block}
@@ -62,13 +63,67 @@
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:clamp(1.25rem, 4vw, 3rem)}
 
-  .oldnum{font-variant-numeric:oldstyle-nums proportional-nums}
+  .oldnum, .tab-nums, .fig, .est-out, .service-rate, .step-num{font-variant-numeric:tabular-nums}
 
   :focus-visible{
     outline:2px solid var(--brass);
     outline-offset:3px;
     border-radius:2px;
   }
+
+  /* ===== Router page visibility (Pattern A) ===== */
+  html.js main > [data-page]{display:none}
+  html.js main > [data-page].is-active{display:block}
+  [data-page]:focus{outline:none}
+
+  /* ===== Report grammar ===== */
+  .rule-double{border-top:3px double rgba(29,36,48,.25)}
+  .kicker{
+    display:inline-block;
+    font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size:.7rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:1em;
+    font-variant-numeric:tabular-nums;
+  }
+  .page-head{
+    max-width:64ch;
+    margin-bottom:clamp(2rem, 4vw, 3rem);
+  }
+  .page-head h1{font-size:clamp(1.9rem, 3.6vw, 2.8rem)}
+  .page-head .lede{color:#3a4351;font-size:1.05rem;max-width:52ch;margin-bottom:0}
+
+  .page-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:clamp(2rem, 4vw, 3rem);
+  }
+  @media (min-width:1100px){
+    .page-grid.with-margin{
+      grid-template-columns:1fr 220px;
+      align-items:start;
+    }
+  }
+  .margin-note{
+    display:none;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:.85rem;
+    color:var(--ink);
+    opacity:.6;
+    line-height:1.55;
+    padding-top:.4rem;
+    border-top:1px solid var(--line);
+  }
+  @media (min-width:1100px){
+    .margin-note{display:block}
+  }
+
+  /* animation entrance states applied via JS only; default visible */
+  [data-anim]{opacity:1}
 
   /* ===== Buttons ===== */
   .btn{
@@ -138,42 +193,90 @@
     border-bottom:1px solid transparent;
   }
   .navlinks a:hover{border-bottom-color:var(--brass);color:var(--navy)}
-  .nav-cta{display:none}
-  .navlinks .btn-primary{padding:0.65em 1.3em;font-size:0.75rem}
+  .navlinks a[aria-current="page"]{color:var(--navy);border-bottom-color:var(--brass)}
+  .nav-cta.btn-primary{
+    padding:0.65em 1.3em;
+    font-size:0.75rem;
+    color:var(--paper) !important;
+    background:var(--navy);
+  }
+  .nav-cta.btn-primary:hover{background:var(--navy-ink);color:var(--paper) !important}
 
-  .nav-toggle{
+  .m-btn{
     display:none;
     background:none;
     border:1px solid var(--line);
     border-radius:4px;
-    padding:0.78em 0.7em;
+    padding:0.6em 0.7em;
     font-size:0.9rem;
     cursor:pointer;
     color:var(--navy);
+    align-items:center;
+    justify-content:center;
+    gap:.4em;
+    font-family:var(--sans);
+    font-weight:600;
+    letter-spacing:.04em;
+    text-transform:uppercase;
   }
+  .m-btn .m-ico{position:relative;width:18px;height:13px;display:inline-block}
+  .m-btn .m-ico::before,.m-btn .m-ico::after,.m-btn .m-ico span{
+    content:'';position:absolute;left:0;right:0;height:2px;background:var(--navy);
+  }
+  .m-btn .m-ico::before{top:0}
+  .m-btn .m-ico span{top:50%;margin-top:-1px}
+  .m-btn .m-ico::after{bottom:0}
+
+  body.menu-locked{overflow:hidden}
+
+  .m-menu{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    z-index:80;
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    padding:clamp(1.5rem,5vw,2.5rem);
+    transform:translateY(-100%);
+    transition:transform .32s ease;
+    visibility:hidden;
+  }
+  .m-menu.open{transform:translateY(0);visibility:visible}
+  .m-menu-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:clamp(2rem,8vh,3.5rem)}
+  .m-menu .m-close{
+    background:none;border:1px solid var(--line);border-radius:4px;
+    width:40px;height:40px;font-size:1.1rem;color:var(--navy);cursor:pointer;
+  }
+  .m-menu-links{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.4rem}
+  .m-menu-links a{
+    font-family:var(--serif);
+    font-size:clamp(1.6rem,7vw,2.4rem);
+    font-weight:600;
+    color:var(--navy);
+    text-decoration:none;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.3em;
+    display:block;
+  }
+  .m-menu-links .btn{
+    margin-top:1rem;
+    align-self:flex-start;
+    font-family:var(--sans);
+    font-size:0.8rem;
+    border-bottom:1px solid transparent;
+    padding-bottom:0.85em;
+  }
+  .m-menu-links .btn-primary{color:var(--paper) !important}
+  .m-menu-links .btn-primary:hover{color:var(--paper) !important}
 
   @media (max-width:820px){
-    .navlinks{
-      position:absolute;
-      top:100%;
-      left:0;
-      right:0;
-      flex-direction:column;
-      align-items:flex-start;
-      background:var(--paper);
-      border-bottom:1px solid var(--line);
-      padding:1rem clamp(1.25rem, 4vw, 3rem) 1.5rem;
-      gap:0.9rem;
-      display:none;
-    }
-    .navlinks.open{display:flex}
-    .nav-toggle{display:inline-block}
+    .navlinks{display:none}
+    .m-btn{display:inline-flex}
   }
 
   /* ===== Hero ===== */
   .hero{
     padding-block:clamp(3rem, 7vw, 6rem);
-    border-bottom:1px solid var(--line);
   }
   .hero .wrap{
     display:grid;
@@ -194,6 +297,8 @@
     font-size:clamp(2.1rem, 4.4vw, 3.4rem);
     max-width:14ch;
   }
+  .hl-wrap{display:block;overflow:hidden}
+  .hl{display:inline-block}
   .hero-lede{
     font-size:1.08rem;
     max-width:46ch;
@@ -205,6 +310,7 @@
     gap:1rem;
     margin-top:1.6rem;
   }
+  .hero-margin{margin-top:2rem;max-width:32ch}
 
   .fact-panel{
     background:var(--navy);
@@ -240,6 +346,7 @@
     font-weight:600;
     color:var(--brass-soft);
     text-align:right;
+    font-variant-numeric:tabular-nums;
   }
 
   @media (max-width:900px){
@@ -247,116 +354,167 @@
   }
 
   /* ===== Section shell ===== */
-  section{
+  section.block{
     padding-block:clamp(3rem, 6vw, 5.5rem);
-    border-bottom:1px solid var(--line);
   }
-  .section-head{
-    max-width:56ch;
-    margin-bottom:clamp(2rem, 4vw, 3rem);
+  section.block + section.block{
+    border-top:3px double rgba(29,36,48,.25);
   }
-  .section-eyebrow{
-    display:block;
-    font-size:0.75rem;
-    font-weight:600;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--brass);
-    margin-bottom:0.9em;
-  }
-  .section-head h2{font-size:clamp(1.7rem, 3vw, 2.3rem)}
-  .section-head p{color:#3a4351;font-size:1.02rem;margin-bottom:0}
 
-  /* ===== Services (numbered editorial rows) ===== */
-  .service-row{
+  /* ===== Figures strip (home) ===== */
+  .figures{
+    border-top:3px double rgba(29,36,48,.25);
+    padding-block:clamp(2.5rem, 5vw, 4rem);
+  }
+  .figures .wrap{
     display:grid;
-    grid-template-columns:110px 1fr;
-    gap:clamp(1.2rem, 3vw, 2.5rem);
+    grid-template-columns:repeat(3, 1fr);
+    gap:clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .fig{
+    text-align:left;
+    padding-top:clamp(1rem, 2vw, 1.4rem);
+    border-top:2px solid var(--brass);
+  }
+  .fig-num{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    color:var(--navy);
+    line-height:1;
+    display:block;
+    margin-bottom:.35em;
+  }
+  .fig-label{
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:#3a4351;
+  }
+
+  @media (max-width:700px){
+    .figures .wrap{grid-template-columns:1fr}
+  }
+
+  /* ===== Services — the tariff ===== */
+  .tariff-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:1rem 2rem;
+    padding-block:clamp(1.3rem, 2.6vw, 1.7rem);
+    border-top:1px solid var(--line);
+    align-items:baseline;
+  }
+  .tariff-row:last-of-type{border-bottom:1px solid var(--line)}
+  .tariff-name{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.15rem;
+    color:var(--navy);
+    margin-bottom:.3em;
+    display:block;
+  }
+  .tariff-includes{
+    color:#3a4351;
+    font-size:.92rem;
+    max-width:52ch;
+  }
+  .tariff-rate{
+    font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    color:var(--navy);
+    font-weight:600;
+    font-size:.95rem;
+    text-align:right;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .tariff-note{
+    font-style:italic;
+    color:#3a4351;
+    font-size:.92rem;
+    margin-top:1.6rem;
+    margin-bottom:0;
+  }
+
+  @media (max-width:600px){
+    .tariff-row{grid-template-columns:1fr}
+    .tariff-rate{text-align:left}
+  }
+
+  /* ===== Approach ===== */
+  .step-row{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    gap:clamp(1.2rem, 3vw, 2.2rem);
     padding-block:clamp(1.6rem, 3vw, 2.2rem);
     border-top:1px solid var(--line);
     align-items:start;
   }
-  .service-row:last-child{border-bottom:none}
-  .service-num{
-    font-family:var(--serif);
-    font-size:2.2rem;
+  .step-row:last-of-type{border-bottom:1px solid var(--line)}
+  .step-num{
+    font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size:1.3rem;
     font-weight:600;
     color:var(--brass);
     line-height:1;
   }
-  .service-row h3{font-size:1.3rem;margin-bottom:0.35em}
-  .service-row p{color:#3a4351;margin-bottom:0;max-width:60ch}
+  .step-row h3{font-size:1.3rem;margin-bottom:.35em}
+  .step-row p{color:#3a4351;margin-bottom:.9em;max-width:60ch}
+  .step-rule{
+    height:2px;
+    background:var(--brass);
+    width:100%;
+    transform-origin:left;
+    max-width:220px;
+  }
 
   @media (max-width:600px){
-    .service-row{grid-template-columns:1fr}
-    .service-num{font-size:1.6rem}
+    .step-row{grid-template-columns:1fr}
   }
 
-  /* ===== Approach steps ===== */
-  .steps{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:clamp(1.5rem, 3vw, 2.5rem);
-  }
-  .step{
-    background:var(--paper-dim);
-    padding:clamp(1.6rem, 3vw, 2rem);
-    border-radius:3px;
-    border-left:3px solid var(--brass);
-  }
-  .step-index{
-    font-family:var(--serif);
-    color:var(--brass);
-    font-weight:600;
-    font-size:0.95rem;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    display:block;
-    margin-bottom:0.6em;
-  }
-  .step h3{font-size:1.25rem;margin-bottom:0.5em}
-  .step p{color:#3a4351;margin-bottom:0}
-
-  @media (max-width:760px){
-    .steps{grid-template-columns:1fr}
-  }
-
-  /* ===== People ===== */
+  /* ===== People — partner plates ===== */
   .people-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
-    gap:clamp(1.5rem, 3vw, 2.5rem);
+    gap:clamp(1.5rem, 3vw, 2.2rem);
   }
-  .person-card{
+  .plate{
     text-align:left;
-    padding-top:0.2rem;
   }
-  .monogram{
-    width:76px;
-    height:76px;
-    border-radius:50%;
+  .plate-block{
     background:var(--navy);
-    color:var(--brass-soft);
+    aspect-ratio:4/3;
     display:flex;
     align-items:center;
     justify-content:center;
+    border-top:3px solid var(--brass);
+    margin-bottom:1.1rem;
+  }
+  .plate-initials{
     font-family:var(--serif);
     font-weight:600;
-    font-size:1.5rem;
-    margin-bottom:1.1rem;
-    border:2px solid var(--brass);
+    color:var(--brass-soft);
+    font-size:clamp(2.5rem, 6vw, 4rem);
+    letter-spacing:.02em;
   }
-  .person-card h3{font-size:1.15rem;margin-bottom:0.15em}
-  .person-role{
-    font-size:0.85rem;
+  .plate h3{font-size:1.1rem;margin-bottom:.1em}
+  .plate-role{
+    font-size:.82rem;
     font-weight:600;
-    letter-spacing:0.04em;
+    letter-spacing:.04em;
     color:var(--brass);
     text-transform:uppercase;
-    margin-bottom:0.7em;
+    margin-bottom:.6em;
     display:block;
   }
-  .person-card p{color:#3a4351;font-size:0.95rem;margin-bottom:0}
+  .plate p{color:#3a4351;font-size:.92rem;margin-bottom:0}
+  .people-more{
+    font-style:italic;
+    color:#3a4351;
+    margin-top:clamp(1.6rem, 3vw, 2.2rem);
+    margin-bottom:0;
+  }
 
   @media (max-width:760px){
     .people-grid{grid-template-columns:1fr 1fr;gap:2rem 1.5rem}
@@ -365,100 +523,96 @@
     .people-grid{grid-template-columns:1fr}
   }
 
-  /* ===== Insights ===== */
-  .insights-grid{
+  /* ===== Estimator ===== */
+  .estimator{
+    background:var(--paper-dim);
+    border-top:3px solid var(--brass);
+    padding:clamp(1.6rem, 4vw, 2.6rem);
+    margin-bottom:clamp(2rem, 4vw, 3rem);
+  }
+  .est-fields{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:clamp(1.5rem, 3vw, 2rem);
+    grid-template-columns:1fr 1fr;
+    gap:1.4rem 2rem;
+    margin-bottom:1.6rem;
   }
-  .insight-card{
+  .est-field label{
     display:block;
-    text-decoration:none;
-    color:var(--ink);
-    border:1px solid var(--line);
-    border-radius:3px;
-    padding:clamp(1.4rem, 2.5vw, 1.8rem);
-    background:var(--paper);
-    transition:border-color 0.2s ease, transform 0.2s ease;
-  }
-  .insight-card:hover{
-    border-color:var(--brass);
-    transform:translateY(-2px);
-  }
-  .insight-date{
-    font-size:0.78rem;
+    font-size:.78rem;
     font-weight:600;
-    letter-spacing:0.05em;
+    letter-spacing:.06em;
     text-transform:uppercase;
-    color:var(--brass);
-    display:block;
-    margin-bottom:0.8em;
+    color:var(--navy);
+    margin-bottom:.5em;
   }
-  .insight-card h3{
-    font-size:1.15rem;
-    margin-bottom:0.5em;
+  .est-field select{
+    width:100%;
+    font-family:var(--sans);
+    font-size:.95rem;
+    padding:.65em .7em;
+    border:1px solid var(--navy);
+    border-radius:2px;
+    background:var(--paper);
+    color:var(--ink);
   }
-  .insight-card p{
-    font-size:0.92rem;
+  .est-checks{
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+  }
+  .est-checks label{
+    display:flex;
+    align-items:center;
+    gap:.6em;
+    font-size:.92rem;
+    font-weight:400;
+    letter-spacing:normal;
+    text-transform:none;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .est-checks input{accent-color:var(--navy);width:16px;height:16px;flex:none}
+  .est-out{
+    font-family:var(--serif);
+    font-weight:600;
+    color:var(--navy);
+    font-size:clamp(1.4rem, 3.5vw, 2.2rem);
+    margin:0 0 .5em;
+    font-variant-numeric:tabular-nums;
+    border-top:1px solid var(--line);
+    padding-top:.8rem;
+  }
+  .est-disclaimer{
+    font-style:italic;
+    font-size:.85rem;
     color:#3a4351;
     margin-bottom:0;
   }
 
-  @media (max-width:820px){
-    .insights-grid{grid-template-columns:1fr}
+  @media (max-width:600px){
+    .est-fields{grid-template-columns:1fr}
   }
 
-  /* ===== Contact panel ===== */
-  .contact-section{
-    background:var(--navy);
-    color:var(--paper);
-    border-bottom:none;
+  /* ===== Contact page ===== */
+  .contact-info{
+    margin-top:clamp(2rem, 4vw, 3rem);
+    border-top:1px solid var(--line);
+    padding-top:clamp(1.6rem, 3vw, 2.2rem);
   }
-  .contact-section .section-eyebrow{color:var(--brass-soft)}
-  .contact-section .section-head h2{color:var(--paper)}
-  .contact-section .section-head p{color:rgba(245,242,236,0.78)}
-
-  .contact-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr auto;
-    gap:clamp(1.5rem, 3vw, 2rem);
-    align-items:start;
-    border-top:1px solid rgba(245,242,236,0.16);
-    padding-top:clamp(1.8rem, 3vw, 2.4rem);
-  }
-  .contact-block h3{
-    font-family:var(--sans);
-    font-size:0.78rem;
-    font-weight:600;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--brass-soft);
-    margin-bottom:0.8em;
-  }
-  .contact-block p{
-    color:rgba(245,242,236,0.85);
-    margin-bottom:0;
-    font-size:0.95rem;
-  }
-  .contact-block a{
-    color:rgba(245,242,236,0.85);
+  .contact-info p{margin-bottom:.6em}
+  .contact-info a{
+    color:var(--navy);
     text-decoration:none;
-    border-bottom:1px solid rgba(245,242,236,0.3);
+    border-bottom:1px solid var(--brass);
   }
-  .contact-block a:hover{color:var(--paper);border-color:var(--brass-soft)}
-  .contact-cta{align-self:center}
-
-  @media (max-width:900px){
-    .contact-grid{grid-template-columns:1fr 1fr}
-  }
-  @media (max-width:560px){
-    .contact-grid{grid-template-columns:1fr}
-  }
+  .contact-info a:hover{color:var(--brass)}
+  .contact-info .btn{margin-block:1.2rem .6rem}
+  .contact-info .fine{font-style:italic;color:#3a4351;font-size:.92rem;margin-bottom:0}
 
   /* ===== Footer ===== */
   footer.site-footer{
     padding-block:2rem;
-    border-bottom:none;
+    border-top:3px double rgba(29,36,48,.25);
   }
   .footer-row{
     display:flex;
@@ -472,7 +626,7 @@
   .footer-row a:hover{border-color:var(--brass);color:var(--navy)}
 
   /* ===== Demo bar ===== */
-  .ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .ss-demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem 1.1rem;background:rgba(12,11,9,.93);color:#ece7dd;font:500 11px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(8px);min-height:var(--demo-bar-h)}
   .ss-demo-bar a{color:#ece7dd;text-decoration:none;border-bottom:1px solid #e23b22;margin-left:1rem}
   .ss-demo-bar a:hover{color:#ff4b2e}
   @media (max-width:600px){.ss-demo-bar{font-size:10px;padding:.55rem .8rem}.ss-demo-label strong{display:none}}
@@ -482,198 +636,285 @@
 
 <header class="topnav">
   <div class="wrap">
-    <a href="#top" class="wordmark">Cove <span>&amp;</span> Co.</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" onclick="var n=document.getElementById('primary-nav');var open=n.classList.toggle('open');this.setAttribute('aria-expanded',open?'true':'false');this.textContent=open?'Close':'Menu';">Menu</button>
+    <a href="#/" class="wordmark">Cove <span>&amp;</span> Co.</a>
     <ul class="navlinks" id="primary-nav">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#approach">Approach</a></li>
-      <li><a href="#people">People</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a class="btn btn-primary" href="#contact">Book a consult</a></li>
+      <li><a href="#/services" data-nav aria-current="false">Services</a></li>
+      <li><a href="#/approach" data-nav aria-current="false">Approach</a></li>
+      <li><a href="#/people" data-nav aria-current="false">People</a></li>
+      <li><a href="#/contact" data-nav aria-current="false">Contact</a></li>
+      <li><a class="btn btn-primary nav-cta" href="#/contact" data-nav aria-current="false">Book a consult</a></li>
     </ul>
+    <button class="m-btn" type="button" aria-expanded="false" aria-controls="mnav">
+      <span class="m-ico" aria-hidden="true"><span></span></span> Menu
+    </button>
   </div>
 </header>
 
+<div class="m-menu" id="mnav">
+  <div class="m-menu-top">
+    <a href="#/" class="wordmark">Cove <span>&amp;</span> Co.</a>
+    <button class="m-close" type="button" aria-label="Close menu">&times;</button>
+  </div>
+  <ul class="m-menu-links">
+    <li><a href="#/services" data-nav aria-current="false">Services</a></li>
+    <li><a href="#/approach" data-nav aria-current="false">Approach</a></li>
+    <li><a href="#/people" data-nav aria-current="false">People</a></li>
+    <li><a href="#/contact" data-nav aria-current="false">Contact</a></li>
+    <li><a class="btn btn-primary" href="#/contact" data-nav aria-current="false">Book a consult</a></li>
+  </ul>
+</div>
+
 <main id="top">
 
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="wrap">
-      <div>
-        <span class="hero-eyebrow">Chartered Accountants · Wellington</span>
-        <h1 id="hero-heading">Numbers, handled. Decisions, clearer.</h1>
-        <p class="hero-lede">Cove &amp; Co. keeps your compliance quiet and your forecasting loud. We do the reconciling, the filing, and the year-end so you can spend your attention on the business itself — not the shoebox of receipts behind it.</p>
-        <div class="hero-cta-row">
-          <a class="btn btn-primary" href="#contact">Book a consult</a>
-          <a class="btn btn-ghost" href="#services">See what we do</a>
-        </div>
-      </div>
-      <aside class="fact-panel" aria-label="Practice facts">
-        <h2>At a glance</h2>
-        <ul class="fact-list">
-          <li>
-            <span class="fact-label">Established</span>
-            <span class="fact-value">2011</span>
-          </li>
-          <li>
-            <span class="fact-label">Xero status</span>
-            <span class="fact-value">Certified partner</span>
-          </li>
-          <li>
-            <span class="fact-label">Fee structure</span>
-            <span class="fact-value">Fixed-fee options</span>
-          </li>
-        </ul>
-      </aside>
-    </div>
-  </section>
+  <div data-page="home">
 
-  <section id="services" aria-labelledby="services-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">What we do</span>
-        <h2 id="services-heading">Four disciplines, one ledger</h2>
-        <p>Everything here is priced up front and delivered on a schedule you can set your watch to.</p>
-      </div>
-
-      <div class="service-row">
-        <span class="service-num" aria-hidden="true">01</span>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="wrap">
         <div>
-          <h3>Compliance &amp; tax</h3>
-          <p>Annual accounts, income tax, GST and FBT returns filed early, not at the deadline. We flag issues in June, not the following April.</p>
+          <span class="hero-eyebrow">Chartered Accountants · Wellington</span>
+          <h1 id="hero-heading">
+            <span class="hl-wrap"><span class="hl">Numbers, handled.</span></span>
+            <span class="hl-wrap"><span class="hl">Decisions, clearer.</span></span>
+          </h1>
+          <p class="hero-lede h-fade">Cove &amp; Co. keeps your compliance quiet and your forecasting loud. We do the reconciling, the filing, and the year-end so you can spend your attention on the business itself — not the shoebox of receipts behind it.</p>
+          <div class="hero-cta-row h-fade">
+            <a class="btn btn-primary" href="#/contact" data-nav>Book a consult</a>
+            <a class="btn btn-ghost" href="#/services" data-nav>See what we do</a>
+          </div>
+          <p class="margin-note hero-margin">Established 2011. Xero certified since the beginning.</p>
         </div>
+        <aside class="fact-panel glance-card" aria-label="Practice facts">
+          <h2>At a glance</h2>
+          <ul class="fact-list">
+            <li>
+              <span class="fact-label">Established</span>
+              <span class="fact-value">2011</span>
+            </li>
+            <li>
+              <span class="fact-label">Xero status</span>
+              <span class="fact-value">Certified partner</span>
+            </li>
+            <li>
+              <span class="fact-label">Fee structure</span>
+              <span class="fact-value">Fixed-fee options</span>
+            </li>
+          </ul>
+        </aside>
       </div>
-      <div class="service-row">
-        <span class="service-num" aria-hidden="true">02</span>
-        <div>
-          <h3>Advisory &amp; forecasting</h3>
-          <p>Cashflow forecasts, budget-to-actual reviews, and quarterly sit-downs that turn your numbers into decisions you can act on.</p>
-        </div>
-      </div>
-      <div class="service-row">
-        <span class="service-num" aria-hidden="true">03</span>
-        <div>
-          <h3>Payroll &amp; bookkeeping</h3>
-          <p>Weekly or fortnightly pay runs, PAYE handled correctly the first time, and monthly books reconciled before you ask for them.</p>
-        </div>
-      </div>
-      <div class="service-row">
-        <span class="service-num" aria-hidden="true">04</span>
-        <div>
-          <h3>Xero setup &amp; training</h3>
-          <p>Chart of accounts built for your industry, bank feeds connected properly, and a training session so your team isn't guessing.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="approach" aria-labelledby="approach-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">How it works</span>
-        <h2 id="approach-heading">Three steps, no surprises</h2>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <span class="step-index">Meet</span>
-          <h3>We learn your business</h3>
-          <p>A first conversation about where the business is now, what's keeping you up at night, and what "good" looks like by year-end.</p>
+    <section class="figures" aria-label="Practice figures">
+      <div class="wrap">
+        <div class="fig">
+          <span class="fig-num"><span data-count="1100">1,100</span><span class="fig-suffix">+</span></span>
+          <span class="fig-label">Returns filed</span>
         </div>
-        <div class="step">
-          <span class="step-index">Plan</span>
-          <h3>We set the structure</h3>
-          <p>A fixed-fee scope, a filing calendar, and a Xero setup that matches how you actually work — not a generic template.</p>
+        <div class="fig">
+          <span class="fig-num"><span class="fig-prefix">$</span><span data-count="38">38</span><span class="fig-suffix">m</span></span>
+          <span class="fig-label">Client turnover managed</span>
         </div>
-        <div class="step">
-          <span class="step-index">Report</span>
-          <h3>We keep you informed</h3>
-          <p>Monthly numbers you can read in five minutes, and a quarterly call to talk through what they mean for your next move.</p>
+        <div class="fig">
+          <span class="fig-num"><span data-count="9">9</span></span>
+          <span class="fig-label">People, one office</span>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="people" aria-labelledby="people-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">Who you'll work with</span>
-        <h2 id="people-heading">A small partner group, not a call centre</h2>
-        <p>Three partners, each with a specialty — you'll always know exactly who to call.</p>
-      </div>
-      <div class="people-grid">
-        <div class="person-card">
-          <div class="monogram" aria-hidden="true">MC</div>
-          <h3>Meera Chandra</h3>
-          <span class="person-role">Managing Partner</span>
-          <p>Specialises in owner-operator tax structuring and succession planning.</p>
-        </div>
-        <div class="person-card">
-          <div class="monogram" aria-hidden="true">DP</div>
-          <h3>David Pryce</h3>
-          <span class="person-role">Partner, Advisory</span>
-          <p>Focuses on cashflow forecasting for hospitality and retail clients.</p>
-        </div>
-        <div class="person-card">
-          <div class="monogram" aria-hidden="true">RT</div>
-          <h3>Rangi Temepara</h3>
-          <span class="person-role">Partner, Compliance</span>
-          <p>Leads payroll, GST and FBT compliance for growing teams.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <section id="insights" aria-labelledby="insights-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">Reading</span>
-        <h2 id="insights-heading">Recent insights</h2>
-      </div>
-      <div class="insights-grid">
-        <a class="insight-card" href="#">
-          <span class="insight-date">14 May 2026</span>
-          <h3>Provisional tax without the guesswork</h3>
-          <p>A plain-English walkthrough of the standard uplift method and when it actually saves you money.</p>
-        </a>
-        <a class="insight-card" href="#">
-          <span class="insight-date">2 April 2026</span>
-          <h3>What FBT changes mean for company vehicles</h3>
-          <p>The questions to ask before you decide whether a work vehicle is worth the exposure.</p>
-        </a>
-        <a class="insight-card" href="#">
-          <span class="insight-date">19 February 2026</span>
-          <h3>Reading a cashflow forecast in under five minutes</h3>
-          <p>The three lines that matter and the two that are usually just noise.</p>
-        </a>
-      </div>
-    </div>
-  </section>
+  <div data-page="services">
+    <section class="block" aria-labelledby="services-heading">
+      <div class="wrap">
+        <div class="page-grid with-margin">
+          <div>
+            <div class="page-head">
+              <span class="kicker">01 — Services</span>
+              <h1 id="services-heading" data-anim>The tariff.</h1>
+              <p class="lede" data-anim>Fixed where it can be fixed, hourly where honesty requires it.</p>
+            </div>
 
-  <section id="contact" class="contact-section" aria-labelledby="contact-heading">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-eyebrow">Get in touch</span>
-        <h2 id="contact-heading">Book a consult</h2>
-        <p>Twenty minutes, no obligation. We'll tell you plainly whether we're the right fit.</p>
+            <div class="tariff-row" data-anim>
+              <div>
+                <span class="tariff-name">Annual accounts &amp; tax</span>
+                <span class="tariff-includes">Financials, IR filing, one planning session</span>
+              </div>
+              <span class="tariff-rate">from $1,800/yr</span>
+            </div>
+            <div class="tariff-row" data-anim>
+              <div>
+                <span class="tariff-name">Monthly Xero care</span>
+                <span class="tariff-includes">Reconciliation, reporting, quiet compliance</span>
+              </div>
+              <span class="tariff-rate">from $240/mo</span>
+            </div>
+            <div class="tariff-row" data-anim>
+              <div>
+                <span class="tariff-name">GST returns</span>
+                <span class="tariff-includes">Prepared, checked, filed</span>
+              </div>
+              <span class="tariff-rate">from $95/return</span>
+            </div>
+            <div class="tariff-row" data-anim>
+              <div>
+                <span class="tariff-name">Payroll</span>
+                <span class="tariff-includes">Up to 10 staff, payday filing included</span>
+              </div>
+              <span class="tariff-rate">from $60/run</span>
+            </div>
+            <div class="tariff-row" data-anim>
+              <div>
+                <span class="tariff-name">Advisory</span>
+                <span class="tariff-includes">Forecasting, pricing, the hard conversations</span>
+              </div>
+              <span class="tariff-rate">$220/hr</span>
+            </div>
+            <div class="tariff-row" data-anim>
+              <div>
+                <span class="tariff-name">New entity setup</span>
+                <span class="tariff-includes">Company, IRD, Xero, done properly</span>
+              </div>
+              <span class="tariff-rate">$950 one-off</span>
+            </div>
+            <p class="tariff-note" data-anim>All prices exclude GST — of course they do.</p>
+          </div>
+          <p class="margin-note">Every fee here is a starting point, not a ceiling — most clients land near it.</p>
+        </div>
       </div>
-      <div class="contact-grid">
-        <div class="contact-block">
-          <h3>Address</h3>
-          <p>Level 4, 42 Featherston Street<br>Wellington Central 6011</p>
-        </div>
-        <div class="contact-block">
-          <h3>Hours</h3>
-          <p>Monday–Friday<br>8:30am–5:00pm</p>
-        </div>
-        <div class="contact-block">
-          <h3>Direct</h3>
-          <p><a href="tel:+6444990183">04 499 0183</a><br><a href="mailto:hello@coveandco.co.nz">hello@coveandco.co.nz</a></p>
-        </div>
-        <div class="contact-cta">
-          <a class="btn btn-brass" href="mailto:hello@coveandco.co.nz?subject=Consult%20request">Book a consult</a>
+    </section>
+  </div>
+
+  <div data-page="approach">
+    <section class="block" aria-labelledby="approach-heading">
+      <div class="wrap">
+        <div class="page-grid with-margin">
+          <div>
+            <div class="page-head">
+              <span class="kicker">02 — Approach</span>
+              <h1 id="approach-heading" data-anim>Four moves, every year.</h1>
+            </div>
+
+            <div class="step-row" data-anim>
+              <span class="step-num" aria-hidden="true">01</span>
+              <div>
+                <h3>Tidy</h3>
+                <p>We take the shoebox. Bank feeds, receipts, the lot — reconciled monthly, not annually in a panic.</p>
+                <div class="step-rule"></div>
+              </div>
+            </div>
+            <div class="step-row" data-anim>
+              <span class="step-num" aria-hidden="true">02</span>
+              <div>
+                <h3>File</h3>
+                <p>Returns lodged early, never late. IR letters stop being scary when they stop arriving.</p>
+                <div class="step-rule"></div>
+              </div>
+            </div>
+            <div class="step-row" data-anim>
+              <span class="step-num" aria-hidden="true">03</span>
+              <div>
+                <h3>Read</h3>
+                <p>A one-page monthly note in plain English: what moved, why, and what it means for cash.</p>
+                <div class="step-rule"></div>
+              </div>
+            </div>
+            <div class="step-row" data-anim>
+              <span class="step-num" aria-hidden="true">04</span>
+              <div>
+                <h3>Steer</h3>
+                <p>Quarterly sit-down. Pricing, hiring, that machine you're eyeing — decided with numbers, not vibes.</p>
+                <div class="step-rule"></div>
+              </div>
+            </div>
+          </div>
+          <p class="margin-note">No step skipped, no matter how tidy your Xero already looks.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+
+  <div data-page="people">
+    <section class="block" aria-labelledby="people-heading">
+      <div class="wrap">
+        <div class="page-grid with-margin">
+          <div>
+            <div class="page-head">
+              <span class="kicker">03 — People</span>
+              <h1 id="people-heading" data-anim>Nine of us. No juniors on your file.</h1>
+            </div>
+            <div class="people-grid">
+              <div class="plate" data-anim>
+                <div class="plate-block"><span class="plate-initials" aria-hidden="true">RC</span></div>
+                <h3>Rewa Cove, CA</h3>
+                <span class="plate-role">Managing partner</span>
+                <p>Twenty years of small-business books; still answers her own phone.</p>
+              </div>
+              <div class="plate" data-anim>
+                <div class="plate-block"><span class="plate-initials" aria-hidden="true">TM</span></div>
+                <h3>Tom Mercer, CA</h3>
+                <span class="plate-role">Tax</span>
+                <p>Reads IRD determinations for fun. Someone has to.</p>
+              </div>
+              <div class="plate" data-anim>
+                <div class="plate-block"><span class="plate-initials" aria-hidden="true">AK</span></div>
+                <h3>Amara Khan</h3>
+                <span class="plate-role">Advisory</span>
+                <p>Ex-CFO. Allergic to dashboards nobody opens.</p>
+              </div>
+            </div>
+            <p class="people-more" data-anim>+ six more who keep the reconciliations humming.</p>
+          </div>
+          <p class="margin-note">Nine people, one office, zero call centre.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div data-page="contact">
+    <section class="block" aria-labelledby="contact-heading">
+      <div class="wrap">
+        <div class="page-grid with-margin">
+          <div>
+            <div class="page-head">
+              <span class="kicker">04 — Contact</span>
+              <h1 id="contact-heading" data-anim>Start with the estimator.</h1>
+            </div>
+
+            <form id="estimator" class="estimator" data-anim>
+              <div class="est-fields">
+                <div class="est-field">
+                  <label for="est-band">Annual turnover</label>
+                  <select id="est-band" name="band">
+                    <option value="s" selected>Under $250k turnover</option>
+                    <option value="m">$250k – $1m</option>
+                    <option value="l">$1m – $5m</option>
+                  </select>
+                </div>
+                <div class="est-field">
+                  <label id="est-addons-label">Add-ons</label>
+                  <div class="est-checks" role="group" aria-labelledby="est-addons-label">
+                    <label><input type="checkbox" name="addon" value="xero"> Monthly Xero care</label>
+                    <label><input type="checkbox" name="addon" value="gst"> GST returns</label>
+                    <label><input type="checkbox" name="addon" value="payroll"> Payroll</label>
+                    <label><input type="checkbox" name="addon" value="advisory"> Advisory retainer</label>
+                  </div>
+                </div>
+              </div>
+              <p class="est-out" aria-live="polite"></p>
+              <p class="est-disclaimer">Indicative only — the real number needs a real conversation.</p>
+            </form>
+
+            <div class="contact-info" data-anim>
+              <p>Level 2, 15 Customhouse Quay, Wellington</p>
+              <p>04 555 0173 · <a href="mailto:office@coveandco.nz">office@coveandco.nz</a></p>
+              <a class="btn btn-brass" href="mailto:office@coveandco.nz?subject=Consult">Book a consult</a>
+              <p class="fine">First hour free. Bring the shoebox, we've seen worse.</p>
+            </div>
+          </div>
+          <p class="margin-note">The estimator updates as you tick boxes — no submit button required.</p>
+        </div>
+      </div>
+    </section>
+  </div>
 
 </main>
 
@@ -681,7 +922,7 @@
   <div class="wrap">
     <div class="footer-row">
       <span>© 2026 Cove &amp; Co. Chartered Accountants Ltd. Fictional practice, built for demonstration.</span>
-      <span><a href="#top">Back to top</a></span>
+      <span><a href="#/">Back to top</a></span>
     </div>
   </div>
 </footer>
@@ -690,6 +931,172 @@
   <span class="ss-demo-label">Template demo · <strong>The Ledger</strong> · a Singh Studio build</span>
   <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Ledger">Make it yours →</a></span>
 </div>
+
+<script>
+(function () {
+  var BASE = { s: 1800, m: 3200, l: 6500 };
+  var ADD = { xero: 2880, gst: 380, payroll: 1560, advisory: 2640 };
+  var f = document.getElementById('estimator');
+  if (!f) return;
+  var out = f.querySelector('.est-out'), last = 0;
+  function calc() {
+    var t = BASE[f.querySelector('[name="band"]').value] || 0;
+    f.querySelectorAll('[name="addon"]:checked').forEach(function (c) { t += ADD[c.value]; });
+    var hi = Math.round(t * 1.25 / 50) * 50;
+    out.setAttribute('data-lo', t); out.setAttribute('data-hi', hi);
+    var text = 'Indicative: $' + t.toLocaleString('en-NZ') + ' – $' + hi.toLocaleString('en-NZ') + ' / yr';
+    if (window.__estFlip && t !== last) window.__estFlip(out, text); else out.textContent = text;
+    last = t;
+  }
+  f.addEventListener('change', calc); calc();
+})();
+</script>
+
+<script>
+(function () {
+  var btn = document.querySelector('.m-btn'), menu = document.getElementById('mnav');
+  if (!btn || !menu) return;
+  function set(open) {
+    btn.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-locked', open);
+    if (!open) btn.focus({ preventScroll: true });
+  }
+  window.__closeMenu = function (refocus) {
+    if (menu.classList.contains('open')) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); document.body.classList.remove('menu-locked'); if (refocus !== false) btn.focus({ preventScroll: true }); }
+  };
+  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.__closeMenu(); });
+  var closeBtn = menu.querySelector('.m-close');
+  if (closeBtn) closeBtn.addEventListener('click', function () { window.__closeMenu(); });
+  menu.querySelectorAll('a[data-nav]').forEach(function (a) {
+    a.addEventListener('click', function () { window.__closeMenu(false); });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var pages = {};
+  document.querySelectorAll('[data-page]').forEach(function (s) { pages[s.getAttribute('data-page')] = s; });
+  var current = null;
+  function parse() {
+    var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
+    if (!h) return { page: 'home', param: null };
+    if (pages[h]) return { page: h, param: null };
+    var head = h.split('/')[0];
+    if (pages[head + '/:']) return { page: head + '/:', param: h.slice(head.length + 1) || null };
+    return { page: 'home', param: null };
+  }
+  function show(first) {
+    var r = parse();
+    var next = pages[r.page] || pages.home;
+    if (window.__pageSetup) { try { window.__pageSetup(r.page, r.param, next); } catch (e) {} }
+    if (next !== current) {
+      if (current) current.classList.remove('is-active');
+      next.classList.add('is-active');
+      current = next;
+    }
+    document.querySelectorAll('a[data-nav]').forEach(function (a) {
+      var t = a.getAttribute('href').replace(/^#\//, '') || 'home';
+      a.setAttribute('aria-current', t === r.page.split('/')[0] ? 'page' : 'false');
+    });
+    if (!first) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
+    window.scrollTo(0, 0);
+    if (window.__closeMenu) window.__closeMenu(false);
+    if (!first && window.__pageEnter) { try { window.__pageEnter(next); } catch (e) {} }
+  }
+  window.addEventListener('hashchange', function () { show(false); });
+  show(true);
+})();
+</script>
+
+<script type="module">
+try {
+  const { animate, createTimeline, stagger, svg, utils } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+  const REDUCED = () => sessionStorage.getItem('ss_reduced') === '1'
+    || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $  = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+  window.__pageEnter = (section) => {
+    if (REDUCED()) return;
+    const els = $$('[data-anim]', section);
+    if (!els.length) return;
+    els.forEach((e) => { e.style.opacity = '0'; });
+    animate(els, { opacity: [0, 1], translateY: [16, 0], duration: 560, ease: 'outQuint', delay: stagger(55) });
+  };
+
+  if (!REDUCED()) {
+    createTimeline({ defaults: { ease: 'outQuint' } })
+      .add($$('.hero .hl'), { translateY: ['105%', '0%'], duration: 650, delay: stagger(90) })
+      .add('.glance-card', { opacity: [0, 1], translateX: [24, 0], duration: 600 }, '-=350')
+      .add($$('.hero .h-fade'), { opacity: [0, 1], duration: 500, delay: stagger(80) }, '-=300');
+
+    const counted = new WeakSet();
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || counted.has(entry.target)) return;
+        counted.add(entry.target);
+        countObserver.unobserve(entry.target);
+        const el = entry.target;
+        const end = +el.getAttribute('data-count');
+        const finalText = end.toLocaleString('en-NZ');
+        let settled = false;
+        const settle = () => { if (settled) return; settled = true; el.textContent = finalText; };
+        animate({ v: 0 }, {
+          v: end,
+          duration: 1100,
+          ease: 'outExpo',
+          modifier: utils.round(0),
+          onUpdate: (a) => { el.textContent = (+a.targets[0].v).toLocaleString('en-NZ'); },
+          onComplete: settle
+        });
+        // Safety net: if the tween is interrupted (engine paused, tab backgrounded,
+        // slow/throttled device), guarantee the correct final number lands anyway.
+        setTimeout(settle, 1400);
+      });
+    }, { threshold: 0.4 });
+    $$('.fig [data-count]').forEach((el) => countObserver.observe(el));
+
+    const ruleObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        ruleObserver.unobserve(entry.target);
+        const el = entry.target;
+        let settled = false;
+        const settle = () => { if (settled) return; settled = true; el.style.transform = 'scaleX(1)'; };
+        animate(el, { scaleX: [0, 1], duration: 600, ease: 'outQuad', onComplete: settle });
+        // Safety net: guarantee the rule reaches full width even if the tween stalls.
+        setTimeout(settle, 900);
+      });
+    }, { threshold: 0.4 });
+    $$('.step-rule').forEach((el) => { el.style.transform = 'scaleX(0)'; ruleObserver.observe(el); });
+
+    // Outer safety net: on very slow devices, or if IntersectionObserver delivery
+    // itself is delayed/suspended, guarantee figures and rules are correct within
+    // a few seconds regardless of whether the per-element observer ever fired.
+    setTimeout(() => {
+      $$('.fig [data-count]').forEach((el) => {
+        const end = +el.getAttribute('data-count');
+        if (el.textContent !== end.toLocaleString('en-NZ')) el.textContent = end.toLocaleString('en-NZ');
+      });
+      $$('.step-rule').forEach((el) => {
+        if (el.style.transform !== 'scaleX(1)') el.style.transform = 'scaleX(1)';
+      });
+    }, 3000);
+  }
+
+  window.__estFlip = (el, text) => {
+    if (REDUCED()) { el.textContent = text; return; }
+    animate(el, { opacity: [1, 0], translateY: [0, -8], duration: 140, ease: 'inQuad', onComplete: () => {
+      el.textContent = text;
+      animate(el, { opacity: [0, 1], translateY: [8, 0], duration: 200, ease: 'outQuad' });
+    } });
+  };
+} catch (e) { window.__estFlip = null; /* CDN down: estimator still updates text directly */ }
+</script>
 
 </body>
 </html>
