@@ -21,6 +21,7 @@
    - Root pages: only `templates.html` (+ `js/templates.js`, `css/style.css` where stated) may change.
    - **Banned aesthetics:** glassmorphism, purple gradient glows, emoji icons, faux-3D gradient illustrations, identical three-card feature rows.
 4. **Motion rules:** animate `transform`/`opacity`/`clip-path` only. Entrance-animation initial hidden states are set by JS immediately before animating — NEVER in CSS (no-JS users must see full page content). Scope: this applies to page content present in the HTML. It does NOT apply to interactive overlays' resting states (mobile menu, cart drawer, dialogs, hover preview) — those live offscreen/hidden via CSS by design, and JS-created elements are exempt entirely. Honor reduced motion everywhere via the `REDUCED()` helper (Pattern B). CSS keyframe loops get `@media (prefers-reduced-motion: reduce){ animation: none }`.
+4b. **Quality rules from the pilot review (apply in every task):** derive counts from data (`ARRAY.length`) — never hardcode collection sizes in modulo/index arithmetic; any click-to-activate image or non-button interactive element must be keyboard-operable (`tabindex="0" role="button"` + Enter/Space handling, or a real `<button>`); static `<img>` inside non-home pages or below the fold get `loading="lazy"` (hero images stay eager); dynamically rendered images get meaningful `alt` everywhere, including inside lightboxes/dialogs.
 5. **Verify in the browser** with the `singh-studio-site` preview server (port 4173, serves repo root). Demo pages screenshot fine. `templates.html` does NOT screenshot reliably below the fold (loader clip-path compositing quirk) — verify it with DOM eval/snapshot, not pixels. Zero console errors is part of every task's acceptance.
 6. **Commit after every task** with the exact message given. Work on branch `templates-elevation`.
 
@@ -60,6 +61,7 @@ Insert these verbatim where a task says "insert Pattern X". `{{PLACEHOLDERS}}` a
       var t = a.getAttribute('href').replace(/^#\//, '') || 'home';
       a.setAttribute('aria-current', t === r.page.split('/')[0] ? 'page' : 'false');
     });
+    if (!first) { next.setAttribute('tabindex', '-1'); next.focus({ preventScroll: true }); }
     window.scrollTo(0, 0);
     if (window.__closeMenu) window.__closeMenu(false);
     if (!first && window.__pageEnter) { try { window.__pageEnter(next); } catch (e) {} }
@@ -241,12 +243,13 @@ All image paths render as `../assets/img/` + name.
     if (page !== 'work/:') return;
     var i = window.PROJECTS.findIndex(function (p) { return p.slug === param; });
     if (i < 0) { i = 0; }
-    var p = window.PROJECTS[i], prev = window.PROJECTS[(i + 7) % 8], next = window.PROJECTS[(i + 1) % 8];
+    var L = window.PROJECTS.length;
+    var p = window.PROJECTS[i], prev = window.PROJECTS[(i + L - 1) % L], next = window.PROJECTS[(i + 1) % L];
     section.querySelector('[data-proj]').innerHTML =
       '<p class="kicker" data-anim>' + p.cat + ' — ' + p.year + '</p>'
       + '<h1 class="proj-title" data-anim>' + p.title + '</h1>'
       + '<p class="proj-note" data-anim>' + p.note + '</p>'
-      + p.imgs.map(function (src, k) { return '<img class="proj-img" data-zoom="' + k + '" src="../assets/img/' + src + '" alt="' + p.title + ' — image ' + (k + 1) + '">'; }).join('')
+      + p.imgs.map(function (src, k) { return '<img class="proj-img" data-zoom="' + k + '" tabindex="0" role="button" loading="lazy" src="../assets/img/' + src + '" alt="' + p.title + ' — image ' + (k + 1) + '. Press Enter to enlarge.">'; }).join('')
       + '<nav class="proj-foot"><a data-nav href="#/work/' + prev.slug + '">← ' + prev.title + '</a>'
       + '<a data-nav href="#/work/' + next.slug + '">' + next.title + ' →</a></nav>';
     window.__curImgs = p.imgs;
