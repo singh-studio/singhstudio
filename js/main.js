@@ -340,6 +340,7 @@ document.addEventListener("click", (e) => {
    ============================================================ */
 (() => {
   const dialog = document.getElementById("lightbox");
+  if (!dialog) return; // only index/archive carry the lightbox — must bail everywhere else or every module below dies
   const img = document.getElementById("lightboxImg");
   const cap = document.getElementById("lightboxCap");
   document.querySelectorAll(".lt-item:not(.lt-end)").forEach((item) => {
@@ -457,7 +458,10 @@ document.addEventListener("click", (e) => {
 
 /* Clip-mask reveals for imagery */
 (() => {
-  const els = [...document.querySelectorAll(".lt-item, .ph, .wc-media, [data-mask]")];
+  // .case-shot is listed here rather than hardcoding data-mask in its markup:
+  // the attribute (and the opacity:0 it brings) must only ever come from the
+  // same module that reveals it, so a script failure leaves content visible.
+  const els = [...document.querySelectorAll(".lt-item, .ph, .wc-media, .case-shot, [data-mask]")];
   if (!els.length) return;
   const perParent = new Map();
   els.forEach((el) => {
