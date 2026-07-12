@@ -112,6 +112,14 @@ def strip_comments(html):
     return re.sub(r"<!--.*?-->", "", html, flags=re.DOTALL)
 
 
+def strip_scripts(html):
+    """Remove <script> bodies so the link scan never reads JS-built attribute strings
+    (folio.html concatenates src="../assets/img/' + src + '" inside a template string —
+    a real reference at runtime, but not a static link to resolve). Orphan detection
+    deliberately still reads raw text, so JS-referenced assets stay counted as in-use."""
+    return re.sub(r"<script\b.*?</script>", "", html, flags=re.DOTALL | re.IGNORECASE)
+
+
 _decode_errors = {}  # path -> error message, populated lazily by read()
 _read_cache = {}
 
@@ -220,7 +228,7 @@ def check_links():
     broken = []
     checked = 0
     for page in ALL_HTML:
-        html = strip_comments(read(page))
+        html = strip_scripts(strip_comments(read(page)))
         for attr, raw_value in extract_refs(html):
             values = split_srcset(raw_value) if attr == "srcset" else [raw_value]
             for val in values:

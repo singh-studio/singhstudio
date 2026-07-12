@@ -36,9 +36,13 @@ Every image slot on the site: what it is, its actual pixel size (read via `sips`
 | thought-start-with-the-message.html | `gal-ferry-teal.jpg` |
 | thought-the-20-minute-brief.html | `gal-cafe-doc.jpg` |
 | case-amplify.html | `work-amplify.jpg` |
-| case-more.html | `work-more.jpg` |
-| case-bandcamp.html | `work-bandcamp.jpg` |
-| case-firezone.html | `work-firezone.jpg` |
+| case-nextgen.html | `work-nextgen.jpg` |
+| case-peniel.html | `work-peniel.jpg` |
+| case-littlethings.html | `work-littlethings.jpg` |
+| case-butterfly.html | `work-butterfly.jpg` |
+| case-wcn.html | `work-wcn.jpg` |
+| case-bearers.html | `work-bearers.jpg` |
+| case-rhythms.html | `work-rhythms.jpg` |
 
 **All og:image tags are absolute URLs** (`https://singhstudio.co.nz/assets/img/…`) — if the domain changes, every one of these 12 lines needs updating (see LAUNCH-CHECKLIST.md, section B).
 
@@ -105,11 +109,15 @@ Most of these frames appear in **both** index.html's horizontal light-table stri
 | Path | Actual size | Used | Display | Replacement spec |
 |---|---|---|---|---|
 | `assets/img/work-amplify.jpg` | 1600×934 | index.html work-grid card; case-amplify.html hero shot (`case-shot`, `data-mask`); og:image for case-amplify.html | Work card: `<img width="1600" height="934">` cover-crop. Case page: full-width masked reveal. | Landscape, ~16:9-ish (1600×934 ≈ 1.71:1), a clean full-page screenshot or hero frame of the actual site/build. Keep width/height attributes in sync with the real file to avoid layout shift. |
-| `assets/img/work-more.jpg` | 1600×935 | index.html work-grid card; case-more.html hero shot; og:image for case-more.html | Same pattern as above. | Same spec. |
-| `assets/img/work-bandcamp.jpg` | 1600×777 | index.html work-grid card; case-bandcamp.html hero shot; og:image for case-bandcamp.html | Same pattern, slightly wider aspect (~2.06:1). | Same spec, matches this build's own aspect ratio — don't force 16:9 if the real screenshot is wider. |
-| `assets/img/work-firezone.jpg` | 1600×930 | index.html work-grid card; case-firezone.html hero shot; og:image for case-firezone.html | Same pattern as Amplify. | Same spec. |
+| `assets/img/work-nextgen.jpg` | 1600×1000 | index.html work-grid card; case-nextgen.html hero shot; og:image for case-nextgen.html | Work card + case page, same `<picture>` pattern (webp sibling wired) | Tino Taonga share-card art, cover-cropped from 16:9 — swap for a full-page screenshot of the live site whenever one is captured. |
+| `assets/img/work-peniel.jpg` | 1600×1000 | index.html work-grid card; case-peniel.html hero shot; og:image for case-peniel.html | Same pattern | Studio photo of the WHCC building front (from the client asset folder). |
+| `assets/img/work-littlethings.jpg` | 1600×1000 | index.html work-grid card; case-littlethings.html hero shot; og:image for case-littlethings.html | Same pattern | Composite: two app screenshots (home + person page) on an ink ground, built with ffmpeg hstack+pad. Rebuild from getlittlethings.app screenshot assets if the app UI changes. |
+| `assets/img/work-butterfly.jpg` | 1600×1000 | index.html work-grid card; case-butterfly.html hero shot; og:image for case-butterfly.html | Same pattern | Project photography from the live butterflybuilds.co.nz homepage hero. |
+| `assets/img/work-wcn.jpg` | 1600×1000 | index.html work-grid card; case-wcn.html hero shot; og:image for case-wcn.html | Same pattern | Homepage hero image from the live wellingtonchurchnetwork.co.nz site (their licensed imagery). |
+| `assets/img/work-bearers.jpg` | 1600×1000 | index.html work-grid card; case-bearers.html hero shot; og:image for case-bearers.html | Same pattern | This Is Who We Are EP artwork centred on an ink ground (pad, not crop — keep the square art whole). |
+| `assets/img/work-rhythms.jpg` | 1600×1000 | index.html work-grid card; case-rhythms.html hero shot; og:image for case-rhythms.html | Same pattern | Podcast cover artwork centred on an ink ground, same pad treatment as Bearers. |
 
-None of the four `work-*.jpg` files are reused inside the template demos (verified by grep) — safe to swap independently of the demos.
+Every `work-*.jpg` above has a `.webp` sibling wired into its `<picture>` (including work-amplify, added 2026-07-13). None are reused inside the template demos — safe to swap independently. (work-more / work-bandcamp / work-firezone were removed 2026-07-13 with their case pages.)
 
 ---
 
