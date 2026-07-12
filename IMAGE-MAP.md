@@ -119,6 +119,8 @@ Most of these frames appear in **both** index.html's horizontal light-table stri
 
 Every `work-*.jpg` above has a `.webp` sibling wired into its `<picture>` (including work-amplify, added 2026-07-13). None are reused inside the template demos — safe to swap independently. (work-more / work-bandcamp / work-firezone were removed 2026-07-13 with their case pages.)
 
+**Object-mode assets (2026-07-13).** Four cards/case-shots carry non-photographic assets and use the `.wc-object` / `.cs-object` treatment (asset contained whole on a pinned ink ground — CSS in the WORK and case sections of style.css), so these files keep their native ratios and can be swapped for ANY ratio without cropping concerns: `art-nextgen.{jpg,webp}` (1200×630 share card), `art-bearers.{jpg,webp}` (1100², EP art), `art-rhythms.{jpg,webp}` (1100², podcast art), `app-littlethings-{home,person}.{jpg,webp}` (506×1100 phone shots). The 1600×1000 `work-nextgen/littlethings/bearers/rhythms.jpg` composites remain ONLY as og:images for those case pages (their .webp siblings were removed); if you replace an og composite, keep it ~1600×1000.
+
 ---
 
 ## Portraits

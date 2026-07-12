@@ -640,6 +640,37 @@ body.ready .ht-inner { transform: none; }
   display: flex; justify-content: space-between; gap: 1rem;
 }
 
+/* Fit-aware media — cards carrying non-photographic assets (album art,
+   app screens, wordmarks) opt in with .wc-object: the asset renders whole
+   on a pinned ink ground (a dark island in both themes, hence the
+   hardcoded values), so no aspect ratio can ever crop wrong. Photos and
+   screenshots keep the cover-crop + pan above. */
+.wc-media.wc-object {
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  background: #14110d;
+  position: relative;
+}
+.wc-media.wc-object picture, .case-shot.cs-object picture { display: contents; }
+.wc-media.wc-object img {
+  width: auto; height: 72%;
+  object-fit: contain; object-position: center;
+  border: 1px solid rgba(236, 231, 221, 0.14);
+  box-shadow: 0 22px 44px -20px rgba(0, 0, 0, 0.6);
+}
+.wc-media.wc-object.wc-object-wide img { width: 78%; height: auto; }
+.wc-media.wc-object.wc-object-duo img { height: 76%; border-radius: 12px; }
+.wc-media.wc-object .wc-chip {
+  position: absolute; left: 1rem; bottom: 0.8rem;
+  font-family: var(--font-mono); font-size: 0.62rem;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: #ece7dd; opacity: 0.62;
+}
+.work-card:hover .wc-media.wc-object img {
+  transform: translateY(-1.5%) scale(1.02);
+  object-position: center;
+}
+
 /* ============================================================
    STATS — shared by the Work strip (reused blocks)
    ============================================================ */
@@ -1423,11 +1454,51 @@ kbd {
   transition: color 0.3s;
 }
 .case-tpl-link:hover { color: var(--red-hot); }
+
+/* Case density — asymmetric text grids (short block narrow, long block
+   wide), a full-width mono scope strip between them, and the pull-quote
+   centred against the facts, so wide screens read as structure, not air. */
+.case-grid.cg-brief { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.case-grid.cg-outcome { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; }
+.cg-brief .case-block p { max-width: 58ch; }
+.cg-outcome .case-pull { margin-block: 0; }
+.case-scope {
+  list-style: none;
+  display: flex; flex-wrap: wrap;
+  gap: 0.6rem clamp(1.4rem, 3vw, 2.6rem);
+  border-block: 1px solid var(--hairline);
+  padding: 1.15rem 0;
+  margin-top: clamp(0.8rem, 2.5vh, 1.6rem);
+  font-family: var(--font-mono); font-size: 0.7rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--mute); line-height: 2;
+}
+.case-scope li::before { content: "/ "; color: var(--red); }
+
+/* Case shots carrying square art or app screens — same object treatment
+   as the work cards: contained on a pinned ink ground, never cropped. */
+.case-shot.cs-object {
+  background: #14110d;
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(1rem, 3vw, 2.2rem);
+  padding: clamp(2rem, 6vh, 4.5rem) clamp(1.5rem, 4vw, 3rem);
+}
+.case-shot.cs-object img {
+  height: min(58vh, 560px); width: auto;
+  border: 1px solid rgba(236, 231, 221, 0.14);
+  box-shadow: 0 26px 60px -24px rgba(0, 0, 0, 0.65);
+}
+.case-shot.cs-object.cs-wide img { width: min(100%, 900px); height: auto; }
+.case-shot.cs-object.cs-duo img { border-radius: 16px; }
+
 @media (max-width: 800px) {
-  .case-grid { grid-template-columns: 1fr; }
+  .case-grid, .case-grid.cg-brief, .case-grid.cg-outcome { grid-template-columns: 1fr; }
   .case-meta { grid-template-columns: 1fr 1fr; }
   .case-tpl-link { order: 1; flex-basis: 100%; }
   .case-next .btn { order: 2; }
+  .case-shot.cs-object { padding: 1.5rem 1rem; gap: 0.8rem; }
+  .case-shot.cs-object img { height: min(44vh, 380px); }
+  .case-shot.cs-object.cs-wide img { width: 100%; height: auto; }
 }
 
 /* Thoughts */
