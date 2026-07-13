@@ -13,6 +13,20 @@
 const CONFIG = {
   bookingUrl: "https://calendar.app.google/vMWDbHmj9NgqmHc48",
   email: "kris@singhstudio.co.nz",
+  // Web3Forms access key (public-by-design). Create the free account with
+  // kris@singhstudio.co.nz at web3forms.com and paste the key here — the
+  // enquiry form posts through their API from that moment. Until then the
+  // form falls back to composing a structured email instead.
+  web3formsKey: "",
+  // GA4 measurement ID, e.g. "G-XXXXXXXXXX". Create the property at
+  // analytics.google.com and paste the ID here — gtag loads (with ads
+  // personalisation and signals off) from that moment. Empty = no
+  // analytics script is ever loaded.
+  ga4Id: "",
+  // Honest availability. Set e.g. "September 2026" to state your actual
+  // booking window; leave "" to fall back to the automatic next-month
+  // label (which is a guess, not a promise — set this when it drifts).
+  bookingWindow: "",
 };
 
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -38,6 +52,25 @@ document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-track]");
   if (el) track(el.dataset.track, { label: el.dataset.trackLabel || el.textContent.trim().slice(0, 60) });
 });
+
+/* GA4 — loads only when CONFIG.ga4Id is set, from this one place, on all
+   pages. Privacy-tilted: IP anonymised, Google signals and ads
+   personalisation off. Empty id = zero analytics bytes shipped. */
+(() => {
+  if (!CONFIG.ga4Id) return;
+  const s = document.createElement("script");
+  s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CONFIG.ga4Id);
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag("js", new Date());
+  gtag("config", CONFIG.ga4Id, {
+    anonymize_ip: true,
+    allow_google_signals: false,
+    allow_ad_personalization_signals: false,
+  });
+})();
 
 /* ============================================================
    PRELOADER
@@ -389,10 +422,12 @@ document.addEventListener("click", (e) => {
   const navBtns = document.querySelectorAll(".btn-book");
   const windowEl = document.getElementById("bookingWindow");
 
-  // "Currently booking — August 2026" (next month, NZ time)
+  // Availability label: CONFIG.bookingWindow states the real window;
+  // the next-month date math is only the fallback guess when it's unset.
   const now = new Date();
   const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  const label = new Intl.DateTimeFormat("en-NZ", { month: "long", year: "numeric", timeZone: "Pacific/Auckland" }).format(next);
+  const label = CONFIG.bookingWindow ||
+    new Intl.DateTimeFormat("en-NZ", { month: "long", year: "numeric", timeZone: "Pacific/Auckland" }).format(next);
   if (windowEl) windowEl.textContent = `Currently booking — ${label}`;
   document.querySelectorAll("[data-booking-window]").forEach((el) => {
     el.textContent = `Booking new briefs — ${label}`;
@@ -677,6 +712,51 @@ document.addEventListener("click", (e) => {
     if ((target && target === here) || isThoughts) {
       a.classList.add("current");
       a.setAttribute("aria-current", "page");
+    }
+  });
+})();
+
+/* Enquiry form — posts through Web3Forms once CONFIG.web3formsKey is set.
+   Until then, submitting composes a structured email instead, so the
+   written path works either way. */
+(() => {
+  const form = document.getElementById("enquiryForm");
+  if (!form) return;
+  const btn = form.querySelector('button[type="submit"]');
+  const errEl = document.getElementById("enquiryStatus");
+  const keyField = form.querySelector('input[name="access_key"]');
+  if (CONFIG.web3formsKey && keyField) keyField.value = CONFIG.web3formsKey;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (form.botcheck.checked) return; // honeypot
+    const name = form.elements.name.value.trim();
+    const email = form.elements.email.value.trim();
+    const message = form.elements.message.value.trim();
+
+    if (!CONFIG.web3formsKey) {
+      const subject = `Project enquiry — ${name || "via singhstudio.co.nz"}`;
+      const body = `${message}\n\n— ${name}\n${email}`;
+      location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+
+    btn.disabled = true;
+    const prev = btn.innerHTML;
+    btn.innerHTML = "Sending…";
+    errEl.hidden = true;
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: new FormData(form),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      track("enquiry_submit");
+      form.innerHTML = '<p class="cf-done" role="status">Got it. Replies within one business day, NZT.</p>';
+    } catch {
+      errEl.hidden = false;
+      btn.disabled = false;
+      btn.innerHTML = prev;
     }
   });
 })();
