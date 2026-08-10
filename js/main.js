@@ -578,7 +578,8 @@ document.addEventListener("click", (e) => {
 
   const pad = (n) => String(n).padStart(2, "0");
   const update = () => {
-    index = clamp(Math.round(track.scrollLeft / track.clientWidth), 0, slides.length - 1);
+    // clientWidth can measure 0 (hidden/backgrounded layout) — guard the division or the counter reads "NaN"
+    index = clamp(Math.round(track.scrollLeft / (track.clientWidth || 1)), 0, slides.length - 1);
     count.textContent = `${pad(index + 1)} / ${pad(slides.length)}`;
     prev.disabled = index === 0;
     next.disabled = index === slides.length - 1;
