@@ -673,6 +673,35 @@ document.addEventListener("click", (e) => {
   right.insertBefore(btn, right.firstElementChild);
 })();
 
+/* Studio contact sheet — click a small frame to load it into the big slot */
+(() => {
+  const sheet = document.querySelector(".sv-sheet");
+  if (!sheet) return;
+  const frame = document.getElementById("svFrame");
+  const source = document.getElementById("svSource");
+  const cap = document.getElementById("svCap");
+  sheet.addEventListener("click", (e) => {
+    const btn = e.target.closest(".sv-thumb");
+    if (!btn || btn.classList.contains("is-active")) return;
+    sheet.querySelectorAll(".sv-thumb").forEach((b) => {
+      const active = b === btn;
+      b.classList.toggle("is-active", active);
+      b.setAttribute("aria-pressed", String(active));
+    });
+    const apply = () => {
+      source.srcset = btn.dataset.full + ".webp";
+      frame.src = btn.dataset.full + ".jpg";
+      frame.alt = btn.dataset.alt;
+      cap.textContent = btn.dataset.cap;
+      if (frame.complete) frame.style.opacity = "";
+      else frame.addEventListener("load", () => { frame.style.opacity = ""; }, { once: true });
+    };
+    if (prefersReduced) { apply(); return; }
+    frame.style.opacity = "0";
+    setTimeout(apply, 180);
+  });
+})();
+
 /* Back to top — earns its place after a viewport of travel */
 (() => {
   const btn = document.createElement("button");

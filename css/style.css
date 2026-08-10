@@ -724,7 +724,7 @@ body.ready .ht-inner { transform: none; }
 .studio-copy p { max-width: 52ch; margin-top: 1.5rem; color: var(--mute-dark); font-size: 1.05rem; line-height: 1.65; }
 .studio-quote {
   font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(1.5rem, 3vw, 2.2rem) !important;
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem) !important;
   color: var(--ink) !important;
   line-height: 1.3;
   border-left: 2px solid var(--red);
@@ -1362,24 +1362,25 @@ kbd {
 .studio-visual { position: relative; max-width: 480px; }
 .sv-main { position: relative; }
 .sv-main img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
-.sv-main figcaption, .sv-candid figcaption {
+.sv-main figcaption {
   font-family: var(--font-mono); font-size: 0.64rem;
   letter-spacing: 0.13em; text-transform: uppercase;
   color: var(--mute-dark);
   padding-top: 0.8rem;
 }
-.sv-main figcaption i, .sv-candid figcaption i { font-style: normal; color: var(--red); margin-right: 0.5em; }
-.sv-candid {
-  position: absolute;
-  right: clamp(-3.5rem, -4vw, -1.5rem);
-  bottom: clamp(2.5rem, 6vh, 4.5rem);
-  width: 46%;
-  border: 6px solid var(--bone);
-  box-shadow: 0 24px 60px rgba(12, 11, 9, 0.28);
-  background: var(--bone);
+.sv-main figcaption i { font-style: normal; color: var(--red); margin-right: 0.5em; }
+/* Contact sheet — the strip of frames under the main portrait. The active
+   thumb wears the red chinagraph ring; clicking swaps it into the frame. */
+.sv-main img { transition: opacity 0.25s ease; }
+.sv-sheet { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-top: 0.9rem; }
+.sv-thumb {
+  padding: 0; border: 1px solid var(--hairline-dark); background: none;
+  cursor: pointer; opacity: 0.72; transition: opacity 0.3s;
 }
-.sv-candid img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; }
-.sv-candid figcaption { padding: 0.55rem 0.15rem 0.1rem; font-size: 0.56rem; }
+.sv-thumb img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.sv-thumb:hover { opacity: 1; }
+.sv-thumb.is-active { opacity: 1; outline: 2px solid var(--red); outline-offset: 2px; }
+.sv-thumb:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .studio-copy p.studio-lede {
   font-family: var(--font-serif);
   font-style: italic;
@@ -1410,7 +1411,6 @@ kbd {
 .fact dd { font-size: 0.98rem; color: var(--ink); }
 @media (max-width: 900px) {
   .studio-visual { max-width: 400px; margin-inline: 0 auto; }
-  .sv-candid { right: -0.5rem; }
   .fact { grid-template-columns: 105px 1fr; gap: 1rem; }
 }
 
@@ -2431,7 +2431,7 @@ body, section, .footer, .menu, .set-tabs, .proof {
    later in source wins) so box-shadow joins border-color/transform
    without dropping the existing hover behaviour. Lift deepens from
    -4px to -6px; shadow uses the site's existing shadow idiom
-   (see .sv-candid) scaled down for a card-sized surface. */
+   (the retired studio polaroid treatment) scaled down for a card-sized surface. */
 .tpl-card {
   transition: border-color 0.4s var(--ease-swift), transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
 }

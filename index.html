@@ -447,13 +447,20 @@
       <div class="studio-grid">
         <div class="studio-visual">
           <figure class="sv-main" data-reveal>
-            <picture><source type="image/webp" srcset="assets/img/kris-portrait.webp"><img src="assets/img/kris-portrait.jpg" alt="Kris Singh — director of Singh Studio" width="1200" height="1200" loading="lazy" decoding="async"></picture>
-            <figcaption><i>/</i>Kris Singh, Director</figcaption>
+            <picture><source id="svSource" type="image/webp" srcset="assets/img/kris-portrait.webp"><img id="svFrame" src="assets/img/kris-portrait.jpg" alt="Kris Singh — director of Singh Studio" width="1200" height="1200" loading="lazy" decoding="async"></picture>
+            <figcaption id="svCap">FR 013: Kris Singh / Director</figcaption>
           </figure>
-          <figure class="sv-candid" data-reveal style="--i:2">
-            <picture><source type="image/webp" srcset="assets/img/kris-enroute.webp"><img src="assets/img/kris-enroute.jpg" alt="Kris looking out an aircraft window at golden hour" width="825" height="1100" loading="lazy" decoding="async"></picture>
-            <figcaption>En route: wherever the brief is</figcaption>
-          </figure>
+          <div class="sv-sheet" role="group" aria-label="Contact sheet — choose a frame" data-reveal style="--i:2">
+            <button class="sv-thumb is-active" type="button" aria-pressed="true" data-full="assets/img/kris-portrait" data-cap="FR 013: Kris Singh / Director" data-alt="Kris Singh — director of Singh Studio">
+              <picture><source type="image/webp" srcset="assets/img/kris-portrait.webp"><img src="assets/img/kris-portrait.jpg" alt="Portrait frame" width="1200" height="1200" loading="lazy" decoding="async"></picture>
+            </button>
+            <button class="sv-thumb" type="button" aria-pressed="false" data-full="assets/img/kris-enroute" data-cap="FR 014: En route / wherever the brief is" data-alt="Kris looking out an aircraft window at golden hour">
+              <picture><source type="image/webp" srcset="assets/img/kris-enroute.webp"><img src="assets/img/kris-enroute.jpg" alt="En route frame" width="825" height="1100" loading="lazy" decoding="async"></picture>
+            </button>
+            <button class="sv-thumb" type="button" aria-pressed="false" data-full="assets/img/gal-onset-bts" data-cap="FR 015: On set / direction" data-alt="Overhead view of Kris directing a dancer on a white studio cyclorama">
+              <picture><source type="image/webp" srcset="assets/img/gal-onset-bts.webp"><img src="assets/img/gal-onset-bts.jpg" alt="On set frame" width="1200" height="1600" loading="lazy" decoding="async"></picture>
+            </button>
+          </div>
         </div>
         <div class="studio-copy">
           <h2 data-reveal>Run by Kris Singh.<br>Built around <em>your message.</em></h2>
