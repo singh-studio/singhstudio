@@ -711,7 +711,7 @@ body.ready .ht-inner { transform: none; }
    STUDIO
    ============================================================ */
 .studio-grid {
-  display: grid; grid-template-columns: minmax(260px, 420px) 1fr;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: clamp(2.5rem, 6vw, 6rem);
   align-items: start;
 }
@@ -870,6 +870,7 @@ body.ready .ht-inner { transform: none; }
   .work-grid { grid-template-columns: 1fr; }
   .work-card:nth-child(even) { transform: none; }
   .studio-grid { grid-template-columns: 1fr; }
+  .studio-bleed img { height: 46vh; }
   .cc-row { grid-template-columns: 1fr; gap: 0.3rem; }
   .hero-title { font-size: clamp(3.5rem, 18vw, 7.5rem); }
 }
@@ -1359,28 +1360,20 @@ kbd {
 .voice-reserved .voice-name { color: var(--mute); font-style: italic; font-family: var(--font-serif); text-transform: none; letter-spacing: 0; font-size: 0.95rem; }
 
 /* --- Studio, rebuilt --- */
-.studio-visual { position: relative; max-width: 480px; }
-.sv-main { position: relative; }
-.sv-main img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
-.sv-main figcaption {
-  font-family: var(--font-mono); font-size: 0.64rem;
-  letter-spacing: 0.13em; text-transform: uppercase;
-  color: var(--mute-dark);
-  padding-top: 0.8rem;
+/* Full-bleed studio frame — the section's single editorial image runs
+   edge to edge; the FR caption sits beneath it at the content inset. */
+.studio-bleed { margin: 0 calc(-1 * var(--pad)) clamp(2.8rem, 7vh, 4.5rem); }
+.studio-bleed img {
+  width: 100%; height: clamp(380px, 62vh, 700px);
+  object-fit: cover; object-position: center 42%;
+  display: block;
 }
-.sv-main figcaption i { font-style: normal; color: var(--red); margin-right: 0.5em; }
-/* Contact sheet — the strip of frames under the main portrait. The active
-   thumb wears the red chinagraph ring; clicking swaps it into the frame. */
-.sv-main img { transition: opacity 0.25s ease; }
-.sv-sheet { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-top: 0.9rem; }
-.sv-thumb {
-  padding: 0; border: 1px solid var(--hairline-dark); background: none;
-  cursor: pointer; opacity: 0.72; transition: opacity 0.3s;
+.studio-bleed figcaption {
+  padding: 0.75rem var(--pad) 0;
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mute);
 }
-.sv-thumb img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
-.sv-thumb:hover { opacity: 1; }
-.sv-thumb.is-active { opacity: 1; outline: 2px solid var(--red); outline-offset: 2px; }
-.sv-thumb:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .studio-copy p.studio-lede {
   font-family: var(--font-serif);
   font-style: italic;

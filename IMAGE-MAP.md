@@ -125,6 +125,9 @@ Every `work-*.jpg` above has a `.webp` sibling wired into its `<picture>` (inclu
 
 ## Portraits
 
+**Studio section rework (2026-07-13).** The homepage Kris section now runs a single full-bleed frame: `kris-studio.jpg/.webp` (2000×1500) + `kris-studio-1000` variants (processed from `04_Creative_Production/Photography/IMG_1092.jpeg` — note the source carries a 180° EXIF rotation; pixels were baked upright). CSS `.studio-bleed` cover-crops it to ~62vh, `object-position: center 42%`. The contact-sheet strip and the polaroid candid are both retired: `kris-enroute.jpg/.webp` and `kris-portrait.webp` were removed from the repo (recoverable from git history); `kris-portrait.jpg` remains ONLY as kris.html's og:image.
+
+
 | Path | Actual size | Used | Display | Replacement spec |
 |---|---|---|---|---|
 | `assets/img/kris-portrait.jpg` | 1200×1200 (square) | index.html studio section main figure (`sv-main`); kris.html og:image; archive.html People set (captioned "The photographer / occasionally in frame"); byline avatar on **both** thought posts (`post-avatar`, rendered at 92×92) | Studio section: square portrait, `figcaption` "Kris Singh, Director". Byline: small circular-cropped avatar. | **Square, min 1200×1200** — used at both full portrait size and tiny avatar size, so it needs to read clearly cropped tight on the face. Changing this photo touches 5 files/roles; update all of them together so the "same person" reads consistently. |
