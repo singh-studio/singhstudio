@@ -1484,6 +1484,12 @@ kbd {
 .case-facts { border-top: 1px solid var(--hairline); margin-top: 1rem; }
 .case-facts .fact { border-color: var(--hairline); }
 .case-facts .fact dd { color: var(--bone); }
+.case-pull-cite {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mute);
+  margin-top: 1rem;
+}
 .case-pull {
   font-family: var(--font-serif); font-style: italic;
   font-size: clamp(1.4rem, 2.6vw, 2rem);
