@@ -98,11 +98,11 @@
       <div class="case-grid cg-brief">
         <div class="case-block">
           <h2>/ The brief</h2>
-          <p>Future Partners is a network of development professionals delivering assignments across Asia and the Pacific, and its old template site undersold all of that. The rebuild had three jobs: show the breadth of the work properly, keep years of search history intact through the move, and leave the client able to run the site without me.</p>
+          <p>Future Partners is a network of development professionals delivering assignments across Asia and the Pacific. The website hadn’t kept pace with the work. The rebuild had three jobs: show the breadth of the network properly, carry years of search history through the move intact, and leave the team able to run the site themselves.</p>
         </div>
         <div class="case-block">
           <h2>/ The approach</h2>
-          <p>The network’s reach is the story, so I built the site around an interactive atlas: a map of Asia and the Pacific that glows where the network has worked, with every pin opening into real case studies. Behind it sits a full migration off the old platform onto a static build the client owns outright, in their own accounts, hosted for almost nothing. Every meaningful decision was reviewed with the client through staged feedback rounds, and their corrections shipped the same week.</p>
+          <p>The project ran in stages, reviewed with the client at each one: inventory first, then structure, then design, then content. The centrepiece is an interactive atlas, a map of the region that glows where the network has worked, with every point opening into real case studies. Around it sit rebuilt services, people and news sections, a migration off the old platform onto a static build the client owns outright, and an editing screen so the team can keep all of it current themselves.</p>
         </div>
       </div>
 
@@ -124,47 +124,70 @@
 
       <div class="case-cs">
         <div class="cs-row" data-reveal>
-          <h3><i>/</i>The map nothing else in the sector has</h3>
-          <p>An atlas is easy on a desktop and brutal on a phone, where map gestures fight page scroll. The mobile version became its own build: a full-screen takeover with canvas gestures, tap-a-country fly-to, and a bottom sheet for reading case studies one-handed. It went through more rounds of refinement than any other feature on the site, and it earned them.</p>
+          <h3><i>/</i>Start with the inventory</h3>
+          <p>The old site had years of Google standing, and every URL was about to change. So the first week went on listing every page before touching anything, and the build now ships 144 redirect rules: old links, bookmarks and search results all still land where they should. Unglamorous, and the right place to start.</p>
         </div>
         <div class="cs-row" data-reveal style="--i:1">
-          <h3><i>/</i>Years of search history, moved without loss</h3>
-          <p>The old site had years of Google standing, and every URL was about to change. Week one was an inventory of every page on the old site before anything else happened; the build ships 144 redirect rules so that every old link, bookmark and search result still lands somewhere sensible. Dull work, done first, because it protects the part of the site the client can’t rebuild.</p>
+          <h3><i>/</i>The atlas took the longest, and should have</h3>
+          <p>A map works easily on a desktop and awkwardly on a phone, where pinch and pan fight the page scroll. The mobile version became its own piece of work: a full-screen view with proper touch gestures, tap-a-country navigation and a bottom sheet for reading case studies one-handed. It went through more revisions than anything else on the site. Some features are like that.</p>
         </div>
         <div class="cs-row" data-reveal style="--i:2">
-          <h3><i>/</i>Independence, by design</h3>
-          <p>The client asked two questions every studio should be made to answer: what if you get run over by a bus, and how do I know we won’t get hacked. So the site is plain files in Future Partners’ own accounts, with no database and nothing worth stealing. An editing screen at its own address lets the team change case studies, bios and news behind a login I deliberately didn’t build myself, and a plain-English handbook documents how the whole thing fits together. Any competent developer could pick it up cold. That’s the test.</p>
+          <h3><i>/</i>Feedback, folded straight back in</h3>
+          <p>The client reviewed the site in staged rounds rather than once at the end. Copy corrections, pin legibility on the map, photo crops, links that needed a better home: each round of notes shipped within the week, and a few of the better details on the site started as the client’s margin notes.</p>
+        </div>
+        <div class="cs-row" data-reveal style="--i:3">
+          <h3><i>/</i>Built to be run by the client</h3>
+          <p>The site is plain files in Future Partners’ own accounts: their code, their hosting, their domain. There’s no database behind it, which keeps the running cost and the attack surface both close to nil. The team edits case studies, profiles and news through an editing screen at its own address, with a plain-English handbook for everything else. The next stage is already designed: a members’ area for the network’s associates, where documents come straight from the network’s own filing instead of being uploaded twice.</p>
         </div>
       </div>
 
       <div class="cs-gallery cs-2" data-reveal>
         <figure>
-          <picture>
-            <source type="image/webp" srcset="assets/img/fp-before.webp">
-            <img src="assets/img/fp-before.jpg" alt="The previous Future Partners homepage: a teal template with long text passages" width="1500" height="990" loading="lazy" decoding="async">
-          </picture>
-          <figcaption>Before: the template years</figcaption>
+          <picture><source type="image/webp" srcset="assets/img/fp-before.webp"><img src="assets/img/fp-before.jpg" alt="The old homepage: teal template with long text passages" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>Home, before</figcaption>
         </figure>
         <figure>
-          <picture>
-            <source type="image/webp" srcset="assets/img/fp-shot-home.webp">
-            <img src="assets/img/fp-shot-home.jpg" alt="The rebuilt Future Partners homepage: clean type, mosaic of faces, clear services" width="1500" height="990" loading="lazy" decoding="async">
-          </picture>
-          <figcaption>After: the rebuild, live in 2026</figcaption>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-home.webp"><img src="assets/img/fp-shot-home.jpg" alt="The new homepage: clean type, a mosaic of faces, clear services" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>Home, after</figcaption>
         </figure>
         <figure>
-          <picture>
-            <source type="image/webp" srcset="assets/img/fp-shot-people.webp">
-            <img src="assets/img/fp-shot-people.jpg" alt="The people page: associate profiles presented as a consistent grid" width="1500" height="990" loading="lazy" decoding="async">
-          </picture>
-          <figcaption>The network, 29 profiles strong</figcaption>
+          <picture><source type="image/webp" srcset="assets/img/fp-old-work.webp"><img src="assets/img/fp-old-work.jpg" alt="The old projects page: a plain list" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>The work, before</figcaption>
         </figure>
         <figure>
-          <picture>
-            <source type="image/webp" srcset="assets/img/fp-shot-editor.webp">
-            <img src="assets/img/fp-shot-editor.jpg" alt="The editing screen: the client's own content dashboard for case studies, people and news" width="1402" height="510" loading="lazy" decoding="async">
-          </picture>
-          <figcaption>The editing screen: the site is theirs to run</figcaption>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-atlas.webp"><img src="assets/img/fp-shot-atlas.jpg" alt="The new work page: the atlas, glowing where the network has worked" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>The work, after: the atlas</figcaption>
+        </figure>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-old-services.webp"><img src="assets/img/fp-old-services.jpg" alt="The old services page: text blocks on teal" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>Services, before</figcaption>
+        </figure>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-services.webp"><img src="assets/img/fp-shot-services.jpg" alt="The new services page: the project cycle as an interactive wheel, scope to review" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>Services, after: the project cycle</figcaption>
+        </figure>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-old-news.webp"><img src="assets/img/fp-old-news.jpg" alt="The old insights page" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>News, before</figcaption>
+        </figure>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-news.webp"><img src="assets/img/fp-shot-news.jpg" alt="The new news page: a featured story with the latest list beside it" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>News, after</figcaption>
+        </figure>
+      </div>
+
+      <div class="cs-gallery" data-reveal>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-case.webp"><img src="assets/img/fp-shot-case.jpg" alt="One of the 39 migrated case studies on the new site" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>One of the 39 case studies</figcaption>
+        </figure>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-people.webp"><img src="assets/img/fp-shot-people.jpg" alt="The people page: 29 associate profiles as a consistent grid" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>The network, 29 profiles</figcaption>
+        </figure>
+        <figure>
+          <picture><source type="image/webp" srcset="assets/img/fp-shot-editor.webp"><img src="assets/img/fp-shot-editor.jpg" alt="The editing screen the team uses to update the site" width="1500" height="990" loading="lazy" decoding="async"></picture>
+          <figcaption>The editing screen</figcaption>
         </figure>
       </div>
 
