@@ -1561,6 +1561,48 @@ kbd {
 }
 .cs-gallery figure { border: 1px solid var(--hairline); }
 .cs-gallery img { width: 100%; height: auto; display: block; }
+.cs-gallery figcaption {
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-mono); font-size: 0.66rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--mute);
+  border-top: 1px solid var(--hairline);
+}
+.cs-gallery.cs-2 { grid-template-columns: repeat(2, 1fr); }
+
+/* Case stats — the build's countable facts as a ledger band */
+.case-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.2rem, 3vw, 2.5rem);
+  border-block: 1px solid var(--hairline);
+  padding: clamp(1.6rem, 4vh, 2.4rem) 0;
+  margin: clamp(2rem, 5vh, 3.5rem) 0;
+}
+.case-stats dt {
+  font-weight: 560; font-size: clamp(2rem, 4.5vw, 3.4rem);
+  letter-spacing: -0.02em; line-height: 1; color: var(--bone);
+}
+.case-stats dd {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--mute); margin-top: 0.6rem;
+}
+
+/* Challenge rows — the problems the build had to beat, told straight */
+.case-cs { margin: clamp(2rem, 5vh, 3.5rem) 0; }
+.case-cs .cs-row {
+  border-top: 1px solid var(--hairline);
+  padding: clamp(1.4rem, 3.5vh, 2.2rem) 0;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+.case-cs .cs-row:last-child { border-bottom: 1px solid var(--hairline); }
+.case-cs h3 {
+  font-weight: 560; font-size: clamp(1.15rem, 2vw, 1.5rem);
+  letter-spacing: -0.01em; line-height: 1.3;
+}
+.case-cs h3 i { font-style: normal; color: var(--red); margin-right: 0.5em; }
+.case-cs p { color: var(--mute); font-size: 1.02rem; line-height: 1.7; max-width: 58ch; }
 .case-shot.cs-object.cs-duo img { border-radius: 16px; }
 
 @media (max-width: 800px) {
@@ -1570,6 +1612,9 @@ kbd {
   .case-next .btn { order: 2; }
   .case-shot.cs-object { padding: 1.5rem 1rem; gap: 0.8rem; }
   .cs-gallery { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .cs-gallery.cs-2 { grid-template-columns: 1fr; }
+  .case-stats { grid-template-columns: 1fr 1fr; }
+  .case-cs .cs-row { grid-template-columns: 1fr; gap: 0.8rem; }
   .case-shot.cs-object img { height: min(44vh, 380px); }
   .case-shot.cs-object.cs-wide img { width: 100%; height: auto; }
 }
