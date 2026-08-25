@@ -1397,7 +1397,7 @@ kbd {
   align-items: baseline;
 }
 .fact dt {
-  font-family: var(--font-mono); font-size: 0.62rem;
+  font-family: var(--font-mono); font-size: 0.7rem;
   letter-spacing: 0.15em; text-transform: uppercase;
   color: var(--red);
 }
@@ -1569,6 +1569,17 @@ kbd {
   border-top: 1px solid var(--hairline);
 }
 .cs-gallery.cs-2 { grid-template-columns: repeat(2, 1fr); }
+
+/* Profile portrait — the framed figure on kris.html */
+.kp-fig { border: 1px solid var(--hairline); align-self: start; }
+.kp-fig img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+.kp-fig figcaption {
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-mono); font-size: 0.66rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--mute);
+  border-top: 1px solid var(--hairline);
+}
 
 /* Case stats — the build's countable facts as a ledger band */
 .case-stats {
