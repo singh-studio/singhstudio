@@ -17,7 +17,7 @@ const CONFIG = {
   // kris@singhstudio.co.nz at web3forms.com and paste the key here — the
   // enquiry form posts through their API from that moment. Until then the
   // form falls back to composing a structured email instead.
-  web3formsKey: "",
+  web3formsKey: "824b0ab2-38a3-495a-9d44-074b13c574cd",
   // GA4 measurement ID, e.g. "G-XXXXXXXXXX". Create the property at
   // analytics.google.com and paste the ID here — gtag loads (with ads
   // personalisation and signals off) from that moment. Empty = no
