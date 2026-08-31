@@ -719,7 +719,10 @@ document.addEventListener("click", (e) => {
 
 /* Enquiry form — posts through Web3Forms once CONFIG.web3formsKey is set.
    Until then, submitting composes a structured email instead, so the
-   written path works either way. */
+   written path works either way. Also: an honest reply-time line from
+   the NZ clock, a locally saved draft so an interrupted visitor never
+   loses their words, and context carried in from templates and cases
+   via the ?about= parameter. */
 (() => {
   const form = document.getElementById("enquiryForm");
   if (!form) return;
@@ -727,6 +730,69 @@ document.addEventListener("click", (e) => {
   const errEl = document.getElementById("enquiryStatus");
   const keyField = form.querySelector('input[name="access_key"]');
   if (CONFIG.web3formsKey && keyField) keyField.value = CONFIG.web3formsKey;
+
+  // Context from ?about= — a template or case name travels with the enquiry
+  let about = "";
+  try {
+    const raw = new URLSearchParams(location.search).get("about") || "";
+    about = raw.replace(/[^\w\s&-]/g, "").trim().slice(0, 60);
+  } catch { /* no URL API, no context */ }
+  if (about) {
+    const ctx = document.createElement("input");
+    ctx.type = "hidden"; ctx.name = "context"; ctx.value = about;
+    form.appendChild(ctx);
+    const subj = document.createElement("input");
+    subj.type = "hidden"; subj.name = "subject"; subj.value = "Enquiry — " + about;
+    form.appendChild(subj);
+    form.elements.message.placeholder = "Keen on " + about + "? Tell me what you're working on.";
+  }
+
+  // Honest reply expectation from the NZ clock
+  try {
+    const parts = new Intl.DateTimeFormat("en-NZ", {
+      hour: "numeric", minute: "2-digit", hour12: false,
+      weekday: "short", timeZone: "Pacific/Auckland",
+    }).formatToParts(new Date());
+    const get = (t) => (parts.find((p) => p.type === t) || {}).value;
+    const hour = parseInt(get("hour"), 10);
+    const hm = get("hour") + ":" + get("minute");
+    const day = get("weekday");
+    let when;
+    if (day === "Sat" || day === "Sun") when = "It’s the weekend here in New Zealand, so expect a reply on Monday.";
+    else if (hour >= 7 && hour < 12) when = "It’s " + hm + " here in New Zealand. You’ll likely hear back today.";
+    else if (hour >= 12 && hour < 17) when = "It’s " + hm + " here in New Zealand. Expect a reply today or first thing tomorrow.";
+    else if (hour >= 17 && hour < 22) when = "It’s " + hm + " in New Zealand this evening. Expect a reply tomorrow morning.";
+    else when = "It’s the middle of the night here in New Zealand. Expect a reply in the morning.";
+    const p = document.createElement("p");
+    p.className = "cf-clock";
+    p.textContent = when;
+    btn.insertAdjacentElement("beforebegin", p);
+  } catch { /* clock line is a nicety, never a requirement */ }
+
+  // Draft saving — an interrupted enquiry survives the closed tab
+  const DRAFT = "ss-enquiry-draft";
+  try {
+    const saved = JSON.parse(localStorage.getItem(DRAFT) || "null");
+    if (saved && !form.elements.name.value && !form.elements.message.value) {
+      form.elements.name.value = saved.n || "";
+      form.elements.email.value = saved.e || "";
+      form.elements.message.value = saved.m || "";
+    }
+  } catch { /* corrupt or unavailable storage — start clean */ }
+  let saveTimer;
+  form.addEventListener("input", () => {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(DRAFT, JSON.stringify({
+          n: form.elements.name.value,
+          e: form.elements.email.value,
+          m: form.elements.message.value,
+        }));
+      } catch { /* storage full or blocked — drafts just don't persist */ }
+    }, 400);
+  });
+  const clearDraft = () => { try { localStorage.removeItem(DRAFT); } catch { /* already gone */ } };
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -736,9 +802,9 @@ document.addEventListener("click", (e) => {
     const message = form.elements.message.value.trim();
 
     if (!CONFIG.web3formsKey) {
-      const subject = `Project enquiry — ${name || "via singhstudio.co.nz"}`;
-      const body = `${message}\n\n— ${name}\n${email}`;
-      location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const subject = "Project enquiry — " + (name || "via singhstudio.co.nz") + (about ? " (" + about + ")" : "");
+      const body = message + "\n\n— " + name + "\n" + email;
+      location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       return;
     }
 
@@ -752,8 +818,17 @@ document.addEventListener("click", (e) => {
         body: new FormData(form),
       });
       if (!res.ok) throw new Error(String(res.status));
-      track("enquiry_submit");
-      form.innerHTML = '<p class="cf-done" role="status">Got it. Replies within one business day, NZT.</p>';
+      track("enquiry_submit", about ? { label: about } : {});
+      clearDraft();
+      form.innerHTML =
+        '<div class="cf-done" role="status">' +
+        '<p class="cf-done-lede">Got it. It’s with me now.</p>' +
+        '<ul class="cf-next">' +
+        '<li>A real reply within one business day, from me, not an autoresponder</li>' +
+        '<li>If it’s a fit, a 20-minute kōrero on Google Meet</li>' +
+        "</ul>" +
+        '<a class="btn btn-solid" href="' + CONFIG.bookingUrl + '" target="_blank" rel="noopener">Skip ahead: book the call</a>' +
+        "</div>";
     } catch {
       errEl.hidden = false;
       btn.disabled = false;

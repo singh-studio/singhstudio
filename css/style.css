@@ -1161,10 +1161,24 @@ body.ready .lz-load .ch { transform: none; }
   color: var(--red-hot);
   margin-bottom: 1rem;
 }
-.cf-done {
-  font-family: var(--font-serif); font-style: italic;
-  font-size: 1.3rem; color: var(--bone);
+.cf-clock {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--mute);
+  margin-bottom: 1.1rem;
 }
+.cf-done-lede {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 1.5rem; color: var(--bone);
+}
+.cf-next {
+  list-style: none;
+  font-family: var(--font-mono); font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--mute); line-height: 2.2;
+  margin: 1.1rem 0 1.6rem;
+}
+.cf-next li::before { content: "/ "; color: var(--red); }
 @media (max-width: 640px) {
   .cf-row { grid-template-columns: 1fr; gap: 0; }
 }
