@@ -1,0 +1,6 @@
+node_modules/
+takes/
+stills/
+enc/
+verify/
+package-lock.json

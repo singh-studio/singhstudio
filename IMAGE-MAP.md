@@ -109,7 +109,7 @@ Most of these frames appear in **both** index.html's horizontal light-table stri
 | Path | Actual size | Used | Display | Replacement spec |
 |---|---|---|---|---|
 | `assets/img/work-amplify.jpg` | 1600×934 | index.html work-grid card; case-amplify.html hero shot (`case-shot`, `data-mask`); og:image for case-amplify.html | Work card: `<img width="1600" height="934">` cover-crop. Case page: full-width masked reveal. | Landscape, ~16:9-ish (1600×934 ≈ 1.71:1), a clean full-page screenshot or hero frame of the actual site/build. Keep width/height attributes in sync with the real file to avoid layout shift. |
-| `assets/img/work-nextgen.jpg` | 1600×1000 | index.html work-grid card; case-nextgen.html hero shot; og:image for case-nextgen.html | Work card + case page, same `<picture>` pattern (webp sibling wired) | Tino Taonga share-card art, cover-cropped from 16:9 — swap for a full-page screenshot of the live site whenever one is captured. |
+| `assets/img/work-nextgen.jpg` (+ `-800`, webp siblings) | 1600×1000 / 800×500 | index.html work-grid card (srcset 800w/1600w); og:image + JSON-LD image for case-nextgen.html | Work card cover-crop, same `<picture>` pattern as Peniel | Live homepage capture at 1440×900 @2x with the bubble film held at 10.5 s (singer under purple light). Rebuild with `_planning/tino-taonga-case/` (see the Tino Taonga section below). |
 | `assets/img/work-peniel.jpg` | 1600×1000 | index.html work-grid card; case-peniel.html hero shot; og:image for case-peniel.html | Same pattern | Studio photo of the WHCC building front (from the client asset folder). |
 | `assets/img/work-littlethings.jpg` | 1600×1000 | index.html work-grid card; case-littlethings.html hero shot; og:image for case-littlethings.html | Same pattern | Composite: two app screenshots (home + person page) on an ink ground, built with ffmpeg hstack+pad. Rebuild from getlittlethings.app screenshot assets if the app UI changes. |
 | `assets/img/work-butterfly.jpg` | 1600×1000 | index.html work-grid card; case-butterfly.html hero shot; og:image for case-butterfly.html | Same pattern | Project photography from the live butterflybuilds.co.nz homepage hero. |
@@ -119,7 +119,7 @@ Most of these frames appear in **both** index.html's horizontal light-table stri
 
 Every `work-*.jpg` above has a `.webp` sibling wired into its `<picture>` (including work-amplify, added 2026-07-13). None are reused inside the template demos — safe to swap independently. (work-more / work-bandcamp / work-firezone were removed 2026-07-13 with their case pages.)
 
-**Object-mode assets (2026-07-13).** Four cards/case-shots carry non-photographic assets and use the `.wc-object` / `.cs-object` treatment (asset contained whole on a pinned ink ground — CSS in the WORK and case sections of style.css), so these files keep their native ratios and can be swapped for ANY ratio without cropping concerns: `art-nextgen.{jpg,webp}` (1200×630 share card), `art-bearers.{jpg,webp}` (1100², EP art), `art-rhythms.{jpg,webp}` (1100², podcast art), `app-littlethings-{home,person}.{jpg,webp}` (506×1100 phone shots). The 1600×1000 `work-nextgen/littlethings/bearers/rhythms.jpg` composites remain ONLY as og:images for those case pages (their .webp siblings were removed); if you replace an og composite, keep it ~1600×1000.
+**Object-mode assets (2026-07-13; art-nextgen retired 2026-09-27).** Three cards/case-shots carry non-photographic assets and use the `.wc-object` / `.cs-object` treatment (asset contained whole on a pinned ink ground — CSS in the WORK and case sections of style.css), so these files keep their native ratios and can be swapped for ANY ratio without cropping concerns: `art-bearers.{jpg,webp}` (1100², EP art), `art-rhythms.{jpg,webp}` (1100², podcast art), `app-littlethings-{home,person}.{jpg,webp}` (506×1100 phone shots). The 1600×1000 `work-littlethings/bearers/rhythms.jpg` composites remain ONLY as og:images for those case pages (their .webp siblings were removed); if you replace an og composite, keep it ~1600×1000.
 
 ---
 
@@ -221,3 +221,34 @@ until now; the steps below describe the *current* hero image's actual specs.
 ## Totals — recounted 2026-07-08
 
 **87 distinct image files on disk today**: 23 JPEGs in `assets/img/` (including the video poster and both portraits) + 3 icon PNGs (`ss-logo.png`, `apple-touch-icon.png`, and `favicon-32.png` — added by the favicon-set work) + 12 `.webp` companions in `assets/img/` + 25 JPEGs in `assets/img/archive/` + 24 `.webp` companions in `assets/img/archive/`. Plus **1 video asset** (`joy-florals-feature.mp4`). The row-by-row counts above (originally "56 files... 7 webp companions... 25 JPEGs in archive with NO webp coverage") predate the sitewide WebP programme — webp coverage now extends into `assets/img/archive/`, 24 of its 25 jpgs have a webp sibling (the one exception, `ar-dancer-dark.jpg`, is 72KB — below the 150KB threshold the WebP pass targeted, so its absence is by design, not a gap). Usage-instance count not recounted in this pass — treat the old "≈90 usage instances" figure as a rough historical estimate, not current.
+
+
+## Tino Taonga case media (2026-09-27)
+
+`case-nextgen.html` is built from captures of the live site, all made with the
+scripts in `_planning/tino-taonga-case/` (recorder, stills, media build; README
+inside). Every capture sits in a `.case-screen` frame.
+
+| Path | Size | What it is |
+|---|---|---|
+| `assets/video/tt-home.mp4` / `-960.mp4` | 1920×1200 / 960×600, 15 s | Homepage: scripture intro, bubble film, scroll opening into the statement |
+| `assets/video/tt-hub.mp4` / `-960.mp4` | 1920×1200 / 960×600, 11 s | Resource Hub: Youth, Bible Study, Clear all |
+| `assets/video/tt-team.mp4` / `-960.mp4` | 1920×1200 / 960×600, 13 s | Team finder: "kids camp", four people, a profile opens |
+| `assets/video/tt-menu.mp4` / `-960.mp4` | 1920×1200 / 960×600, 12 s | Menu: Children, Youth, Events and Camps |
+| `assets/video/tt-phone.mp4` | 720×1558, 13 s | Homepage sections on a phone, Events to News |
+| `assets/img/tt-{home,hub,team,menu,phone}.{jpg,webp}` | 1600×1000 (phone 720×1558) | The still under each loop: no-JS, reduced motion and before playback |
+| `assets/img/tt-editor.{jpg,webp}` | 760×1005 | Kids Camp post in the Squarespace editor (crop of the website guide's e04 shot) |
+| `assets/img/tt-kidscamp.{jpg,webp}` | 1600×1000 | Kids Camp page, two-panel hero |
+| `assets/img/tt-post.{jpg,webp}` | 1400×875 | Post-Amplify Bible Study: download card + Talk to someone |
+| `assets/img/tt-person-help.{jpg,webp}` | 1400×875 | Missy Ditchburn's page: What Missy can help with |
+| `assets/img/tt-find.{jpg,webp}` | 1600×1000 | Find strip open, narrowed to Napier |
+| `assets/img/tt-hover.{jpg,webp}` | 1400×875 | Portrait hover label in the team grid |
+| `assets/img/tt-phone-filters.{jpg,webp}` | 600×1298 | Hub filter panel on a phone |
+| `assets/img/tt-guide-{cover,fit,post}.{jpg,webp}` | 900×1274 | Website guide pages 1, 3 and 12 (rendered from the PDF with Ghostscript) |
+
+Loops are silent H.264 (CRF 28, faststart) with the last 0.5–0.8 s crossfaded
+into the first frames so the loop point never jumps. The page script loads a
+video only as it nears the viewport (the `-960` file at 800px and below),
+plays it while a third is on screen, and never autoplays under reduced
+motion. Re-recording changes the pictures to whatever the site shows that day
+(the "On now" pill, the Events row, the newest resources).

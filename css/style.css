@@ -661,7 +661,6 @@ body.ready .ht-inner { transform: none; }
   border: 1px solid rgba(236, 231, 221, 0.14);
   box-shadow: 0 22px 44px -20px rgba(0, 0, 0, 0.6);
 }
-.wc-media.wc-object.wc-object-wide img { width: 78%; height: auto; }
 .wc-media.wc-object.wc-object-duo img { height: 76%; border-radius: 12px; }
 .wc-media.wc-object .wc-chip {
   position: absolute; left: 1rem; bottom: 0.8rem;
@@ -799,7 +798,7 @@ body.ready .ht-inner { transform: none; }
   font-size: 1.6rem;
 }
 .footer-links, .footer-social {
-  display: flex; gap: 1.6rem;
+  display: flex; flex-wrap: wrap; gap: 0.9rem 1.6rem; /* seven labels overflow a phone on one row */
   font-family: var(--font-mono); font-size: 0.7rem;
   text-transform: uppercase; letter-spacing: 0.1em;
 }
@@ -1564,7 +1563,6 @@ kbd {
   border: 1px solid rgba(236, 231, 221, 0.14);
   box-shadow: 0 26px 60px -24px rgba(0, 0, 0, 0.65);
 }
-.case-shot.cs-object.cs-wide img { width: min(100%, 900px); height: auto; }
 
 /* App screens gallery — framed store shots on their own cream grounds,
    presented as prints: hairline border, three-up, two-up on small screens. */
@@ -1641,7 +1639,212 @@ kbd {
   .case-stats { grid-template-columns: 1fr 1fr; }
   .case-cs .cs-row { grid-template-columns: 1fr; gap: 0.8rem; }
   .case-shot.cs-object img { height: min(44vh, 380px); }
-  .case-shot.cs-object.cs-wide img { width: 100%; height: auto; }
+}
+
+/* Case screens — captures of a client's live site (or its editor) in one
+   frame: a mono bar naming where you are, the capture, an optional caption.
+   A recorded loop sits over its own still and only fades in once playing,
+   so the still is the content for no-JS and reduced-motion visitors. */
+.case-screen { border: 1px solid var(--hairline); background: var(--ink-2); min-width: 0; }
+.screen-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  min-height: 2.9rem; padding: 0.45rem 0.55rem 0.45rem 0.9rem;
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--font-mono); font-size: 0.64rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute);
+}
+.screen-url { display: flex; align-items: center; gap: 0.65em; min-width: 0; }
+.screen-url::before {
+  content: ""; flex: none;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red);
+}
+.screen-bar.is-editor .screen-url::before { border-radius: 1px; background: var(--mute); }
+.screen-url { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.screen-toggle {
+  flex: none;
+  display: inline-flex; align-items: center; gap: 0.55em;
+  min-height: 1.9rem; padding: 0 0.8rem 0 0.7rem;
+  border: 1px solid var(--hairline); border-radius: 999px;
+  font-family: var(--font-mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--bone);
+  transition: border-color 0.3s, color 0.3s;
+}
+.screen-toggle:hover { border-color: var(--red); color: var(--red-hot); }
+.screen-toggle:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.screen-toggle[hidden] { display: none; }
+.screen-toggle svg { width: 10px; height: 10px; fill: currentColor; display: block; }
+.screen-toggle .st-play,
+.screen-toggle.is-paused .st-pause { display: none; }
+.screen-toggle.is-paused .st-play { display: block; }
+.screen-stage {
+  position: relative; overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #f6ede3; /* the client site's own paper, so an empty frame still reads as theirs */
+}
+.screen-stage picture { display: contents; }
+.screen-stage img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.screen-stage video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 0.6s ease;
+}
+.case-screen.is-live .screen-stage video { opacity: 1; }
+.screen-stage.stage-editor { aspect-ratio: 760 / 1005; background: #fff; }
+.screen-stage.stage-contain { display: flex; justify-content: center; align-items: center; padding: 5% 0; }
+.screen-stage.stage-contain img {
+  width: auto; height: 100%; object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px -18px rgba(28, 16, 40, 0.45);
+}
+.screen-cap {
+  display: flex; gap: 0.9rem; align-items: baseline;
+  padding: 0.75rem 0.9rem 0.85rem;
+  border-top: 1px solid var(--hairline);
+  color: var(--mute); font-size: 0.9rem; line-height: 1.5;
+}
+.screen-cap b {
+  flex: none;
+  font-family: var(--font-mono); font-weight: 400; font-size: 0.62rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--red);
+}
+.screen-hero { margin: clamp(2rem, 5vh, 3.5rem) 0 clamp(1.5rem, 4vh, 3rem); }
+.screen-phone { width: min(100%, 360px); margin-inline: auto; }
+.screen-phone .screen-stage { aspect-ratio: 720 / 1558; }
+
+/* Highlight rows — capture beside copy, alternating sides; each ends in a
+   two-line ledger: what the team edits in Squarespace, what the code adds. */
+.case-label {
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--red);
+  margin-top: clamp(3.5rem, 9vh, 6rem);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--hairline);
+}
+.case-hl {
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.8rem, 4.5vw, 4.5rem); align-items: center;
+  padding-block: clamp(2.5rem, 7vh, 4.5rem);
+  border-bottom: 1px solid var(--hairline);
+}
+.case-hl.hl-flip > .hl-media { order: 2; }
+.case-hl.hl-phone { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.case-hl.hl-wide { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; row-gap: clamp(1.8rem, 5vh, 3rem); }
+.case-hl.hl-wide > .hl-media { grid-column: 1 / -1; }
+.hl-num { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--red); }
+.hl-copy h3 {
+  font-weight: 560; font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+  letter-spacing: -0.018em; line-height: 1.12;
+  margin: 0.7rem 0 1.1rem;
+}
+.hl-copy p:not(.hl-num) { color: var(--mute); font-size: 1.02rem; line-height: 1.7; max-width: 54ch; }
+.hl-copy p:not(.hl-num) + p { margin-top: 0.9rem; }
+.hl-wide .hl-copy + .hl-copy { padding-top: 0.35rem; }
+.hl-ledger { margin-top: 1.7rem; border-top: 1px solid var(--hairline); max-width: 54ch; }
+.hl-ledger div {
+  display: grid; grid-template-columns: 8.4rem minmax(0, 1fr); gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.hl-ledger dt {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--red);
+  padding-top: 0.3rem;
+}
+.hl-ledger dd { font-size: 0.94rem; line-height: 1.55; color: var(--bone); }
+
+/* The post beside the page it builds, bottoms aligned */
+.hl-pair { display: grid; grid-template-columns: minmax(0, 4.3fr) minmax(0, 7.7fr); gap: clamp(1rem, 2.4vw, 2rem); align-items: end; }
+/* Two captures overlapping, the second carried forward on a shadow */
+.hl-stack {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+  padding-bottom: 3rem; /* room for the shadow inside the reveal's clip */
+}
+/* each capture paints as one piece (bar and stage together), front one on top */
+.hl-stack > .case-screen { grid-row: 1; align-self: start; position: relative; z-index: 1; }
+.hl-stack > .case-screen:first-child { grid-column: 1 / span 9; }
+.hl-stack > .case-screen:last-child {
+  grid-column: 4 / -1; margin-top: 30%; z-index: 2;
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.7);
+}
+
+/* Details — four smaller captures, two by two */
+.case-details {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.6vw, 2.2rem);
+  padding-top: clamp(1.8rem, 4vh, 2.6rem);
+}
+
+/* Handover — the guide's pages fanned like a printed set */
+.case-handover {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: center;
+  margin-top: clamp(3.5rem, 9vh, 6rem);
+  padding-top: clamp(2.5rem, 6vh, 4rem);
+  border-top: 1px solid var(--hairline);
+}
+.ho-pages {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 1rem 8% 3rem;
+}
+.ho-page { margin-inline: -9%; position: relative; }
+.ho-page:nth-child(2) { z-index: 2; }
+.ho-sheet {
+  display: block;
+  border: 1px solid var(--hairline);
+  box-shadow: 0 26px 50px -24px rgba(0, 0, 0, 0.6);
+}
+.ho-sheet img { display: block; width: 100%; height: auto; }
+.ho-page:nth-child(1) .ho-sheet { transform: rotate(-4deg) translateY(1.1rem); }
+.ho-page:nth-child(2) .ho-sheet { transform: translateY(-0.4rem); }
+.ho-page:nth-child(3) .ho-sheet { transform: rotate(4deg) translateY(1.1rem); }
+.ho-page figcaption {
+  margin-top: 2rem; text-align: center;
+  font-family: var(--font-mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
+}
+
+/* Built-with panel beside the outcome */
+.case-built {
+  border: 1px solid var(--hairline); background: var(--ink-2);
+  padding: clamp(1.3rem, 3vw, 2rem);
+}
+.cb-head {
+  font-family: var(--font-mono); font-size: 0.66rem;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--mute);
+  margin-bottom: 0.9rem;
+}
+.case-built dl div {
+  display: grid; grid-template-columns: 6.2rem minmax(0, 1fr); gap: 1rem;
+  padding: 0.75rem 0; border-top: 1px solid var(--hairline);
+}
+.case-built dt {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--red);
+  padding-top: 0.25rem;
+}
+.case-built dd { font-size: 0.94rem; line-height: 1.5; color: var(--bone); }
+
+@media (max-width: 900px) {
+  .case-hl, .case-hl.hl-phone, .case-hl.hl-wide { grid-template-columns: minmax(0, 1fr); }
+  .case-hl.hl-flip > .hl-media { order: 0; }
+  .case-hl.hl-wide > .hl-media { order: 3; }
+  .hl-stack { display: flex; flex-direction: column; gap: 1rem; padding-bottom: 0; }
+  .hl-stack > .case-screen { align-self: stretch; }
+  .hl-stack > .case-screen:last-child { margin-top: 0; box-shadow: none; }
+  .case-handover { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 800px) {
+  .case-details { grid-template-columns: minmax(0, 1fr); }
+  .hl-pair { grid-template-columns: minmax(0, 1fr); }
+  .hl-pair > .case-screen:first-child { width: min(100%, 420px); }
+  .screen-phone { width: min(100%, 320px); }
+  .ho-pages { padding-inline: 6%; }
+}
+@media (max-width: 600px) {
+  .ho-page figcaption { display: none; } /* three labels crowd under sheets this small */
+  .ho-pages { padding-bottom: 1.5rem; }
 }
 
 /* Thoughts */

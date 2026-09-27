@@ -394,6 +394,9 @@ document.addEventListener("click", (e) => {
    ============================================================ */
 (() => {
   const els = document.querySelectorAll("[data-count-to]");
+  // Markup may carry the real figure so it reads right without script;
+  // start the count from zero only once we know it will run.
+  if (!prefersReduced) els.forEach((el) => { el.textContent = "0"; });
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
@@ -496,7 +499,9 @@ document.addEventListener("click", (e) => {
   // .case-shot is listed here rather than hardcoding data-mask in its markup:
   // the attribute (and the opacity:0 it brings) must only ever come from the
   // same module that reveals it, so a script failure leaves content visible.
-  const els = [...document.querySelectorAll(".lt-item, .ph, .wc-media, .case-shot, [data-mask]")];
+  // Overlapping stacks reveal as one piece: clip-path would cut the shadow
+  // off the capture carried in front.
+  const els = [...document.querySelectorAll(".lt-item, .ph, .wc-media, .case-shot, .case-screen:not(.hl-stack > .case-screen), .hl-stack, .ho-page, [data-mask]")];
   if (!els.length) return;
   const perParent = new Map();
   els.forEach((el) => {
@@ -619,6 +624,71 @@ document.addEventListener("click", (e) => {
       v.controls = false;
     });
     v.addEventListener("pause", () => { if (v.ended) return; });
+  });
+})();
+
+/* Case screens — recorded loops of client sites. The still underneath is
+   the content; the video loads as it nears the viewport, plays while a
+   third of it is on screen, and pauses when it leaves. Reduced-motion
+   visitors get the still and a Play button. A pause from the visitor
+   sticks until they press Play again. */
+(() => {
+  const small = window.matchMedia("(max-width: 800px)");
+  const films = [...document.querySelectorAll(".case-screen")].map((fig) => {
+    const video = fig.querySelector("video");
+    const btn = fig.querySelector(".screen-toggle");
+    if (!video || !btn) return null;
+    const label = btn.querySelector(".st-label");
+    const f = { fig, video, want: !prefersReduced, seen: false, loaded: false };
+    const sync = () => {
+      const paused = video.paused;
+      btn.classList.toggle("is-paused", paused);
+      label.textContent = paused ? "Play" : "Pause";
+      btn.setAttribute("aria-label", `${paused ? "Play" : "Pause"} the recording`);
+    };
+    f.load = () => {
+      if (f.loaded) return;
+      f.loaded = true;
+      video.src = small.matches && video.dataset.srcSm ? video.dataset.srcSm : video.dataset.src;
+    };
+    f.play = () => {
+      f.load();
+      const p = video.play();
+      if (p) p.catch(sync); // autoplay refused (e.g. low-power mode): leave the Play button showing
+    };
+    video.addEventListener("playing", () => { fig.classList.add("is-live"); sync(); });
+    video.addEventListener("pause", sync);
+    btn.addEventListener("click", () => {
+      f.want = video.paused;
+      if (f.want) f.play(); else video.pause();
+    });
+    btn.hidden = false;
+    sync();
+    return f;
+  }).filter(Boolean);
+  if (!films.length) return;
+
+  const find = (el) => films.find((f) => f.fig === el);
+  const near = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      const f = find(en.target);
+      if (en.isIntersecting && f.want) f.load();
+    });
+  }, { rootMargin: "600px 0px" });
+  const onScreen = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      const f = find(en.target);
+      f.seen = en.isIntersecting;
+      if (f.seen && f.want && !document.hidden) f.play();
+      else if (!f.seen && !f.video.paused) f.video.pause();
+    });
+  }, { threshold: 0.35 });
+  films.forEach((f) => { near.observe(f.fig); onScreen.observe(f.fig); });
+  document.addEventListener("visibilitychange", () => {
+    films.forEach((f) => {
+      if (document.hidden) f.video.pause();
+      else if (f.seen && f.want) f.play();
+    });
   });
 })();
 
