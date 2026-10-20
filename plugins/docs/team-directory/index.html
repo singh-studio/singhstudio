@@ -49,7 +49,7 @@
   <ol class="steps">
     <li>Make a blog for your people. In Pages, add a new Blog page and call it something like “Team Members”. Drag it into Not Linked so it stays out of your menus, and in its settings under SEO you can hide it from search engines too. Delete the sample posts Squarespace adds.</li>
     <li>Add one post per person. The next section explains which field holds what. Two or three people are enough to see it working, and you can add the rest later.</li>
-    <li>Find the blog’s address. Open the blog on your live site and look at the address bar. If it reads <code>yourchurch.org/team-members</code>, the part you need is <code>/team-members</code>.</li>
+    <li>Find the blog’s address. Open the blog on your live site and look at the address bar. If it reads <code>yoursite.org/team-members</code>, the part you need is <code>/team-members</code>.</li>
     <li>Add a Code block where the directory should go. Edit your Team or Staff page, add a block and choose <em>Code</em>. Leave the mode on HTML and switch “Display source” off.</li>
     <li>Paste. Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
     <li>Point it at your blog. Near the top of what you pasted you’ll see <code>data-source="/team-members"</code>. Change <code>/team-members</code> to your blog’s address from step 3 if yours is different.</li>
@@ -63,10 +63,10 @@
   <p>Each blog post is one person. You fill in the same fields you would for any blog post, and the directory reads them like this:</p>
   <table>
     <tr><th>Post field</th><th>What it becomes</th></tr>
-    <tr><td>Title</td><td>Their name, exactly as it should appear, for example <code>Rev. Hemi Walker</code>. Titles like Rev, Dr or Pastor are fine, and they’re left out when sorting and on the Email button.</td></tr>
+    <tr><td>Title</td><td>Their name, exactly as it should appear, for example <code>Dr Aroha Walker</code>. Titles like Dr, Rev or Prof are fine, and they’re left out when sorting and on the Email button.</td></tr>
     <tr><td>Thumbnail image</td><td>Their portrait (Settings → Content → Featured image). A square or upright photo with the face near the middle works best. People without one show their initials instead.</td></tr>
     <tr><td>Excerpt</td><td>A short bio, two or three sentences (Settings → Content → Excerpt). If there isn’t one, the first paragraphs of the post are used instead.</td></tr>
-    <tr><td>Categories</td><td>Their team or department, such as <code>Pastoral</code>, <code>Youth &amp; Families</code> or <code>Board</code>. Someone in two teams gets two categories. These become the team buttons and the headings in the Teams view.</td></tr>
+    <tr><td>Categories</td><td>Their team or department, such as <code>Leadership</code>, <code>Youth &amp; Families</code> or <code>Board</code>. Someone in two teams gets two categories. These become the team buttons and the headings in the Teams view.</td></tr>
     <tr><td>Tags</td><td>Places, skills and languages. Start a tag with <code>Location:</code>, <code>Language:</code>, <code>Skill:</code> or <code>Team:</code> to say what it is, as in <code>Location: Porirua</code> or <code>Language: Samoan</code>. Tags without a label are treated as skills, like <code>Youth work</code> or <code>First aid</code>.</td></tr>
     <tr><td>Post body</td><td>Their role and contact details, as short labelled lines (see below). The first paragraph is used as the role if there’s no <code>Role:</code> line.</td></tr>
     <tr><td>Source URL</td><td>Optional (Settings → Content). If the person has their own page elsewhere on your site, put its address here and the “Full profile” button goes there. Otherwise it opens their blog post.</td></tr>
@@ -74,8 +74,8 @@
   </table>
   <h3>Labelled lines in the post body</h3>
   <p>Put each detail on its own line, starting with one of these labels. Bold labels and links are fine, and you only need the lines you want.</p>
-  <pre>Youth Pastor
-Email: mere.paki@yourchurch.org
+  <pre>Youth Coordinator
+Email: mere.paki@yoursite.org
 Phone: 021 555 0105
 Pronouns: she/her
 Languages: English, te reo Māori
@@ -83,12 +83,12 @@ Location: Porirua
 Ask me about: youth group, camps, mentoring
 
 Mere grew up in Porirua and has run Friday youth since 2019…</pre>
-  <p>The first line there is the role. You can write it as <code>Role: Youth Pastor</code> instead, which also works when the role isn’t the first line. <code>Based:</code> works the same way as <code>Location:</code>. A labelled line in the body wins over a tag, so if you’ve tagged someone <code>Location: Wellington</code> and their post says <code>Location: Porirua</code>, Porirua is what shows.</p>
+  <p>The first line there is the role. You can write it as <code>Role: Youth Coordinator</code> instead, which also works when the role isn’t the first line. <code>Based:</code> works the same way as <code>Location:</code>. A labelled line in the body wins over a tag, so if you’ve tagged someone <code>Location: Wellington</code> and their post says <code>Location: Porirua</code>, Porirua is what shows.</p>
   <p>If there’s no Email or Phone line, the directory looks for an email link or a phone link anywhere in the post and uses the first one it finds.</p>
   <p>Anything in square brackets on a line of its own, such as <code>[Photo coming after the shoot]</code>, is treated as a note for whoever edits the post. Visitors never see it, and a line like <code>Email: [add an address]</code> counts as empty.</p>
 
   <h2>Run the setup check</h2>
-  <p>Add <code>?team=check</code> to the end of your team page’s address, for example <code>yourchurch.org/our-team?team=check</code>. A panel appears above the directory showing how many people it found and how many have a photo, a role, an email or phone, a team, a location and a language. Underneath is a short list of what to fix, naming who each one is about, such as “2 people have no role (Sam Lee and Jo Tane). Add a ‘Role:’ line or make the first paragraph the role.” Visitors never see this panel unless they type that address themselves.</p>
+  <p>Add <code>?team=check</code> to the end of your team page’s address, for example <code>yoursite.org/our-team?team=check</code>. A panel appears above the directory showing how many people it found and how many have a photo, a role, an email or phone, a team, a location and a language. Underneath is a short list of what to fix, naming who each one is about, such as “2 people have no role (Sam Lee and Jo Tane). Add a ‘Role:’ line or make the first paragraph the role.” Visitors never see this panel unless they type that address themselves.</p>
 
   <h2>What visitors can do</h2>
   <p>Search covers names, roles, teams, skills, languages and places, and it doesn’t mind macrons, so “maori” finds te reo Māori speakers. The team buttons show how many people are in each, and the location and language buttons appear once at least one person has a location or a language. A short sentence under the bar says what’s showing, like “6 people in Youth &amp; Families based in Porirua”, and each part of it can be removed with one click. If nothing matches, visitors get a way back to everyone and, if you set one, a person to contact.</p>
@@ -107,8 +107,8 @@ Mere grew up in Porirua and has run Friday youth since 2019…</pre>
     <tr><td><code>data-index</code></td><td><code>on</code> adds an A to Z bar for jumping to a letter, which is handy for big teams. It sorts by first name unless <code>data-order</code> says otherwise.</td></tr>
     <tr><td><code>data-per-page</code></td><td>How many people show before a “Show more” button. Default <code>48</code>, which for most teams means everyone. <code>all</code> turns it off.</td></tr>
     <tr><td><code>data-hide</code></td><td>Details to leave out, comma separated: <code>email</code>, <code>phone</code>, <code>profile</code>, <code>location</code>, <code>languages</code>, <code>pronouns</code>, <code>skills</code>, <code>ask</code>, <code>bio</code>. For example <code>data-hide="phone"</code>.</td></tr>
-    <tr><td><code>data-contact-name</code></td><td>Who to suggest when a search finds nobody, for example <code>the church office</code>.</td></tr>
-    <tr><td><code>data-contact-href</code></td><td>Where that suggestion links to: a page, <code>mailto:office@yourchurch.org</code> or <code>tel:045550100</code>.</td></tr>
+    <tr><td><code>data-contact-name</code></td><td>Who to suggest when a search finds nobody, for example <code>the office</code>.</td></tr>
+    <tr><td><code>data-contact-href</code></td><td>Where that suggestion links to: a page, <code>mailto:office@yoursite.org</code> or <code>tel:045550100</code>.</td></tr>
     <tr><td><code>data-accent</code></td><td>A colour for buttons and the chosen team, if you’d rather not use your site’s button colour, e.g. <code>#1f5560</code>.</td></tr>
     <tr><td><code>data-tags</code></td><td><code>auto</code> (default), <code>skills</code> or <code>places</code>. Some teams tag people with the areas they cover, and when most people’s tags include where they’re based, the directory notices and lists tags under “Covers” instead of “Skills”. This setting decides it for you.</td></tr>
     <tr><td><code>data-ignore</code></td><td>Categories or tags to leave out, comma separated, e.g. <code>Featured, Staff only</code>.</td></tr>
@@ -116,7 +116,7 @@ Mere grew up in Porirua and has run Friday youth since 2019…</pre>
   </table>
   <p>A list that opens on the Board, with an A to Z bar and a contact for when nothing matches, looks like this:</p>
   <pre>&lt;div data-team-directory data-source="/team-members" data-view="list" data-start="Board" data-index="on"
-     data-contact-name="the church office" data-contact-href="mailto:office@yourchurch.org"&gt;&lt;/div&gt;</pre>
+     data-contact-name="the office" data-contact-href="mailto:office@yoursite.org"&gt;&lt;/div&gt;</pre>
 
   <h3>Changing the wording</h3>
   <p>Every label can be changed, which is handy for other languages or a different tone. Put this in the Code block <em>above</em> the rest of the paste and change only the lines you want:</p>
@@ -144,7 +144,7 @@ window.TeamDirectoryStrings = {
   <h3>Someone isn’t showing</h3>
   <p>Drafts and scheduled posts aren’t public, so they don’t appear until they’re published. The setup check shows how many posts the blog has and how many were read.</p>
   <h3>A team appears twice with slightly different names</h3>
-  <p>Differences in capitals, macrons and punctuation are merged for you, and so are “and”, “&amp;” and “+”, which means “Youth &amp; Families” and “youth and families” are one team. Different words, like “Youth” and “Youth Ministry”, stay separate, so pick one name and fix the other posts’ categories.</p>
+  <p>Differences in capitals, macrons and punctuation are merged for you, and so are “and”, “&amp;” and “+”, which means “Youth &amp; Families” and “youth and families” are one team. Different words, like “Youth” and “Youth Work”, stay separate, so pick one name and fix the other posts’ categories.</p>
   <h3>People are in the wrong order</h3>
   <p>The order follows the post dates, earliest first. Change a post’s date under Settings → Options to move them, or use <code>data-order="name"</code> or <code>data-order="surname"</code> for alphabetical.</p>
   <h3>The “Full profile” button opens a plain blog post</h3>

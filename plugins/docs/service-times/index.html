@@ -72,7 +72,7 @@
   "skips": [
     { "date": "2026-12-27", "name": "Evening Service", "note": "Summer break" }
   ],
-  "livestream": { "url": "https://www.youtube.com/@yourchurch/live", "before": 10, "after": 15 },
+  "livestream": { "url": "https://www.youtube.com/@yourchannel/live", "before": 10, "after": 15 },
   "address": "12 Beacon Lane, Harbourlight Bay",
   "links": [ { "label": "Plan a visit", "url": "/plan-a-visit" } ]
 }</pre>
@@ -88,7 +88,7 @@
   <p>Set <code>livestream.url</code> to where people watch. The live banner and the Watch live button appear from <code>before</code> minutes before a service marked live starts (10 if you leave it out) until <code>after</code> minutes after it ends (15). The timing comes from your schedule, so Service Times can’t tell whether the stream itself has started, and it’s worth starting yours on time.</p>
 
   <h3>Time zones and daylight saving</h3>
-  <p>Times are worked out in your church’s time zone, so when the clocks change in April and September the services stay at 9:30. If you leave <code>timezone</code> out, Service Times uses your Squarespace site’s own time zone (Settings, then Language and region). Time zones look like <code>Pacific/Auckland</code> or <code>Europe/London</code>. Visitors whose clocks are set somewhere else see an extra line on the card, such as “That’s 1:30 pm your time.” Add <code>"yourTime": false</code> to turn that off.</p>
+  <p>Times are worked out in your own time zone, so when the clocks change in April and September the services stay at 9:30. If you leave <code>timezone</code> out, Service Times uses your Squarespace site’s own time zone (Settings, then Language and region). Time zones look like <code>Pacific/Auckland</code> or <code>Europe/London</code>. Visitors whose clocks are set somewhere else see an extra line on the card, such as “That’s 1:30 pm your time.” Add <code>"yourTime": false</code> to turn that off.</p>
 
   <h3>Directions and links</h3>
   <p>With an <code>address</code>, the card gets a Directions button that opens Google Maps. A service or special held somewhere else can have its own <code>address</code>. If you’d rather link to a map of your own, use <code>"directions": "https://…"</code>. The <code>links</code> show on the card, and the first one on the slim bar.</p>
@@ -123,7 +123,7 @@
   <p>In the settings:</p>
   <table>
     <tr><th>Setting</th><th>What it does</th></tr>
-    <tr><td><code>timezone</code></td><td>Your church’s time zone. Default: your Squarespace site’s.</td></tr>
+    <tr><td><code>timezone</code></td><td>Your time zone. Default: your Squarespace site’s.</td></tr>
     <tr><td><code>services</code></td><td>Weekly services: <code>day</code>, <code>time</code>, <code>name</code>, <code>duration</code>, <code>location</code>, <code>address</code>, <code>live</code>.</td></tr>
     <tr><td><code>specials</code></td><td>One-off services: <code>date</code> and the same as above, plus <code>replaces</code>.</td></tr>
     <tr><td><code>skips</code></td><td>Weeks off: <code>date</code>, and optionally <code>name</code> and <code>note</code>.</td></tr>

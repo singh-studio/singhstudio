@@ -46,7 +46,7 @@
 
   <h2>Install</h2>
   <ol class="steps">
-    <li>Find your events page’s address. Open the events page on your live site and look at the address bar. If it reads <code>yourchurch.org/events</code>, the part you need is <code>/events</code>.</li>
+    <li>Find your events page’s address. Open the events page on your live site and look at the address bar. If it reads <code>yoursite.org/events</code>, the part you need is <code>/events</code>.</li>
     <li>Make a page for the explorer. I’d suggest a new page called “What’s on” with your navigation pointing at it. Your events page stays where it is, because it still holds each event’s own page, which the Details buttons link to. Squarespace doesn’t let you add blocks inside an events page itself, so the explorer needs its own page anyway.</li>
     <li>Add a Code block. Edit the new page, add a block and choose <em>Code</em>. Leave the mode on HTML and switch “Display source” off.</li>
     <li>Paste. Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
@@ -74,7 +74,7 @@
   <p>Squarespace’s events page has a list layout and a calendar layout. With the list layout, every event arrives in a single request, so the explorer is ready almost at once. The calendar layout only shares one month at a time, so Events Explorer loads this month and the five after it, then fetches other months as visitors move through the calendar or open past events. Both work, but if you’re choosing, the list layout is quicker.</p>
 
   <h2>Run the setup check</h2>
-  <p>Add <code>?events=check</code> to the end of your explorer page’s address, for example <code>yourchurch.org/whats-on?events=check</code>. A panel appears above the events showing how many upcoming and past events it found, how many have a location, a map link and an image, which categories you use, which time zone it’s using, and how long it took to load. Underneath is a short list of anything worth fixing. Visitors never see this panel unless they type that address themselves.</p>
+  <p>Add <code>?events=check</code> to the end of your explorer page’s address, for example <code>yoursite.org/whats-on?events=check</code>. A panel appears above the events showing how many upcoming and past events it found, how many have a location, a map link and an image, which categories you use, which time zone it’s using, and how long it took to load. Underneath is a short list of anything worth fixing. Visitors never see this panel unless they type that address themselves.</p>
 
   <h2>Options</h2>
   <p>Everything is set with attributes on the <code>&lt;div&gt;</code> line. You only need the ones you want to change.</p>
