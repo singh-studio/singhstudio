@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sermon Shelf demo · Harbourlight Church (fictional)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sermon-shelf.min.css">
+<style>
+  /* A stand-in for a Squarespace 7.1 site: the same theme variables and button classes the plugin reads. */
+  :root {
+    --heading-font-font-family: "Instrument Serif", Georgia, serif;
+    --heading-font-font-weight: 400;
+    --body-font-font-family: "Hanken Grotesk", system-ui, sans-serif;
+    --meta-font-font-family: "DM Mono", ui-monospace, monospace;
+    --primary-button-font-font-family: "Hanken Grotesk", system-ui, sans-serif;
+  }
+  [data-section-theme="light"] { --siteBackgroundColor: #f5f1e8; --paragraphMediumColor: #1c2422; --headingLargeColor: #14201e; --primaryButtonBackgroundColor: #1f5560; --primaryButtonTextColor: #f5f1e8; --line: rgba(28,36,34,.14); }
+  [data-section-theme="dark"] { --siteBackgroundColor: #101b1a; --paragraphMediumColor: #ebe4d6; --headingLargeColor: #f6f0e4; --primaryButtonBackgroundColor: #e3b866; --primaryButtonTextColor: #1a1408; --line: rgba(235,228,214,.16); }
+  [data-section-theme="warm"] { --siteBackgroundColor: #f2e2d1; --paragraphMediumColor: #3a2016; --headingLargeColor: #2c160e; --primaryButtonBackgroundColor: #a3432b; --primaryButtonTextColor: #fbefe4; --line: rgba(58,32,22,.16); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: var(--body-font-font-family); background: #f5f1e8; padding-top: 76px; }
+  h1, h2, h3 { font-family: var(--heading-font-font-family); font-weight: 400; letter-spacing: -0.012em; color: var(--headingLargeColor); }
+  p { font-family: var(--body-font-font-family); font-size: 17px; line-height: 1.6; }
+  .page-section { background: var(--siteBackgroundColor); color: var(--paragraphMediumColor); }
+  .sqs-button-element--primary { display: inline-block; padding: 1em 1.7em; border-radius: 300px; background: var(--primaryButtonBackgroundColor); color: var(--primaryButtonTextColor); font-family: var(--primary-button-font-font-family); font-weight: 600; font-size: 15px; letter-spacing: .01em; text-decoration: none; }
+  .content-wrapper { max-width: 1240px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); }
+
+  #header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 76px; background: var(--siteBackgroundColor); color: var(--paragraphMediumColor); border-bottom: 1px solid var(--line); }
+  .is-embed body { padding-top: 0; }
+  .is-embed #header { position: static; }
+  #header .content-wrapper { height: 100%; display: flex; align-items: center; gap: 28px; }
+  .logo { font-family: var(--heading-font-font-family); font-size: 28px; letter-spacing: -0.01em; color: var(--headingLargeColor); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo i { width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 50% 38%, #f2c56b 0 30%, transparent 32%), var(--primaryButtonBackgroundColor); display: inline-block; }
+  nav.site-nav { display: flex; gap: 26px; margin-left: auto; font-size: 15px; }
+  nav.site-nav a { color: inherit; text-decoration: none; opacity: .8; }
+  nav.site-nav a[aria-current] { opacity: 1; text-decoration: underline; text-underline-offset: .35em; text-decoration-thickness: 1px; }
+  #header .sqs-button-element--primary { padding: .75em 1.3em; font-size: 14px; }
+  @media (max-width: 760px) { nav.site-nav { display: none; } #header .sqs-button-element--primary { margin-left: auto; } }
+
+  .hero .content-wrapper { padding-top: clamp(48px, 8vw, 110px); padding-bottom: clamp(28px, 4vw, 44px); }
+  .eyebrow { font-family: var(--meta-font-font-family); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; opacity: .7; margin: 0 0 18px; }
+  .hero h1 { font-size: clamp(56px, 10vw, 128px); line-height: .9; margin: 0 0 22px; }
+  .hero p { max-width: 34em; margin: 0; font-size: 19px; opacity: .85; }
+  .shelf-section .content-wrapper { padding-top: 24px; padding-bottom: 110px; }
+  footer.page-section { border-top: 1px solid var(--line); }
+  footer .content-wrapper { padding-top: 40px; padding-bottom: 40px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; font-size: 14px; opacity: .8; }
+
+  /* Demo chrome, not part of the plugin */
+  .demo-ribbon { position: fixed; z-index: 60; top: 0; left: 0; right: 0; display: none; }
+  .demo-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px clamp(18px, 4vw, 48px); background: #14201e; color: #f5f1e8; font: 500 13px/1.4 "Hanken Grotesk", system-ui, sans-serif; }
+  .demo-bar b { font-weight: 600; }
+  .demo-bar button { font: inherit; color: inherit; background: rgba(245,241,232,.1); border: 1px solid rgba(245,241,232,.22); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .demo-bar button[aria-pressed="true"] { background: #f5f1e8; color: #14201e; }
+  .demo-bar .sp { margin-left: auto; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .has-ribbon .demo-ribbon { display: block; }
+  .has-ribbon body { padding-top: 124px; }
+  .has-ribbon #header { top: 48px; }
+  @media (max-width: 760px) { .has-ribbon body { padding-top: 160px; } .has-ribbon #header { top: 84px; } }
+  .demo-toast { position: fixed; left: 50%; top: 96px; z-index: 70; transform: translate(-50%, -12px); opacity: 0; pointer-events: none; padding: 12px 18px; border-radius: 12px; background: #14201e; color: #f5f1e8; font: 500 14px/1.4 "Hanken Grotesk", sans-serif; box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); transition: opacity .35s cubic-bezier(.65,0,.35,1), transform .35s cubic-bezier(.65,0,.35,1); max-width: calc(100vw - 32px); text-align: center; }
+  .demo-toast.on { opacity: 1; transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">
+  <div class="demo-bar">
+    <span><b>Sermon Shelf demo.</b> Harbourlight is a made-up church. Try searching <button type="button" data-try="Romans 8">Romans 8</button> <button type="button" data-try="Mark">Mark</button> or press play.</span>
+    <span class="sp">Section colours <button type="button" data-theme="light" aria-pressed="true">Light</button><button type="button" data-theme="dark" aria-pressed="false">Dark</button><button type="button" data-theme="warm" aria-pressed="false">Warm</button></span>
+  </div>
+</div>
+
+<header id="header" class="header" data-section-theme="light">
+  <div class="content-wrapper">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Harbourlight</a>
+    <nav class="site-nav" aria-label="Site"><a href="#">Sundays</a><a href="#" aria-current="page">Sermons</a><a href="#">Community</a><a href="#">Give</a></nav>
+    <a class="sqs-button-element--primary" href="#">Plan a visit</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-section hero" data-section-theme="light">
+    <div class="content-wrapper">
+      <p class="eyebrow">Harbourlight Church · Sermons</p>
+      <h1>Sermons</h1>
+      <p>Listen again to a Sunday you missed, or start a series from the beginning. Every message from the last two years is here, sorted by series, by book of the Bible and by speaker.</p>
+    </div>
+  </section>
+
+  <section class="page-section shelf-section" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-sermon-shelf data-source="/sermons"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="page-section" data-section-theme="light">
+    <div class="content-wrapper"><span>Harbourlight Church is fictional, made for this demo.</span><span>Sermon Shelf by Singh Studio</span></div>
+  </footer>
+</main>
+
+<div class="demo-toast" role="status" aria-live="polite"></div>
+
+<script src="archive.js"></script>
+<script src="squarespace-mock.js"></script>
+<script src="sermon-shelf.min.js"></script>
+<script>
+  (function () {
+    var root = document.documentElement, params = new URLSearchParams(location.search);
+    if (params.has('embed')) root.classList.add('is-embed'); else root.classList.add('has-ribbon');
+    var toastEl = document.querySelector('.demo-toast'), tt;
+    function toast(msg) {
+      toastEl.textContent = msg; toastEl.classList.add('on');
+      clearTimeout(tt); tt = setTimeout(function () { toastEl.classList.remove('on'); }, 2600);
+    }
+    // The sermon pages don't exist in the demo, so say what would happen.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="/sermons/"], a[href="#"]');
+      if (!a) return;
+      e.preventDefault();
+      toast(a.getAttribute('href') === '#' ? 'This is a made-up church site, so the rest of it is scenery.' : 'On your site, this opens the sermon’s own page.');
+    });
+    function setTheme(name) {
+      document.querySelectorAll('[data-section-theme]').forEach(function (s) { s.setAttribute('data-section-theme', name); });
+      document.body.style.background = getComputedStyle(document.querySelector('.page-section')).backgroundColor;
+      var el = document.querySelector('[data-sermon-shelf]');
+      if (el.__sermonShelf) el.__sermonShelf.retheme();
+      document.querySelectorAll('[data-theme]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-theme') === name ? 'true' : 'false'); });
+    }
+    window.setDemoTheme = setTheme;
+    window.demoSearch = function (q) {
+      var i = document.querySelector('.sshelf-search input');
+      i.value = q; i.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    document.querySelectorAll('[data-theme]').forEach(function (b) { b.addEventListener('click', function () { setTheme(b.getAttribute('data-theme')); }); });
+    document.querySelectorAll('[data-try]').forEach(function (b) { b.addEventListener('click', function () { window.demoSearch(b.getAttribute('data-try')); }); });
+    if (params.get('theme')) setTheme(params.get('theme'));
+  })();
+</script>
+</body>
+</html>

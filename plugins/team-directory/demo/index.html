@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Directory demo · Harbourlight Church (fictional)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/demo-shell/shell.css">
+<link rel="stylesheet" href="team-directory.min.css">
+<style>
+  /* Demo only */
+  .shelf-section .content-wrapper { padding-top: 12px; }
+  .demo-bar .try, .demo-bar .wide { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .demo-bar .narrow { display: none; }
+  /* The shell leaves 84px for the ribbon on phones, so it keeps to two short lines there. */
+  @media (max-width: 1100px) { .demo-bar .wide { display: none; } .demo-bar .narrow { display: inline; } }
+  @media (max-width: 760px) { .demo-bar { min-height: 84px; } }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">
+  <div class="demo-bar">
+    <span class="try"><b>Team Directory demo.</b> <span class="wide">Try <button type="button" data-try-team="youth-families">Youth &amp; Families</button><button type="button" data-try-lang="samoan">Samoan speakers</button><button type="button" data-try-q="pastoral care">“pastoral care”</button> or open someone.</span><span class="narrow">A made-up church.</span></span>
+    <span class="sp">Section colours <button type="button" data-theme="light" aria-pressed="true">Light</button><button type="button" data-theme="dark" aria-pressed="false">Dark</button><button type="button" data-theme="warm" aria-pressed="false">Warm</button></span>
+  </div>
+</div>
+
+<header id="header" class="header" data-section-theme="light">
+  <div class="content-wrapper">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Harbourlight</a>
+    <nav class="site-nav" aria-label="Site"><a href="#">Sundays</a><a href="#">Sermons</a><a href="#" aria-current="page">Our people</a><a href="#">Give</a></nav>
+    <a class="sqs-button-element--primary" href="#">Plan a visit</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-section hero" data-section-theme="light">
+    <div class="content-wrapper">
+      <p class="eyebrow">Harbourlight Church · Our people</p>
+      <h1>Meet the team</h1>
+      <p>Pastors, youth workers, musicians, the trust’s foodbank crew and the board. Search for what you need, or pick a team and we’ll show you who to talk to.</p>
+    </div>
+  </section>
+
+  <section class="page-section shelf-section" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-team-directory data-source="/team-members" data-contact-name="the church office" data-contact-href="mailto:office@harbourlight.example"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="page-section" data-section-theme="light">
+    <div class="content-wrapper"><span>Harbourlight Church is fictional, made for this demo, and so is everyone in it.</span><span>Team Directory by Singh Studio</span></div>
+  </footer>
+</main>
+
+<script src="people.js"></script>
+<script src="../../assets/demo-shell/squarespace-mock.js"></script>
+<script src="../../assets/demo-shell/shell.js"></script>
+<script>
+  // Demo only. Options can be tried from the address, e.g. ?view=teams&index=on&order=surname&perpage=12
+  (function () {
+    var q = new URLSearchParams(location.search), el = document.querySelector('[data-team-directory]');
+    var map = { view: 'data-view', index: 'data-index', order: 'data-order', perpage: 'data-per-page', photos: 'data-photos', start: 'data-start', hide: 'data-hide', tags: 'data-tags', accent: 'data-accent' };
+    Object.keys(map).forEach(function (k) { if (q.get(k)) el.setAttribute(map[k], q.get(k)); });
+
+    // The toast has to sit inside an open profile, which is drawn above everything else on the page.
+    var toast = window.demoToast;
+    window.demoToast = function (msg) {
+      var t = document.querySelector('.demo-toast'), d = document.querySelector('dialog[open]');
+      if (t && t.parentNode !== (d || document.body)) (d || document.body).appendChild(t);
+      toast(msg);
+    };
+    // Email, phone and profile links would leave the demo, so they say what they'd do instead.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="mailto:"], a[href^="tel:"], a[href^="/team-members/"]');
+      if (!a) return;
+      e.preventDefault();
+      var h = a.getAttribute('href');
+      window.demoToast(/^mailto:/.test(h) ? 'On your site, this starts an email to ' + h.slice(7) + '.' : /^tel:/.test(h) ? 'On a phone, this rings ' + (a.textContent.trim() || h.slice(4)) + '.' : 'On your site, this opens their full profile.');
+    });
+    // "Try this" buttons in the ribbon drive the directory the way a visitor would.
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-try-team],[data-try-lang],[data-try-q]');
+      if (!b) return;
+      var root = document.querySelector('[data-team-directory]');
+      if (b.hasAttribute('data-try-team')) { var c = root.querySelector('.ssk-chip[data-team="' + b.getAttribute('data-try-team') + '"]'); if (c && c.getAttribute('aria-pressed') !== 'true') c.click(); }
+      if (b.hasAttribute('data-try-lang')) { var s = root.querySelector('select[data-filter="lang"]'); if (s) { s.value = b.getAttribute('data-try-lang'); s.dispatchEvent(new Event('change', { bubbles: true })); } }
+      if (b.hasAttribute('data-try-q')) { var i = root.querySelector('.ssk-search input'); i.value = b.getAttribute('data-try-q'); i.dispatchEvent(new Event('input', { bubbles: true })); }
+      var head = document.querySelector('#header').getBoundingClientRect().bottom, top = root.getBoundingClientRect().top;
+      if (top < head || top > innerHeight * 0.6) window.scrollTo({ top: scrollY + top - head - 8, behavior: 'smooth' });
+    });
+  })();
+</script>
+<script src="team-directory.min.js"></script>
+</body>
+</html>

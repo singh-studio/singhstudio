@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resource Library install guide</title>
+<style>
+  :root { --ink: #16140f; --soft: #5f594f; --line: #e2dcd0; --wash: #f6f3ec; --accent: #1f5560; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 16.5px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+  .kicker { font: 600 12px/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 18px; }
+  h2 { font-size: 24px; letter-spacing: -0.01em; margin: 56px 0 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p, li { color: #2b2721; }
+  .lede { font-size: 19px; color: var(--soft); }
+  a { color: var(--accent); }
+  code, kbd { font: 14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+  pre { font: 13.5px/1.55 ui-monospace, "SF Mono", Menlo, monospace; background: #16140f; color: #f1ece2; border-radius: 12px; padding: 18px 20px; overflow-x: auto; }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; }
+  .note { background: var(--wash); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 20px 0; }
+  .note strong:first-child { display: block; margin-bottom: 4px; }
+  details { margin: 12px 0; } summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+  td:first-child { white-space: nowrap; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--soft); font-size: 14px; }
+  @media print { pre { white-space: pre-wrap; } h2 { break-before: auto; } a { color: inherit; } }
+  /* Wide tables scroll on their own on phones instead of pushing the page sideways */
+  @media (max-width: 640px) { table { display: block; overflow-x: auto; } code { overflow-wrap: anywhere; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Resource Library 1.0 · Install guide</p>
+  <h1>Your downloads, guides and videos, in one place people can search.</h1>
+  <p class="lede">Resource Library turns a Squarespace blog into a library of policies, forms, study guides, recorded training and links, with topic chips, a type and an audience filter, search, and a download button on every card. You write one blog post per resource and the library does the rest. Setting it up takes about ten minutes plus however long it takes to tidy your posts, and there’s nothing to install beyond one paste.</p>
+
+  <h2>Before you start</h2>
+  <ul>
+    <li>A Squarespace plan that runs JavaScript, which means Core, Plus or Advanced on the current plans, or Business, Commerce Basic or Commerce Advanced on older ones. The Basic and Personal plans don’t run custom scripts, so the library can’t work there.</li>
+    <li>A blog that holds your resources, one post per resource. If you don’t have one yet, add a blog page called “Resources” and keep it out of your navigation if you like. The blog has to be public.</li>
+    <li>Squarespace 7.0 or 7.1. Both work.</li>
+  </ul>
+
+  <h2>Install</h2>
+  <ol class="steps">
+    <li>Find your blog’s address. Open the resources blog on your live site and look at the address bar. If it reads <code>yourchurch.org/resources</code>, the part you need is <code>/resources</code>.</li>
+    <li>Choose the page the library will live on. I’d suggest a new page called “Resources” in your navigation, with the blog itself hidden from the navigation (it still holds each resource’s own page). If you’d rather show the library on the blog’s own address, that works too, but a separate page gives you a heading and an introduction above it.</li>
+    <li>Edit the page, add a block and choose Code. Leave the mode on HTML and switch “Display source” off.</li>
+    <li>Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
+    <li>Near the top of what you pasted you’ll see <code>data-source="/resources"</code>. Change <code>/resources</code> to your blog’s address from step 1.</li>
+    <li>On Squarespace 7.1, drag the Code block’s handles so it spans the full width of the section. On 7.0 it fills the column it sits in.</li>
+    <li>Save, and look at the live page in a private window. Squarespace doesn’t run scripts inside the editor, so you’ll see an empty block while editing.</li>
+  </ol>
+  <div class="note"><strong>If the Code block won’t save</strong>The paste is about 110 KB, which Squarespace normally takes. If yours refuses it, use the second file instead: paste <code>paste-into-code-injection.html</code> into the page’s own settings (Page settings → Advanced → Page Header Code Injection), and put only this line in the Code block: <code>&lt;div data-resource-library data-source="/resources"&gt;&lt;/div&gt;</code></div>
+  <div class="note"><strong>Please don’t paste it into Design → Custom CSS</strong>That panel runs an old style compiler that can’t read modern CSS, and it would break. The Code block (or Code Injection) is the right place.</div>
+
+  <h2>Setting up your resources</h2>
+  <p>Every post in the blog is one resource. The library reads what’s already there, so a blog you’ve been using for a while will mostly just work. Here’s exactly what it reads and how.</p>
+
+  <h3>Title, picture and summary</h3>
+  <p>The post’s title is the resource’s name and its thumbnail image is the card’s picture. Posts without a thumbnail get a placeholder drawn in your site’s accent colour with a symbol for the type (a page for a PDF, a play button for a video, and so on), so you don’t need a picture for everything. The summary on the card is the post’s excerpt. If a post has no excerpt, the library uses the first proper paragraph of the post instead, so it’s worth writing an excerpt when the first paragraph isn’t a good description.</p>
+
+  <h3>Topics</h3>
+  <p>Categories become topics, and so do ordinary tags. A post in the category “Safeguarding” with the tag “Youth” shows under both chips. Spelling and capitals don’t split a topic, so a “youth” tag and a “Youth” category end up together under the first spelling the library finds.</p>
+  <p>If your tags also do other jobs (“needs review”, “2024 archive”), write the topics you want as <code>Topic: Safeguarding</code> instead. As soon as any post has a <code>Topic:</code> tag, the library takes your plain tags to be housekeeping, and from then on only categories and <code>Topic:</code> tags become chips. The setup check says when it has done this.</p>
+
+  <h3>Audiences and types</h3>
+  <p>Tags that start with a label do something specific:</p>
+  <table>
+    <tr><th>Tag</th><th>What it does</th></tr>
+    <tr><td><code>Audience: Youth leaders</code></td><td>Puts the resource under that audience in the audience filter. A resource can have several. <code>For: Volunteers</code> works too.</td></tr>
+    <tr><td><code>Type: Guide</code></td><td>Sets the type the card shows and the type filter uses, instead of the one worked out from the link. Use your own words (Guide, Form, Policy, Template) or one of the built-in types. <code>Format:</code> works too.</td></tr>
+    <tr><td><code>Type: Page</code></td><td>Makes the card open the post itself, even if the post links a file. Handy for a news roundup or a guide that links lots of other things.</td></tr>
+    <tr><td><code>Topic: Safeguarding</code></td><td>A topic, the same as a category or a plain tag.</td></tr>
+  </table>
+  <p>Write the label with a colon, as above. A dash works too if it has a space on each side (<code>Type – Guide</code>), so everyday tags like “Type-2 diabetes” or “For-profit partners” stay ordinary tags. The audience filter only appears once at least one post has an audience, and the type filter appears when there’s more than one type.</p>
+
+  <h3>The button on each card</h3>
+  <p>Each card has a main button and a Details link to the post. The library chooses the main button’s link by looking through the post in this order and taking the first it finds:</p>
+  <ol>
+    <li>A file uploaded to Squarespace (its address starts with <code>/s/</code>), or any link ending in a document, audio, video or zip extension, such as <code>.pdf</code>, <code>.docx</code>, <code>.xlsx</code>, <code>.pptx</code>, <code>.mp3</code>, <code>.mp4</code> or <code>.zip</code>. A Squarespace audio block counts too.</li>
+    <li>A Google Docs, Sheets, Slides or Drive link, or a Dropbox, OneDrive, SharePoint or Box link.</li>
+    <li>A YouTube or Vimeo video embedded in the post, or a video uploaded to Squarespace (that one plays on the post itself). Playlists, live streams and unlisted Vimeo videos open the right page too.</li>
+    <li>The first link to another website. Share buttons and email links are skipped.</li>
+    <li>If there’s nothing, the post itself.</li>
+  </ol>
+  <p>The type comes from that link, unless a <code>Type:</code> tag says otherwise: PDF, Word, Document (Google Docs and other text files), Slides, Spreadsheet, Audio, Video, ZIP, Image, File, Link or Page. The button says what will happen, such as “Download PDF”, “Open spreadsheet”, “Open in Google Drive”, “Watch video” or “Open link”. Documents on your own site download straight away, recordings open in a new tab to play, and anything on another site opens in a new tab.</p>
+  <p>When a post links two to four files, the card shows “3 files” beside the date, and that opens a list of every file in the post. When a post links five or more, the main button itself says “See all 6 files” and opens the list, because downloading whichever file happens to come first wouldn’t help anyone. A pack like that takes its type from what most of its files are.</p>
+  <p>One more thing the library watches for: if the same link to another website appears in at least five posts and in 40% of them or more (a donate button or a newsletter sign-up in your post template, say), it’s treated as part of the template and skipped when choosing each resource’s link, unless it’s the only link a post has. Files and documents are never skipped like this, because it’s normal for several resources to share one handbook or one Drive folder. The setup check tells you when it has done this.</p>
+
+  <h3>Featured and New</h3>
+  <p>Give up to three resources the category or tag “Featured” and they show as large cards at the top of the library, the newest first. They’re left out of the grid underneath so nothing appears twice, and the row steps aside while someone is filtering or searching. Resources published in the last 30 days get a “New” badge. You can change both with the options below.</p>
+
+  <h2>Run the setup check</h2>
+  <p>Add <code>?lib=check</code> to the end of your library page’s address, for example <code>yourchurch.org/resources-library?lib=check</code>. A panel appears above the library showing how many resources it found, how many have a file or link, how many of each type, how many have a thumbnail, your topics and audiences, and how many are featured or new. Underneath is a short list of what to fix, in plain English, such as “7 resources have no file or link, so they open their own page.” Visitors never see this panel unless they type that address themselves.</p>
+
+  <h2>Links people can share</h2>
+  <p>Whatever someone has chosen is kept in the page address, so a filtered view can be shared or bookmarked. You can use these in your own buttons and emails too:</p>
+  <table>
+    <tr><th>Address</th><th>Opens</th></tr>
+    <tr><td><code>?lib=topic/safeguarding</code></td><td>One topic. The name is the topic in lower case with dashes for spaces.</td></tr>
+    <tr><td><code>?lib=type/video</code></td><td>One type, such as <code>pdf</code>, <code>spreadsheet</code> or a type of your own like <code>guide</code>.</td></tr>
+    <tr><td><code>?lib=audience/youth-leaders</code></td><td>One audience.</td></tr>
+    <tr><td><code>?lib=q/chord charts</code></td><td>A search.</td></tr>
+    <tr><td><code>?lib=topic/kids/type/pdf</code></td><td>Any of these together.</td></tr>
+  </table>
+  <p>The browser’s Back button works the way people expect: choosing a topic on a card adds a step to the history, while changing the filters in the bar updates the address without filling the history up.</p>
+
+  <h2>Options</h2>
+  <p>Everything is set with attributes on the <code>&lt;div&gt;</code> line. You only need the ones you want to change.</p>
+  <table>
+    <tr><th>Attribute</th><th>What it does</th></tr>
+    <tr><td><code>data-source</code></td><td>Your resources blog address. Required. <code>/resources</code></td></tr>
+    <tr><td><code>data-start</code></td><td>What the library shows first, written like a shared link without the <code>?lib=</code>, e.g. <code>topic/safeguarding</code> or <code>type/pdf</code>. Default: everything. The Back button returns to it, and when someone chooses All the address says <code>?lib=all</code>, so their choice stays put.</td></tr>
+    <tr><td><code>data-view</code></td><td><code>grid</code> (default) or <code>list</code>. Visitors can switch, and the library remembers their choice.</td></tr>
+    <tr><td><code>data-sort</code></td><td><code>newest</code> (default) or <code>az</code>. While someone is searching, Best match is offered and chosen for them.</td></tr>
+    <tr><td><code>data-per-page</code></td><td>How many resources show before “Show more”. Default <code>24</code>.</td></tr>
+    <tr><td><code>data-accent</code></td><td>A colour for buttons, chips and placeholders, if you’d rather not use your site’s button colour, e.g. <code>#1f5560</code>.</td></tr>
+    <tr><td><code>data-new-days</code></td><td>How many days a resource counts as New. Default <code>30</code>. <code>0</code> turns the badge off.</td></tr>
+    <tr><td><code>data-featured</code></td><td><code>off</code> hides the featured row.</td></tr>
+    <tr><td><code>data-ignore</code></td><td>Categories or tags to leave out of the topics, comma separated, e.g. <code>Uncategorised, Blog</code>.</td></tr>
+    <tr><td><code>data-cache</code></td><td><code>off</code> stops the library remembering your resources between visits. Leave it on unless I ask.</td></tr>
+  </table>
+  <p>A library that opens in list view on the safeguarding resources, with New badges for two weeks, looks like this:</p>
+  <pre>&lt;div data-resource-library data-source="/resources" data-view="list" data-start="topic/safeguarding" data-new-days="14"&gt;&lt;/div&gt;</pre>
+
+  <h3>Changing the wording</h3>
+  <p>Every label can be changed, which is handy for other languages or your own way of saying things. Put this in the Code block <em>above</em> the rest of the paste and change only the lines you want:</p>
+  <pre>&lt;script&gt;
+window.ResourceLibraryStrings = {
+  search: 'Search our resources',
+  all: 'Everything',
+  allAudiences: 'Everyone',
+  details: 'More info',
+  isNew: 'Just added',
+  actPdf: 'Get the PDF',
+  typeWord: 'Document'
+};
+&lt;/script&gt;</pre>
+  <p>Labels with <code>{n}</code>, <code>{total}</code>, <code>{q}</code> or <code>{count}</code> in them fill in the number or the search for you. The <code>type…</code> labels name the types, the <code>act…</code> labels are the card buttons, and the <code>verb…</code> labels are the one-word buttons used on narrow cards. Here is every label with its default:</p>
+  <details><summary>All the labels</summary>
+  <pre>window.ResourceLibraryStrings = {
+  search: 'Search the library',
+  searchShort: 'Search',
+  clear: 'Clear search',
+  topics: 'Topics',
+  all: 'All',
+  type: 'Type',
+  allTypes: 'All types',
+  audience: 'Audience',
+  allAudiences: 'All audiences',
+  sort: 'Sort',
+  newest: 'Newest',
+  az: 'A–Z',
+  best: 'Best match',
+  view: 'View',
+  grid: 'Grid',
+  list: 'List',
+  filters: 'Filters',
+  close: 'Close',
+  showN: 'Show {n}',
+  clearAll: 'Clear all',
+  featured: 'Featured',
+  more: 'More resources',
+  showMore: 'Show more',
+  details: 'Details',
+  isNew: 'New',
+  files: '{n} files',
+  filesIn: 'Files in this resource',
+  openPage: 'Open the full page',
+  newTab: '(opens in a new tab)',
+  one: '{n} resource',
+  many: '{n} resources',
+  ofTotal: '{n} of {total} resources',
+  forQuery: '{count} for “{q}”',
+  loading: 'Loading the library',
+  of: 'of',
+  noResults: 'Nothing matches that. Try a broader word, or clear a filter.',
+  gone: 'Nothing is filed under that any more.',
+  none: 'There aren’t any resources here yet.',
+  failed: 'The library couldn’t be loaded just now. Please refresh the page to try again.',
+  someMissing: 'some older resources didn’t load, so refresh the page to try again',
+  moreTopics: 'More topics',
+  typePdf: 'PDF',
+  typeWord: 'Word',
+  typeDocument: 'Document',
+  typeSlides: 'Slides',
+  typeSpreadsheet: 'Spreadsheet',
+  typeAudio: 'Audio',
+  typeVideo: 'Video',
+  typeImage: 'Image',
+  typeZip: 'ZIP',
+  typeFile: 'File',
+  typeLink: 'Link',
+  typePage: 'Page',
+  actPdf: 'Download PDF',
+  actWord: 'Download document',
+  actGdoc: 'Open document',
+  actSlides: 'Download slides',
+  actGslides: 'Open slides',
+  actSheet: 'Download spreadsheet',
+  actGsheet: 'Open spreadsheet',
+  actZip: 'Download ZIP',
+  actImage: 'Download image',
+  actFile: 'Download file',
+  actAudio: 'Listen',
+  actVideo: 'Watch video',
+  actForm: 'Open form',
+  actDrive: 'Open in Google Drive',
+  actDropbox: 'Open in Dropbox',
+  actOnedrive: 'Open in OneDrive',
+  actSharepoint: 'Open in SharePoint',
+  actBox: 'Open in Box',
+  actFiles: 'See all {n} files',
+  verbFiles: 'Files',
+  actLink: 'Open link',
+  actPage: 'Open page',
+  verbDownload: 'Download',
+  verbOpen: 'Open',
+  verbWatch: 'Watch',
+  verbListen: 'Listen',
+  labelGdoc: 'Google Doc',
+  labelGsheet: 'Google Sheet',
+  labelGslides: 'Google Slides',
+  labelForm: 'Form',
+  labelDrive: 'Google Drive',
+  labelDropbox: 'Dropbox',
+  labelOnedrive: 'OneDrive',
+  labelSharepoint: 'SharePoint',
+  labelBox: 'Box'
+};</pre></details>
+
+  <h2>Troubleshooting</h2>
+  <h3>The block is empty while I’m editing</h3>
+  <p>That’s normal. Squarespace doesn’t run scripts in the editor. Check the live page in a private window.</p>
+  <h3>“The library couldn’t be loaded”</h3>
+  <p>Open the page with <code>?lib=check</code> on the end and the panel will tell you why. It’s nearly always one of three things: <code>data-source</code> doesn’t match the blog’s address exactly, the blog is password protected or members-only, or the address points at a normal page instead of a blog.</p>
+  <h3>A card opens the wrong link</h3>
+  <p>The card uses the first file or link it finds in the order above. Move the right link higher in the post, or if the post is really a page to read, add the tag <code>Type: Page</code> and the card will open the post instead.</p>
+  <h3>Too many topic chips</h3>
+  <p>Every category and plain tag becomes a chip, most used first. The chips scroll sideways, so a long list still works, but if some tags are for your own housekeeping, either leave them out with <code>data-ignore</code>, or write the ones you do want as <code>Topic:</code> tags, which switches plain tags off as topics altogether.</p>
+  <h3>The search bar hides under my header when I scroll</h3>
+  <p>The library looks for anything pinned to the top of the window, including small floating buttons such as a menu or chat button, and sits below or beside it. That works on every template I’ve tested. If yours is different, email me the page address and I’ll take a look.</p>
+  <h3>New resources don’t appear straight away</h3>
+  <p>The library checks for changes on every visit with one quick request, and refreshes its copy when your blog changes. If a visitor’s browser blocks storage, it simply loads everything fresh each time.</p>
+  <h3>Squarespace 7.0 with Ajax loading</h3>
+  <p>Some 7.0 templates load pages without a full refresh. The library listens for that, but if it only appears after a reload, turn off Ajax loading under Design → Site Styles.</p>
+
+  <h2>Updates and help</h2>
+  <p>Updates for the 1.x versions are free. When one comes out you’ll get an email with the new files, and you replace the old paste with the new one. Your settings live on the <code>&lt;div&gt;</code> line, so keep that line.</p>
+  <p>If you get stuck, email <a href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a> with your page address and what you’re seeing. It helps to include a screenshot of the <code>?lib=check</code> panel.</p>
+
+  <footer>Resource Library is made by Singh Studio in Aotearoa New Zealand. The licence is in LICENSE.txt: one website per single-site licence, or any number of websites with the unlimited licence.</footer>
+</main>
+</body>
+</html>

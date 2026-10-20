@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giving Kit demo · Harbourlight Church (fictional)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/demo-shell/shell.css">
+<link rel="stylesheet" href="giving-kit.min.css">
+<style>
+  /* Demo page only: section layouts around the plugin */
+  .demo-section .content-wrapper { padding-top: clamp(56px, 8vw, 104px); padding-bottom: clamp(56px, 8vw, 104px); }
+  .demo-section + .demo-section .content-wrapper { border-top: 1px solid var(--line); }
+  .demo-intro { max-width: 40em; margin: 0 0 clamp(28px, 4vw, 44px); }
+  .demo-intro h2 { font-size: clamp(36px, 5vw, 56px); line-height: 1; margin: 0 0 14px; }
+  .demo-intro p { margin: 0; opacity: .85; }
+  .demo-code { display: inline-block; margin: 0 0 16px; padding: 4px 10px; border-radius: 6px; background: var(--line); font: 12.5px/1.4 "DM Mono", ui-monospace, monospace; letter-spacing: .02em; }
+  .hero .content-wrapper { display: grid; gap: 32px; align-items: end; }
+  .hero-art { display: none; color: var(--headingLargeColor); }
+  .hero-art svg { display: block; width: 100%; height: auto; }
+  @media (min-width: 900px) { .hero .content-wrapper { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } .hero-art { display: block; } }
+  .demo-split { display: grid; gap: 40px; margin-top: clamp(56px, 7vw, 88px); }
+  .demo-split h3 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.05; margin: 0 0 12px; }
+  .demo-split p { margin: 0 0 12px; opacity: .85; max-width: 30em; }
+  @media (min-width: 900px) { .demo-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; } }
+  .demo-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 22px; font: 500 13px/1.4 "Hanken Grotesk", system-ui, sans-serif; }
+  .demo-switch span { margin-right: 4px; opacity: .75; }
+  .demo-switch button { font: inherit; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
+  .demo-switch button[aria-pressed="true"] { background: var(--paragraphMediumColor); color: var(--siteBackgroundColor); border-color: transparent; }
+  .demo-switch button:focus-visible, .demo-bar button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">
+  <div class="demo-bar">
+    <span><b>Giving Kit demo.</b> Harbourlight is a made-up church. Try <button type="button" data-jump="thermo">the thermometer</button> <button type="button" data-deep="50-weekly-3y">$50 a week for 3 years</button> <button type="button" data-deep="check">the setup check</button></span>
+    <span class="sp">Section colours <button type="button" data-theme="light" aria-pressed="true">Light</button><button type="button" data-theme="dark" aria-pressed="false">Dark</button><button type="button" data-theme="warm" aria-pressed="false">Warm</button></span>
+  </div>
+</div>
+
+<header id="header" class="header" data-section-theme="light">
+  <div class="content-wrapper">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Harbourlight</a>
+    <nav class="site-nav" aria-label="Site"><a href="#">Sundays</a><a href="#">Community</a><a href="#" aria-current="page">Hall roof</a><a href="#">Give</a></nav>
+    <a class="sqs-button-element--primary" href="#">Plan a visit</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-section hero" data-section-theme="light">
+    <div class="content-wrapper">
+      <div>
+        <p class="eyebrow">Harbourlight Church · Hall roof appeal</p>
+        <h1>A new roof for the hall</h1>
+        <p>The hall roof has kept the rain off playgroup and Friday youth since 1974, and this winter it finally gave up. We’re raising $180,000 to replace it before the next one, and every gift goes straight to the roof.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 520 300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Harbourlight's hall, drawn for this demo: the new iron runs as far along the roof as the appeal has got (62%) -->
+          <path d="M24 286H496" stroke-width="1.5" opacity=".45"/>
+          <path d="M52 286V178l60-56 60 56v108" stroke-width="1.7"/>
+          <path d="M172 286V178h280v108" stroke-width="1.7"/>
+          <path d="M112 122h280l60 56" stroke-width="1.7"/>
+          <g stroke-width="2.6" style="stroke: var(--primaryButtonBackgroundColor)">
+            <path d="m124 122 60 56M136 122l60 56M148 122l60 56M160 122l60 56M172 122l60 56M184 122l60 56M196 122l60 56"/>
+            <path d="m208 122 60 56M220 122l60 56M232 122l60 56M244 122l60 56M256 122l60 56M268 122l60 56M280 122l60 56"/>
+          </g>
+          <g stroke-width="1.3" stroke-dasharray="2 7" opacity=".5">
+            <path d="m292 122 60 56M304 122l60 56M316 122l60 56M328 122l60 56M340 122l60 56M352 122l60 56M364 122l60 56M376 122l60 56"/>
+          </g>
+          <circle cx="112" cy="168" r="11" stroke-width="1.5"/>
+          <path d="M94 286v-46h36v46" stroke-width="1.6"/><path d="M112 240v46" stroke-width="1.1" opacity=".55"/>
+          <g stroke-width="1.5"><rect x="204" y="208" width="44" height="40" rx="3"/><rect x="282" y="208" width="44" height="40" rx="3"/><rect x="360" y="208" width="44" height="40" rx="3"/></g>
+          <path d="M226 208v40M304 208v40M382 208v40" stroke-width="1.1" opacity=".55"/>
+          <g stroke-width="1.4" opacity=".7">
+            <path d="M466 286V118M500 286V146"/><path d="M460 166h46M460 214h46M460 262h46"/><path d="m466 214 34-48M466 262l34-48"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="appeal" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="demo-intro">
+        <p class="demo-code">data-giving-kit="appeal"</p>
+        <h2>Give to the roof</h2>
+        <p>Everything in one Code block: how far we’ve come, four ways to give, and a calculator for anyone planning a pledge.</p>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-giving-kit="appeal" data-goal="180000" data-raised="112450" data-donors="214" data-currency="NZD" data-tax="nz" data-frequency="weekly" data-years="2" data-give-url="/give?amount={amount}&amp;frequency={frequency}">
+<script type="application/json">
+{
+  "milestones": [
+    { "at": 60000, "label": "Scaffolding and strip-out" },
+    { "at": 120000, "label": "New iron and spouting" },
+    { "at": 180000, "label": "Insulated and finished" }
+  ],
+  "presets": [20, 50, 100, 250],
+  "tiers": [
+    { "amount": 25, "frequency": "weekly", "title": "Spouting and flashings", "text": "Keeps the rain heading for the drains instead of down the hall walls." },
+    { "amount": 50, "frequency": "weekly", "title": "A square metre a fortnight", "text": "Puts about a square metre of new roof on the hall every two weeks.", "badge": "Most chosen" },
+    { "amount": 500, "frequency": "one-off", "title": "The kitchen end", "text": "Insulation over the kitchen, where playgroup has morning tea." },
+    { "amount": 2500, "frequency": "one-off", "title": "A full run of iron", "text": "One complete run of new roofing iron, from the ridge to the gutter." }
+  ],
+  "impact": [
+    { "each": 95, "one": "square metre of new roof", "other": "square metres of new roof" },
+    { "each": 38, "one": "metre of new spouting", "other": "metres of new spouting" }
+  ]
+}
+</script>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="progress" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="demo-intro">
+        <p class="demo-code">data-giving-kit="progress"</p>
+        <h2>Where we’re up to</h2>
+        <p>This bar reads its numbers from a small CSV file, the same shape a published Google Sheet gives you, so the treasurer can update the total without touching the website. The page itself still says $109,000, and the sheet wins.</p>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-giving-kit="progress" data-goal="180000" data-raised="109000" data-donors="208" data-currency="NZD" data-sheet="appeal-totals.csv">
+<script type="application/json">
+{ "milestones": [
+  { "at": 60000, "label": "Scaffolding and strip-out" },
+  { "at": 120000, "label": "New iron and spouting" },
+  { "at": 180000, "label": "Insulated and finished" }
+] }
+</script>
+        </div>
+      </div></div>
+
+      <div class="demo-split" id="thermo">
+        <div>
+          <p class="demo-code">data-style="thermometer"</p>
+          <h3>Or as a thermometer</h3>
+          <p>The same numbers drawn the old-fashioned way, which suits a narrow column beside your own words. The milestones sit on the glass and fill in as the total passes them.</p>
+          <p>Thanks to everyone who’s given so far. We’ll update this every Monday.</p>
+        </div>
+        <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+          <div data-giving-kit="progress" data-style="thermometer" data-goal="180000" data-raised="112450" data-donors="214" data-currency="NZD">
+<script type="application/json">
+{ "milestones": [
+  { "at": 60000, "label": "Scaffolding and strip-out" },
+  { "at": 120000, "label": "New iron and spouting" },
+  { "at": 180000, "label": "Insulated and finished" }
+] }
+</script>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="calculator" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="demo-intro">
+        <p class="demo-code">data-giving-kit="calculator"</p>
+        <h2>Plan a pledge</h2>
+        <p>Pick an amount and how often you’d like to give. Harbourlight is a registered charity, so you get a third back as a donation tax credit, and the calculator shows what the gift really costs.</p>
+      </div>
+      <div class="demo-switch" role="group" aria-label="Tax rules in this demo">
+        <span>Tax rules</span>
+        <button type="button" data-tax="nz" aria-pressed="true">New Zealand</button>
+        <button type="button" data-tax="uk-giftaid" aria-pressed="false">UK Gift Aid</button>
+        <button type="button" data-tax="au" aria-pressed="false">Australia</button>
+        <button type="button" data-tax="none" aria-pressed="false">None</button>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content" id="calc-slot">
+        <div data-giving-kit="calculator" data-currency="NZD" data-tax="nz" data-amount="100" data-frequency="monthly" data-years="3" data-give-url="/give?amount={amount}&amp;frequency={frequency}">
+<script type="application/json">
+{
+  "presets": [20, 50, 100, 250],
+  "impact": [
+    { "each": 95, "one": "square metre of new roof", "other": "square metres of new roof" },
+    { "each": 38, "one": "metre of new spouting", "other": "metres of new spouting" }
+  ]
+}
+</script>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="tiers" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="demo-intro">
+        <p class="demo-code">data-giving-kit="tiers"</p>
+        <h2>Ways to give</h2>
+        <p>Four gift levels with a Give button each. The one most people choose is marked, and each card shows what it costs after the tax credit.</p>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-giving-kit="tiers" data-currency="NZD" data-tax="nz" data-give-url="/give?amount={amount}&amp;frequency={frequency}">
+<script type="application/json">
+{ "tiers": [
+  { "amount": 25, "frequency": "weekly", "title": "Spouting and flashings", "text": "Keeps the rain heading for the drains instead of down the hall walls." },
+  { "amount": 50, "frequency": "weekly", "title": "A square metre a fortnight", "text": "Puts about a square metre of new roof on the hall every two weeks.", "badge": "Most chosen" },
+  { "amount": 500, "frequency": "one-off", "title": "The kitchen end", "text": "Insulation over the kitchen, where playgroup has morning tea." },
+  { "amount": 2500, "frequency": "one-off", "title": "A full run of iron", "text": "One complete run of new roofing iron, from the ridge to the gutter." }
+] }
+</script>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="page-section" data-section-theme="light">
+    <div class="content-wrapper"><span>Harbourlight Church is fictional, made for this demo.</span><span>Giving Kit by Singh Studio</span></div>
+  </footer>
+</main>
+
+<script>
+  // Demo data that should look current: the appeal closes 60 days from today.
+  (function () {
+    var d = new Date(); d.setDate(d.getDate() + 60);
+    var iso = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    document.querySelectorAll('[data-giving-kit="appeal"], [data-giving-kit="progress"]').forEach(function (el) { el.setAttribute('data-deadline', iso); });
+    window.Static = { SQUARESPACE_CONTEXT: { website: { timeZone: 'Pacific/Auckland', siteTitle: 'Harbourlight Church' } } };
+  })();
+</script>
+<script src="../../assets/demo-shell/shell.js"></script>
+<script src="giving-kit.min.js"></script>
+<script>
+  (function () {
+    // Give buttons go nowhere in the demo, so say where they'd go.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="/give"]');
+      if (a) window.demoToast('On your site this opens ' + a.getAttribute('href'));
+    });
+    document.querySelectorAll('[data-jump]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var t = document.getElementById(b.getAttribute('data-jump'));
+        window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 160, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      });
+    });
+    document.querySelectorAll('[data-deep]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var u = new URL(location.href);
+        u.searchParams.set('give', b.getAttribute('data-deep'));
+        location.href = u.pathname + u.search + (b.getAttribute('data-deep') === 'check' ? '' : '#appeal');
+      });
+    });
+    // Try the other tax rules on the calculator: a fresh copy of the same <div> with a different data-tax.
+    var CUR = { nz: 'NZD', 'uk-giftaid': 'GBP', au: 'AUD', none: 'NZD' };
+    var slot = document.getElementById('calc-slot'), source = slot.querySelector('[data-giving-kit]'), json = source.querySelector('script').outerHTML;
+    var attrs = Array.prototype.map.call(source.attributes, function (a) { return [a.name, a.value]; });
+    document.querySelectorAll('[data-tax]').forEach(function (b) {
+      if (b.closest('[data-giving-kit]')) return;
+      b.addEventListener('click', function () {
+        var tax = b.getAttribute('data-tax'), el = document.createElement('div');
+        attrs.forEach(function (a) { el.setAttribute(a[0], a[1]); });
+        el.setAttribute('data-tax', tax); el.setAttribute('data-currency', CUR[tax]);
+        el.innerHTML = json;
+        slot.replaceChildren(el);
+        window.GivingKit.init(el);
+        document.querySelectorAll('.demo-switch [data-tax]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

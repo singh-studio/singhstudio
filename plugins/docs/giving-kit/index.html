@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giving Kit install guide</title>
+<style>
+  :root { --ink: #16140f; --soft: #5f594f; --line: #e2dcd0; --wash: #f6f3ec; --accent: #1f5560; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 16.5px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+  .kicker { font: 600 12px/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 18px; }
+  h2 { font-size: 24px; letter-spacing: -0.01em; margin: 56px 0 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p, li { color: #2b2721; }
+  .lede { font-size: 19px; color: var(--soft); }
+  a { color: var(--accent); }
+  code, kbd { font: 14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere; }
+  pre { font: 13.5px/1.55 ui-monospace, "SF Mono", Menlo, monospace; background: #16140f; color: #f1ece2; border-radius: 12px; padding: 18px 20px; overflow-x: auto; }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; }
+  .note { background: var(--wash); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 20px 0; }
+  .note h3 { margin: 0 0 4px; font-size: 16px; }
+  .note p { margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+  td:first-child { white-space: nowrap; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--soft); font-size: 14px; }
+  @media print { pre { white-space: pre-wrap; } h2 { break-before: auto; } a { color: inherit; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Giving Kit 1.0 · Install guide</p>
+  <h1>Show people how close you are.</h1>
+  <p class="lede">Giving Kit puts an appeal on any Squarespace page. It shows what you’ve raised as a bar or a thermometer, offers gift levels with their own Give buttons, and has a calculator that works out what a regular gift adds up to and what it really costs after tax. You paste it in once and change a few numbers, which takes about ten minutes.</p>
+
+  <h2>What you need</h2>
+  <ul>
+    <li>A Squarespace plan that runs JavaScript, which means Core, Plus or Advanced on the current plans, or Business, Commerce Basic or Commerce Advanced on older ones. The Basic and Personal plans don’t run custom scripts, so Giving Kit can’t work there.</li>
+    <li>Somewhere people can actually give, such as a Squarespace donation page, Givealittle, PayPal, Stripe, Pushpay or your bank details on a page of your own. Giving Kit doesn’t take money itself. Its Give buttons send people to your giving page, with the amount they chose in the link if your page can use it.</li>
+    <li>Squarespace 7.0 or 7.1. Both work.</li>
+  </ul>
+
+  <h2>Install</h2>
+  <ol class="steps">
+    <li>Open the page for your appeal in the Squarespace editor, add a block where you want it and choose Code. Leave the mode on HTML and switch “Display source” off.</li>
+    <li>Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
+    <li>The first line of what you pasted is a <code>&lt;div&gt;</code> with your settings on it. Change <code>data-goal</code> to your target and <code>data-raised</code> to what you’ve raised so far, both as plain numbers. Set <code>data-currency</code> to your currency’s three-letter code (NZD, AUD, GBP, USD and so on) and <code>data-give-url</code> to the address of your giving page.</li>
+    <li>On Squarespace 7.1, drag the Code block’s handles so it spans the full width of the section. On 7.0 it fills the column it sits in.</li>
+    <li>Save, then look at the live page in a private window. Squarespace doesn’t run scripts inside the editor, so you’ll see an empty block while you’re editing.</li>
+  </ol>
+  <p>The paste shows the whole appeal. If you only want one part, change <code>data-giving-kit="appeal"</code> to <code>progress</code>, <code>calculator</code> or <code>tiers</code>. You can use as many Giving Kit blocks on a page as you like, for example a thermometer near the top and a calculator further down.</p>
+  <div class="note"><h3>If the Code block won’t save</h3><p>The paste is about 100 KB, which Squarespace normally takes without complaint. If yours refuses it, paste <code>paste-into-code-injection.html</code> into the page’s own settings instead (Page settings, then Advanced, then Page Header Code Injection), and put only the <code>&lt;div&gt;</code> line in the Code block.</p></div>
+  <div class="note"><h3>Please don’t paste it into Design, Custom CSS</h3><p>That panel runs an old style compiler that can’t read modern CSS, and it would break. The Code block (or Code Injection) is the right place.</p></div>
+
+  <h2>Setting up your appeal</h2>
+  <p>Everything simple lives on the <code>&lt;div&gt;</code> line as an attribute. Lists, such as milestones and gift levels, go in the small settings block just inside the <code>&lt;div&gt;</code>, written between <code>&lt;script type="application/json"&gt;</code> and <code>&lt;/script&gt;</code>. Here’s a complete appeal you can copy and change:</p>
+  <pre>&lt;div data-giving-kit="appeal" data-goal="180000" data-raised="112450" data-donors="214"
+     data-deadline="2026-12-19" data-currency="NZD" data-tax="nz"
+     data-give-url="/give?amount={amount}&amp;frequency={frequency}"&gt;
+&lt;script type="application/json"&gt;
+{
+  "milestones": [
+    { "at": 60000, "label": "Scaffolding and strip-out" },
+    { "at": 120000, "label": "New iron and spouting" },
+    { "at": 180000, "label": "Insulated and finished" }
+  ],
+  "presets": [20, 50, 100, 250],
+  "tiers": [
+    { "amount": 25, "frequency": "weekly", "title": "Spouting and flashings", "text": "Keeps the rain heading for the drains." },
+    { "amount": 50, "frequency": "weekly", "title": "A square metre a fortnight", "badge": "Most chosen" },
+    { "amount": 500, "frequency": "one-off", "title": "The kitchen end" }
+  ],
+  "impact": [
+    { "each": 95, "one": "square metre of new roof", "other": "square metres of new roof" }
+  ]
+}
+&lt;/script&gt;
+&lt;/div&gt;</pre>
+  <p>The settings block has to be valid JSON, so keep the double quotes and the commas between items. If a word processor turns your quotes curly, or you leave a comma before a closing bracket, Giving Kit tidies it and still works, and the setup check tells you it did.</p>
+
+  <h3>Progress</h3>
+  <p>Update <code>data-raised</code> whenever gifts come in (and <code>data-donors</code>, if you show it). The bar says “62% of $180,000”, counts up once when someone first scrolls to it, and shows how many days are left if you set <code>data-deadline</code>. On the deadline day it says “Last day to give”, and after that “Appeal closed”. When the total passes the goal, the bar fills and a “Goal reached” badge appears. Add <code>data-style="thermometer"</code> for a thermometer instead of a bar. It suits a narrow column beside your own text.</p>
+  <p>Milestones are amounts with a short label. Their marks fill in as the total passes them, and their labels sit under the bar when there’s room, or in a tidy list on phones.</p>
+
+  <h3>Live numbers from a Google Sheet</h3>
+  <p>If your treasurer keeps the total in a Google Sheet, Giving Kit can read it on every visit, so nobody has to edit the website. Make a tab with two columns, a name and a number, like this:</p>
+  <pre>raised,112450
+goal,180000
+donors,214</pre>
+  <p>Only those three names are read (it also understands “total raised”, “target” and “number of donors”), and a header row such as “Field, Value” is ignored. Dollar signs and commas in the numbers are fine. You can also put the three names across one row with the numbers in the row underneath. Then, in Google Sheets, choose File, Share, Publish to web, pick that tab, choose “Comma-separated values (.csv)” and copy the link it gives you. Add it to the <code>&lt;div&gt;</code> as <code>data-sheet="…"</code>.</p>
+  <p>I’ll be honest about how far I’ve tested this. I built the reader against sample files in exactly that shape, and the demo reads one, but I couldn’t publish a real Google Sheet while making Giving Kit. So please open the setup check (below) after you add the link. It says whether the sheet was read and which numbers came from it. If the sheet can’t be reached, Giving Kit quietly uses the numbers on the <code>&lt;div&gt;</code> instead, so keep those roughly up to date as a fallback. Google can take about five minutes to update a published sheet, so a change won’t show instantly.</p>
+
+  <h3>The Give buttons</h3>
+  <p><code>data-give-url</code> is where every Give button goes. If your giving page can take the amount in its address, use these placeholders and Giving Kit fills them in:</p>
+  <table>
+    <tr><th>Placeholder</th><th>Becomes</th></tr>
+    <tr><td><code>{amount}</code></td><td>One gift, as a plain number: <code>50</code> or <code>37.50</code></td></tr>
+    <tr><td><code>{frequency}</code></td><td><code>one-off</code>, <code>weekly</code>, <code>fortnightly</code>, <code>monthly</code> or <code>annually</code></td></tr>
+    <tr><td><code>{years}</code></td><td>How many years the pledge runs for</td></tr>
+    <tr><td><code>{total}</code></td><td>Every gift added up over those years</td></tr>
+    <tr><td><code>{currency}</code></td><td>The currency code, such as <code>NZD</code></td></tr>
+  </table>
+  <p>If your giving page uses other words for how often (some say <code>once</code> or <code>month</code>), map them in the settings block with <code>"frequencyValues": { "one-off": "once", "monthly": "month" }</code>. If it can’t take an amount at all, just use its plain address and every button goes there.</p>
+
+  <h3>Tax</h3>
+  <p>Set <code>data-tax</code> to the rules your donors give under. Tax depends on each person’s circumstances, so the calculator words everything carefully and I’d still suggest your treasurer checks it suits you.</p>
+  <ul>
+    <li><code>nz</code>: New Zealand’s donation tax credit. Donors get a third back on gifts of $5 or more to approved donee organisations, up to their taxable income. Giving Kit works it out per year and rounds down to the dollar, so it never promises more than IRD would pay. It shows the credit, the real cost, and a line such as “That’s about $33 a week after your tax credit.”</li>
+    <li><code>uk-giftaid</code>: Gift Aid adds 25% to what the charity receives, for donors who pay UK income tax and make a declaration.</li>
+    <li><code>au</code>: Australian gifts of $2 or more to a deductible gift recipient are tax deductible. Donors can choose their tax rate to see an estimate, which is labelled “Estimate” and uses 2026–27 resident rates with the 2% Medicare levy. You can replace the rates with <code>"auRates": [[17, "17% ($18,201–$45,000)"], …]</code> in the settings block when they change.</li>
+    <li><code>none</code> (the default) shows no tax figures.</li>
+  </ul>
+
+  <h3>Gift levels and impact</h3>
+  <p>Each gift level needs an amount, and can have a frequency (one-off if you leave it out), a title, a sentence of text and a badge. A badge such as “Most chosen” also highlights that card. Give a level its own <code>"url"</code> if it should go somewhere else, such as a sponsorship form. With NZ tax on, each card also says what the gift costs after the credit.</p>
+  <p>Impact items turn the calculator’s total into something people can picture. Give the cost of one thing and how to say one and many of it. With <code>{ "each": 95, "one": "square metre of new roof", "other": "square metres of new roof" }</code>, a $5,200 pledge shows “54 square metres of new roof”. Up to three are shown.</p>
+
+  <h3>Linking straight to a pledge</h3>
+  <p>An email or newsletter can open the calculator already filled in. Add <code>?give=</code> to the page address with the amount, how often and the years, for example <code>yourchurch.org/roof?give=50-weekly-3y</code> or <code>?give=250-one-off</code>. The first calculator on the page picks it up.</p>
+
+  <h2>Run the setup check</h2>
+  <p>Add <code>?give=check</code> to the end of the page address, for example <code>yourchurch.org/roof?give=check</code>. A panel appears above each Giving Kit block listing what it found: the goal and total, the deadline, where the currency came from, an example of where the Give buttons go, the tax rules, the amounts and gift levels, and whether a Google Sheet was read. Underneath is a plain list of anything that needs fixing, such as a missing goal, a total higher than the goal, a giving link with a placeholder it doesn’t know, or a currency code it can’t find. Visitors never see this panel unless they type that address themselves.</p>
+
+  <h2>Options</h2>
+  <p>These go on the <code>&lt;div&gt;</code> line. You only need the ones you want to change.</p>
+  <table>
+    <tr><th>Attribute</th><th>What it does</th></tr>
+    <tr><td><code>data-giving-kit</code></td><td>Which part to show: <code>appeal</code> (everything, the default), <code>progress</code>, <code>calculator</code> or <code>tiers</code>.</td></tr>
+    <tr><td><code>data-goal</code></td><td>Your target, as a plain number. Needed for the bar.</td></tr>
+    <tr><td><code>data-raised</code></td><td>What you’ve raised so far.</td></tr>
+    <tr><td><code>data-donors</code></td><td>How many people have given. Leave it out to hide the count.</td></tr>
+    <tr><td><code>data-deadline</code></td><td>The last day of the appeal, written like <code>2026-12-19</code>.</td></tr>
+    <tr><td><code>data-currency</code></td><td>A three-letter currency code. If you leave it out, Giving Kit uses your Squarespace store’s currency, then your site’s language.</td></tr>
+    <tr><td><code>data-give-url</code></td><td>Where the Give buttons go, with optional placeholders (see above).</td></tr>
+    <tr><td><code>data-style</code></td><td><code>bar</code> (the default) or <code>thermometer</code>.</td></tr>
+    <tr><td><code>data-sheet</code></td><td>A published Google Sheet (CSV) link for live numbers.</td></tr>
+    <tr><td><code>data-tax</code></td><td><code>nz</code>, <code>uk-giftaid</code>, <code>au</code> or <code>none</code> (the default).</td></tr>
+    <tr><td><code>data-frequency</code></td><td>How often the calculator starts on. Default <code>monthly</code>.</td></tr>
+    <tr><td><code>data-frequencies</code></td><td>Which to offer, comma separated. Default <code>one-off, weekly, fortnightly, monthly, annually</code>.</td></tr>
+    <tr><td><code>data-presets</code></td><td>The amount buttons, such as <code>25, 50, 100, 250</code> (up to six). Default <code>20, 50, 100, 250</code>.</td></tr>
+    <tr><td><code>data-amount</code></td><td>The amount it starts on. Default: the second preset.</td></tr>
+    <tr><td><code>data-years</code></td><td>How many years a pledge starts on. Default <code>1</code>.</td></tr>
+    <tr><td><code>data-max-years</code></td><td>The most years someone can choose. Default <code>5</code>.</td></tr>
+    <tr><td><code>data-accent</code></td><td>A colour for bars, buttons and highlights, if you’d rather not use your site’s button colour, such as <code>#1f5560</code>.</td></tr>
+    <tr><td><code>data-locale</code></td><td>How numbers are written, such as <code>en-NZ</code>. Default: your site’s language.</td></tr>
+    <tr><td><code>data-count-up</code></td><td><code>off</code> shows the total straight away instead of counting up to it.</td></tr>
+  </table>
+  <p>In the settings block you can use <code>milestones</code>, <code>presets</code>, <code>tiers</code>, <code>impact</code>, <code>frequencyValues</code> and <code>auRates</code>, as shown above.</p>
+
+  <h3>Changing the wording</h3>
+  <p>Every label can be changed, which is handy for other languages or your own tone. Put this in the Code block <em>above</em> the rest of the paste and change only the lines you want:</p>
+  <pre>&lt;script&gt;
+window.GivingKitStrings = {
+  raised: 'given so far',
+  reached: 'We did it',
+  realCost: 'What it costs you',
+  chooseGift: 'Pick a gift',
+  give: 'Give {amount} now'
+};
+&lt;/script&gt;</pre>
+  <p>Words in curly brackets, such as <code>{amount}</code>, are filled in by Giving Kit, so keep them. If you’d like the full list of labels, email me and I’ll send it.</p>
+
+  <h2>Troubleshooting</h2>
+  <h3>The block is empty while I’m editing</h3>
+  <p>That’s normal. Squarespace doesn’t run scripts in the editor. Check the live page in a private window.</p>
+  <h3>The Give buttons are missing</h3>
+  <p>They hide when there’s no usable giving link. Add <code>data-give-url</code>, and make sure it’s an ordinary address starting with <code>/</code> or <code>https://</code>. The setup check names the problem.</p>
+  <h3>The numbers from my Google Sheet don’t show</h3>
+  <p>Open the page with <code>?give=check</code> on the end. It says what happened, which is usually that the sheet was shared rather than published as CSV, or the rows are named differently. Published sheets can also take a few minutes to catch up after you change them.</p>
+  <h3>The bar or buttons are a strange colour</h3>
+  <p>Giving Kit uses your site’s button colour so it looks at home. If a section styles its buttons to match the background, Giving Kit notices and uses your text colour instead. To choose a colour yourself, add <code>data-accent="#1f5560"</code> with your own colour.</p>
+  <h3>The milestone labels are in a list instead of under the bar</h3>
+  <p>That’s on purpose. They sit under their marks when there’s room for all of them to be read, and switch to a list when the block is narrow or two milestones are close together.</p>
+  <h3>Are the tax figures right for everyone?</h3>
+  <p>They follow the published rules, round down wherever there’s a choice, and say “up to” or “estimate” where it matters. They can’t know someone’s income, so the small print under the calculator says so. If your organisation isn’t an approved donee (or equivalent), leave <code>data-tax</code> off.</p>
+  <h3>Squarespace 7.0 with Ajax loading</h3>
+  <p>Some 7.0 templates load pages without a full refresh. Giving Kit listens for that, but if it only appears after a reload, turn off Ajax loading under Design, Site Styles.</p>
+
+  <h2>Updates and help</h2>
+  <p>Updates for the 1.x versions are free. When one comes out you’ll get an email with the new files, and you replace the old paste with the new one. Your settings live on the <code>&lt;div&gt;</code> line and in the settings block, so keep those.</p>
+  <p>If you get stuck, email <a href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a> with your page address and what you’re seeing. A screenshot of the <code>?give=check</code> panel helps a lot.</p>
+
+  <footer>Giving Kit is made by Singh Studio in Aotearoa New Zealand. The licence is in LICENSE.txt: one website per single-site licence, or any number of websites with the unlimited licence.</footer>
+</main>
+</body>
+</html>

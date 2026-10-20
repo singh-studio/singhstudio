@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Directory install guide</title>
+<style>
+  :root { --ink: #16140f; --soft: #5f594f; --line: #e2dcd0; --wash: #f6f3ec; --accent: #1f5560; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 16.5px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+  .kicker { font: 600 12px/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 18px; }
+  h2 { font-size: 24px; letter-spacing: -0.01em; margin: 56px 0 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p, li { color: #2b2721; }
+  .lede { font-size: 19px; color: var(--soft); }
+  a { color: var(--accent); }
+  code, kbd { font: 14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+  pre { font: 13.5px/1.55 ui-monospace, "SF Mono", Menlo, monospace; background: #16140f; color: #f1ece2; border-radius: 12px; padding: 18px 20px; overflow-x: auto; }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; }
+  .note { background: var(--wash); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 20px 0; }
+  .note strong:first-child { display: block; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+  td:first-child { white-space: nowrap; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--soft); font-size: 14px; }
+  @media (max-width: 560px) { td:first-child { white-space: normal; } }
+  @media print { pre { white-space: pre-wrap; } h2 { break-before: auto; } a { color: inherit; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Team Directory 1.0 · Install guide</p>
+  <h1>A team page you edit like a blog.</h1>
+  <p class="lede">Team Directory turns a Squarespace blog with one post per person into a staff and volunteer directory people can search, filter by team, place and language, and open to find out who someone is and how to reach them. Your team edit people in the normal Squarespace editor, and nobody has to touch the code again once it’s in. Setting it up takes about twenty minutes, most of it spent on the people themselves.</p>
+
+  <h2>Before you start</h2>
+  <ul>
+    <li>A Squarespace plan that runs JavaScript, which means Core, Plus or Advanced on the current plans, or Business, Commerce Basic or Commerce Advanced on older ones. The Basic and Personal plans don’t run custom scripts, so the directory can’t work there.</li>
+    <li>A blog to hold your people. It can be one you make just for this and keep out of your navigation. It has to be public, but nobody needs to know it’s there.</li>
+    <li>Squarespace 7.0 or 7.1. Both work.</li>
+  </ul>
+
+  <h2>Install</h2>
+  <ol class="steps">
+    <li>Make a blog for your people. In Pages, add a new Blog page and call it something like “Team Members”. Drag it into Not Linked so it stays out of your menus, and in its settings under SEO you can hide it from search engines too. Delete the sample posts Squarespace adds.</li>
+    <li>Add one post per person. The next section explains which field holds what. Two or three people are enough to see it working, and you can add the rest later.</li>
+    <li>Find the blog’s address. Open the blog on your live site and look at the address bar. If it reads <code>yourchurch.org/team-members</code>, the part you need is <code>/team-members</code>.</li>
+    <li>Add a Code block where the directory should go. Edit your Team or Staff page, add a block and choose <em>Code</em>. Leave the mode on HTML and switch “Display source” off.</li>
+    <li>Paste. Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
+    <li>Point it at your blog. Near the top of what you pasted you’ll see <code>data-source="/team-members"</code>. Change <code>/team-members</code> to your blog’s address from step 3 if yours is different.</li>
+    <li>Give it room. On Squarespace 7.1, drag the Code block’s handles so it spans the full width of the section. On 7.0 it fills the column it sits in.</li>
+    <li>Save and look at the live page. Squarespace doesn’t run scripts inside the editor, so you’ll see an empty block while editing. Open the page in a private window, or log out, to see your team.</li>
+  </ol>
+  <div class="note"><strong>If the Code block won’t save</strong>The paste is about 110 KB, which Squarespace normally takes without complaint. If yours refuses it, use the second file instead: paste <code>paste-into-code-injection.html</code> into the page’s own settings (Page settings → Advanced → Page Header Code Injection), and put only this line in the Code block: <code>&lt;div data-team-directory data-source="/team-members"&gt;&lt;/div&gt;</code></div>
+  <div class="note"><strong>Please don’t paste it into Design → Custom CSS</strong>That panel runs an old style compiler that can’t read modern CSS, and it would break. The Code block (or Code Injection) is the right place.</div>
+
+  <h2>Setting up each person</h2>
+  <p>Each blog post is one person. You fill in the same fields you would for any blog post, and the directory reads them like this:</p>
+  <table>
+    <tr><th>Post field</th><th>What it becomes</th></tr>
+    <tr><td>Title</td><td>Their name, exactly as it should appear, for example <code>Rev. Hemi Walker</code>. Titles like Rev, Dr or Pastor are fine, and they’re left out when sorting and on the Email button.</td></tr>
+    <tr><td>Thumbnail image</td><td>Their portrait (Settings → Content → Featured image). A square or upright photo with the face near the middle works best. People without one show their initials instead.</td></tr>
+    <tr><td>Excerpt</td><td>A short bio, two or three sentences (Settings → Content → Excerpt). If there isn’t one, the first paragraphs of the post are used instead.</td></tr>
+    <tr><td>Categories</td><td>Their team or department, such as <code>Pastoral</code>, <code>Youth &amp; Families</code> or <code>Board</code>. Someone in two teams gets two categories. These become the team buttons and the headings in the Teams view.</td></tr>
+    <tr><td>Tags</td><td>Places, skills and languages. Start a tag with <code>Location:</code>, <code>Language:</code>, <code>Skill:</code> or <code>Team:</code> to say what it is, as in <code>Location: Porirua</code> or <code>Language: Samoan</code>. Tags without a label are treated as skills, like <code>Youth work</code> or <code>First aid</code>.</td></tr>
+    <tr><td>Post body</td><td>Their role and contact details, as short labelled lines (see below). The first paragraph is used as the role if there’s no <code>Role:</code> line.</td></tr>
+    <tr><td>Source URL</td><td>Optional (Settings → Content). If the person has their own page elsewhere on your site, put its address here and the “Full profile” button goes there. Otherwise it opens their blog post.</td></tr>
+    <tr><td>Post date</td><td>The order. The earliest date comes first, so you can put your senior leader at the top by giving them the oldest date. Nobody sees the dates. Teams follow the same order, led by whoever has been there longest.</td></tr>
+  </table>
+  <h3>Labelled lines in the post body</h3>
+  <p>Put each detail on its own line, starting with one of these labels. Bold labels and links are fine, and you only need the lines you want.</p>
+  <pre>Youth Pastor
+Email: mere.paki@yourchurch.org
+Phone: 021 555 0105
+Pronouns: she/her
+Languages: English, te reo Māori
+Location: Porirua
+Ask me about: youth group, camps, mentoring
+
+Mere grew up in Porirua and has run Friday youth since 2019…</pre>
+  <p>The first line there is the role. You can write it as <code>Role: Youth Pastor</code> instead, which also works when the role isn’t the first line. <code>Based:</code> works the same way as <code>Location:</code>. A labelled line in the body wins over a tag, so if you’ve tagged someone <code>Location: Wellington</code> and their post says <code>Location: Porirua</code>, Porirua is what shows.</p>
+  <p>If there’s no Email or Phone line, the directory looks for an email link or a phone link anywhere in the post and uses the first one it finds.</p>
+  <p>Anything in square brackets on a line of its own, such as <code>[Photo coming after the shoot]</code>, is treated as a note for whoever edits the post. Visitors never see it, and a line like <code>Email: [add an address]</code> counts as empty.</p>
+
+  <h2>Run the setup check</h2>
+  <p>Add <code>?team=check</code> to the end of your team page’s address, for example <code>yourchurch.org/our-team?team=check</code>. A panel appears above the directory showing how many people it found and how many have a photo, a role, an email or phone, a team, a location and a language. Underneath is a short list of what to fix, naming who each one is about, such as “2 people have no role (Sam Lee and Jo Tane). Add a ‘Role:’ line or make the first paragraph the role.” Visitors never see this panel unless they type that address themselves.</p>
+
+  <h2>What visitors can do</h2>
+  <p>Search covers names, roles, teams, skills, languages and places, and it doesn’t mind macrons, so “maori” finds te reo Māori speakers. The team buttons show how many people are in each, and the location and language buttons appear once at least one person has a location or a language. A short sentence under the bar says what’s showing, like “6 people in Youth &amp; Families based in Porirua”, and each part of it can be removed with one click. If nothing matches, visitors get a way back to everyone and, if you set one, a person to contact.</p>
+  <p>There are three layouts: a grid of portraits, a compact list with email and phone buttons, and a Teams view with everyone under their team’s heading. Opening a person shows their profile with buttons to email or call them, a button that copies their email address, and a link to their full profile.</p>
+  <p>Every state has its own address, so you can link straight to a person (<code>?team=person/mere-paki</code>) or a team (<code>?team=t/youth-families</code>) from a newsletter or another page. The browser’s Back button closes a profile.</p>
+
+  <h2>Options</h2>
+  <p>Everything is set with attributes on the <code>&lt;div&gt;</code> line. You only need the ones you want to change.</p>
+  <table>
+    <tr><th>Attribute</th><th>What it does</th></tr>
+    <tr><td><code>data-source</code></td><td>Your people blog’s address. Required. <code>/team-members</code></td></tr>
+    <tr><td><code>data-view</code></td><td>The layout it opens on: <code>grid</code> (default), <code>list</code> or <code>teams</code>.</td></tr>
+    <tr><td><code>data-start</code></td><td>A team to open on, for example <code>Board</code> on a governance page. Visitors can still press Everyone.</td></tr>
+    <tr><td><code>data-photos</code></td><td>Portraits are black and white until someone points at them. <code>colour</code> shows them in colour all the time.</td></tr>
+    <tr><td><code>data-order</code></td><td><code>date</code> (default, earliest post first), <code>name</code> or <code>surname</code>.</td></tr>
+    <tr><td><code>data-index</code></td><td><code>on</code> adds an A to Z bar for jumping to a letter, which is handy for big teams. It sorts by first name unless <code>data-order</code> says otherwise.</td></tr>
+    <tr><td><code>data-per-page</code></td><td>How many people show before a “Show more” button. Default <code>48</code>, which for most teams means everyone. <code>all</code> turns it off.</td></tr>
+    <tr><td><code>data-hide</code></td><td>Details to leave out, comma separated: <code>email</code>, <code>phone</code>, <code>profile</code>, <code>location</code>, <code>languages</code>, <code>pronouns</code>, <code>skills</code>, <code>ask</code>, <code>bio</code>. For example <code>data-hide="phone"</code>.</td></tr>
+    <tr><td><code>data-contact-name</code></td><td>Who to suggest when a search finds nobody, for example <code>the church office</code>.</td></tr>
+    <tr><td><code>data-contact-href</code></td><td>Where that suggestion links to: a page, <code>mailto:office@yourchurch.org</code> or <code>tel:045550100</code>.</td></tr>
+    <tr><td><code>data-accent</code></td><td>A colour for buttons and the chosen team, if you’d rather not use your site’s button colour, e.g. <code>#1f5560</code>.</td></tr>
+    <tr><td><code>data-tags</code></td><td><code>auto</code> (default), <code>skills</code> or <code>places</code>. Some teams tag people with the areas they cover, and when most people’s tags include where they’re based, the directory notices and lists tags under “Covers” instead of “Skills”. This setting decides it for you.</td></tr>
+    <tr><td><code>data-ignore</code></td><td>Categories or tags to leave out, comma separated, e.g. <code>Featured, Staff only</code>.</td></tr>
+    <tr><td><code>data-cache</code></td><td><code>off</code> stops the directory remembering your team between visits. Leave it on unless asked.</td></tr>
+  </table>
+  <p>A list that opens on the Board, with an A to Z bar and a contact for when nothing matches, looks like this:</p>
+  <pre>&lt;div data-team-directory data-source="/team-members" data-view="list" data-start="Board" data-index="on"
+     data-contact-name="the church office" data-contact-href="mailto:office@yourchurch.org"&gt;&lt;/div&gt;</pre>
+
+  <h3>Changing the wording</h3>
+  <p>Every label can be changed, which is handy for other languages or a different tone. Put this in the Code block <em>above</em> the rest of the paste and change only the lines you want:</p>
+  <pre>&lt;script&gt;
+window.TeamDirectoryStrings = {
+  search: 'Search for a name, team or skill',
+  everyone: 'Everyone',
+  teams: 'Teams',
+  anywhere: 'All campuses',
+  otherPeople: 'Volunteers',
+  askLabel: 'Talk to me about',
+  profile: 'More about them',
+  contact: 'Not sure who to ask? Get in touch with {link}.'
+};
+&lt;/script&gt;</pre>
+  <p>Keep anything in curly brackets, like <code>{link}</code>, <code>{first}</code> or <code>{team}</code>, because that’s where the name or link goes.</p>
+
+  <h2>Troubleshooting</h2>
+  <h3>The block is empty while I’m editing</h3>
+  <p>That’s normal. Squarespace doesn’t run scripts in the editor. Check the live page in a private window.</p>
+  <h3>“The team couldn’t be loaded”</h3>
+  <p>Open the page with <code>?team=check</code> on the end and the panel will tell you why. It’s nearly always one of three things: <code>data-source</code> doesn’t match the blog’s address exactly, the blog is password protected or members-only, or the address points at a normal page instead of a blog.</p>
+  <h3>Someone’s role is missing, or shows part of their bio</h3>
+  <p>The role comes from a <code>Role:</code> line, or else from the first paragraph of the post when it’s short enough to be a job title. A long first paragraph is treated as the start of a bio and skipped. Adding a <code>Role:</code> line fixes it either way.</p>
+  <h3>Someone isn’t showing</h3>
+  <p>Drafts and scheduled posts aren’t public, so they don’t appear until they’re published. The setup check shows how many posts the blog has and how many were read.</p>
+  <h3>A team appears twice with slightly different names</h3>
+  <p>Differences in capitals, macrons and punctuation are merged for you, and so are “and”, “&amp;” and “+”, which means “Youth &amp; Families” and “youth and families” are one team. Different words, like “Youth” and “Youth Ministry”, stay separate, so pick one name and fix the other posts’ categories.</p>
+  <h3>People are in the wrong order</h3>
+  <p>The order follows the post dates, earliest first. Change a post’s date under Settings → Options to move them, or use <code>data-order="name"</code> or <code>data-order="surname"</code> for alphabetical.</p>
+  <h3>The “Full profile” button opens a plain blog post</h3>
+  <p>That’s the person’s post in your hidden blog. Put the address of their real page in the post’s Source URL, or add <code>data-hide="profile"</code> to remove the button.</p>
+  <h3>The photos are black and white</h3>
+  <p>That’s the default look, and each one turns to colour when someone points at it or opens the profile. Add <code>data-photos="colour"</code> if you’d rather show them in colour all the time.</p>
+  <h3>The search bar hides under my header when I scroll</h3>
+  <p>The directory looks for anything pinned to the top of the window and sits underneath it, which works on every template I’ve tested. If yours is different, email me the page address and I’ll take a look.</p>
+  <h3>Changes don’t appear straight away</h3>
+  <p>The directory checks for changes on every visit with one quick request, and refreshes its copy when your blog changes. If a visitor’s browser blocks storage, it simply loads the team fresh each time.</p>
+  <h3>Squarespace 7.0 with Ajax loading</h3>
+  <p>Some 7.0 templates load pages without a full refresh. The directory listens for that, but if it only appears after a reload, turn off Ajax loading under Design → Site Styles.</p>
+
+  <h2>Updates and help</h2>
+  <p>Updates for the 1.x versions are free. When one comes out you’ll get an email with the new files, and you replace the old paste with the new one. Your settings live on the <code>&lt;div&gt;</code> line, so keep that line.</p>
+  <p>If you get stuck, email <a href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a> with your page address and what you’re seeing. It helps to include a screenshot of the <code>?team=check</code> panel.</p>
+
+  <footer>Team Directory is made by Singh Studio in Aotearoa New Zealand. The licence is in LICENSE.txt: one website per single-site licence, or any number of websites with the unlimited licence.</footer>
+</main>
+</body>
+</html>

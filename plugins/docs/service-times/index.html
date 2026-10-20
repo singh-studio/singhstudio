@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service Times install guide</title>
+<style>
+  :root { --ink: #16140f; --soft: #5f594f; --line: #e2dcd0; --wash: #f6f3ec; --accent: #1f5560; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 16.5px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+  .kicker { font: 600 12px/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 18px; }
+  h2 { font-size: 24px; letter-spacing: -0.01em; margin: 56px 0 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p, li { color: #2b2721; }
+  .lede { font-size: 19px; color: var(--soft); }
+  a { color: var(--accent); }
+  code, kbd { font: 14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere; }
+  pre { font: 13.5px/1.55 ui-monospace, "SF Mono", Menlo, monospace; background: #16140f; color: #f1ece2; border-radius: 12px; padding: 18px 20px; overflow-x: auto; }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; }
+  .note { background: var(--wash); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 20px 0; }
+  .note h3 { margin: 0 0 4px; font-size: 16px; }
+  .note p { margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+  td:first-child { white-space: nowrap; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--soft); font-size: 14px; }
+  @media print { pre { white-space: pre-wrap; } h2 { break-before: auto; } a { color: inherit; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Service Times 1.0 · Install guide</p>
+  <h1>Tell people when to come, and when you’re live.</h1>
+  <p class="lede">Service Times shows your next service with a countdown, your weekly times with the specials coming up, and a “We’re live” banner that only appears while you’re streaming. You write your services down once, in a small block of settings, and it works out every week from then on, daylight saving included. Setting it up takes about fifteen minutes.</p>
+
+  <h2>What you need</h2>
+  <ul>
+    <li>A Squarespace plan that runs JavaScript, which means Core, Plus or Advanced on the current plans, or Business, Commerce Basic or Commerce Advanced on older ones. The Basic and Personal plans don’t run custom scripts, so Service Times can’t work there.</li>
+    <li>Your regular service times, and the address of your livestream if you stream. For YouTube, the address <code>youtube.com/@yourchannel/live</code> opens whatever you’re streaming at the time, so it never needs changing.</li>
+    <li>Squarespace 7.0 or 7.1. Both work.</li>
+  </ul>
+
+  <h2>Install</h2>
+  <ol class="steps">
+    <li>Edit the page where you want your service times, add a block and choose Code. Leave the mode on HTML and switch “Display source” off.</li>
+    <li>Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
+    <li>Near the top you’ll see the settings, between <code>&lt;script type="application/json"&gt;</code> and <code>&lt;/script&gt;</code>. Change the example service to one of yours and add the rest (the template below shows every option).</li>
+    <li>The paste shows the next-service card. Change <code>data-service-times="next"</code> to <code>bar</code>, <code>week</code> or <code>live</code> for the other styles.</li>
+    <li>Save, then look at the live page in a private window. Squarespace doesn’t run scripts inside the editor, so you’ll see an empty block while you’re editing.</li>
+  </ol>
+  <div class="note"><h3>If the Code block won’t save</h3><p>The paste is about 80 KB, which Squarespace normally takes without complaint. If yours refuses it, paste <code>paste-into-code-injection.html</code> into the page’s own settings instead (Page settings, then Advanced, then Page Header Code Injection), and put only the <code>&lt;div&gt;</code> with your settings in the Code block.</p></div>
+  <div class="note"><h3>Please don’t paste it into Design, Custom CSS</h3><p>That panel runs an old style compiler that can’t read modern CSS, and it would break. The Code block (or Code Injection) is the right place.</p></div>
+
+  <h2>Your services</h2>
+  <p>Here’s a complete set of settings to copy. Keep the double quotes and the commas between items, because this is JSON. If a word processor turns the quotes curly or you leave a stray comma, Service Times tidies it and still works, and the setup check tells you it did.</p>
+  <pre>{
+  "timezone": "Pacific/Auckland",
+  "services": [
+    { "day": "Sunday", "time": "9:30am", "name": "Family Service", "duration": 75, "location": "Main auditorium", "live": true },
+    { "day": "Sunday", "time": "6pm", "name": "Evening Service", "duration": 75 },
+    { "day": "Wednesday", "time": "7:30pm", "name": "Prayer and Praise", "duration": 60, "live": true }
+  ],
+  "specials": [
+    { "date": "2026-12-24", "time": "11pm", "name": "Christmas Eve by candlelight", "duration": 60, "live": true },
+    { "date": "2026-12-25", "time": "9am", "name": "Christmas Day" }
+  ],
+  "skips": [
+    { "date": "2026-12-27", "name": "Evening Service", "note": "Summer break" }
+  ],
+  "livestream": { "url": "https://www.youtube.com/@yourchurch/live", "before": 10, "after": 15 },
+  "address": "12 Beacon Lane, Harbourlight Bay",
+  "links": [ { "label": "Plan a visit", "url": "/plan-a-visit" } ]
+}</pre>
+
+  <h3>Weekly services</h3>
+  <p>Each service needs a <code>day</code> and a <code>time</code>. Days can be written in full or short (Sunday, Sun), and te reo Māori day names such as Rātapu work too. Times can be <code>9:30am</code>, <code>6pm</code> or <code>18:00</code>. A bare <code>6</code> could be morning or evening, so Service Times asks you to say which. Add a <code>name</code>, a <code>duration</code> in minutes (an hour if you leave it out), a <code>location</code> such as the room, and <code>"live": true</code> for services you stream.</p>
+
+  <h3>Specials and skips</h3>
+  <p>Specials are one-off services with a <code>date</code> written like <code>2026-12-24</code>, plus a time and name as above. On a special’s day the usual services don’t happen, which is what you want for Christmas Day or a combined service. To keep some of them, add <code>"replaces": "Evening Service"</code> (or a list of names), or <code>"replaces": "none"</code> to keep them all.</p>
+  <p>Skips take a single week off. Give the <code>date</code> and the <code>name</code> of the service that isn’t on, or leave the name out to skip every service that day. A <code>note</code> such as “Summer break” shows in the Coming up list.</p>
+
+  <h3>The livestream</h3>
+  <p>Set <code>livestream.url</code> to where people watch. The live banner and the Watch live button appear from <code>before</code> minutes before a service marked live starts (10 if you leave it out) until <code>after</code> minutes after it ends (15). The timing comes from your schedule, so Service Times can’t tell whether the stream itself has started, and it’s worth starting yours on time.</p>
+
+  <h3>Time zones and daylight saving</h3>
+  <p>Times are worked out in your church’s time zone, so when the clocks change in April and September the services stay at 9:30. If you leave <code>timezone</code> out, Service Times uses your Squarespace site’s own time zone (Settings, then Language and region). Time zones look like <code>Pacific/Auckland</code> or <code>Europe/London</code>. Visitors whose clocks are set somewhere else see an extra line on the card, such as “That’s 1:30 pm your time.” Add <code>"yourTime": false</code> to turn that off.</p>
+
+  <h3>Directions and links</h3>
+  <p>With an <code>address</code>, the card gets a Directions button that opens Google Maps. A service or special held somewhere else can have its own <code>address</code>. If you’d rather link to a map of your own, use <code>"directions": "https://…"</code>. The <code>links</code> show on the card, and the first one on the slim bar.</p>
+
+  <h2>The four styles</h2>
+  <table>
+    <tr><th>Style</th><th>What it shows</th></tr>
+    <tr><td><code>next</code></td><td>A card with the next service, a countdown that updates every 30 seconds (“in 2 days”, “in 3 h 20 min”, “starting now”), Add to calendar for that one service (an .ics file for Apple and Outlook, or Google Calendar), directions and your links. While you’re live it says so and leads with Watch live.</td></tr>
+    <tr><td><code>bar</code></td><td>A slim announcement bar with the next service and its countdown, or “We’re live” and a Watch now link.</td></tr>
+    <tr><td><code>week</code></td><td>Your weekly services by day, with today and the next service marked, beside the specials and skipped services coming up.</td></tr>
+    <tr><td><code>live</code></td><td>A “We’re live” banner linking to your stream, shown only while a service marked live is on. The rest of the week it takes up no room (on 7.1, make its Code block short so the empty block doesn’t leave a gap).</td></tr>
+  </table>
+
+  <h3>Using it in more than one place</h3>
+  <p>You can show the bar on every page and the card on your home page without typing your services twice. Paste <code>paste-into-code-injection.html</code> into Settings, Advanced, Code Injection, Header, and add your settings there once, marked as shared:</p>
+  <pre>&lt;script type="application/json" data-service-times-config&gt;
+{ "services": [ … ], "livestream": { … } }
+&lt;/script&gt;</pre>
+  <p>Then each Code block only needs its own line, such as <code>&lt;div data-service-times="bar"&gt;&lt;/div&gt;</code>. A block with settings of its own inside it uses those instead.</p>
+
+  <h2>Run the setup check</h2>
+  <p>Add <code>?services=check</code> to the end of the page address. A panel appears above each Service Times block showing the time zone and where it came from, your weekly services, specials and skips, the livestream window, your next six services with their dates, and when the next live window opens. Underneath is a plain list of anything to fix, such as a day or time it couldn’t read, a skip that doesn’t match a service, or services marked live with no stream address. Visitors never see the panel unless they type that address themselves.</p>
+  <p>To see the live banner without waiting for Sunday, add <code>?services=live</code> instead. The page then shows itself as it will look a few minutes into your next streamed service.</p>
+
+  <h2>Options</h2>
+  <p>On the <code>&lt;div&gt;</code> line:</p>
+  <table>
+    <tr><th>Attribute</th><th>What it does</th></tr>
+    <tr><td><code>data-service-times</code></td><td>Which style: <code>next</code> (the default), <code>bar</code>, <code>week</code> or <code>live</code>.</td></tr>
+    <tr><td><code>data-accent</code></td><td>A colour for buttons, the bar and the live banner, if you’d rather not use your site’s button colour, such as <code>#1f5560</code>.</td></tr>
+  </table>
+  <p>In the settings:</p>
+  <table>
+    <tr><th>Setting</th><th>What it does</th></tr>
+    <tr><td><code>timezone</code></td><td>Your church’s time zone. Default: your Squarespace site’s.</td></tr>
+    <tr><td><code>services</code></td><td>Weekly services: <code>day</code>, <code>time</code>, <code>name</code>, <code>duration</code>, <code>location</code>, <code>address</code>, <code>live</code>.</td></tr>
+    <tr><td><code>specials</code></td><td>One-off services: <code>date</code> and the same as above, plus <code>replaces</code>.</td></tr>
+    <tr><td><code>skips</code></td><td>Weeks off: <code>date</code>, and optionally <code>name</code> and <code>note</code>.</td></tr>
+    <tr><td><code>livestream</code></td><td><code>url</code>, <code>before</code> and <code>after</code> (minutes).</td></tr>
+    <tr><td><code>address</code></td><td>Your street address, for the Directions button.</td></tr>
+    <tr><td><code>directions</code></td><td>A map link of your own instead.</td></tr>
+    <tr><td><code>links</code></td><td>A list of <code>{ "label": …, "url": … }</code>, shown on the card and the bar.</td></tr>
+    <tr><td><code>yourTime</code></td><td><code>false</code> hides the line for visitors in other time zones.</td></tr>
+    <tr><td><code>weekStarts</code></td><td><code>"Monday"</code> starts the weekly schedule on Monday. Default Sunday.</td></tr>
+    <tr><td><code>showSpecials</code></td><td>How many upcoming specials to list. Default 4.</td></tr>
+  </table>
+
+  <h3>Changing the wording</h3>
+  <p>Every label can be changed, which is handy for other languages or your own words. Put this in the Code block <em>above</em> the rest of the paste and change only the lines you want:</p>
+  <pre>&lt;script&gt;
+window.ServiceTimesStrings = {
+  next: 'Next gathering',
+  live: 'Live now',
+  watch: 'Join online',
+  addToCalendar: 'Save the date',
+  yourTime: 'That’s {time} where you are.'
+};
+&lt;/script&gt;</pre>
+  <p>Words in curly brackets, such as <code>{time}</code>, are filled in by Service Times, so keep them. If you’d like the full list of labels, email me and I’ll send it.</p>
+
+  <h2>Troubleshooting</h2>
+  <h3>The block is empty while I’m editing</h3>
+  <p>That’s normal. Squarespace doesn’t run scripts in the editor. Check the live page in a private window.</p>
+  <h3>It says “Service times are being updated”</h3>
+  <p>That’s all visitors see when the settings can’t be used, which usually means a missing comma between two services or a missing quote. Open the page with <code>?services=check</code> on the end and the panel says what’s wrong and which line it got stuck on.</p>
+  <h3>The times are an hour out</h3>
+  <p>Check the time zone in the setup check. If it isn’t yours, set <code>"timezone"</code> in the settings or correct your site’s time zone in Squarespace’s Language and region settings.</p>
+  <h3>The live banner never shows</h3>
+  <p>It needs a <code>livestream</code> address and a service marked <code>"live": true</code>, and it only shows inside that service’s window. The setup check says when the next window opens, and <code>?services=live</code> shows you the banner straight away.</p>
+  <h3>There’s no Directions button</h3>
+  <p>Add your street address as <code>"address"</code> in the settings.</p>
+  <h3>Add to calendar on phones</h3>
+  <p>On an iPhone, the .ics option opens the event in Calendar. On Android, Google Calendar is usually the better choice. Both add just that one service.</p>
+  <h3>Squarespace 7.0 with Ajax loading</h3>
+  <p>Some 7.0 templates load pages without a full refresh. Service Times listens for that, but if it only appears after a reload, turn off Ajax loading under Design, Site Styles.</p>
+
+  <h2>Updates and help</h2>
+  <p>Updates for the 1.x versions are free. When one comes out you’ll get an email with the new files, and you replace the old paste with the new one. Keep your settings block, because that’s where your services live.</p>
+  <p>If you get stuck, email <a href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a> with your page address and what you’re seeing. A screenshot of the <code>?services=check</code> panel helps a lot.</p>
+
+  <footer>Service Times is made by Singh Studio in Aotearoa New Zealand. The licence is in LICENSE.txt: one website per single-site licence, or any number of websites with the unlimited licence.</footer>
+</main>
+</body>
+</html>

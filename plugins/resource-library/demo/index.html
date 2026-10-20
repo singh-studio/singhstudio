@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resource Library demo · Harbourlight Church (fictional)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/demo-shell/shell.css">
+<link rel="stylesheet" href="resource-library.min.css">
+<style>
+  /* The shell's ribbon has room for one line (two on phones), so the "try" chips only show where they fit. */
+  .demo-bar .try { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  @media (max-width: 1180px) { .demo-bar .try, .demo-bar .sp-label { display: none; } }
+  @media (max-width: 480px) { .demo-bar .long { display: none; } }
+  @media (max-width: 760px) { .demo-bar { min-height: 84px; } }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">
+  <div class="demo-bar">
+    <span><b>Resource Library demo</b> · <span class="long">Harbourlight is </span>a made-up church.</span>
+    <span class="try">Try <button type="button" data-try="topic/safeguarding">Safeguarding</button><button type="button" data-try="q/chord charts">chord charts</button><button type="button" data-try="audience/families">For families</button><button type="button" data-try="type/video">Videos</button></span>
+    <span class="sp"><span class="sp-label">Section colours</span> <button type="button" data-theme="light" aria-pressed="true">Light</button><button type="button" data-theme="dark" aria-pressed="false">Dark</button><button type="button" data-theme="warm" aria-pressed="false">Warm</button></span>
+  </div>
+</div>
+
+<header id="header" class="header" data-section-theme="light">
+  <div class="content-wrapper">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Harbourlight</a>
+    <nav class="site-nav" aria-label="Site"><a href="#">Sundays</a><a href="#">Community</a><a href="#" aria-current="page">Resources</a><a href="#">Give</a></nav>
+    <a class="sqs-button-element--primary" href="#">Plan a visit</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-section hero" data-section-theme="light">
+    <div class="content-wrapper">
+      <p class="eyebrow">Harbourlight Church · Resources</p>
+      <h1>Resources</h1>
+      <p>Policies, forms, study guides, chord charts and recorded training for everyone who serves at Harbourlight Church and the Harbourlight Community Trust. Search, or pick a topic.</p>
+    </div>
+  </section>
+
+  <section class="page-section shelf-section" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-resource-library data-source="/resources"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="page-section" data-section-theme="light">
+    <div class="content-wrapper"><span>Harbourlight Church is fictional, made for this demo.</span><span>Resource Library by Singh Studio</span></div>
+  </footer>
+</main>
+
+<script src="data.js"></script>
+<script src="../../assets/demo-shell/squarespace-mock.js"></script>
+<script src="../../assets/demo-shell/shell.js"></script>
+<script src="resource-library.min.js"></script>
+<script>
+  (function () {
+    // Files, documents and websites only exist on a real site, so say what would happen. The two sample files in
+    // files/ download for real.
+    var SAYS = {
+      pdf: 'downloads the PDF', word: 'downloads the Word document', slides: 'downloads the slides', sheet: 'downloads the spreadsheet',
+      zip: 'downloads the ZIP file', image: 'downloads the image', file: 'downloads the file', gdoc: 'opens the Google Doc',
+      gsheet: 'opens the Google Sheet', gslides: 'opens the slides', gform: 'opens the form', drive: 'opens the Google Drive folder',
+      dropbox: 'opens the file in Dropbox', onedrive: 'opens the file in OneDrive', sharepoint: 'opens the file in SharePoint', video: 'opens the video', audio: 'plays the recording', link: 'opens the website'
+    };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('[data-resource-library] a[data-rl-kind]');
+      if (!a || e.defaultPrevented) return;
+      var href = a.getAttribute('href') || '';
+      if (/\/demo\/files\//.test(href) || /^\/resources\//.test(href)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var k = a.getAttribute('data-rl-kind');
+      window.demoToast('On your site, this ' + (SAYS[k] || 'opens the resource') + (a.target === '_blank' ? ' in a new tab.' : '.'));
+    }, true);
+    // "Try" chips use the plugin's own deep links.
+    document.querySelectorAll('[data-try]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        history.pushState(history.state, '', location.pathname + '?lib=' + encodeURI(b.getAttribute('data-try')) + (location.search.indexOf('embed') >= 0 ? '&embed=1' : ''));
+        window.dispatchEvent(new PopStateEvent('popstate'));
+        var el = document.querySelector('[data-resource-library]');
+        window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 140, behavior: 'smooth' });
+      });
+    });
+  })();
+</script>
+</body>
+</html>

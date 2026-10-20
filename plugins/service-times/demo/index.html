@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Service Times demo · Harbourlight Church (fictional)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/demo-shell/shell.css">
+<link rel="stylesheet" href="service-times.min.css">
+<style>
+  /* Demo page only: section layouts around the plugin */
+  .bar-section .content-wrapper { padding-top: 18px; padding-bottom: 0; }
+  .demo-section .content-wrapper { padding-top: clamp(56px, 8vw, 104px); padding-bottom: clamp(56px, 8vw, 104px); }
+  .demo-section + .demo-section .content-wrapper { border-top: 1px solid var(--line); }
+  .demo-intro { max-width: 38em; margin: 0 0 clamp(28px, 4vw, 44px); }
+  .demo-intro h2 { font-size: clamp(36px, 5vw, 56px); line-height: 1; margin: 0 0 14px; }
+  .demo-intro p { margin: 0 0 10px; opacity: .85; }
+  .demo-code { display: inline-block; margin: 0 0 16px; padding: 4px 10px; border-radius: 6px; background: var(--line); font: 12.5px/1.4 "DM Mono", ui-monospace, monospace; letter-spacing: .02em; }
+  .demo-split { display: grid; gap: 36px; align-items: center; }
+  .demo-split .demo-intro { margin: 0; }
+  @media (min-width: 960px) { .demo-split { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 64px; } }
+  .demo-live-slot { position: relative; min-height: 68px; }
+  .demo-live-slot:has(.ssk.is-idle)::before { content: "Nothing is being streamed right now, so the banner is hidden. Press “Pretend it’s live” to see it."; display: flex; align-items: center; min-height: 68px; padding: 12px 20px; border: 1px dashed var(--line); border-radius: 16px; font: 14px/1.4 "Hanken Grotesk", system-ui, sans-serif; opacity: .8; }
+  .demo-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .demo-actions button, .demo-bar button[data-act] { font: 500 13px/1.4 "Hanken Grotesk", system-ui, sans-serif; cursor: pointer; border-radius: 999px; }
+  .demo-actions button { color: inherit; background: transparent; border: 1px solid var(--line); padding: 7px 14px; }
+  .demo-actions button[aria-pressed="true"] { background: var(--paragraphMediumColor); color: var(--siteBackgroundColor); border-color: transparent; }
+  .demo-actions button:focus-visible, .demo-bar button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">
+  <div class="demo-bar">
+    <span><b>Service Times demo.</b> Harbourlight is a made-up church. Try <button type="button" data-act="live" aria-pressed="false">Pretend it’s live</button> <button type="button" data-act="london" aria-pressed="false">See it from London</button> <button type="button" data-act="check">the setup check</button></span>
+    <span class="sp">Section colours <button type="button" data-theme="light" aria-pressed="true">Light</button><button type="button" data-theme="dark" aria-pressed="false">Dark</button><button type="button" data-theme="warm" aria-pressed="false">Warm</button></span>
+  </div>
+</div>
+
+<header id="header" class="header" data-section-theme="light">
+  <div class="content-wrapper">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Harbourlight</a>
+    <nav class="site-nav" aria-label="Site"><a href="#" aria-current="page">Sundays</a><a href="#">Community</a><a href="#">Sermons</a><a href="#">Give</a></nav>
+    <a class="sqs-button-element--primary" href="#">Plan a visit</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-section bar-section" id="bar" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-service-times="bar"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="page-section hero" data-section-theme="light">
+    <div class="content-wrapper">
+      <p class="eyebrow">Harbourlight Church · Sundays</p>
+      <h1>Join us on Sunday</h1>
+      <p>We meet at 12 Beacon Lane in Harbourlight Bay. The 9:30 service has a kids’ programme and is streamed for anyone at home, and the evening service is quieter, with supper afterwards.</p>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="next" data-section-theme="light">
+    <div class="content-wrapper demo-split">
+      <div class="demo-intro">
+        <p class="demo-code">data-service-times="next"</p>
+        <h2>The next service</h2>
+        <p>Whatever’s on next, counting down every half minute, with a calendar invite for that one service and directions to the door.</p>
+        <p>Visitors in another time zone get a line underneath with the time where they are.</p>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-service-times="next"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="week" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="demo-intro">
+        <p class="demo-code">data-service-times="week"</p>
+        <h2>Every week</h2>
+        <p>The regular services by day, with the specials coming up and any week that’s different.</p>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-service-times="week"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="page-section demo-section" id="live" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="demo-intro">
+        <p class="demo-code">data-service-times="live"</p>
+        <h2>When we’re live</h2>
+        <p>This banner only appears while a streamed service is on, from ten minutes before it starts until a quarter of an hour after it ends. The rest of the time it takes up no room at all.</p>
+        <div class="demo-actions"><button type="button" data-act="live" aria-pressed="false">Pretend it’s live</button></div>
+      </div>
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content demo-live-slot">
+        <div data-service-times="live"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="page-section" data-section-theme="light">
+    <div class="content-wrapper"><span>Harbourlight Church is fictional, made for this demo.</span><span>Service Times by Singh Studio</span></div>
+  </footer>
+</main>
+
+<!-- One set of settings for every Service Times block on the page -->
+<script type="application/json" data-service-times-config>
+{
+  "services": [
+    { "day": "Sunday", "time": "9:30am", "name": "Family Service", "duration": 75, "location": "Main auditorium", "live": true },
+    { "day": "Sunday", "time": "6pm", "name": "Evening Service", "duration": 75, "location": "Main auditorium" },
+    { "day": "Wednesday", "time": "7:30pm", "name": "Prayer & Praise", "duration": 60, "location": "Chapel", "live": true },
+    { "day": "Thursday", "time": "10am", "name": "Mainly Music", "duration": 60, "location": "Hall" }
+  ],
+  "specials": [
+    { "date": "{{christmasEve}}", "time": "11pm", "name": "Christmas Eve by candlelight", "duration": 60, "live": true },
+    { "date": "{{christmasDay}}", "time": "9am", "name": "Christmas Day", "duration": 60, "live": true },
+    { "date": "{{goodFriday}}", "time": "9:30am", "name": "Good Friday", "duration": 75, "location": "Main auditorium" }
+  ],
+  "skips": [
+    { "date": "{{sundayAfterChristmas}}", "name": "Evening Service", "note": "Summer break" }
+  ],
+  "livestream": { "url": "/watch-live", "before": 10, "after": 15 },
+  "address": "12 Beacon Lane, Harbourlight Bay",
+  "links": [ { "label": "Plan a visit", "url": "/plan-a-visit" } ]
+}
+</script>
+<script>
+  // Demo data that should look current: the next Christmas, the next Good Friday, and the Sunday after Christmas.
+  (function () {
+    function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+    function easter(y) { // the Gregorian computus
+      var a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+      var h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+      return new Date(y, Math.floor((h + l - 7 * m + 114) / 31) - 1, ((h + l - 7 * m + 114) % 31) + 1);
+    }
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var y = today > new Date(today.getFullYear(), 11, 25) ? today.getFullYear() + 1 : today.getFullYear();
+    var gf = easter(today.getFullYear()); gf.setDate(gf.getDate() - 2);
+    if (gf < today) { gf = easter(today.getFullYear() + 1); gf.setDate(gf.getDate() - 2); }
+    var after = new Date(y, 11, 26); while (after.getDay() !== 0) after.setDate(after.getDate() + 1);
+    var tag = document.querySelector('[data-service-times-config]');
+    tag.textContent = tag.textContent.replace('{{christmasEve}}', iso(new Date(y, 11, 24))).replace('{{christmasDay}}', iso(new Date(y, 11, 25)))
+      .replace('{{goodFriday}}', iso(gf)).replace('{{sundayAfterChristmas}}', iso(after));
+    // Squarespace puts the site's own time zone here; Service Times uses it when the settings don't name one.
+    window.Static = { SQUARESPACE_CONTEXT: { website: { timeZone: 'Pacific/Auckland', siteTitle: 'Harbourlight Church' } } };
+  })();
+</script>
+<script src="../../assets/demo-shell/shell.js"></script>
+<script src="service-times.min.js"></script>
+<script>
+  (function () {
+    // Links that would leave a real church site say where they'd go instead.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('.ssk a[href]');
+      if (!a || a.hasAttribute('download')) return;
+      var h = a.getAttribute('href'), msg = '';
+      if (h === '/watch-live') msg = 'On your site, this opens your livestream (YouTube, Facebook or wherever you stream).';
+      else if (h === '/plan-a-visit') msg = 'On your site, this opens your Plan a visit page.';
+      else if (/google\.com\/maps/.test(h)) msg = 'On your site, this opens Google Maps with directions.';
+      else if (/calendar\.google\.com/.test(h)) msg = 'On your site, this opens Google Calendar with the service filled in.';
+      if (msg) { e.preventDefault(); window.demoToast(msg); }
+    }, true);
+    var liveOn = false, londonOn = false;
+    function press(act, on) { document.querySelectorAll('[data-act="' + act + '"]').forEach(function (b) { b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
+    document.querySelectorAll('[data-act]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var act = b.getAttribute('data-act');
+        if (act === 'check') { location.href = location.pathname + '?services=check'; return; }
+        if (act === 'live') {
+          liveOn = !liveOn;
+          if (liveOn) { if (!window.ServiceTimes.previewLive()) liveOn = false; } else window.ServiceTimes.setClock(null);
+          press('live', liveOn);
+          if (liveOn) window.demoToast('The clock now says it’s a few minutes into the next streamed service.');
+        }
+        if (act === 'london') {
+          londonOn = !londonOn;
+          window.ServiceTimes.setVisitorZone(londonOn ? 'Europe/London' : '');
+          press('london', londonOn);
+          if (londonOn) window.demoToast('Now showing the page as a visitor in London sees it.');
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>

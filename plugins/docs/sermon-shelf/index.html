@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sermon Shelf install guide</title>
+<style>
+  :root { --ink: #16140f; --soft: #5f594f; --line: #e2dcd0; --wash: #f6f3ec; --accent: #b23a22; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 16.5px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 24px 96px; }
+  .kicker { font: 600 12px/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 18px; }
+  h2 { font-size: 24px; letter-spacing: -0.01em; margin: 56px 0 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p, li { color: #2b2721; }
+  .lede { font-size: 19px; color: var(--soft); }
+  a { color: var(--accent); }
+  code, kbd { font: 14px/1.4 ui-monospace, "SF Mono", Menlo, monospace; background: var(--wash); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+  pre { font: 13.5px/1.55 ui-monospace, "SF Mono", Menlo, monospace; background: #16140f; color: #f1ece2; border-radius: 12px; padding: 18px 20px; overflow-x: auto; }
+  ol.steps { counter-reset: s; list-style: none; padding: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 52px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 15px; }
+  .note { background: var(--wash); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 20px 0; }
+  .note strong:first-child { display: block; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 12px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+  td:first-child { white-space: nowrap; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--soft); font-size: 14px; }
+  code { overflow-wrap: anywhere; }
+  @media (max-width: 640px) { table { display: block; overflow-x: auto; } td:first-child { white-space: normal; } }
+  @media print { pre { white-space: pre-wrap; } h2 { break-before: auto; } a { color: inherit; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">Sermon Shelf 1.0 · Install guide</p>
+  <h1>Your sermons, properly shelved.</h1>
+  <p class="lede">Sermon Shelf turns the sermons blog you already have on Squarespace into a library people can browse by series, by book of the Bible and by speaker, with search and a player that remembers where they stopped. Setting it up takes about ten minutes and you won’t need to touch any code beyond one paste.</p>
+
+  <h2>Before you start</h2>
+  <ul>
+    <li>A Squarespace plan that runs JavaScript, which means Core, Plus or Advanced on the current plans, or Business, Commerce Basic or Commerce Advanced on older ones. The Basic and Personal plans don’t run custom scripts, so the shelf can’t work there.</li>
+    <li>Your sermons in a blog, which most churches already have (often doubling as the podcast feed). The blog has to be public, though it doesn’t need to be in your navigation.</li>
+    <li>Squarespace 7.0 or 7.1. Both work.</li>
+  </ul>
+
+  <h2>Install</h2>
+  <ol class="steps">
+    <li><strong>Find your blog’s address.</strong> Open the sermons blog on your live site and look at the address bar. If it reads <code>yourchurch.org/sermons</code>, the part you need is <code>/sermons</code>.</li>
+    <li><strong>Make a page for the library.</strong> I’d suggest a new page called “Sermons” and pointing your navigation at it, while the blog itself stays where it is (it still holds each sermon’s own page and powers your podcast). You can also add the shelf to an existing page.</li>
+    <li><strong>Add a Code block.</strong> Edit the page, add a block and choose <em>Code</em>. Leave the mode on HTML and switch “Display source” off.</li>
+    <li><strong>Paste.</strong> Open <code>paste-into-code-block.html</code> from this download in any text editor (TextEdit or Notepad are fine), copy everything and paste it into the Code block.</li>
+    <li><strong>Point it at your blog.</strong> Near the top of what you pasted you’ll see <code>data-source="/sermons"</code>. Change <code>/sermons</code> to your blog’s address from step 1.</li>
+    <li><strong>Give it room.</strong> On Squarespace 7.1, drag the Code block’s handles so it spans the full width of the section. On 7.0 it fills the column it sits in.</li>
+    <li><strong>Save and look at the live page.</strong> Squarespace doesn’t run scripts inside the editor, so you’ll see an empty block while editing. Open the page in a private window, or log out, to see the shelf.</li>
+  </ol>
+  <div class="note"><strong>If the Code block won’t save</strong>The snippet is about 80 KB, which Squarespace normally takes without complaint. If yours refuses it, use the second file instead: paste <code>paste-into-code-injection.html</code> into the page’s own settings (Page settings → Advanced → Page Header Code Injection), and put only this line in the Code block: <code>&lt;div data-sermon-shelf data-source="/sermons"&gt;&lt;/div&gt;</code></div>
+  <div class="note"><strong>Please don’t paste it into Design → Custom CSS</strong>That panel runs an old style compiler that can’t read modern CSS, and it would break. The Code block (or Code Injection) is the right place.</div>
+
+  <h2>Run the setup check</h2>
+  <p>Add <code>?shelf=check</code> to the end of your library page’s address, for example <code>yourchurch.org/sermons-library?shelf=check</code>. A panel appears above the shelf showing how many sermons it found, how many have audio, artwork, a series, a passage and a speaker, and which tabs are showing. Underneath is a short list of what to tag to fill in the gaps. Visitors never see this panel unless they type that address themselves.</p>
+
+  <h2>Getting the most out of it</h2>
+  <p>Sermon Shelf reads what you already put in each blog post. Nothing has to change for it to work, but a few habits make every tab richer.</p>
+  <h3>Series</h3>
+  <p>Give each sermon a <strong>category</strong> named after its series, such as “Romans: The Gospel in Full”. The series artwork comes from the newest sermon in the series that has a thumbnail image, so if you add your series graphic as each sermon’s thumbnail (most churches already do), the grid looks after itself. If you use categories for something else, tag sermons with <code>Series: Romans</code> instead and add <code>data-series="tags"</code> to the shelf (see the options below).</p>
+  <h3>Scripture</h3>
+  <p>The Scripture shelf lights up the books you’ve preached from. It finds passages in the title (“No Condemnation (Romans 8:1–17)”), in the excerpt, in a tag such as <code>Scripture: Romans 8:1–17</code>, in the audio block’s title, or on any line in the post that starts with “Scripture:”, “Reading:” or “Passage:”. Common abbreviations work (Rom 8, 1 Cor 13, Ps 23, Jn 3:16). A plain tag with a book’s full name, like <code>Jonah</code>, also counts.</p>
+  <p>To keep false matches out, a book name on its own in a title is ignored, so a speaker called Mark doesn’t become the Gospel of Mark. Dates like “Mar 15” are ignored as well.</p>
+  <h3>Speakers</h3>
+  <p>The speaker comes from a <code>Speaker: Jane Smith</code> tag if there is one, then from the Author field of the post’s audio block, and lastly from the blog post’s author. If the post author is just whoever uploads the sermons, fill in the audio block’s Author field and the shelf will use that instead.</p>
+  <h3>Audio and video</h3>
+  <p>Sermons with a Squarespace audio block get a play button. Sermons with a YouTube, Vimeo or Squarespace video get a Watch link instead. The player keeps each listener’s place in their own browser, so they can come back later and carry on.</p>
+
+  <h2>Options</h2>
+  <p>Everything is set with attributes on the <code>&lt;div&gt;</code> line. You only need the ones you want to change.</p>
+  <table>
+    <tr><th>Attribute</th><th>What it does</th></tr>
+    <tr><td><code>data-source</code></td><td>Your sermons blog address. Required. <code>/sermons</code></td></tr>
+    <tr><td><code>data-start</code></td><td>The tab that opens first: <code>series</code> (default), <code>scripture</code>, <code>speakers</code> or <code>all</code>.</td></tr>
+    <tr><td><code>data-views</code></td><td>Which tabs to offer, in order. Default <code>series,scripture,speakers,all</code>. Tabs with nothing to show hide themselves anyway.</td></tr>
+    <tr><td><code>data-latest</code></td><td><code>off</code> hides the featured latest sermon at the top.</td></tr>
+    <tr><td><code>data-series</code></td><td><code>categories</code> (default) or <code>tags</code> to read only <code>Series:</code> tags.</td></tr>
+    <tr><td><code>data-speaker</code></td><td><code>auto</code> (default), <code>tags</code>, <code>audio</code> or <code>author</code>.</td></tr>
+    <tr><td><code>data-ignore</code></td><td>Categories to leave out of the series list, comma separated, e.g. <code>Sunday, Featured</code>.</td></tr>
+    <tr><td><code>data-per-page</code></td><td>How many sermons a list shows before “Show more”. Default <code>12</code>.</td></tr>
+    <tr><td><code>data-accent</code></td><td>A colour for buttons and the lit spines, if you’d rather not use your site’s button colour, e.g. <code>#1f5560</code>.</td></tr>
+    <tr><td><code>data-aliases</code></td><td>Extra names for books, for Bibles in other languages, e.g. <code>Hoani=John; Ngā Waiata=Psalms</code>.</td></tr>
+    <tr><td><code>data-cache</code></td><td><code>off</code> stops the shelf remembering the archive between visits. Leave it on unless asked.</td></tr>
+  </table>
+  <p>A shelf that opens on Scripture and ignores a “Sunday” category looks like this:</p>
+  <pre>&lt;div data-sermon-shelf data-source="/sermons" data-start="scripture" data-ignore="Sunday"&gt;&lt;/div&gt;</pre>
+
+  <h3>Changing the wording</h3>
+  <p>Every label can be changed, which is handy for other languages. Put this in the Code block <em>above</em> the rest of the paste and change only the lines you want:</p>
+  <pre>&lt;script&gt;
+window.SermonShelfStrings = {
+  series: 'Series',
+  scripture: 'Bible',
+  speakers: 'Preachers',
+  all: 'All messages',
+  latest: 'This week',
+  listen: 'Listen'
+};
+&lt;/script&gt;</pre>
+
+  <h2>Troubleshooting</h2>
+  <h3>The block is empty while I’m editing</h3>
+  <p>That’s normal. Squarespace doesn’t run scripts in the editor. Check the live page in a private window.</p>
+  <h3>“The sermons couldn’t be loaded”</h3>
+  <p>Open the page with <code>?shelf=check</code> on the end and the panel will tell you why. It’s nearly always one of three things: <code>data-source</code> doesn’t match the blog’s address exactly, the blog is password protected or members-only, or the address points at a normal page instead of a blog.</p>
+  <h3>The speaker shows our administrator’s name</h3>
+  <p>Fill in the Author field on each audio block, or add <code>Speaker:</code> tags. If most sermons already name a speaker that way, the shelf leaves the rest blank rather than guessing.</p>
+  <h3>A tab I expected is missing</h3>
+  <p>Tabs hide themselves when there isn’t enough to fill them, for instance Series when fewer than one sermon in ten belongs to a series. The setup check shows the numbers.</p>
+  <h3>The search bar hides under my header when I scroll</h3>
+  <p>The shelf looks for anything pinned to the top of the window and sits underneath it, which works on every template I’ve tested. If yours is different, email me the page address and I’ll take a look.</p>
+  <h3>New sermons don’t appear straight away</h3>
+  <p>The shelf checks for changes on every visit with one quick request, and refreshes its copy when your blog changes. If a visitor’s browser blocks storage, it simply loads the archive fresh each time.</p>
+  <h3>Squarespace 7.0 with Ajax loading</h3>
+  <p>Some 7.0 templates load pages without a full refresh. The shelf listens for that, but if it only appears after a reload, turn off Ajax loading under Design → Site Styles.</p>
+
+  <h2>Updates and help</h2>
+  <p>Updates for the 1.x versions are free. When one comes out you’ll get an email with the new files, and you replace the old paste with the new one. Your settings live on the <code>&lt;div&gt;</code> line, so keep that line.</p>
+  <p>If you get stuck, email <a href="mailto:kris@singhstudio.co.nz">kris@singhstudio.co.nz</a> with your page address and what you’re seeing. It helps to include a screenshot of the <code>?shelf=check</code> panel.</p>
+
+  <footer>Sermon Shelf is made by Singh Studio in Aotearoa New Zealand. The licence is in LICENSE.txt: one website per single-site licence, or any number of websites with the unlimited licence.</footer>
+</main>
+</body>
+</html>

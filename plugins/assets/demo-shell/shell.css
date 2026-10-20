@@ -1,0 +1,54 @@
+/* Harbourlight Church: a fictional Squarespace 7.1 site that every plugin demo runs inside. Demo only. */
+/* A stand-in for a Squarespace 7.1 site: the same theme variables and button classes the plugin reads. */
+  :root {
+    --heading-font-font-family: "Instrument Serif", Georgia, serif;
+    --heading-font-font-weight: 400;
+    --body-font-font-family: "Hanken Grotesk", system-ui, sans-serif;
+    --meta-font-font-family: "DM Mono", ui-monospace, monospace;
+    --primary-button-font-font-family: "Hanken Grotesk", system-ui, sans-serif;
+  }
+  [data-section-theme="light"] { --siteBackgroundColor: #f5f1e8; --paragraphMediumColor: #1c2422; --headingLargeColor: #14201e; --primaryButtonBackgroundColor: #1f5560; --primaryButtonTextColor: #f5f1e8; --line: rgba(28,36,34,.14); }
+  [data-section-theme="dark"] { --siteBackgroundColor: #101b1a; --paragraphMediumColor: #ebe4d6; --headingLargeColor: #f6f0e4; --primaryButtonBackgroundColor: #e3b866; --primaryButtonTextColor: #1a1408; --line: rgba(235,228,214,.16); }
+  [data-section-theme="warm"] { --siteBackgroundColor: #f2e2d1; --paragraphMediumColor: #3a2016; --headingLargeColor: #2c160e; --primaryButtonBackgroundColor: #a3432b; --primaryButtonTextColor: #fbefe4; --line: rgba(58,32,22,.16); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: var(--body-font-font-family); background: #f5f1e8; padding-top: 76px; }
+  h1, h2, h3 { font-family: var(--heading-font-font-family); font-weight: 400; letter-spacing: -0.012em; color: var(--headingLargeColor); }
+  p { font-family: var(--body-font-font-family); font-size: 17px; line-height: 1.6; }
+  .page-section { background: var(--siteBackgroundColor); color: var(--paragraphMediumColor); }
+  .sqs-button-element--primary { display: inline-block; padding: 1em 1.7em; border-radius: 300px; background: var(--primaryButtonBackgroundColor); color: var(--primaryButtonTextColor); font-family: var(--primary-button-font-font-family); font-weight: 600; font-size: 15px; letter-spacing: .01em; text-decoration: none; }
+  .content-wrapper { max-width: 1240px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); }
+
+  #header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 76px; background: var(--siteBackgroundColor); color: var(--paragraphMediumColor); border-bottom: 1px solid var(--line); }
+  .is-embed body { padding-top: 0; }
+  .is-embed #header { position: static; }
+  #header .content-wrapper { height: 100%; display: flex; align-items: center; gap: 28px; }
+  .logo { font-family: var(--heading-font-font-family); font-size: 28px; letter-spacing: -0.01em; color: var(--headingLargeColor); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .logo i { width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 50% 38%, #f2c56b 0 30%, transparent 32%), var(--primaryButtonBackgroundColor); display: inline-block; }
+  nav.site-nav { display: flex; gap: 26px; margin-left: auto; font-size: 15px; }
+  nav.site-nav a { color: inherit; text-decoration: none; opacity: .8; }
+  nav.site-nav a[aria-current] { opacity: 1; text-decoration: underline; text-underline-offset: .35em; text-decoration-thickness: 1px; }
+  #header .sqs-button-element--primary { padding: .75em 1.3em; font-size: 14px; }
+  @media (max-width: 760px) { nav.site-nav { display: none; } #header .sqs-button-element--primary { margin-left: auto; } }
+
+  .hero .content-wrapper { padding-top: clamp(48px, 8vw, 110px); padding-bottom: clamp(28px, 4vw, 44px); }
+  .eyebrow { font-family: var(--meta-font-font-family); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; opacity: .7; margin: 0 0 18px; }
+  .hero h1 { font-size: clamp(56px, 10vw, 128px); line-height: .9; margin: 0 0 22px; }
+  .hero p { max-width: 34em; margin: 0; font-size: 19px; opacity: .85; }
+  .shelf-section .content-wrapper { padding-top: 24px; padding-bottom: 110px; }
+  footer.page-section { border-top: 1px solid var(--line); }
+  footer .content-wrapper { padding-top: 40px; padding-bottom: 40px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; font-size: 14px; opacity: .8; }
+
+  /* Demo chrome, not part of the plugin */
+  .demo-ribbon { position: fixed; z-index: 60; top: 0; left: 0; right: 0; display: none; }
+  .demo-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px clamp(18px, 4vw, 48px); background: #14201e; color: #f5f1e8; font: 500 13px/1.4 "Hanken Grotesk", system-ui, sans-serif; }
+  .demo-bar b { font-weight: 600; }
+  .demo-bar button { font: inherit; color: inherit; background: rgba(245,241,232,.1); border: 1px solid rgba(245,241,232,.22); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .demo-bar button[aria-pressed="true"] { background: #f5f1e8; color: #14201e; }
+  .demo-bar .sp { margin-left: auto; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .has-ribbon .demo-ribbon { display: block; }
+  .has-ribbon body { padding-top: 124px; }
+  .has-ribbon #header { top: 48px; }
+  @media (max-width: 760px) { .has-ribbon body { padding-top: 160px; } .has-ribbon #header { top: 84px; } }
+  .demo-toast { position: fixed; left: 50%; top: 96px; z-index: 70; transform: translate(-50%, -12px); opacity: 0; pointer-events: none; padding: 12px 18px; border-radius: 12px; background: #14201e; color: #f5f1e8; font: 500 14px/1.4 "Hanken Grotesk", sans-serif; box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); transition: opacity .35s cubic-bezier(.65,0,.35,1), transform .35s cubic-bezier(.65,0,.35,1); max-width: calc(100vw - 32px); text-align: center; }
+  .demo-toast.on { opacity: 1; transform: translate(-50%, 0); }

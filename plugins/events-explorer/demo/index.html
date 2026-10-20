@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events Explorer demo · Harbourlight Church (fictional)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/demo-shell/shell.css">
+<link rel="stylesheet" href="events-explorer.min.css">
+</head>
+<body>
+<div class="demo-ribbon">
+  <div class="demo-bar">
+    <span><b>Events Explorer demo</b> <button type="button" data-try="month">Month</button> <button type="button" data-try="youth">Youth</button> <button type="button" data-try="past">Past</button></span>
+    <span class="sp">Section colours <button type="button" data-theme="light" aria-pressed="true">Light</button><button type="button" data-theme="dark" aria-pressed="false">Dark</button><button type="button" data-theme="warm" aria-pressed="false">Warm</button></span>
+  </div>
+</div>
+
+<header id="header" class="header" data-section-theme="light">
+  <div class="content-wrapper">
+    <a class="logo" href="#"><i aria-hidden="true"></i>Harbourlight</a>
+    <nav class="site-nav" aria-label="Site"><a href="#">Sundays</a><a href="#" aria-current="page">Events</a><a href="#">Community</a><a href="#">Give</a></nav>
+    <a class="sqs-button-element--primary" href="#">Plan a visit</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-section hero" data-section-theme="light">
+    <div class="content-wrapper">
+      <p class="eyebrow">Harbourlight Church · What’s on</p>
+      <h1>Events</h1>
+      <p>Sunday services, youth nights, community dinners and the odd camp. See what’s on this week, look a few months ahead, and add anything you like to your own calendar.</p>
+    </div>
+  </section>
+
+  <section class="page-section shelf-section" data-section-theme="light">
+    <div class="content-wrapper">
+      <div class="sqs-block code-block sqs-block-code"><div class="sqs-block-content">
+        <div data-events-explorer data-source="/events"></div>
+      </div></div>
+    </div>
+  </section>
+
+  <footer class="page-section" data-section-theme="light">
+    <div class="content-wrapper"><span>Harbourlight Church is fictional, made for this demo.</span><span>Events Explorer by Singh Studio</span></div>
+  </footer>
+</main>
+
+<script src="events-data.js"></script>
+<script src="../../assets/demo-shell/squarespace-mock.js"></script>
+<script src="../../assets/demo-shell/shell.js"></script>
+<script src="events-explorer.min.js"></script>
+<script>
+  // The ribbon's "try this" buttons drive the plugin the way a visitor would.
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-try]');
+    if (!b) return;
+    var root = document.querySelector('[data-events-explorer]'), k = b.getAttribute('data-try'), hit = null;
+    if (k === 'month') hit = root.querySelector('[data-view="month"]');
+    else if (k === 'youth') hit = root.querySelector('.ssk-ev-chips [data-cat="youth"]');
+    else if (k === 'past') hit = root.querySelector('[data-pastbtn][aria-pressed="false"]');
+    else if (k === 'q') {
+      var i = root.querySelector('.ssk-search input');
+      i.value = 'dinner'; i.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    if (k !== 'q' && k !== 'month' && root.querySelector('[data-view="month"][aria-pressed="true"]')) root.querySelector('[data-view="list"]').click();
+    if (hit && hit.getAttribute('aria-pressed') !== 'true') hit.click();
+    window.scrollTo({ top: Math.max(0, root.getBoundingClientRect().top + window.pageYOffset - 150), behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
