@@ -120,7 +120,7 @@ input[type="number"] { font-family: var(--mono); }
 .calc-form { padding: 22px; display: grid; gap: 16px; }
 .calc-row { display: grid; grid-template-columns: 1.25fr .75fr; gap: 12px; }
 .calc-row.three { grid-template-columns: 1fr 1fr; }
-@media (max-width: 520px) { .calc-row { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .calc-row, .calc-row.three { grid-template-columns: 1fr; } .dir { justify-self: start; } }
 .rule-line { font-size: .86rem; color: var(--muted); margin: -6px 0 0; }
 .presets { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font: 400 .8rem/1.2 var(--sans); padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink-2); cursor: pointer; text-align: left; }
