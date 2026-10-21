@@ -1,6 +1,7 @@
 // Demo chrome for every product demo: embed mode, section-colour switcher, toasts for links that go nowhere.
+// A demo names its made-up organisation on <html data-demo-org="…">; without it, the toasts call it a church site.
 (function () {
-  var root = document.documentElement, params = new URLSearchParams(location.search);
+  var root = document.documentElement, params = new URLSearchParams(location.search), org = root.getAttribute('data-demo-org');
   if (params.has('embed')) root.classList.add('is-embed'); else root.classList.add('has-ribbon');
   var toastEl = document.createElement('div');
   toastEl.className = 'demo-toast'; toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
@@ -15,7 +16,7 @@
     var a = e.target.closest && e.target.closest('a[data-demo-link], a[href="#"], a[href^="/team/"], a[href^="/resources/"], a[href^="/events/"], a[href^="/give"], a[href^="/sermons/"]');
     if (!a || a.hasAttribute('download')) return;
     e.preventDefault();
-    window.demoToast(a.getAttribute('href') === '#' ? 'This is a made-up church site, so the rest of it is scenery.' : 'On your site, this opens that page.');
+    window.demoToast(a.getAttribute('href') !== '#' ? 'On your site, this opens that page.' : org ? org + ' is made up, so the rest of its site is scenery.' : 'This is a made-up church site, so the rest of it is scenery.');
   });
   // Section colours: every plugin re-reads the theme through its own retheme()
   window.setDemoTheme = function (name) {

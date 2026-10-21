@@ -1,4 +1,4 @@
-// Demo only. Harbourlight Church's events, shaped like a Squarespace 7.1 events collection (?format=json),
+// Demo only. Harbourlight Community Trust's events, shaped like a Squarespace 7.1 events collection (?format=json),
 // with every date worked out from today in Auckland so the demo always looks current. All names and places are fictional.
 (function () {
   var TZ = 'Pacific/Auckland', DAY = 864e5;
@@ -28,69 +28,69 @@
     return { mapZoom: 14, mapLat: lat, mapLng: lng, markerLat: lat, markerLng: lng, addressTitle: title, addressLine1: line1, addressLine2: line2, addressCountry: 'New Zealand' };
   }
   var V = {
-    church: place('Harbourlight Church', '27 Lantern Quay', 'Devonport, Auckland 0624', -36.82915, 174.79562),
+    centre: place('Harbourlight Community Centre', '27 Lantern Quay', 'Devonport, Auckland 0624', -36.82915, 174.79562),
     hall: place('Harbourlight Community Hall', '29 Lantern Quay', 'Devonport, Auckland 0624', -36.82931, 174.79591),
-    room: place('Pōhutukawa Room, Harbourlight Church', '27 Lantern Quay', 'Devonport, Auckland 0624', -36.82915, 174.79562),
+    room: place('Pōhutukawa Room, Harbourlight Community Centre', '27 Lantern Quay', 'Devonport, Auckland 0624', -36.82915, 174.79562),
     cafe: place('The Lighthouse Café', '14 Beacon Rise', 'Takapuna, Auckland 0622', -36.78765, 174.77118),
-    trust: place('Harbourlight Community Trust', '8 Saltwind Terrace', 'Onehunga, Auckland 1061', -36.92241, 174.78563),
+    foodbank: place('Harbourlight Food Bank', '8 Saltwind Terrace', 'Onehunga, Auckland 1061', -36.92241, 174.78563),
     reserve: place('Tidewater Reserve', 'Lamplighter Lane', 'Mission Bay, Auckland 1071', -36.84783, 174.83352),
     camp: place('Camp Tūī Ridge', '400 Ridgelight Road', 'Waitākere Ranges, Auckland 0604', -36.94892, 174.55121),
     online: { mapZoom: 12, mapLat: NYC.mapLat, mapLng: NYC.mapLng, markerLat: NYC.mapLat, markerLng: NYC.mapLng, addressTitle: 'Online (Zoom)', addressLine1: '', addressLine2: '', addressCountry: '' },
     none: { mapZoom: 12, mapLat: NYC.mapLat, mapLng: NYC.mapLng, markerLat: NYC.mapLat, markerLng: NYC.mapLng, addressTitle: '', addressLine1: '', addressLine2: '', addressCountry: '' }
   };
-  var SS = 'Services &amp; Specials', Y = 'Youth', KF = 'Kids &amp; Families', CO = 'Community', PR = 'Prayer', MI = 'Mission';
+  var CW = 'Classes &amp; Workshops', Y = 'Youth', KF = 'Kids &amp; Families', CO = 'Community', VO = 'Volunteering', FR = 'Fundraising';
 
   // [title, start, end, categories, venue, image, excerpt]
   var E = [
     // Happening now, today and tomorrow
-    ['Light in the City Art Trail', at(-2, 0, 0), at(3, 23, 59), [CO], V.church, 'art', 'Twelve local artists fill the church, the hall and the garden with work about light. Wander through any time, and stay for a cuppa.'],
-    ['Op Shop Half-Price Day', at(0, 0, 0), at(0, 23, 59), [CO], place('Harbourlight Op Shop', '31 Lantern Quay', 'Devonport, Auckland 0624', -36.82944, 174.79604), '', 'Everything on the racks is half price for one day only. Every dollar goes to the Harbourlight Community Trust foodbank.'],
-    ['Youth Night', at(0, 19, 0), at(0, 21, 0), [Y], V.hall, 'youth', 'Games, food and a short talk for years 9 to 13. Bring a friend. Parents, pick-up is at 9pm sharp.'],
-    ['Mainly Music', at(1, 9, 30), at(1, 11, 0), [KF], V.hall, 'kids', 'Songs, stories and morning tea for under-fives and the grown-ups who bring them. $3 a family, first visit free.'],
+    ['Light in the City Art Trail', at(-2, 0, 0), at(3, 23, 59), [CO], V.centre, 'art', 'Twelve local artists fill the community centre, the hall and the garden with work about light. Wander through any time, and stay for a cuppa.'],
+    ['Op Shop Half-Price Day', at(0, 0, 0), at(0, 23, 59), [CO, FR], place('Harbourlight Op Shop', '31 Lantern Quay', 'Devonport, Auckland 0624', -36.82944, 174.79604), '', 'Everything on the racks is half price for one day only. Every dollar goes to the Harbourlight food bank.'],
+    ['Youth Night', at(0, 19, 0), at(0, 21, 0), [Y], V.hall, 'youth', 'Games, food and a new challenge every week for years 9 to 13. Bring a friend. Parents, pick-up is at 9pm sharp.'],
+    ['Toddler Music Morning', at(1, 9, 30), at(1, 11, 0), [KF], V.hall, 'kids', 'Songs, stories and morning tea for under-fives and the grown-ups who bring them. $3 a family, first visit free.'],
     // The next four months
-    ['Sunday Gathering', at(next(SUN, 0), 9, 30), at(next(SUN, 0), 11, 0), [SS], V.church, 'sunday', 'Our Sunday morning service, with kids’ programmes running alongside. Coffee from 9am.'],
-    ['한인 예배 Korean Fellowship Service', at(next(SUN, 0), 13, 30), at(next(SUN, 0), 15, 0), [SS], V.room, '', '한인 교인을 위한 주일 오후 예배입니다. A Korean-language service every second Sunday, with lunch to follow.'],
-    ['Online Prayer Meeting', at(next(WED, 0), 20, 0), at(next(WED, 0), 21, 0), [PR], V.online, '', 'Half an hour of prayer for our city and the world, from wherever you are. The Zoom link is in the weekly email.'],
-    ['Foodbank Packing Morning', at(next(SAT, 0), 9, 0), at(next(SAT, 0), 12, 0), [CO, MI], V.trust, 'foodbank', 'Help pack 120 food parcels for families on the North Shore and in Onehunga. No experience needed, and there’s morning tea.'],
-    ['Night of Prayer &amp; Worship', at(next(FRI, 1), 19, 0), at(next(FRI, 1), 21, 30), [PR, SS], V.church, 'prayer', 'An unhurried evening of songs, silence and prayer stations. Come for ten minutes or stay the whole night.'],
+    ['Repair Café', at(next(SUN, 0), 9, 30), at(next(SUN, 0), 11, 30), [CO], V.hall, 'repair', 'Bring your wobbly chairs, broken toasters and torn jackets, and our volunteer fixers will mend them with you. Free, with coffee from 9am.'],
+    ['한인 학부모 모임 Korean Parents’ Group', at(next(SUN, 0), 13, 30), at(next(SUN, 0), 15, 0), [CO], V.room, '', '한인 학부모님들을 위한 모임입니다. A get-together for Korean-speaking parents every second Sunday, with lunch to follow.'],
+    ['Online Budgeting Workshop', at(next(WED, 0), 20, 0), at(next(WED, 0), 21, 0), [CW], V.online, '', 'An hour on setting up a budget that works, from wherever you are. The Zoom link is in the weekly email.'],
+    ['Food Bank Packing Morning', at(next(SAT, 0), 9, 0), at(next(SAT, 0), 12, 0), [VO, CO], V.foodbank, 'foodbank', 'Help pack 120 food parcels for families on the North Shore and in Onehunga. No experience needed, and there’s morning tea.'],
+    ['Open Mic &amp; Pizza Night', at(next(FRI, 1), 19, 0), at(next(FRI, 1), 21, 30), [CO, Y], V.centre, 'openmic', 'Bring a song, a poem or just yourself. Sign up on the night for a five-minute spot, and the pizza is on us.'],
     ['Community Dinner', at(next(THU, 1), 18, 0), at(next(THU, 1), 20, 0), [CO], V.hall, 'dinner', 'A free three-course dinner, cooked by our volunteers. Everyone is welcome, and you don’t need to book.'],
-    ['Alpha: Is There More?', at(next(WED, 1), 18, 30), at(next(WED, 1), 21, 0), [MI], V.hall, 'alpha', 'The first night of an eleven-week course on life, faith and meaning. Dinner, a short film and an honest conversation.'],
-    ['Messy Church', at(next(SUN, 2), 16, 0), at(next(SUN, 2), 18, 0), [KF], V.hall, 'kids', 'Crafts, a Bible story, a short celebration and dinner together. Made for families with children of every age.'],
-    ['Evening Service', at(next(SUN, 2), 18, 0), at(next(SUN, 2), 19, 15), [SS], V.church, 'sunday', 'A quieter service on Sunday evening, with candles, a short reflection and communion.'],
-    ['Prayer Breakfast', at(next(SAT, 2), 7, 30), at(next(SAT, 2), 9, 0), [PR], V.cafe, '', 'Breakfast and prayer for the week ahead at The Lighthouse Café. $12 at the door.'],
-    ['Youth Night', at(next(FRI, 3), 19, 0), at(next(FRI, 3), 21, 0), [Y], V.hall, 'youth', 'Games, food and a short talk for years 9 to 13. This week: the dodgeball rematch.'],
-    ['Short-term Mission Info Night: Vanuatu', at(next(TUE, 3), 19, 0), at(next(TUE, 3), 20, 30), [MI], V.room, 'mission', 'Thinking about joining the Vanuatu building team in the next school holidays? Come and hear what’s involved and ask anything.'],
-    ['Mission Sunday: Stories from Tonga', at(next(SUN, 4), 10, 0), at(next(SUN, 4), 12, 0), [MI, SS], V.church, 'mission', 'Our partners from Nukuʻalofa share what your giving made possible this year. Shared lunch afterwards.'],
+    ['Cooking on a Budget: Week One', at(next(WED, 1), 18, 30), at(next(WED, 1), 21, 0), [CW], V.hall, 'cooking', 'The first night of a six-week course on feeding a family well for less. We cook together, then sit down and share what we made.'],
+    ['Family Craft Afternoon', at(next(SUN, 2), 16, 0), at(next(SUN, 2), 18, 0), [KF], V.hall, 'kids', 'Crafts, games, a story and dinner together. Made for families with children of every age.'],
+    ['Te Reo Māori for Beginners', at(next(SUN, 2), 18, 0), at(next(SUN, 2), 19, 15), [CW], V.room, 'learning', 'A relaxed evening class with waiata, everyday phrases and plenty of practice. The first class of the term is free.'],
+    ['Business Breakfast', at(next(SAT, 2), 7, 30), at(next(SAT, 2), 9, 0), [CO, FR], V.cafe, '', 'Breakfast and a short talk from a local business owner at The Lighthouse Café. $12 at the door, and it all goes to the youth programme.'],
+    ['Youth Night', at(next(FRI, 3), 19, 0), at(next(FRI, 3), 21, 0), [Y], V.hall, 'youth', 'Games, food and a new challenge every week for years 9 to 13. This week: the dodgeball rematch.'],
+    ['Volunteer Info Night', at(next(TUE, 3), 19, 0), at(next(TUE, 3), 20, 30), [VO], V.room, 'volunteer', 'Thinking about helping at the food bank, the op shop or the holiday programme? Come and hear what’s involved and ask anything.'],
+    ['Open Day: Meet the Trust', at(next(SUN, 4), 10, 0), at(next(SUN, 4), 12, 0), [CO, FR], V.centre, 'openday', 'Tours of the centre, a sausage sizzle and a chance to meet the people behind the food bank, the op shop and the classes.'],
     ['Youth Leaders Training Day', at(next(SAT, 4), 9, 0), at(next(SAT, 4), 16, 0), [Y], V.room, '', 'A full day for new and returning youth leaders: safety, small groups and a long lunch.'],
     ['Community Dinner', at(next(THU, 5), 18, 0), at(next(THU, 5), 20, 0), [CO], V.hall, 'dinner', 'A free three-course dinner, cooked by our volunteers. Everyone is welcome, and you don’t need to book.'],
-    ['Night Vigil', at(next(FRI, 5), 22, 0), at(next(FRI, 5) + 1, 1, 0), [PR], V.church, 'prayer', 'Three hours of prayer through the night, with the church open and the candles lit.'],
-    ['Marriage Course', at(next(TUE, 6), 19, 0), at(next(TUE, 6), 21, 0), [CO], V.room, '', 'Dinner for two and a conversation that matters, one evening a week for seven weeks. Open to any couple.'],
+    ['Stargazing Night', at(next(FRI, 5), 22, 0), at(next(FRI, 5) + 1, 1, 0), [CO, KF], V.reserve, 'stars', 'Three hours under the stars with telescopes from the local astronomy club. Dress warmly and bring a thermos.'],
+    ['Parenting Teens Course', at(next(TUE, 6), 19, 0), at(next(TUE, 6), 21, 0), [CW], V.room, '', 'Seven Tuesday evenings for parents of teenagers: sleep, screens, money and keeping the door open. Open to any parent or caregiver.'],
     ['Grandparents &amp; Grandkids Picnic', at(next(SAT, 6), 11, 0), at(next(SAT, 6), 14, 0), [KF, CO], V.reserve, '', 'Bring a rug and a picnic. We’ll bring the games, the sack races and the ice blocks.'],
     ['Youth Summer Camp', at(next(FRI, 7), 17, 0), at(next(FRI, 7) + 2, 14, 0), [Y], V.camp, 'camp', 'Three days in the bush at Camp Tūī Ridge: kayaks, the flying fox, campfire nights and a lot of laughter. Registrations close a fortnight before.'],
-    ['Harbour Lights Concert', at(next(SAT, 8), 19, 30), at(next(SAT, 8), 21, 30), [SS, CO], V.church, 'concert', 'Our choir, the youth band and friends from across the harbour, in one long evening of music. Koha at the door.'],
-    ['Baptism Sunday', at(next(SUN, 9), 9, 30), at(next(SUN, 9), 11, 30), [SS], V.church, 'sunday', 'Six people are being baptised this morning. Come and celebrate with them.'],
-    ['Kids’ Holiday Club', at(next(MON, 9), 9, 0), at(next(MON, 9) + 4, 15, 0), [KF], V.hall, 'kids', 'Five mornings and afternoons of games, crafts, songs and stories for years 1 to 6. $40 for the week, with sibling discounts.'],
+    ['Harbour Lights Concert', at(next(SAT, 8), 19, 30), at(next(SAT, 8), 21, 30), [FR, CO], V.centre, 'concert', 'Our community choir, the youth band and friends from across the harbour, in one long evening of music. Koha at the door.'],
+    ['Graduation Morning', at(next(SUN, 9), 9, 30), at(next(SUN, 9), 11, 30), [CW], V.centre, 'learning', 'Thirty learners finish their courses this term. Come and celebrate with them, and stay for morning tea.'],
+    ['Kids’ Holiday Programme', at(next(MON, 9), 9, 0), at(next(MON, 9) + 4, 15, 0), [KF], V.hall, 'kids', 'Five mornings and afternoons of games, crafts, songs and stories for years 1 to 6. $40 for the week, with sibling discounts.'],
     ['Pacific Fiafia Night', at(next(FRI, 10), 18, 0), at(next(FRI, 10), 21, 0), [CO], V.hall, 'fiafia', 'Talofa lava! Food, dance and music from across the Pacific, hosted by our Samoan and Tongan families.'],
     ['Women’s Breakfast', at(next(SAT, 10), 8, 0), at(next(SAT, 10), 10, 0), [CO], V.cafe, '', 'A cooked breakfast and a guest speaker on finding rest in a full life.'],
-    ['Community Garden Working Bee', at(next(SAT, 13), 9, 0), at(next(SAT, 13), 12, 0), [CO], V.none, '', 'Weeding, planting and a barbecue to finish. Bring gloves if you have them.'],
-    ['Quiz Night for the Vanuatu Team', at(next(FRI, 14), 19, 0), at(next(FRI, 14), 21, 30), [CO, MI], V.hall, '', 'Tables of six, $10 a head, and a dessert auction at half-time. All proceeds go to the building team.'],
-    ['Prayer Walk: Onehunga', at(next(SAT, 15), 9, 0), at(next(SAT, 15), 11, 0), [PR, MI], V.trust, '', 'We walk the streets around the Trust and pray for the shops, schools and homes we pass.'],
+    ['Community Garden Working Bee', at(next(SAT, 13), 9, 0), at(next(SAT, 13), 12, 0), [VO, CO], V.none, '', 'Weeding, planting and a barbecue to finish. Bring gloves if you have them.'],
+    ['Quiz Night for the Holiday Programme', at(next(FRI, 14), 19, 0), at(next(FRI, 14), 21, 30), [FR, CO], V.hall, '', 'Tables of six, $10 a head, and a dessert auction at half-time. All proceeds go to the January holiday programme.'],
+    ['Neighbourhood Clean-up: Onehunga', at(next(SAT, 15), 9, 0), at(next(SAT, 15), 11, 0), [VO, CO], V.foodbank, '', 'We meet at the food bank and spend the morning picking up litter around the shops, the schools and the park.'],
     // Past
-    ['Sunday Gathering', at(last(SUN, 0), 9, 30), at(last(SUN, 0), 11, 0), [SS], V.church, 'sunday', 'Our Sunday morning service, with kids’ programmes running alongside.'],
-    ['Mainly Music', at(last(THU, 0), 9, 30), at(last(THU, 0), 11, 0), [KF], V.hall, 'kids', 'Songs, stories and morning tea for under-fives.'],
-    ['Foodbank Packing Morning', at(last(SAT, 1), 9, 0), at(last(SAT, 1), 12, 0), [CO, MI], V.trust, 'foodbank', '112 food parcels packed and delivered. Thank you!'],
+    ['Repair Café', at(last(SUN, 0), 9, 30), at(last(SUN, 0), 11, 30), [CO], V.hall, 'repair', 'Forty-three things fixed, from a lamp to a ukulele. Thank you, fixers!'],
+    ['Toddler Music Morning', at(last(THU, 0), 9, 30), at(last(THU, 0), 11, 0), [KF], V.hall, 'kids', 'Songs, stories and morning tea for under-fives.'],
+    ['Food Bank Packing Morning', at(last(SAT, 1), 9, 0), at(last(SAT, 1), 12, 0), [VO, CO], V.foodbank, 'foodbank', '112 food parcels packed and delivered. Thank you!'],
     ['Community Dinner', at(last(THU, 1), 18, 0), at(last(THU, 1), 20, 0), [CO], V.hall, 'dinner', 'A free three-course dinner, cooked by our volunteers.'],
-    ['Quiz Night for the Tonga Mission', at(last(FRI, 2), 19, 0), at(last(FRI, 2), 21, 30), [CO, MI], V.hall, '', 'We raised $4,310 for the Tonga partnership. The winning table was, once again, the Bible study group.'],
-    ['Messy Church', at(last(SUN, 3), 16, 0), at(last(SUN, 3), 18, 0), [KF], V.hall, 'kids', 'Crafts, a Bible story and dinner together.'],
-    ['Prayer Breakfast', at(last(SAT, 3), 7, 30), at(last(SAT, 3), 9, 0), [PR], V.cafe, '', 'Breakfast and prayer for the week ahead.'],
-    ['Worship Night', at(last(FRI, 4), 19, 0), at(last(FRI, 4), 21, 0), [PR, SS], V.church, 'prayer', 'An evening of songs old and new.'],
-    ['Mission Sunday: Stories from Fiji', at(last(SUN, 5), 10, 0), at(last(SUN, 5), 12, 0), [MI, SS], V.church, 'mission', 'Bula! Our friends from Suva shared their year.'],
-    ['Kids’ Holiday Club', at(last(MON, 6), 9, 0), at(last(MON, 6) + 4, 15, 0), [KF], V.hall, 'kids', 'Five days of games, crafts, songs and stories for years 1 to 6.'],
-    ['Harbourlight Art Market', at(last(SAT, 6), 10, 0), at(last(SAT, 6), 14, 0), [CO], V.church, 'art', 'Local makers, a sausage sizzle and live music.'],
-    ['Alpha Celebration Dinner', at(last(WED, 7), 18, 30), at(last(WED, 7), 21, 0), [MI], V.hall, 'alpha', 'The last night of the winter Alpha course, with dinner and stories.'],
+    ['Quiz Night for the Food Bank', at(last(FRI, 2), 19, 0), at(last(FRI, 2), 21, 30), [FR, CO], V.hall, '', 'We raised $4,310 for the food bank. The winning table was, once again, the Tuesday walking group.'],
+    ['Family Craft Afternoon', at(last(SUN, 3), 16, 0), at(last(SUN, 3), 18, 0), [KF], V.hall, 'kids', 'Crafts, a story and dinner together.'],
+    ['Business Breakfast', at(last(SAT, 3), 7, 30), at(last(SAT, 3), 9, 0), [CO, FR], V.cafe, '', 'Breakfast and a talk from the owner of the Beacon Rise bakery.'],
+    ['Acoustic Night', at(last(FRI, 4), 19, 0), at(last(FRI, 4), 21, 0), [CO], V.centre, 'openmic', 'An evening of songs old and new from local musicians.'],
+    ['Volunteer Thank-you Lunch', at(last(SUN, 5), 10, 0), at(last(SUN, 5), 12, 0), [VO], V.centre, 'volunteer', 'A long lunch to thank the 120 people who give their time to the trust.'],
+    ['Kids’ Holiday Programme', at(last(MON, 6), 9, 0), at(last(MON, 6) + 4, 15, 0), [KF], V.hall, 'kids', 'Five days of games, crafts, songs and stories for years 1 to 6.'],
+    ['Harbourlight Art Market', at(last(SAT, 6), 10, 0), at(last(SAT, 6), 14, 0), [CO], V.centre, 'art', 'Local makers, a sausage sizzle and live music.'],
+    ['Cooking on a Budget: Graduation Dinner', at(last(WED, 7), 18, 30), at(last(WED, 7), 21, 0), [CW], V.hall, 'cooking', 'The last night of the winter course, with dinner cooked by the class.'],
     ['Youth Winter Camp', at(last(FRI, 8), 17, 0), at(last(FRI, 8) + 2, 14, 0), [Y], V.camp, 'camp', 'A cold, muddy and very happy weekend at Camp Tūī Ridge.'],
-    ['Annual General Meeting', at(last(SUN, 9), 12, 0), at(last(SUN, 9), 13, 30), [CO], V.church, '', 'Reports, the budget and the election of the church council. Lunch provided.'],
-    ['Youth Leaders Retreat', at(last(SAT, 11), 0, 0), at(last(SAT, 11), 23, 59), [Y], V.camp, '', 'A day away to rest, pray and plan the next term.']
+    ['Annual General Meeting', at(last(SUN, 9), 12, 0), at(last(SUN, 9), 13, 30), [CO], V.centre, '', 'Reports, the budget and the election of trustees. Lunch provided.'],
+    ['Youth Leaders Retreat', at(last(SAT, 11), 0, 0), at(last(SAT, 11), 23, 59), [Y], V.camp, '', 'A day away to rest, reflect and plan the next term.']
   ];
 
   var dayStart = at(0, 0, 0, 0);
