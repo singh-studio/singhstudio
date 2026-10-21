@@ -1,0 +1,7 @@
+{
+  "_readme": "Fill these in after creating the Laurel product in Lemon Squeezy, then run: node _laurel/build.mjs  (see _laurel/LAUNCH.md)",
+  "storeId": 0,
+  "productIds": [],
+  "checkout": { "club": "", "trade": "" },
+  "prices": { "club": 149, "trade": 449, "dfy": 349 }
+}
