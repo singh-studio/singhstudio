@@ -12,3 +12,4 @@ export {
   reasonsExcluded,
 } from './compute.js';
 export { ENGINE_VERSION, RULES_VERIFIED } from './version.js';
+export { DEFINITIONS, DEFINITIONS_AS_AT } from './definitions.js';

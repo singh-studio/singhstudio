@@ -69,7 +69,8 @@ export const OPS = {
     regime: p.regime || 'legislation-act',
     from: req(p.from, 'from'),
     days: int(p.days, 'days'),
-    roll: p.roll === 'next-working-day' ? 'next-working-day' : 'none',
+    roll: p.roll,
+    startRule: p.start_rule === 'on' || p.startRule === 'on' ? 'on' : 'after',
     province: p.province || undefined,
   }),
 

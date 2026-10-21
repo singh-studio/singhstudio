@@ -32,7 +32,7 @@
 <h1>Deadlines, counted <em>properly.</em></h1>
 <p class="lede">Every Act counts “working days” its own way. The OIA stops for 25 December to 15 January, the RMA for 20 December to 10 January, and some regimes skip your province’s anniversary day. Duly knows which.</p>
 <ul class="points">
-<li>15 statutory and contract definitions, each with its citation</li>
+<li>22 statutory and contract definitions, each with its citation</li>
 <li>Every skipped day shown with the reason, so you can check it</li>
 <li>Holidays to 2052, Matariki and all 12 anniversary days</li>
 <li>Free. Links you can share, calendar files, and an API for software and AI</li>
@@ -40,7 +40,7 @@
 </div>
 <form class="calc" id="calc" data-calc data-regime="oia" novalidate>
 <div class="calc-form">
-<label>Counting under<select name="regime"><optgroup label="Official information"><option value="oia" selected>OIA request (Official Information Act)</option><option value="lgoima">LGOIMA request (councils)</option><option value="privacy">Privacy Act access request</option></optgroup><optgroup label="Property and tenancy"><option value="rta">Tenancy (Residential Tenancies Act)</option><option value="adls">Sale and purchase agreement (ADLS/REINZ)</option><option value="pla">Property Law Act notices</option></optgroup><optgroup label="Planning and building"><option value="rma">Resource consent (RMA)</option><option value="building">Building consent (Building Act)</option></optgroup><optgroup label="Construction"><option value="cca">Payment claim (Construction Contracts Act)</option></optgroup><optgroup label="Courts"><option value="hcr">High Court filing</option><option value="dcr">District Court filing</option></optgroup><optgroup label="Companies, tax and contracts"><option value="companies">Companies Act (statutory demands, meetings)</option><option value="taa">Tax (IRD due dates)</option></optgroup><optgroup label="General"><option value="legislation-act">Any other Act (Legislation Act default)</option><option value="business-day">Business days (banks in Auckland and Wellington)</option></optgroup></select></label>
+<label>Counting under<select name="regime"><optgroup label="Official information"><option value="oia" selected>OIA request (Official Information Act)</option><option value="lgoima">LGOIMA request (councils)</option><option value="privacy">Privacy Act request for personal information</option></optgroup><optgroup label="Property and tenancy"><option value="rta">Tenancy notice (Residential Tenancies Act)</option><option value="sale-purchase">Property sale and purchase agreement</option><option value="sale-purchase-lim">Property sale and purchase: LIM date</option><option value="pla">Property Law Act notices (mortgages, leases)</option><option value="lta">Land Transfer Act (caveats)</option><option value="ppsa">Personal Property Securities Act</option></optgroup><optgroup label="Planning and building"><option value="rma">Resource consent (RMA)</option><option value="building">Building consent (Building Act)</option></optgroup><optgroup label="Construction"><option value="cca">Payment claim (Construction Contracts Act)</option></optgroup><optgroup label="Courts"><option value="hcr">High Court Rules</option><option value="senior-courts">Senior Courts Act (appeals and leave)</option><option value="dcr">District Court Rules</option><option value="district-court-act">District Court Act (statutory periods)</option></optgroup><optgroup label="Companies, tax and contracts"><option value="companies">Companies Act (statutory demands, meetings)</option><option value="ird-due-date">Tax due date (IRD)</option><option value="tax-acts">Tax Acts (working-day periods)</option><option value="era">Personal grievance or trial period (Employment Relations Act)</option></optgroup><optgroup label="General"><option value="legislation-act">Any other Act (Legislation Act default)</option><option value="business-day">Business days (banks in Auckland and Wellington)</option></optgroup></select></label>
 <p class="rule-line" data-rule-line>Skips weekends, public holidays and 25 December – 15 January.</p>
 <div class="presets" data-presets aria-label="Common timeframes"></div>
 <div class="calc-row">
@@ -48,13 +48,13 @@
 <label><span data-days-label>Working days</span><input type="number" name="days" min="0" max="2000" step="1" inputmode="numeric" value="20" required></label>
 </div>
 <div class="calc-row three">
-<div role="group" aria-label="Direction" class="dir"><button type="button" data-dir="after" aria-pressed="true">After</button><button type="button" data-dir="before" aria-pressed="false">Before</button></div>
+<div role="group" aria-label="Direction" class="dir" data-dir-wrap><button type="button" data-dir="after" aria-pressed="true">After</button><button type="button" data-dir="before" aria-pressed="false">Before</button></div>
 <label data-province-wrap hidden>Province (anniversary day)<select name="province"><option value="">Choose a province…</option><option value="wellington">Wellington (Wellington, Wairarapa, Manawatū, Whanganui)</option><option value="auckland">Auckland (Auckland, Northland, Waikato, Coromandel, Bay of Plenty, Gisborne)</option><option value="nelson">Nelson (Nelson, Tasman, Buller)</option><option value="taranaki">Taranaki (Taranaki)</option><option value="otago">Otago (Otago, Dunedin, Queenstown, Central Otago)</option><option value="southland">Southland (Southland, Invercargill, Gore, Fiordland)</option><option value="south-canterbury">South Canterbury (Timaru, Mackenzie, Waimate)</option><option value="hawkes-bay">Hawke&#39;s Bay (Napier, Hastings, Central Hawke&#39;s Bay)</option><option value="marlborough">Marlborough (Marlborough, Blenheim, Picton)</option><option value="canterbury">Canterbury (Christchurch, North and Central Canterbury, Ashburton)</option><option value="chatham-islands">Chatham Islands (Chatham Islands)</option><option value="westland">Westland (Westland, Greymouth, Hokitika)</option></select></label>
 </div>
 <label data-service-wrap hidden>How the notice was given<select name="service"></select></label>
 <details class="adv"><summary>More options</summary><div class="stack">
 <label>Count in<select name="unit"><option value="working">Working days</option><option value="calendar">Calendar days</option></select></label>
-<label class="check" data-roll-wrap hidden><input type="checkbox" name="roll"> If the answer isn’t a working day, move it to the next one</label>
+<label data-roll-wrap hidden>If the answer isn’t a working day<select name="roll"><option value="none">Leave it</option><option value="next">Move to the next working day</option><option value="previous">Move to the previous working day</option></select></label>
 <label class="check"><input type="checkbox" name="on"> Count the start date itself as day 1</label>
 </div></details>
 <noscript><p class="note">The calculator needs JavaScript. The <a href="/developers/">API</a> works without it.</p></noscript>
@@ -68,41 +68,43 @@
 <div class="section-head"><div><p class="eyebrow">/ Same day, different deadlines</p><h2>Twenty working days from Tuesday 1 December 2026</h2></div>
 <p>Under the Acts below, the same 20 working days end on dates up to 20 days apart, depending on how each one treats the Christmas break, public holidays and anniversary days.</p></div>
 <div class="table-wrap"><table class="diff"><thead><tr><th>Under</th><th>Deadline</th><th>Why</th></tr></thead><tbody>
-<tr class="hl"><td><a href="/business-days/">Banking business day</a><span class="tagline">Business day (banks open in Auckland and Wellington)</span></td><td class="date"><b>Thu 31 Dec 2026</b></td><td>weekends, public holidays and Auckland and Wellington anniversary days</td></tr>
+<tr class="hl"><td><a href="/business-days/">Business days</a><span class="tagline">Business day (banks open in Auckland and Wellington)</span></td><td class="date"><b>Thu 31 Dec 2026</b></td><td>weekends, public holidays and Auckland and Wellington anniversary days</td></tr>
+<tr><td><a href="/property-law-act/">Property Law Act</a><span class="tagline">Property Law Act 2007</span></td><td class="date"><b>Wed 6 Jan 2027</b></td><td>weekends, public holidays, 25 December – 2 January and the local anniversary day (Auckland property)</td></tr>
 <tr><td><a href="/companies-act/">Companies Act</a><span class="tagline">Companies Act 1993</span></td><td class="date"><b>Thu 7 Jan 2027</b></td><td>weekends, public holidays and 25 December – 2 January</td></tr>
+<tr><td><a href="/land-transfer-act/">Land Transfer Act</a><span class="tagline">Land Transfer Act 2017</span></td><td class="date"><b>Thu 7 Jan 2027</b></td><td>weekends, public holidays and 25 December – 2 January</td></tr>
 <tr><td><a href="/working-days/">Legislation Act</a><span class="tagline">Legislation Act 2019</span></td><td class="date"><b>Thu 7 Jan 2027</b></td><td>weekends, public holidays and 25 December – 2 January</td></tr>
-<tr><td><a href="/property-law-act/">Property Law Act</a><span class="tagline">Property Law Act 2007</span></td><td class="date"><b>Thu 7 Jan 2027</b></td><td>weekends, public holidays and 25 December – 2 January</td></tr>
-<tr><td><a href="/sale-and-purchase/">ADLS agreement</a><span class="tagline">ADLS/REINZ Agreement for Sale and Purchase of Real Estate</span></td><td class="date"><b>Mon 11 Jan 2027</b></td><td>weekends, public holidays, 24 December – 5 January and the local anniversary day (Auckland property)</td></tr>
-<tr><td><a href="/construction-contracts/">CCA</a><span class="tagline">Construction Contracts Act 2002</span></td><td class="date"><b>Mon 11 Jan 2027</b></td><td>weekends, public holidays and 24 December – 5 January</td></tr>
-<tr><td><a href="/building-act/">Building Act</a><span class="tagline">Building Act 2004</span></td><td class="date"><b>Tue 19 Jan 2027</b></td><td>weekends, public holidays and 20 December – 10 January</td></tr>
-<tr><td><a href="/lgoima/">LGOIMA</a><span class="tagline">Local Government Official Information and Meetings Act 1987</span></td><td class="date"><b>Tue 19 Jan 2027</b></td><td>weekends, public holidays and 20 December – 10 January</td></tr>
+<tr><td><a href="/tenancy/">RTA</a><span class="tagline">Residential Tenancies Act 1986</span></td><td class="date"><b>Thu 7 Jan 2027</b></td><td>weekends, public holidays, Good Friday to Easter Tuesday, 24 December – 3 January and the local anniversary day (Auckland property)</td></tr>
+<tr><td><a href="/construction-contracts/">CCA</a><span class="tagline">Construction Contracts Act 2002</span></td><td class="date"><b>Mon 11 Jan 2027</b></td><td>weekends, public holidays, 24 December – 5 January and the local anniversary day (Auckland property)</td></tr>
+<tr><td><a href="/sale-and-purchase/">Sale and purchase agreement</a><span class="tagline">Agreement for Sale and Purchase of Real Estate (TLANZ/REINZ)</span></td><td class="date"><b>Mon 11 Jan 2027</b></td><td>weekends, public holidays, 24 December – 5 January and the local anniversary day (Auckland property)</td></tr>
+<tr><td><a href="/building-act/">Building Act</a><span class="tagline">Building Act 2004</span></td><td class="date"><b>Tue 19 Jan 2027</b></td><td>weekends, public holidays, 20 December – 10 January and the local anniversary day (Auckland property)</td></tr>
+<tr><td><a href="/lgoima/">LGOIMA</a><span class="tagline">Local Government Official Information and Meetings Act 1987</span></td><td class="date"><b>Tue 19 Jan 2027</b></td><td>weekends, public holidays, 20 December – 10 January and the local anniversary day (Auckland property)</td></tr>
 <tr><td><a href="/rma/">RMA</a><span class="tagline">Resource Management Act 1991</span></td><td class="date"><b>Tue 19 Jan 2027</b></td><td>weekends, public holidays and 20 December – 10 January</td></tr>
 <tr class="hl"><td><a href="/district-court/">District Court Rules</a><span class="tagline">District Court Rules 2014</span></td><td class="date"><b>Wed 20 Jan 2027</b></td><td>weekends, public holidays and 25 December – 15 January</td></tr>
 <tr class="hl"><td><a href="/high-court/">High Court Rules</a><span class="tagline">High Court Rules 2016</span></td><td class="date"><b>Wed 20 Jan 2027</b></td><td>weekends, public holidays and 25 December – 15 January</td></tr>
 <tr class="hl"><td><a href="/oia/">OIA</a><span class="tagline">Official Information Act 1982</span></td><td class="date"><b>Wed 20 Jan 2027</b></td><td>weekends, public holidays and 25 December – 15 January</td></tr>
 <tr class="hl"><td><a href="/privacy-act/">Privacy Act</a><span class="tagline">Privacy Act 2020</span></td><td class="date"><b>Wed 20 Jan 2027</b></td><td>weekends, public holidays and 25 December – 15 January</td></tr>
-<tr class="hl"><td><a href="/tenancy/">RTA</a><span class="tagline">Residential Tenancies Act 1986</span></td><td class="date"><b>Wed 20 Jan 2027</b></td><td>weekends, public holidays, 25 December – 15 January and the local anniversary day (Auckland property)</td></tr>
-<tr class="hl"><td><a href="/tax/">Tax Administration Act</a><span class="tagline">Tax Administration Act 1994</span></td><td class="date"><b>Wed 20 Jan 2027</b></td><td>weekends, public holidays and 25 December – 15 January</td></tr>
 </tbody></table></div>
 </div></section>
 
 <section id="calculators"><div class="wrap">
 <div class="section-head"><div><p class="eyebrow">/ Calculators</p><h2>Pick the Act, get the date</h2></div><p>Each calculator explains its definition of “working day”, the common timeframes under it, and the dates the clock stops this summer.</p></div>
 <div class="cards"><a class="card" href="/oia/"><span class="tag">OIA</span><h3>OIA deadline calculator</h3><p>Requests to government agencies and Ministers. 20 working days, with 25 Dec – 15 Jan excluded.</p></a>
-<a class="card" href="/lgoima/"><span class="tag">LGOIMA</span><h3>LGOIMA deadline calculator</h3><p>Requests to councils and CCOs. 20 working days, with 20 Dec – 10 Jan excluded.</p></a>
-<a class="card" href="/privacy-act/"><span class="tag">Privacy Act</span><h3>Privacy Act request deadline calculator</h3><p>Personal information requests to any agency. 20 working days.</p></a>
-<a class="card" href="/rma/"><span class="tag">RMA</span><h3>RMA working days calculator</h3><p>Resource consents, submissions, objections and appeals. 20 Dec – 10 Jan excluded.</p></a>
+<a class="card" href="/lgoima/"><span class="tag">LGOIMA</span><h3>LGOIMA deadline calculator</h3><p>Requests to councils and CCOs. 20 working days, 20 Dec – 10 Jan and the anniversary day excluded.</p></a>
+<a class="card" href="/privacy-act/"><span class="tag">Privacy Act</span><h3>Privacy Act request deadline calculator</h3><p>Requests for your personal information, to any agency. 20 working days.</p></a>
+<a class="card" href="/rma/"><span class="tag">RMA</span><h3>RMA working days calculator</h3><p>Consent decisions, submissions, objections and appeals. 20 Dec – 10 Jan excluded.</p></a>
 <a class="card" href="/building-act/"><span class="tag">Building Act</span><h3>Building consent working days calculator</h3><p>Building consents and code compliance certificates. 20 working days.</p></a>
-<a class="card" href="/tenancy/"><span class="tag">RTA</span><h3>Tenancy notice and deadline calculator</h3><p>Notice periods, bond lodgement and deemed delivery of notices.</p></a>
-<a class="card" href="/sale-and-purchase/"><span class="tag">ADLS agreement</span><h3>Sale and purchase agreement date calculator</h3><p>Condition dates, requisitions and settlement notices for property sales.</p></a>
-<a class="card" href="/property-law-act/"><span class="tag">Property Law Act</span><h3>Property Law Act working days calculator</h3><p>Mortgagee and lease notices.</p></a>
-<a class="card" href="/construction-contracts/"><span class="tag">CCA</span><h3>Construction Contracts Act payment schedule calculator</h3><p>Payment claims, payment schedules and adjudication. 24 Dec – 5 Jan excluded.</p></a>
-<a class="card" href="/high-court/"><span class="tag">High Court Rules</span><h3>High Court working days calculator</h3><p>Statements of defence and other High Court steps.</p></a>
+<a class="card" href="/tenancy/"><span class="tag">RTA</span><h3>Tenancy notice calculator</h3><p>Notice periods, deemed delivery by post, mailbox or email, and bond lodgement.</p></a>
+<a class="card" href="/sale-and-purchase/"><span class="tag">Sale and purchase agreement</span><h3>Sale and purchase agreement date calculator</h3><p>Condition dates, settlement notices and notice service for property sales.</p></a>
+<a class="card" href="/property-law-act/"><span class="tag">Property Law Act</span><h3>Property Law Act working days calculator</h3><p>Mortgagee and lease notices. 25 Dec – 2 Jan and the anniversary day excluded.</p></a>
+<a class="card" href="/land-transfer-act/"><span class="tag">Land Transfer Act</span><h3>Caveat lapse calculator</h3><p>Lapse of caveats against dealings. 10 + 20 working days.</p></a>
+<a class="card" href="/construction-contracts/"><span class="tag">CCA</span><h3>Payment schedule deadline calculator</h3><p>Payment claims, payment schedules and adjudication. 24 Dec – 5 Jan excluded.</p></a>
+<a class="card" href="/high-court/"><span class="tag">High Court Rules</span><h3>High Court working days calculator</h3><p>Statements of defence, service and other High Court steps.</p></a>
 <a class="card" href="/district-court/"><span class="tag">District Court Rules</span><h3>District Court working days calculator</h3><p>Civil steps in the District Court.</p></a>
-<a class="card" href="/companies-act/"><span class="tag">Companies Act</span><h3>Companies Act working days calculator</h3><p>Statutory demands, set-aside applications and meeting notices.</p></a>
-<a class="card" href="/tax/"><span class="tag">Tax Administration Act</span><h3>IRD due date calculator</h3><p>Tax due dates that fall on weekends and holidays.</p></a>
+<a class="card" href="/companies-act/"><span class="tag">Companies Act</span><h3>Statutory demand deadline calculator</h3><p>Statutory demands and set-aside applications, with deemed service.</p></a>
+<a class="card" href="/tax/"><span class="tag">IRD due dates</span><h3>IRD due date calculator</h3><p>Tax due dates that fall on weekends and holidays.</p></a>
+<a class="card" href="/personal-grievance/"><span class="tag">Employment Relations Act</span><h3>Personal grievance 90-day calculator</h3><p>The 90-day window to raise a grievance, and 90-day trial periods.</p></a>
 <a class="card" href="/working-days/"><span class="tag">Legislation Act</span><h3>NZ working days calculator</h3><p>The default definition for Acts without their own. 25 Dec – 2 Jan excluded.</p></a>
-<a class="card" href="/business-days/"><span class="tag">Banking business day</span><h3>NZ business days calculator</h3><p>Finance and commercial contracts. No summer shutdown; both anniversary days skipped.</p></a></div>
+<a class="card" href="/business-days/"><span class="tag">Business days</span><h3>NZ business days calculator</h3><p>Finance and commercial contracts. No summer shutdown; both anniversary days skipped.</p></a></div>
 </div></section>
 
 <section><div class="wrap"><div class="dark-band split">
@@ -114,8 +116,9 @@
 › When is the council’s LGOIMA response due if
   my request landed on 12 December?
 
-⏺ duly · nz_deadline(regime: "lgoima", from: "2026-12-12", days: 20)
-  Friday 29 January 2027</code></pre></div>
+⏺ duly · nz_deadline(regime: "lgoima", from: "2026-12-12",
+                     days: 20, province: "wellington")
+  Monday 1 February 2027</code></pre></div>
 </div></div></section>
 
 <section class="tight"><div class="wrap split">

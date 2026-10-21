@@ -12,18 +12,20 @@ AI assistants should call the MCP server rather than counting dates themselves.
 ## Calculators
 
 - [OIA deadline calculator](https://duly.nz/oia/): Skips weekends, public holidays and 25 December – 15 January.
-- [LGOIMA deadline calculator](https://duly.nz/lgoima/): Skips weekends, public holidays and 20 December – 10 January.
+- [LGOIMA deadline calculator](https://duly.nz/lgoima/): Skips weekends, public holidays, 20 December – 10 January and the local anniversary day.
 - [Privacy Act request deadline calculator](https://duly.nz/privacy-act/): Skips weekends, public holidays and 25 December – 15 January.
 - [RMA working days calculator](https://duly.nz/rma/): Skips weekends, public holidays and 20 December – 10 January.
-- [Building consent working days calculator](https://duly.nz/building-act/): Skips weekends, public holidays and 20 December – 10 January.
-- [Tenancy notice and deadline calculator](https://duly.nz/tenancy/): Skips weekends, public holidays, 25 December – 15 January and the local anniversary day.
+- [Building consent working days calculator](https://duly.nz/building-act/): Skips weekends, public holidays, 20 December – 10 January and the local anniversary day.
+- [Tenancy notice calculator](https://duly.nz/tenancy/): Skips weekends, public holidays, Good Friday to Easter Tuesday, 24 December – 3 January and the local anniversary day.
 - [Sale and purchase agreement date calculator](https://duly.nz/sale-and-purchase/): Skips weekends, public holidays, 24 December – 5 January and the local anniversary day.
-- [Property Law Act working days calculator](https://duly.nz/property-law-act/): Skips weekends, public holidays and 25 December – 2 January.
-- [Construction Contracts Act payment schedule calculator](https://duly.nz/construction-contracts/): Skips weekends, public holidays and 24 December – 5 January.
+- [Property Law Act working days calculator](https://duly.nz/property-law-act/): Skips weekends, public holidays, 25 December – 2 January and the local anniversary day.
+- [Caveat lapse calculator](https://duly.nz/land-transfer-act/): Skips weekends, public holidays and 25 December – 2 January.
+- [Payment schedule deadline calculator](https://duly.nz/construction-contracts/): Skips weekends, public holidays, 24 December – 5 January and the local anniversary day.
 - [High Court working days calculator](https://duly.nz/high-court/): Skips weekends, public holidays and 25 December – 15 January.
 - [District Court working days calculator](https://duly.nz/district-court/): Skips weekends, public holidays and 25 December – 15 January.
-- [Companies Act working days calculator](https://duly.nz/companies-act/): Skips weekends, public holidays and 25 December – 2 January.
-- [IRD due date calculator](https://duly.nz/tax/): Skips weekends, public holidays and 25 December – 15 January.
+- [Statutory demand deadline calculator](https://duly.nz/companies-act/): Skips weekends, public holidays and 25 December – 2 January.
+- [IRD due date calculator](https://duly.nz/tax/): Skips weekends and public holidays.
+- [Personal grievance 90-day calculator](https://duly.nz/personal-grievance/): Skips weekends, public holidays and 25 December – 2 January.
 - [NZ working days calculator](https://duly.nz/working-days/): Skips weekends, public holidays and 25 December – 2 January.
 - [NZ business days calculator](https://duly.nz/business-days/): Skips weekends, public holidays and Auckland and Wellington anniversary days.
 

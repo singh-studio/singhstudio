@@ -78,14 +78,15 @@ export const TOOLS = [
   {
     name: 'nz_calendar_deadline',
     title: 'NZ calendar-day deadline',
-    description: 'Add calendar days to a date (e.g. 63 or 90 days for tenancy notices, 90 days for a personal grievance) and optionally move the answer to the next working day if it lands on a weekend, holiday or excluded period (as IRD due dates do).',
+    description: 'Add calendar days to a date (e.g. 42 or 90 days for tenancy notices, 60 days for a rent increase, 90 days to raise a personal grievance) and optionally move the answer to the next working day (Legislation Act s 55, IRD due dates) or the previous one (sale and purchase agreement cl 1.3(1)) if it is not a working day under the chosen regime. Use start_rule "on" for periods "beginning with" a day.',
     inputSchema: {
       type: 'object',
       properties: {
         from: date,
         days: { type: 'integer', minimum: 0, maximum: 2000 },
-        roll: { type: 'string', enum: ['none', 'next-working-day'], default: 'none' },
-        regime: { ...regime, description: 'Definition used when rolling forward (default legislation-act)' },
+        roll: { type: 'string', enum: ['none', 'next', 'previous'], default: 'none' },
+        start_rule: { type: 'string', enum: ['after', 'on'], default: 'after', description: '"on" for periods beginning with the start date (it counts as day 1)' },
+        regime: { ...regime, description: 'Definition used to decide whether the answer is a working day (default legislation-act)' },
         province,
       },
       required: ['from', 'days'],

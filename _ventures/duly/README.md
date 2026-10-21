@@ -51,14 +51,15 @@ search rankings) gets deeper every year it exists.
 _ventures/duly/
 ├── src/engine/      Rules engine: pure ES modules, zero dependencies; runs in browser, Worker and Node
 │   ├── holidays.js  National holidays, Mondayisation, Matariki to 2052, 12 anniversary days
-│   ├── regimes.js   15 definitions of “working day”, with citations and common timeframes
+│   ├── regimes.js   22 definitions of “working day”, with citations and common timeframes
+│   ├── definitions.js  The statutory definitions, verbatim (consolidated to 18 Sep 2026)
 │   ├── compute.js   Deadlines forwards/backwards, counts, calendar days with roll-forward, full audit trail
 │   └── ics.js       Calendar files
 ├── src/worker/      Cloudflare Worker: REST API (/v1), MCP server (/mcp), Stripe billing, rate limits
 ├── site/            Static assets (CSS, calculator front-end, fonts, embed.js) and site config
-├── scripts/build.js Generates public/ (28 pages, calendar feeds, sitemap, llms.txt) from the engine
+├── scripts/build.js Generates public/ (30 pages, calendar feeds, sitemap, llms.txt) from the engine
 ├── public/          The built site (committed; CI checks it is up to date)
-└── test/            41 tests, including every MBIE holiday table from 2010 to 2027
+└── test/            45 tests, including every MBIE holiday table from 2010 to 2027
 ```
 
 - **Holidays are tested against the official record**: all 187 national
@@ -67,6 +68,21 @@ _ventures/duly/
   for Anzac Day 2027, and South Canterbury 2022, which moved because of
   Queen Elizabeth II Memorial Day. Matariki is checked against Te Papa’s
   schedule to 2052.
+- **Definitions are quoted, not paraphrased**: each statutory definition is
+  verbatim from the Parliamentary Counsel Office’s legislation data
+  (consolidated to 18 Sep 2026), and every preset timeframe was checked against
+  its section. That check caught things most people (and my first draft) get wrong:
+  - the RTA closes **24 Dec–3 Jan** (not 25 Dec–15 Jan) and skips **Good Friday
+    to Easter Tuesday**; tenancy.govt.nz’s own example (posted Mon 22 Dec 2025 →
+    served Wed 7 Jan 2026) is a test case;
+  - an owner moving in now needs **42 days’** notice, not 63;
+  - **LGOIMA, the Building Act and the CCA skip the local anniversary day**
+    (the Ombudsman’s own LGOIMA calculator doesn’t);
+  - the RTA and Property Law Act don’t exclude a New Year holiday observed on
+    4 January (2027, 2028), so Duly counts it and tells the user why;
+  - IRD due dates move past weekends and holidays but *not* the summer period;
+  - the sale and purchase agreement moves non-working dates *back*, and posted
+    notices now take 5 working days (edition 2022 (4)).
 - **Every answer shows its working**: each skipped day with its reason, the
   citation, the engine version and the date the rules were last checked.
 - **The site**: calculator with shareable permalinks, .ics export and print;
@@ -86,7 +102,7 @@ _ventures/duly/
 
 ```bash
 cd _ventures/duly
-npm test            # 41 tests, no dependencies to install
+npm test            # 45 tests, no dependencies to install
 npm run build       # regenerate public/
 npm run dev         # local Worker + site at http://localhost:8787 (downloads wrangler)
 ```
@@ -98,11 +114,18 @@ npm run dev         # local Worker + site at http://localhost:8787 (downloads wr
    unregistered. Register `duly.nz` (and optionally `workingdays.nz` to
    redirect). If you pick another name, change `origin` in `site/site.json`
    and run `npm run build`.
-2. **Confirm the definitions.** `src/engine/regimes.js` marks each regime
-   `confirmed` or `pending`. Pending regimes show a “check this against the
-   Act” note to users. Re-read each definition against legislation.govt.nz (it
-   blocks automated access, so this needs a human) and flip the status. About
-   an hour.
+2. **Spot-check the law (30–45 min).** legislation.govt.nz blocks automated
+   access, so the definitions came from an unofficial rendering of the PCO’s
+   official XML (github.com/tonyandrewmeyer/nz-acts, consolidated to
+   18 Sep 2026). Open these in a browser and compare:
+   - the RMA s 2 definition and timeframes **after 30 Oct 2026**, when the
+     Planning Act transition amendments start;
+   - District Court Rules r 1.4 and r 2.1 (only official extracts were
+     available; the regime is marked `partial` and says so to users);
+   - the settlement-notice period (12 working days, cl 11) in the current
+     sale and purchase agreement.
+   Each regime’s `status` in `src/engine/regimes.js` drives the caveat users
+   see.
 3. **Deploy to Cloudflare** (free plan is fine):
    ```bash
    npx wrangler@4 login

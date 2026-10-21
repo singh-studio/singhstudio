@@ -5,13 +5,14 @@
 import {
   addDays, assertISODate, diffDays, formatLong, formatMonthDay, formatShort, isWeekend, weekday, WEEKDAYS, yearOf,
 } from './dates.js';
-import { anniversaryDay, getProvince, nationalHolidays } from './holidays.js';
+import { anniversaryDay, easterSunday, getProvince, nationalHolidays } from './holidays.js';
 import { getRegime } from './regimes.js';
 import { ENGINE_VERSION, RULES_VERIFIED } from './version.js';
 
 export const FIRST_DATE = '2023-01-01';
 export const LAST_DATE = '2052-12-31';
 const MAX_DAYS = 2000;
+const cap = (s) => s[0].toUpperCase() + s.slice(1);
 
 // ---------------------------------------------------------------------------
 // Which days a regime excludes
@@ -35,12 +36,36 @@ function excludedByHoliday(regime, province, year) {
       push(h.date, { code: 'mondayised', label: `${h.name} (observed; ${formatShort(h.actual)} falls on a weekend)` });
     }
   }
+  if (holidays.includes('easter-tuesday')) push(addDays(easterSunday(year), 2), { code: 'holiday', label: 'Easter Tuesday' });
   for (const p of anniversaryProvinces(regime, province)) {
     const a = anniversaryDay(p, year);
     push(a.date, { code: 'anniversary', label: a.name });
   }
   yearCache.set(key, map);
   return map;
+}
+
+// Weekday public holidays (actual or Mondayised) in a year, by date. Used to
+// point out when a definition counts a day most people have off.
+const observedCache = new Map();
+function observedHoliday(date) {
+  const y = yearOf(date);
+  if (!observedCache.has(y)) {
+    observedCache.set(y, new Map(nationalHolidays(y).filter((h) => !isWeekend(h.date)).map((h) => [h.date, h])));
+  }
+  return observedCache.get(y).get(date);
+}
+
+function countedHolidayNotes(trace, regime) {
+  const notes = [];
+  for (const t of trace) {
+    if (!t.working || !t.n) continue;
+    const h = observedHoliday(t.date);
+    if (h) {
+      notes.push(`${formatLong(t.date)} is counted: it is ${h.mondayised ? `the observed ${h.name} public holiday` : `${h.name}`}, but the definition of working day in ${regime.citation} doesn’t exclude it.`);
+    }
+  }
+  return notes;
 }
 
 function anniversaryProvinces(regime, province) {
@@ -82,7 +107,7 @@ function resolve(opts) {
   const needsProvince = regime.rules.anniversary === 'location';
   if (province) getProvince(province);
   else if (needsProvince && opts.requireProvince !== false) {
-    throw new RangeError(`${regime.short} excludes the anniversary day of the province where the ${regime.rules.locationNoun || 'place'} is. Pass a province (e.g. "auckland").`);
+    throw new RangeError(`${cap(regime.the)} excludes the anniversary day of the province where the ${regime.rules.locationNoun || 'place'} is. Pass a province (e.g. "auckland").`);
   }
   if (!needsProvince) province = null;
   return { regime, province };
@@ -101,14 +126,15 @@ function checkCount(n, label = 'days') {
 
 function regimeSummary(regime) {
   return {
-    id: regime.id, title: regime.title, short: regime.short,
+    id: regime.id, title: regime.title, short: regime.short, the: regime.the,
     citation: regime.citation, url: regime.url, status: regime.status,
   };
 }
 
 function regimeNotes(regime, province) {
   const notes = [...(regime.notes || [])];
-  if (regime.status !== 'confirmed') notes.push(`This definition is paraphrased from secondary sources; check it against ${regime.citation} before relying on it.`);
+  if (regime.status === 'partial') notes.push(`This definition was checked against official extracts of ${regime.citation}, not its full text.`);
+  if (regime.status === 'convention') notes.push('This is a common convention rather than a statutory definition; check the wording that applies to you.');
   if (province) {
     const p = getProvince(province);
     if (p.note) notes.push(p.note);
@@ -145,6 +171,19 @@ function excludedSummary(trace) {
   };
 }
 
+// "Fri 25 Dec 2026 – Fri 15 Jan 2027 (25 December – 15 January period)":
+// consecutive skipped days with the same reason, as one range.
+function compactSkips(list) {
+  const runs = [];
+  for (const e of list) {
+    const key = e.reasons.filter((r) => !WEEKDAYS.includes(r)).join('; ');
+    const last = runs[runs.length - 1];
+    if (last && last.key === key && addDays(last.to, 1) === e.date) last.to = e.date;
+    else runs.push({ from: e.date, to: e.date, key });
+  }
+  return runs.map((r) => `${formatShort(r.from)}${r.to !== r.from ? ` – ${formatShort(r.to)}` : ''} (${r.key})`).join(', ');
+}
+
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
@@ -158,8 +197,8 @@ export function isWorkingDay(opts) {
     result: s.working,
     reasons: s.reasons.map((r) => r.label),
     summary: s.working
-      ? `${formatLong(opts.date)} is a working day under ${regime.short}.`
-      : `${formatLong(opts.date)} is not a working day under ${regime.short}: ${s.reasons.map((r) => r.label).join('; ')}.`,
+      ? `${formatLong(opts.date)} is a working day under ${regime.the}.`
+      : `${formatLong(opts.date)} is not a working day under ${regime.the}: ${s.reasons.map((r) => r.label).join('; ')}.`,
   });
 }
 
@@ -205,7 +244,7 @@ export function addWorkingDays(opts) {
       ? `${counted} working day${counted === 1 ? '' : 's'} counting ${formatLong(from)} as day 1`
       : `${counted} working day${counted === 1 ? '' : 's'} after ${formatLong(from)}`;
   const resultIsWorking = step(result, regime, province).working;
-  const notes = [];
+  const notes = countedHolidayNotes(trace, regime);
   if (days === 0) notes.push('Zero working days: the answer is the start date itself.');
   else if (direction === 'after' && !trigger.working) {
     notes.push(`${formatLong(from)} is not itself a working day (${trigger.reasons.map((r) => r.label).join('; ')}); counting starts from the next working day either way.`);
@@ -216,8 +255,8 @@ export function addWorkingDays(opts) {
     resultIsWorkingDay: resultIsWorking,
     calendarDays: Math.abs(diffDays(from, result)),
     excluded,
-    summary: `Under ${regime.short} (${regime.citation}), ${phrase} is ${formatLong(result)}.`
-      + (excluded.list.length ? ` Skipped: ${excluded.list.map((e) => `${formatShort(e.date)} (${e.reasons.join('; ')})`).join(', ')}.` : ''),
+    summary: `Under ${regime.the} (${regime.citation}), ${phrase} is ${formatLong(result)}.`
+      + (excluded.list.length ? ` Skipped besides weekends: ${compactSkips(excluded.list)}.` : ''),
     countingNotes: notes,
     trace: opts.trace === false ? undefined : trace,
   });
@@ -244,38 +283,52 @@ export function countWorkingDays(opts) {
     result: n,
     calendarDays: diffDays(from, to),
     excluded,
-    summary: `Under ${regime.short} (${regime.citation}), there ${n === 1 ? 'is' : 'are'} ${n} working day${n === 1 ? '' : 's'} after ${formatLong(from)} up to and including ${formatLong(to)}.`,
+    summary: `Under ${regime.the} (${regime.citation}), there ${n === 1 ? 'is' : 'are'} ${n} working day${n === 1 ? '' : 's'} after ${formatLong(from)} up to and including ${formatLong(to)}.`,
+    countingNotes: countedHolidayNotes(trace, regime),
     trace: opts.trace === false ? undefined : trace,
   });
 }
 
-// Calendar days, optionally moved forward to the next working day when the
-// answer is not one (as tax due dates and many notice periods are).
+// Calendar days, optionally moved to the next working day (Legislation Act
+// s 55, IRD due dates) or the previous one (the sale and purchase agreement,
+// cl 1.3(1)) when the answer isn't a working day. startRule "on" counts the
+// start date as day 1, for periods "beginning with" a day.
 export function addCalendarDays(opts) {
-  const { regime, province } = resolve({ ...opts, requireProvince: opts.roll === 'next-working-day' });
+  const roll = normaliseRoll(opts.roll);
+  const { regime, province } = resolve({ ...opts, requireProvince: roll !== 'none' });
   checkDate(opts.from, 'from');
   checkCount(opts.days);
-  const raw = addDays(opts.from, opts.days);
+  const inclusive = opts.startRule === 'on' && opts.days > 0;
+  const raw = addDays(opts.from, inclusive ? opts.days - 1 : opts.days);
   checkDate(raw, 'result');
   let result = raw;
   const rolledOver = [];
-  if (opts.roll === 'next-working-day') {
+  if (roll !== 'none') {
+    const stepBy = roll === 'previous' ? -1 : 1;
     let s = step(result, regime, province);
     while (!s.working) {
       rolledOver.push({ date: result, reasons: s.reasons.map((r) => r.label) });
-      result = addDays(result, 1);
+      result = addDays(result, stepBy);
       checkDate(result, 'result');
       s = step(result, regime, province);
     }
   }
-  return envelope('calendar', regime, province, { from: opts.from, days: opts.days, roll: opts.roll || 'none' }, {
+  const period = `${opts.days} calendar day${opts.days === 1 ? '' : 's'} ${inclusive ? `beginning with ${formatLong(opts.from)} end on` : `after ${formatLong(opts.from)} is`} ${formatLong(raw)}`;
+  return envelope('calendar', regime, province, { from: opts.from, days: opts.days, roll, startRule: inclusive ? 'on' : 'after' }, {
     result,
     resultLong: formatLong(result),
     unrolled: raw,
     rolledOver,
-    summary: `${opts.days} calendar day${opts.days === 1 ? '' : 's'} after ${formatLong(opts.from)} is ${formatLong(raw)}`
-      + (rolledOver.length ? `, which is not a working day under ${regime.short}, so it moves to ${formatLong(result)}.` : '.'),
+    summary: period + (rolledOver.length
+      ? `, which is not a working day under ${regime.the}, so it moves ${roll === 'previous' ? 'back' : 'forward'} to ${formatLong(result)}.`
+      : '.'),
   });
+}
+
+export function normaliseRoll(roll) {
+  if (roll === 'next' || roll === 'next-working-day' || roll === true) return 'next';
+  if (roll === 'previous' || roll === 'previous-working-day') return 'previous';
+  return 'none';
 }
 
 // Every excluded (non-weekend) day in a date range, e.g. to show a regime's

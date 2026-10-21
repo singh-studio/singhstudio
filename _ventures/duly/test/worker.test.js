@@ -102,7 +102,7 @@ test('MCP: initialize, list tools, call a tool', async () => {
   const names = list.result.tools.map((t) => t.name);
   assert.deepEqual(names, ['nz_deadline', 'nz_count_working_days', 'nz_is_working_day', 'nz_calendar_deadline', 'nz_public_holidays', 'nz_working_day_definitions']);
   for (const t of list.result.tools) assert.equal(t.inputSchema.type, 'object');
-  const res = await (await rpc(e, { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'nz_deadline', arguments: { regime: 'lgoima', from: '2026-12-12', days: 20 } } })).json();
+  const res = await (await rpc(e, { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'nz_deadline', arguments: { regime: 'lgoima', from: '2026-12-12', days: 20, province: 'wellington' } } })).json();
   assert.equal(res.result.isError, false);
   assert.match(res.result.content[0].text, /Under LGOIMA/);
   assert.equal(res.result.structuredContent.regime.id, 'lgoima');

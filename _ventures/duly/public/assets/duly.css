@@ -171,7 +171,7 @@ details.adv .stack { margin-top: 12px; }
 .skipped .mono { color: var(--ink-2); font-size: .85rem; }
 @media (max-width: 520px) { .skipped li { grid-template-columns: 1fr; gap: 0; } }
 .source { font-size: .86rem; color: var(--muted); border-left: 2px solid var(--line); padding-left: 12px; margin: 0; }
-.source q { font-family: var(--serif); font-style: italic; color: var(--ink-2); }
+.source .quote { font-family: var(--serif); font-style: italic; color: var(--ink-2); }
 
 /* Sections */
 section { padding: 56px 0; }

@@ -125,16 +125,16 @@ function calcForm(regimeId, { embed = false, pinned = false } = {}) {
 <div class="presets" data-presets aria-label="Common timeframes"></div>
 <div class="calc-row">
 <label><span data-from-label>Start date</span><input type="date" name="from" required></label>
-<label><span data-days-label>Working days</span><input type="number" name="days" min="0" max="2000" step="1" inputmode="numeric" value="${(r.presets && r.presets[0] && r.presets[0].days) || 20}" required></label>
+<label><span data-days-label>Working days</span><input type="number" name="days" min="0" max="2000" step="1" inputmode="numeric" value="${r.presets?.[0]?.days ?? 20}" required></label>
 </div>
 <div class="calc-row three">
-<div role="group" aria-label="Direction" class="dir"><button type="button" data-dir="after" aria-pressed="true">After</button><button type="button" data-dir="before" aria-pressed="false">Before</button></div>
+<div role="group" aria-label="Direction" class="dir" data-dir-wrap><button type="button" data-dir="after" aria-pressed="true">After</button><button type="button" data-dir="before" aria-pressed="false">Before</button></div>
 <label data-province-wrap${r.rules.anniversary === 'location' ? '' : ' hidden'}>Province (anniversary day)<select name="province">${provinceOptions()}</select></label>
 </div>
 <label data-service-wrap hidden>How the notice was given<select name="service"></select></label>
 <details class="adv"><summary>More options</summary><div class="stack">
 <label>Count in<select name="unit"><option value="working">Working days</option><option value="calendar">Calendar days</option></select></label>
-<label class="check" data-roll-wrap hidden><input type="checkbox" name="roll"> If the answer isn’t a working day, move it to the next one</label>
+<label data-roll-wrap hidden>If the answer isn’t a working day<select name="roll"><option value="none">Leave it</option><option value="next">Move to the next working day</option><option value="previous">Move to the previous working day</option></select></label>
 <label class="check"><input type="checkbox" name="on"> Count the start date itself as day 1</label>
 </div></details>
 <noscript><p class="note">The calculator needs JavaScript. The <a href="/developers/">API</a> works without it.</p></noscript>
@@ -165,7 +165,7 @@ function definitionBlock(r) {
     ? `<blockquote>${esc(d.quote)}<cite>${esc(r.citation)}${d.status === 'paraphrase' ? ' (paraphrased)' : ''}</cite></blockquote>`
     : '';
   const list = E.describeRulesList(r).map((x) => `<li>${esc(x)}</li>`).join('');
-  return `${text}<p>Under ${esc(r.short)}, a day is <strong>not</strong> a working day if it is:</p><ul>${list}</ul>`;
+  return `${text}<p>Under ${esc(r.the)}, a day is <strong>not</strong> a working day if it is:</p><ul>${list}</ul>`;
 }
 
 function presetTable(r) {
@@ -264,8 +264,9 @@ ${cmp.rows.map(({ r, out, province }) => `<tr${out.result === cmp.latest || out.
 › When is the council’s LGOIMA response due if
   my request landed on 12 December?
 
-⏺ duly · nz_deadline(regime: "lgoima", from: "${YEAR}-12-12", days: 20)
-  ${esc(E.addWorkingDays({ regime: 'lgoima', from: `${YEAR}-12-12`, days: 20, trace: false }).resultLong)}</code></pre></div>
+⏺ duly · nz_deadline(regime: "lgoima", from: "${YEAR}-12-12",
+                     days: 20, province: "wellington")
+  ${esc(E.addWorkingDays({ regime: 'lgoima', from: `${YEAR}-12-12`, days: 20, province: 'wellington', trace: false }).resultLong)}</code></pre></div>
 </div></div></section>
 
 <section class="tight"><div class="wrap split">
@@ -299,20 +300,20 @@ function regimePage(r) {
     ? E.addWorkingDays({ regime: r.id, from: exampleFrom, days: exPreset.days, province: exProvince, trace: false })
     : null;
   const faq = [...(p.faq || []), ...genericFaq(r)];
-  const related = (p.related || []).map((id) => E.getRegime(id)).map((x) => `<a class="card" href="/${x.slug}/"><span class="tag">${esc(x.short)}</span><h3>${esc(x.page.h1)}</h3></a>`).join('');
+  const related = (p.related || []).map((id) => E.getRegime(id)).filter((x) => x.page).map((x) => `<a class="card" href="/${x.slug}/"><span class="tag">${esc(x.short)}</span><h3>${esc(x.page.h1)}</h3></a>`).join('');
   const body = `
 <section class="hero"><div class="wrap hero-grid">
 <div>${c.html}
 <p class="eyebrow">/ ${esc(r.title)}</p>
 <h1>${esc(p.h1)}</h1>
 <p class="lede">${esc(p.lede)}</p>
-${win ? `<p class="note">Summer ${YEAR}–${String(YEAR + 1).slice(2)}: under ${esc(r.short)} no working days run from ${esc(fmtDay(win.from))} to ${esc(fmtDay(win.to))}.</p>` : ''}
+${win ? `<p class="note">Summer ${YEAR}–${String(YEAR + 1).slice(2)}: under ${esc(r.the)}, no day from ${esc(fmtDay(win.from))} to ${esc(fmtDay(win.to))} is a working day.</p>` : ''}
 </div>
 ${calcForm(r.id)}
 </div></section>
 <section class="tight"><div class="wrap split">
 <div class="prose">
-<h2>How ${esc(r.short)} counts a working day</h2>
+<h2>How ${esc(r.the)} counts a working day</h2>
 ${definitionBlock(r)}
 ${p.body || ''}
 ${example ? `<h3>Worked example</h3><p>${esc(example.summary)}</p>` : ''}
@@ -339,7 +340,7 @@ function genericFaq(r) {
     a: 'Not normally. Where a period runs “after” a day, that day is left out, so day 1 is the next working day. Duly counts that way by default. If your contract counts “from and including” a day, open More options and tick “Count the start date itself as day 1”.',
   });
   if (r.rules.anniversary === 'location') {
-    out.push({ q: 'Which anniversary day applies?', a: `${esc(r.short)} skips the anniversary day of the province where the ${esc(r.rules.locationNoun || 'place')} is. Anniversary days follow the old provincial boundaries and local custom, so check with the local council if you are near a boundary.` });
+    out.push({ q: 'Which anniversary day applies?', a: `${esc(r.the[0].toUpperCase() + r.the.slice(1))} skips the anniversary day of the province where the ${esc(r.rules.locationNoun || 'place')} is. Anniversary days follow the old provincial boundaries and local custom, so check with the local council if you are near a boundary.` });
   }
   out.push({ q: 'Can I rely on this?', a: `Duly applies ${esc(r.citation)} and shows every day it skipped, so you can check the answer by hand. It isn’t legal advice: the timeframe provision itself, any extension, a contract term or a court direction can change the answer.` });
   return out;
@@ -486,17 +487,24 @@ ${plan('Platform', `$${P.platform.monthly}`, ' NZD / month', ['3,000 requests a 
   page('/pricing/', layout({ path: '/pricing/', title: 'Duly pricing: free calculators, paid API and MCP plans', description: 'Duly’s calculators are free. Pro and Platform plans add higher API and MCP limits, commercial use and batch requests, billed in NZD.', body, schema: [c.schema, faqSchema(faq)] }));
 }
 
+const STATUS = {
+  confirmed: 'Checked against the text',
+  partial: 'Checked against official extracts',
+  convention: 'Convention or official practice',
+};
+
 function about() {
   const c = crumbs([['/', 'Duly'], ['/about/', 'Sources & accuracy']]);
-  const rows = E.REGIMES.map((r) => `<tr><td>${esc(r.short)}<span class="tagline">${esc(r.title)}</span></td><td><a href="${esc(r.url)}" rel="noopener">${esc(r.citation)}</a></td><td>${r.status === 'confirmed' ? 'Checked against the text' : 'Check pending'}</td></tr>`).join('');
+  const rows = E.REGIMES.map((r) => `<tr><td>${esc(r.short)}<span class="tagline">${esc(r.title)}</span></td><td><a href="${esc(r.url)}" rel="noopener">${esc(r.citation)}</a></td><td>${STATUS[r.status]}</td></tr>`).join('');
   const changelog = JSON.parse(readFileSync(join(ROOT, 'site/changelog.json'), 'utf8'));
   const body = `<section class="tight"><div class="wrap narrow prose">${c.html}
 <p class="eyebrow">/ Sources and accuracy</p><h1>How Duly checks itself</h1>
 <p class="lede">A deadline tool is only useful if you can see why it gave the answer it did. So Duly shows its working, cites its sources and tests itself against the official record.</p>
 <h2>Holidays</h2>
-<p>Public holidays come from the Holidays Act 2003 (s 44, and the Mondayising rules in ss 45 and 45A), Matariki from Schedule 1 of Te Kāhui o Matariki Public Holiday Act 2022, and Easter from the Gregorian calculation. Provincial anniversary days follow the rules MBIE publishes. They are custom rather than statute, and the engine says so where observance varies (Otago, Westland).</p>
+<p>Public holidays come from the Holidays Act 2003 (s 44, and the Mondayising rules in ss 45 and 45A; the Employment Leave Act 2026 keeps the same holidays and rules when it replaces the Holidays Act on 6 August 2028), Matariki from Schedule 1 of Te Kāhui o Matariki Public Holiday Act 2022, and Easter from the Gregorian calculation. Provincial anniversary days follow the rules MBIE publishes. They are custom rather than statute, and the engine says so where observance varies (Otago, Westland).</p>
 <p>The engine is tested against every public-holiday table on employment.govt.nz from 2010 to 2027: all 187 national holiday observations and 216 anniversary days match. That testing found two errors in the published tables (the weekday given for Anzac Day 2027, and South Canterbury’s 2022 anniversary day, which moved because of the Queen Elizabeth II Memorial Day). Matariki dates to ${E.LAST_YEAR} are checked against Te Papa’s published schedule. Duly won’t answer for dates after ${E.LAST_YEAR}, because Matariki has not been set beyond then.</p>
 <h2>Definitions of “working day”</h2>
+<p>Each statutory definition is quoted word for word from the Parliamentary Counsel Office’s legislation data, consolidated to ${esc(fmtDay(E.DEFINITIONS_AS_AT))}, and its timeframes are checked against the sections they come from. The sale and purchase agreement is checked against the publisher’s current edition. Where a definition has a gap, such as the Residential Tenancies Act and Property Law Act not excluding a New Year holiday observed on 4 January, Duly follows the text and says so in the answer.</p>
 <div class="table-wrap"><table><thead><tr><th>Regime</th><th>Source</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>
 <h2>How counting works</h2>
 <ul>

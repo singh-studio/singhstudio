@@ -20,7 +20,7 @@ function readURL() {
   return {
     regime: q.get('r'), from: q.get('from'), days: q.get('n'), province: q.get('p'),
     direction: q.get('d') === 'before' ? 'before' : null, on: q.get('s') === 'on',
-    unit: q.get('u') === 'cal' ? 'calendar' : null, roll: q.get('roll') === '1', service: q.get('sv'),
+    unit: q.get('u') === 'cal' ? 'calendar' : null, roll: ['next', 'previous'].includes(q.get('roll')) ? q.get('roll') : null, service: q.get('sv'),
     preset: q.get('k'),
   };
 }
@@ -34,7 +34,7 @@ function writeURL(state) {
   if (state.direction === 'before') q.set('d', 'before');
   if (state.on) q.set('s', 'on');
   if (state.unit === 'calendar') q.set('u', 'cal');
-  if (state.unit === 'calendar' && state.roll) q.set('roll', '1');
+  if (state.unit === 'calendar' && state.roll && state.roll !== 'none') q.set('roll', state.roll);
   if (state.service && state.service !== 'none') q.set('sv', state.service);
   if (state.preset) q.set('k', state.preset);
   return `${location.pathname}?${q}`;
@@ -46,7 +46,7 @@ function setup(form) {
     on: form.elements.on, unit: form.elements.unit, roll: form.elements.roll, service: form.elements.service,
     ruleLine: $('[data-rule-line]', form), presets: $('[data-presets]', form), provinceWrap: $('[data-province-wrap]', form),
     serviceWrap: $('[data-service-wrap]', form), rollWrap: $('[data-roll-wrap]', form), result: $('[data-result]', form),
-    dir: form.querySelectorAll('[data-dir]'), daysLabel: $('[data-days-label]', form), fromLabel: $('[data-from-label]', form),
+    dir: form.querySelectorAll('[data-dir]'), dirWrap: $('[data-dir-wrap]', form), daysLabel: $('[data-days-label]', form), fromLabel: $('[data-from-label]', form),
   };
   const pinned = form.dataset.pinned === 'true';
   const url = pinned ? {} : readURL();
@@ -62,7 +62,7 @@ function setup(form) {
   if (url.province) els.province.value = url.province;
   if (url.on) els.on.checked = true;
   if (url.unit && els.unit) els.unit.value = url.unit;
-  if (url.roll && els.roll) els.roll.checked = true;
+  if (url.roll && els.roll) els.roll.value = url.roll;
 
   function regime() { return getRegime(els.regime.value); }
 
@@ -90,10 +90,19 @@ function setup(form) {
   }
 
   function applyPreset(p, setDays = true) {
+    if (p.regime && p.regime !== els.regime.value) {
+      // Some timeframes (the LIM date) use a variant definition: switch to it.
+      els.regime.value = p.regime;
+      state.preset = (getRegime(p.regime).presets || [])[0]?.id || null;
+      renderRegime(!setDays);
+      if (setDays) els.days.value = p.days;
+      return;
+    }
     state.preset = p.id;
     if (setDays) els.days.value = p.days;
     if (els.unit) els.unit.value = p.unit === 'calendar' ? 'calendar' : 'working';
-    if (els.roll) els.roll.checked = !!p.roll;
+    if (els.roll) els.roll.value = p.roll || 'none';
+    if (setDays) els.on.checked = p.startRule === 'on';
     setDirection(p.direction || 'after');
     if (els.fromLabel) els.fromLabel.textContent = p.trigger || 'Start date';
     markPreset(p.id);
@@ -108,6 +117,7 @@ function setup(form) {
   function syncUnit() {
     const cal = els.unit && els.unit.value === 'calendar';
     if (els.rollWrap) els.rollWrap.hidden = !cal;
+    if (els.dirWrap) els.dirWrap.hidden = cal;
     if (els.daysLabel) els.daysLabel.textContent = cal ? 'Calendar days' : 'Working days';
     els.dir.forEach((b) => { b.disabled = cal && b.dataset.dir === 'before'; });
     if (cal && state.direction === 'before') setDirection('after');
@@ -122,7 +132,7 @@ function setup(form) {
     const svc = els.serviceWrap && !els.serviceWrap.hidden ? (r.service || []).find((s) => s.id === els.service.value) : null;
     if (!from) return showError('Pick a start date.');
     if (!Number.isInteger(days) || days < 0) return showError('Enter a whole number of days.');
-    if (r.rules.anniversary === 'location' && !province) return showError(`Choose where the ${r.rules.locationNoun || 'place'} is: ${r.short} skips that province’s anniversary day.`);
+    if (r.rules.anniversary === 'location' && !province) return showError(`Choose where the ${r.rules.locationNoun || 'place'} is: ${r.the} skips that province’s anniversary day.`);
     try {
       let served = null;
       let start = from;
@@ -134,9 +144,9 @@ function setup(form) {
         start = served.result;
       }
       const out = unit === 'calendar'
-        ? addCalendarDays({ regime: r.id, from: start, days, roll: els.roll && els.roll.checked ? 'next-working-day' : 'none', province })
+        ? addCalendarDays({ regime: r.id, from: start, days, roll: els.roll ? els.roll.value : 'none', startRule: els.on.checked ? 'on' : 'after', province })
         : addWorkingDays({ regime: r.id, from: start, days, direction: state.direction, startRule: els.on.checked ? 'on' : 'after', province, requireProvince: false, trace: true });
-      const st = { regime: r.id, from, days, province, direction: state.direction, on: els.on.checked, unit, roll: els.roll && els.roll.checked, service: svc ? svc.id : null, preset: state.preset };
+      const st = { regime: r.id, from, days, province, direction: state.direction, on: els.on.checked, unit, roll: els.roll ? els.roll.value : 'none', service: svc ? svc.id : null, preset: state.preset };
       const link = writeURL(st);
       if (!form.dataset.embed) history.replaceState(null, '', link);
       render(out, r, { served, svc, unit, link: new URL(link, location.href).href });
@@ -173,7 +183,7 @@ function setup(form) {
       </div>
       ${ctx.unit === 'calendar' ? '' : calendar(out)}
       ${skippedList && skippedList.length ? `<div><p class="result-label">Skipped${ctx.unit === 'calendar' ? ' (rolled forward)' : ' (besides weekends)'}</p><ul class="skipped">${skippedList.map((e) => `<li><span class="mono">${esc(formatShort(e.date))}</span><span>${esc(e.reasons.join('; '))}</span></li>`).join('')}</ul></div>` : ''}
-      <p class="source">${esc(r.citation)}${r.definition && r.definition.quote ? `: <q>${esc(r.definition.quote)}</q>` : ''} <a href="${esc(r.url)}" rel="noopener" target="_blank">Read the Act</a>. Duly ${esc(out.engine.version)}, rules checked ${esc(out.engine.rulesVerified)}. Not legal advice.</p>`;
+      <p class="source">${esc(r.citation)}${r.definition && (r.definition.quote || r.definition.paraphrase) ? `: <span class="quote">${esc(r.definition.quote || r.definition.paraphrase)}</span>` : ''} <a href="${esc(r.url)}" rel="noopener" target="_blank">Read the Act</a>. Duly ${esc(out.engine.version)}, rules checked ${esc(out.engine.rulesVerified)}. Not legal advice.</p>`;
     els.result.querySelector('[data-act="copy"]').onclick = (e) => copy(e.currentTarget, `${summaryText}\n${ctx.link}`);
     els.result.querySelector('[data-act="link"]').onclick = (e) => copy(e.currentTarget, ctx.link);
     els.result.querySelector('[data-act="print"]').onclick = () => window.print();
