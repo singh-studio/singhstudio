@@ -1,0 +1,53 @@
+# Duly — one Cloudflare Worker serves the whole product: the static site from
+# ./public plus the API, MCP server and billing routes below.
+# Setup steps are in README.md ("Launch checklist").
+
+name = "duly"
+main = "src/worker/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Uncomment once the domain is on Cloudflare:
+# routes = [{ pattern = "duly.nz", custom_domain = true }]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+run_worker_first = ["/v1", "/v1/*", "/mcp", "/mcp/*", "/checkout/*", "/claim", "/billing", "/webhooks/*"]
+
+# API keys for paid plans (create with: npx wrangler@4 kv namespace create KEYS)
+# [[kv_namespaces]]
+# binding = "KEYS"
+# id = "<paste the id wrangler prints>"
+
+# Per-minute limits. Free callers are keyed by IP, paid callers by key.
+[[ratelimits]]
+name = "RL_FREE"
+namespace_id = "4101"
+simple = { limit = 20, period = 60 }
+
+[[ratelimits]]
+name = "RL_PRO"
+namespace_id = "4102"
+simple = { limit = 600, period = 60 }
+
+[[ratelimits]]
+name = "RL_PLATFORM"
+namespace_id = "4103"
+simple = { limit = 3000, period = 60 }
+
+# Usage per plan/endpoint/regime, queryable with the Analytics Engine SQL API.
+[[analytics_engine_datasets]]
+binding = "USAGE"
+dataset = "duly_usage"
+
+[vars]
+STRIPE_AUTOMATIC_TAX = "false"
+
+# Secrets (never commit these): npx wrangler@4 secret put STRIPE_SECRET_KEY
+#                               npx wrangler@4 secret put STRIPE_WEBHOOK_SECRET
+
+[observability]
+enabled = true

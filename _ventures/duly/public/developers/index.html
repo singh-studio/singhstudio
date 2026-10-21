@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Duly API and MCP server: NZ working days for software and AI</title>
+<meta name="description" content="A JSON API and remote MCP server for New Zealand statutory working-day deadlines, public holidays and anniversary days. Connect Claude, ChatGPT or your own code in one line.">
+<link rel="canonical" href="https://duly.nz/developers/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Duly">
+<meta property="og:title" content="Duly API and MCP server: NZ working days for software and AI">
+<meta property="og:description" content="A JSON API and remote MCP server for New Zealand statutory working-day deadlines, public holidays and anniversary days. Connect Claude, ChatGPT or your own code in one line.">
+<meta property="og:url" content="https://duly.nz/developers/">
+<meta property="og:image" content="https://duly.nz/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f4f2ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1110" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/switzer-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/duly.css">
+<link rel="modulepreload" href="/assets/engine/index.js">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Duly","item":"https://duly.nz/"},{"@type":"ListItem","position":2,"name":"API & AI","item":"https://duly.nz/developers/"}]}</script>
+</head>
+<body>
+<a class="sr-only" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap"><a class="brand" href="/" aria-label="Duly home">Duly<span class="brand-dot">.</span></a><nav class="nav" aria-label="Main"><a href="/#calculators">Calculators</a><a href="/holidays/">Holidays</a><a href="/developers/" aria-current="page">API & AI</a><a href="/pricing/">Pricing</a></nav></div></header>
+<main id="main">
+<section class="tight"><div class="wrap narrow prose"><p class="crumbs"><a href="/">Duly</a> / API &amp; AI</p>
+<p class="eyebrow">/ For developers and AI</p>
+<h1>The Duly API and MCP server</h1>
+<p class="lede">The engine behind the calculators, as a JSON API and as tools your AI assistant can call. No SDK, no signup to try it.</p>
+
+<h2 id="mcp">Connect an AI assistant (MCP)</h2>
+<p>Duly runs a remote MCP server at <code>https://duly.nz/mcp</code> (Streamable HTTP). Free use needs no key.</p>
+<h3>Claude Code</h3>
+<pre><code>claude mcp add --transport http duly https://duly.nz/mcp</code></pre>
+<h3>Claude, ChatGPT and other apps with custom connectors</h3>
+<p>Add a custom connector with the URL <code>https://duly.nz/mcp</code>. With a paid key use <code>https://duly.nz/mcp/k/&lt;your key&gt;</code>.</p>
+<h3>Cursor, Windsurf, VS Code and others</h3>
+<pre><code>{
+  "mcpServers": {
+    "duly": { "url": "https://duly.nz/mcp", "headers": { "Authorization": "Bearer duly_live_…" } }
+  }
+}</code></pre>
+<div class="table-wrap"><table><thead><tr><th>Tool</th><th>What it does</th></tr></thead><tbody><tr><td><code>nz_deadline</code></td><td>Work out the date that is N working days after (or before) a date under a specific New Zealand Act or standard contract.</td></tr><tr><td><code>nz_count_working_days</code></td><td>Count the working days after one date up to and including another, under a specific New Zealand definition of &quot;working day&quot;.</td></tr><tr><td><code>nz_is_working_day</code></td><td>Say whether a date is a working day under a specific New Zealand definition, and if not, why (weekend, which public holiday, the Christmas period, or an anniversary day)..</td></tr><tr><td><code>nz_calendar_deadline</code></td><td>Add calendar days to a date (e.g.</td></tr><tr><td><code>nz_public_holidays</code></td><td>List New Zealand public holidays for a year (2010–2052), including Mondayised observances, Matariki, and provincial anniversary days with the rule each follows..</td></tr><tr><td><code>nz_working_day_definitions</code></td><td>List every definition of &quot;working day&quot; Duly supports, with its statute and section, what it excludes, and common timeframes.</td></tr></tbody></table></div>
+
+<h2 id="api">REST API</h2>
+<p>Base URL <code>https://duly.nz/v1</code>. Every endpoint accepts GET with query parameters or POST with JSON. Send your key as <code>Authorization: Bearer &lt;key&gt;</code>; without one you are on the free tier.</p>
+<div class="table-wrap"><table><thead><tr><th>Endpoint</th><th>Parameters</th></tr></thead><tbody>
+<tr><td><code>/v1/deadline</code></td><td><code>regime</code>, <code>from</code>, <code>days</code>, optional <code>direction</code> (after|before), <code>start_rule</code> (after|on), <code>province</code>, <code>trace</code></td></tr>
+<tr><td><code>/v1/count</code></td><td><code>regime</code>, <code>from</code>, <code>to</code>, optional <code>province</code>, <code>trace</code></td></tr>
+<tr><td><code>/v1/is-working-day</code></td><td><code>regime</code>, <code>date</code>, optional <code>province</code></td></tr>
+<tr><td><code>/v1/calendar-days</code></td><td><code>from</code>, <code>days</code>, optional <code>roll</code>=next-working-day, <code>regime</code>, <code>province</code></td></tr>
+<tr><td><code>/v1/holidays</code></td><td><code>year</code>, optional <code>province</code>, <code>format</code>=ics</td></tr>
+<tr><td><code>/v1/regimes</code>, <code>/v1/regimes/{id}</code></td><td>Definitions, rules, citations and common timeframes</td></tr>
+<tr><td><code>/v1/batch</code></td><td>POST an array of <code>{"op": "deadline", …}</code> (Pro: 100 per call; Platform: 500)</td></tr>
+</tbody></table></div>
+<pre><code>curl "https://duly.nz/v1/deadline?regime=oia&amp;from=2026-12-01&amp;days=20"</code></pre>
+<pre><code>{
+  &quot;kind&quot;: &quot;deadline&quot;,
+  &quot;regime&quot;: {
+    &quot;id&quot;: &quot;oia&quot;,
+    &quot;title&quot;: &quot;Official Information Act 1982&quot;,
+    &quot;short&quot;: &quot;OIA&quot;,
+    &quot;citation&quot;: &quot;Official Information Act 1982, s 2 (“working day”)&quot;,
+    &quot;url&quot;: &quot;https://www.legislation.govt.nz/act/public/1982/0156/latest/DLM64785.html&quot;,
+    &quot;status&quot;: &quot;pending&quot;
+  },
+  &quot;province&quot;: null,
+  &quot;input&quot;: {
+    &quot;from&quot;: &quot;2026-12-01&quot;,
+    &quot;days&quot;: 20,
+    &quot;direction&quot;: &quot;after&quot;,
+    &quot;startRule&quot;: &quot;after&quot;
+  },
+  &quot;result&quot;: &quot;2027-01-20&quot;,
+  &quot;resultLong&quot;: &quot;Wednesday 20 January 2027&quot;,
+  &quot;resultIsWorkingDay&quot;: true,
+  &quot;calendarDays&quot;: 50,
+  &quot;excluded&quot;: {
+    &quot;days&quot;: 30,
+    &quot;byReason&quot;: {
+      &quot;weekend&quot;: 14,
+      &quot;blackout&quot;: 22
+    },
+    &quot;list&quot;: [
+      {
+        &quot;date&quot;: &quot;2026-12-25&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2026-12-26&quot;,
+        &quot;reasons&quot;: [
+          &quot;Saturday&quot;,
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2026-12-27&quot;,
+        &quot;reasons&quot;: [
+          &quot;Sunday&quot;,
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2026-12-28&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2026-12-29&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2026-12-30&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2026-12-31&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-01&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-02&quot;,
+        &quot;reasons&quot;: [
+          &quot;Saturday&quot;,
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-03&quot;,
+        &quot;reasons&quot;: [
+          &quot;Sunday&quot;,
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-04&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-05&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-06&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-07&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-08&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-09&quot;,
+        &quot;reasons&quot;: [
+          &quot;Saturday&quot;,
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-10&quot;,
+        &quot;reasons&quot;: [
+          &quot;Sunday&quot;,
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-11&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-12&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-13&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-14&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      },
+      {
+        &quot;date&quot;: &quot;2027-01-15&quot;,
+        &quot;reasons&quot;: [
+          &quot;25 December – 15 January period&quot;
+        ]
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;Under OIA (Official Information Act 1982, s 2 (“working day”)), 20 working days after Tuesday 1 December 2026 is Wednesday 20 January 2027. Skipped: Fri 25 Dec 2026 (25 December – 15 January period), Sat 26 Dec 2026 (Saturday; 25 December – 15 January period), Sun 27 Dec 2026 (Sunday; 25 December – 15 January period), Mon 28 Dec 2026 (25 December – 15 January period), Tue 29 Dec 2026 (25 December – 15 January period), Wed 30 Dec 2026 (25 December – 15 January period), Thu 31 Dec 2026 (25 December – 15 January period), Fri 1 Jan 2027 (25 December – 15 January period), Sat 2 Jan 2027 (Saturday; 25 December – 15 January period), Sun 3 Jan 2027 (Sunday; 25 December – 15 January period), Mon 4 Jan 2027 (25 December – 15 January period), Tue 5 Jan 2027 (25 December – 15 January period), Wed 6 Jan 2027 (25 December – 15 January period), Thu 7 Jan 2027 (25 December – 15 January period), Fri 8 Jan 2027 (25 December – 15 January period), Sat 9 Jan 2027 (Saturday; 25 December – 15 January period), Sun 10 Jan 2027 (Sunday; 25 December – 15 January period), Mon 11 Jan 2027 (25 December – 15 January period), Tue 12 Jan 2027 (25 December – 15 January period), Wed 13 Jan 2027 (25 December – 15 January period), Thu 14 Jan 2027 (25 December – 15 January period), Fri 15 Jan 2027 (25 December – 15 January period).&quot;,
+  &quot;countingNotes&quot;: [],
+  &quot;notes&quot;: [
+    &quot;This definition is paraphrased from secondary sources; check it against Official Information Act 1982, s 2 (“working day”) before relying on it.&quot;
+  ],
+  &quot;engine&quot;: {
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;rulesVerified&quot;: &quot;2026-10-21&quot;
+  }
+}</code></pre>
+<p>Dates are plain calendar dates (<code>YYYY-MM-DD</code>) from 2023-01-01 to 2052-12-31. Errors come back as <code>{"error": {"status", "message"}}</code> with a 4xx status.</p>
+<h3>Regimes</h3>
+<div class="table-wrap"><table><thead><tr><th>id</th><th>Definition</th><th>province</th></tr></thead><tbody><tr><td><code>oia</code></td><td>Official Information Act 1982<span class="tagline">Official Information Act 1982, s 2 (“working day”)</span></td><td></td></tr><tr><td><code>lgoima</code></td><td>Local Government Official Information and Meetings Act 1987<span class="tagline">Local Government Official Information and Meetings Act 1987, s 2 (“working day”)</span></td><td></td></tr><tr><td><code>privacy</code></td><td>Privacy Act 2020<span class="tagline">Privacy Act 2020, s 7 (“working day”)</span></td><td></td></tr><tr><td><code>rma</code></td><td>Resource Management Act 1991<span class="tagline">Resource Management Act 1991, s 2 (“working day”)</span></td><td></td></tr><tr><td><code>building</code></td><td>Building Act 2004<span class="tagline">Building Act 2004, s 7 (“working day”)</span></td><td></td></tr><tr><td><code>rta</code></td><td>Residential Tenancies Act 1986<span class="tagline">Residential Tenancies Act 1986, s 2 (“working day”)</span></td><td>required</td></tr><tr><td><code>adls</code></td><td>ADLS/REINZ Agreement for Sale and Purchase of Real Estate<span class="tagline">ADLS/REINZ Agreement for Sale and Purchase of Real Estate, cl 1 (“working day”)</span></td><td>required</td></tr><tr><td><code>pla</code></td><td>Property Law Act 2007<span class="tagline">Property Law Act 2007, s 4 (“working day”)</span></td><td></td></tr><tr><td><code>cca</code></td><td>Construction Contracts Act 2002<span class="tagline">Construction Contracts Act 2002, s 5 (“working day”)</span></td><td></td></tr><tr><td><code>hcr</code></td><td>High Court Rules 2016<span class="tagline">High Court Rules 2016, r 1.3 (“working day”)</span></td><td></td></tr><tr><td><code>dcr</code></td><td>District Court Rules 2014<span class="tagline">District Court Rules 2014, r 1.3 (“working day”)</span></td><td></td></tr><tr><td><code>companies</code></td><td>Companies Act 1993<span class="tagline">Companies Act 1993, s 2 (“working day”)</span></td><td></td></tr><tr><td><code>taa</code></td><td>Tax Administration Act 1994<span class="tagline">Tax Administration Act 1994, s 3 (“working day”)</span></td><td></td></tr><tr><td><code>legislation-act</code></td><td>Legislation Act 2019<span class="tagline">Legislation Act 2019, s 13 (“working day”)</span></td><td></td></tr><tr><td><code>business-day</code></td><td>Business day (banks open in Auckland and Wellington)<span class="tagline">Common contract definition of “business day”</span></td><td></td></tr></tbody></table></div>
+<p>Provinces: <code>wellington</code> <code>auckland</code> <code>nelson</code> <code>taranaki</code> <code>otago</code> <code>southland</code> <code>south-canterbury</code> <code>hawkes-bay</code> <code>marlborough</code> <code>canterbury</code> <code>chatham-islands</code> <code>westland</code></p>
+
+<h2 id="embed">Embed the calculator</h2>
+<p>Put a calculator on your own site. It is free with a small “Counted by Duly” credit.</p>
+<pre><code>&lt;div data-duly="oia"&gt;&lt;/div&gt;
+&lt;script src="https://duly.nz/embed.js" async&gt;&lt;/script&gt;</code></pre>
+<p>Use any regime id from the table above for <code>data-duly</code>.</p>
+
+<h2 id="limits">Limits and plans</h2>
+<p>Free: 20 requests a minute per IP address, for personal use and evaluation. Pro and Platform keys raise the limit, allow commercial use and unlock batch requests. <a href="/pricing/">See pricing</a>.</p>
+<h2>Accuracy</h2>
+<p>Every response includes the citation, the engine version and the date the rules were last checked. Read <a href="/about/">how Duly checks itself</a>.</p>
+</div></section>
+</main>
+<footer class="site"><div class="wrap">
+<div class="cols">
+<div><a class="brand" href="/">Duly<span class="brand-dot">.</span></a><p class="small" style="margin-top:8px">New Zealand deadlines, counted properly.</p></div>
+<nav aria-label="Footer"><a href="/#calculators">Calculators</a><a href="/holidays/">Public holidays</a><a href="/developers/">API &amp; MCP</a><a href="/pricing/">Pricing</a><a href="/about/">Sources &amp; accuracy</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="mailto:kris@singhstudio.co.nz">Contact</a></nav>
+</div>
+<p class="fine">Duly applies the statutory definitions it cites and shows its working. It isn’t legal advice: check the timeframe provisions that apply to you, including contract terms, court directions and service rules. Rules last checked 21 October 2026. Made in Aotearoa by <a href="https://www.singhstudio.co.nz">Singh Studio</a>.</p>
+</div></footer>
+<script type="module" src="/assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Duly",
+  "origin": "https://duly.nz",
+  "tagline": "New Zealand deadlines, counted properly.",
+  "description": "Free calculators for New Zealand statutory working-day deadlines: OIA, LGOIMA, RMA, Building Act, tenancy, sale and purchase agreements, construction payment claims, courts and tax. Plus an API and an MCP server for AI assistants.",
+  "contact": "kris@singhstudio.co.nz",
+  "maker": "Singh Studio",
+  "makerUrl": "https://www.singhstudio.co.nz",
+  "holidayYears": [2025, 2026, 2027, 2028, 2029, 2030],
+  "prices": {
+    "pro": { "monthly": 29, "yearly": 290 },
+    "platform": { "monthly": 199, "yearly": 1990 },
+    "currency": "NZD"
+  }
+}

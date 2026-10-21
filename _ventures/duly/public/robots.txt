@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /embed/
+Disallow: /claim
+Disallow: /billing
+
+Sitemap: https://duly.nz/sitemap.xml

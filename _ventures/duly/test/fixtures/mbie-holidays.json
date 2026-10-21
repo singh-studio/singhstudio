@@ -1,0 +1,1359 @@
+{
+ "anomalies": [
+  "2027 ANZAC Day: page says Saturday 25 April, actually Sunday"
+ ],
+ "fetched": "2026-10-21",
+ "note": "Observed dates as published by MBIE (Employment New Zealand). Where a holiday falls on a weekend MBIE lists both the actual and the Mondayised date.",
+ "source": [
+  "https://www.employment.govt.nz/leave-and-holidays/public-holidays/public-holidays-and-anniversary-dates",
+  "https://www.employment.govt.nz/leave-and-holidays/public-holidays/previous-years-public-holidays-and-anniversary-dates"
+ ],
+ "years": {
+  "2010": {
+   "national": {
+    "ANZAC Day": [
+     "2010-04-25"
+    ],
+    "Boxing Day": [
+     "2010-12-26",
+     "2010-12-28"
+    ],
+    "Christmas Day": [
+     "2010-12-25",
+     "2010-12-27"
+    ],
+    "Day after New Year's Day": [
+     "2010-01-02",
+     "2010-01-04"
+    ],
+    "Easter Monday": [
+     "2010-04-05"
+    ],
+    "Good Friday": [
+     "2010-04-02"
+    ],
+    "Labour Day": [
+     "2010-10-25"
+    ],
+    "New Year's Day": [
+     "2010-01-01"
+    ],
+    "Queen's Birthday": [
+     "2010-06-07"
+    ],
+    "Waitangi Day": [
+     "2010-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2010-02-01"
+    ],
+    "Canterbury": [
+     "2010-11-12"
+    ],
+    "Canterbury (South)": [
+     "2010-09-27"
+    ],
+    "Chatham Islands": [
+     "2010-11-29"
+    ],
+    "Hawke's Bay": [
+     "2010-10-22"
+    ],
+    "Marlborough": [
+     "2010-11-01"
+    ],
+    "Nelson": [
+     "2010-02-01"
+    ],
+    "Otago": [
+     "2010-03-22"
+    ],
+    "Southland": [
+     "2010-01-18"
+    ],
+    "Taranaki": [
+     "2010-03-08"
+    ],
+    "Wellington": [
+     "2010-01-25"
+    ],
+    "Westland": [
+     "2010-11-29"
+    ]
+   }
+  },
+  "2011": {
+   "national": {
+    "Anzac Day": [
+     "2011-04-25"
+    ],
+    "Boxing Day": [
+     "2011-12-26"
+    ],
+    "Christmas Day": [
+     "2011-12-25",
+     "2011-12-27"
+    ],
+    "Day after New Year's Day": [
+     "2011-01-02",
+     "2011-01-04"
+    ],
+    "Easter Monday": [
+     "2011-04-25"
+    ],
+    "Good Friday": [
+     "2011-04-22"
+    ],
+    "Labour Day": [
+     "2011-10-24"
+    ],
+    "New Year's Day": [
+     "2011-01-01",
+     "2011-01-03"
+    ],
+    "Queen's Birthday": [
+     "2011-06-06"
+    ],
+    "Waitangi Day": [
+     "2011-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2011-01-31"
+    ],
+    "Canterbury": [
+     "2011-11-11"
+    ],
+    "Canterbury (South)": [
+     "2011-09-26"
+    ],
+    "Chatham Islands": [
+     "2011-11-28"
+    ],
+    "Hawke's Bay": [
+     "2011-10-21"
+    ],
+    "Marlborough": [
+     "2011-10-31"
+    ],
+    "Nelson": [
+     "2011-01-31"
+    ],
+    "Otago": [
+     "2011-03-21"
+    ],
+    "Southland": [
+     "2011-01-17"
+    ],
+    "Taranaki": [
+     "2011-03-14"
+    ],
+    "Wellington": [
+     "2011-01-24"
+    ],
+    "Westland": [
+     "2011-11-28"
+    ]
+   }
+  },
+  "2012": {
+   "national": {
+    "Anzac Day": [
+     "2012-04-25"
+    ],
+    "Boxing Day": [
+     "2012-12-26"
+    ],
+    "Christmas Day": [
+     "2012-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2012-01-02"
+    ],
+    "Easter Monday": [
+     "2012-04-09"
+    ],
+    "Good Friday": [
+     "2012-04-06"
+    ],
+    "Labour Day": [
+     "2012-10-22"
+    ],
+    "New Year's Day": [
+     "2012-01-01",
+     "2012-01-03"
+    ],
+    "Queen's Birthday": [
+     "2012-06-04"
+    ],
+    "Waitangi Day": [
+     "2012-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2012-01-30"
+    ],
+    "Canterbury": [
+     "2012-11-16"
+    ],
+    "Canterbury (South)": [
+     "2012-09-24"
+    ],
+    "Chatham Islands": [
+     "2012-12-03"
+    ],
+    "Hawke's Bay": [
+     "2012-10-19"
+    ],
+    "Marlborough": [
+     "2012-10-29"
+    ],
+    "Nelson": [
+     "2012-01-30"
+    ],
+    "Otago": [
+     "2012-03-26"
+    ],
+    "Southland": [
+     "2012-04-10"
+    ],
+    "Taranaki": [
+     "2012-03-12"
+    ],
+    "Wellington": [
+     "2012-01-23"
+    ],
+    "Westland": [
+     "2012-12-03"
+    ]
+   }
+  },
+  "2013": {
+   "national": {
+    "Anzac Day": [
+     "2013-04-25"
+    ],
+    "Boxing Day": [
+     "2013-12-26"
+    ],
+    "Christmas Day": [
+     "2013-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2013-01-02"
+    ],
+    "Easter Monday": [
+     "2013-04-01"
+    ],
+    "Good Friday": [
+     "2013-03-29"
+    ],
+    "Labour Day": [
+     "2013-10-28"
+    ],
+    "New Year's Day": [
+     "2013-01-01"
+    ],
+    "Queen's Birthday": [
+     "2013-06-03"
+    ],
+    "Waitangi Day": [
+     "2013-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2013-01-28"
+    ],
+    "Canterbury": [
+     "2013-11-15"
+    ],
+    "Canterbury (South)": [
+     "2013-09-23"
+    ],
+    "Chatham Islands": [
+     "2013-12-02"
+    ],
+    "Hawke's Bay": [
+     "2013-10-25"
+    ],
+    "Marlborough": [
+     "2013-11-04"
+    ],
+    "Nelson": [
+     "2013-02-04"
+    ],
+    "Otago": [
+     "2013-03-25"
+    ],
+    "Southland": [
+     "2013-04-02"
+    ],
+    "Taranaki": [
+     "2013-03-11"
+    ],
+    "Wellington": [
+     "2013-01-21"
+    ],
+    "Westland": [
+     "2013-12-02"
+    ]
+   }
+  },
+  "2014": {
+   "national": {
+    "Anzac Day": [
+     "2014-04-25"
+    ],
+    "Boxing Day": [
+     "2014-12-26"
+    ],
+    "Christmas Day": [
+     "2014-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2014-01-02"
+    ],
+    "Easter Monday": [
+     "2014-04-21"
+    ],
+    "Good Friday": [
+     "2014-04-18"
+    ],
+    "Labour Day": [
+     "2014-10-27"
+    ],
+    "New Year's Day": [
+     "2014-01-01"
+    ],
+    "Queen's Birthday": [
+     "2014-06-02"
+    ],
+    "Waitangi Day": [
+     "2014-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2014-01-27"
+    ],
+    "Canterbury": [
+     "2014-11-14"
+    ],
+    "Canterbury (South)": [
+     "2014-09-22"
+    ],
+    "Chatham Islands": [
+     "2014-12-01"
+    ],
+    "Hawke's Bay": [
+     "2014-10-24"
+    ],
+    "Marlborough": [
+     "2014-11-03"
+    ],
+    "Nelson": [
+     "2014-02-03"
+    ],
+    "Otago": [
+     "2014-03-24"
+    ],
+    "Southland": [
+     "2014-04-22"
+    ],
+    "Taranaki": [
+     "2014-03-10"
+    ],
+    "Wellington": [
+     "2014-01-20"
+    ],
+    "Westland": [
+     "2014-12-01"
+    ]
+   }
+  },
+  "2015": {
+   "national": {
+    "Anzac Day": [
+     "2015-04-27",
+     "2015-04-25"
+    ],
+    "Boxing Day": [
+     "2015-12-26",
+     "2015-12-28"
+    ],
+    "Christmas Day": [
+     "2015-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2015-01-02"
+    ],
+    "Easter Monday": [
+     "2015-04-06"
+    ],
+    "Good Friday": [
+     "2015-04-03"
+    ],
+    "Labour Day": [
+     "2015-10-26"
+    ],
+    "New Year's Day": [
+     "2015-01-01"
+    ],
+    "Queen's Birthday": [
+     "2015-06-01"
+    ],
+    "Waitangi Day": [
+     "2015-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2015-01-26"
+    ],
+    "Canterbury": [
+     "2015-11-13"
+    ],
+    "Canterbury (South)": [
+     "2015-09-28"
+    ],
+    "Chatham Islands": [
+     "2015-11-30"
+    ],
+    "Hawke's Bay": [
+     "2015-10-23"
+    ],
+    "Marlborough": [
+     "2015-11-02"
+    ],
+    "Nelson": [
+     "2015-02-02"
+    ],
+    "Otago": [
+     "2015-03-23"
+    ],
+    "Southland": [
+     "2015-04-07"
+    ],
+    "Taranaki": [
+     "2015-03-09"
+    ],
+    "Wellington": [
+     "2015-01-19"
+    ],
+    "Westland": [
+     "2015-11-30"
+    ]
+   }
+  },
+  "2016": {
+   "national": {
+    "Anzac Day": [
+     "2016-04-25"
+    ],
+    "Boxing Day": [
+     "2016-12-26"
+    ],
+    "Christmas Day": [
+     "2016-12-25",
+     "2016-12-27"
+    ],
+    "Day after New Year's Day": [
+     "2016-01-02",
+     "2016-01-04"
+    ],
+    "Easter Monday": [
+     "2016-03-28"
+    ],
+    "Good Friday": [
+     "2016-03-25"
+    ],
+    "Labour Day": [
+     "2016-10-24"
+    ],
+    "New Year's Day": [
+     "2016-01-01"
+    ],
+    "Queen's Birthday": [
+     "2016-06-06"
+    ],
+    "Waitangi Day": [
+     "2016-02-08"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2016-02-01"
+    ],
+    "Canterbury": [
+     "2016-11-11"
+    ],
+    "Canterbury (South)": [
+     "2016-09-26"
+    ],
+    "Chatham Islands": [
+     "2016-11-28"
+    ],
+    "Hawke's Bay": [
+     "2016-10-21"
+    ],
+    "Marlborough": [
+     "2016-10-31"
+    ],
+    "Nelson": [
+     "2016-02-01"
+    ],
+    "Otago": [
+     "2016-03-21"
+    ],
+    "Southland": [
+     "2016-03-29"
+    ],
+    "Taranaki": [
+     "2016-03-14"
+    ],
+    "Wellington": [
+     "2016-01-25"
+    ],
+    "Westland": [
+     "2016-11-28"
+    ]
+   }
+  },
+  "2017": {
+   "national": {
+    "Anzac Day": [
+     "2017-04-25"
+    ],
+    "Boxing Day": [
+     "2017-12-26"
+    ],
+    "Christmas Day": [
+     "2017-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2017-01-02"
+    ],
+    "Easter Monday": [
+     "2017-04-17"
+    ],
+    "Good Friday": [
+     "2017-04-14"
+    ],
+    "Labour Day": [
+     "2017-10-23"
+    ],
+    "New Year's Day": [
+     "2017-01-01",
+     "2017-01-03"
+    ],
+    "Queen's Birthday": [
+     "2017-06-05"
+    ],
+    "Waitangi Day": [
+     "2017-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2017-01-30"
+    ],
+    "Canterbury": [
+     "2017-11-17"
+    ],
+    "Canterbury (South)": [
+     "2017-09-25"
+    ],
+    "Chatham Islands": [
+     "2017-11-27"
+    ],
+    "Hawke's Bay": [
+     "2017-10-20"
+    ],
+    "Marlborough": [
+     "2017-10-30"
+    ],
+    "Nelson": [
+     "2017-01-30"
+    ],
+    "Otago": [
+     "2017-03-20"
+    ],
+    "Southland": [
+     "2017-04-18"
+    ],
+    "Taranaki": [
+     "2017-03-13"
+    ],
+    "Wellington": [
+     "2017-01-23"
+    ],
+    "Westland": [
+     "2017-12-04"
+    ]
+   }
+  },
+  "2018": {
+   "national": {
+    "Anzac Day": [
+     "2018-04-25"
+    ],
+    "Boxing Day": [
+     "2018-12-26"
+    ],
+    "Christmas Day": [
+     "2018-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2018-01-02"
+    ],
+    "Easter Monday": [
+     "2018-04-02"
+    ],
+    "Good Friday": [
+     "2018-03-30"
+    ],
+    "Labour Day": [
+     "2018-10-22"
+    ],
+    "New Year's Day": [
+     "2018-01-01"
+    ],
+    "Queen's Birthday": [
+     "2018-06-04"
+    ],
+    "Waitangi Day": [
+     "2018-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2018-01-29"
+    ],
+    "Canterbury": [
+     "2018-11-16"
+    ],
+    "Canterbury (South)": [
+     "2018-09-24"
+    ],
+    "Chatham Islands": [
+     "2018-12-03"
+    ],
+    "Hawke's Bay": [
+     "2018-10-19"
+    ],
+    "Marlborough": [
+     "2018-10-29"
+    ],
+    "Nelson": [
+     "2018-01-29"
+    ],
+    "Otago": [
+     "2018-03-26"
+    ],
+    "Southland": [
+     "2018-04-03"
+    ],
+    "Taranaki": [
+     "2018-03-12"
+    ],
+    "Wellington": [
+     "2018-01-22"
+    ],
+    "Westland": [
+     "2018-12-03"
+    ]
+   }
+  },
+  "2019": {
+   "national": {
+    "Anzac Day": [
+     "2019-04-25"
+    ],
+    "Boxing Day": [
+     "2019-12-26"
+    ],
+    "Christmas Day": [
+     "2019-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2019-01-02"
+    ],
+    "Easter Monday": [
+     "2019-04-22"
+    ],
+    "Good Friday": [
+     "2019-04-19"
+    ],
+    "Labour Day": [
+     "2019-10-28"
+    ],
+    "New Year's Day": [
+     "2019-01-01"
+    ],
+    "Queen's Birthday": [
+     "2019-06-03"
+    ],
+    "Waitangi Day": [
+     "2019-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2019-01-28"
+    ],
+    "Canterbury": [
+     "2019-11-15"
+    ],
+    "Canterbury (South)": [
+     "2019-09-23"
+    ],
+    "Chatham Islands": [
+     "2019-12-02"
+    ],
+    "Hawke's Bay": [
+     "2019-10-25"
+    ],
+    "Marlborough": [
+     "2019-11-04"
+    ],
+    "Nelson": [
+     "2019-02-04"
+    ],
+    "Otago": [
+     "2019-03-25"
+    ],
+    "Southland": [
+     "2019-04-23"
+    ],
+    "Taranaki": [
+     "2019-03-11"
+    ],
+    "Wellington": [
+     "2019-01-21"
+    ],
+    "Westland;": [
+     "2019-12-02"
+    ]
+   }
+  },
+  "2020": {
+   "national": {
+    "Anzac Day": [
+     "2020-04-25",
+     "2020-04-27"
+    ],
+    "Boxing Day": [
+     "2020-12-26",
+     "2020-12-28"
+    ],
+    "Christmas Day": [
+     "2020-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2020-01-02"
+    ],
+    "Easter Monday": [
+     "2020-04-13"
+    ],
+    "Good Friday": [
+     "2020-04-10"
+    ],
+    "Labour Day": [
+     "2020-10-26"
+    ],
+    "New Year's Day": [
+     "2020-01-01"
+    ],
+    "Queen's Birthday": [
+     "2020-06-01"
+    ],
+    "Waitangi Day": [
+     "2020-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2020-01-27"
+    ],
+    "Canterbury": [
+     "2020-11-13"
+    ],
+    "Canterbury (South)": [
+     "2020-09-28"
+    ],
+    "Chatham Islands": [
+     "2020-11-30"
+    ],
+    "Hawke's Bay": [
+     "2020-10-23"
+    ],
+    "Marlborough": [
+     "2020-11-02"
+    ],
+    "Nelson": [
+     "2020-02-03"
+    ],
+    "Otago": [
+     "2020-03-23"
+    ],
+    "Southland": [
+     "2020-04-14"
+    ],
+    "Taranaki": [
+     "2020-03-09"
+    ],
+    "Wellington": [
+     "2020-01-20"
+    ],
+    "Westland": [
+     "2020-11-30"
+    ]
+   }
+  },
+  "2021": {
+   "national": {
+    "Anzac Day": [
+     "2021-04-25",
+     "2021-04-26"
+    ],
+    "Boxing Day": [
+     "2021-12-28"
+    ],
+    "Christmas Day": [
+     "2021-12-27"
+    ],
+    "Day after New Year's Day": [
+     "2021-01-02",
+     "2021-01-04"
+    ],
+    "Easter Monday": [
+     "2021-04-05"
+    ],
+    "Good Friday": [
+     "2021-04-02"
+    ],
+    "Labour Day": [
+     "2021-10-25"
+    ],
+    "New Year's Day": [
+     "2021-01-01"
+    ],
+    "Queen's Birthday": [
+     "2021-06-07"
+    ],
+    "Waitangi Day": [
+     "2021-02-06",
+     "2021-02-08"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2021-02-01"
+    ],
+    "Canterbury": [
+     "2021-11-12"
+    ],
+    "Canterbury (South)": [
+     "2021-09-27"
+    ],
+    "Chatham Islands": [
+     "2021-11-29"
+    ],
+    "Hawke's Bay": [
+     "2021-10-22"
+    ],
+    "Marlborough": [
+     "2021-11-01"
+    ],
+    "Nelson": [
+     "2021-02-01"
+    ],
+    "Otago": [
+     "2021-03-22"
+    ],
+    "Southland": [
+     "2021-04-06"
+    ],
+    "Taranaki": [
+     "2021-03-08"
+    ],
+    "Wellington": [
+     "2021-01-25"
+    ],
+    "Westland": [
+     "2021-11-29"
+    ]
+   }
+  },
+  "2022": {
+   "national": {
+    "Anzac Day": [
+     "2022-04-25"
+    ],
+    "Boxing Day": [
+     "2022-12-26"
+    ],
+    "Christmas Day": [
+     "2022-12-25",
+     "2022-12-27"
+    ],
+    "Day after New Year's Day": [
+     "2022-01-02",
+     "2022-01-04"
+    ],
+    "Easter Monday": [
+     "2022-04-18"
+    ],
+    "Good Friday": [
+     "2022-04-15"
+    ],
+    "Labour Day": [
+     "2022-10-24"
+    ],
+    "Matariki": [
+     "2022-06-24"
+    ],
+    "New Year's Day": [
+     "2022-01-01",
+     "2022-01-03"
+    ],
+    "Queen Elizabeth II Memorial Day": [
+     "2022-09-26"
+    ],
+    "Queen's Birthday": [
+     "2022-06-06"
+    ],
+    "Waitangi Day": [
+     "2022-02-06",
+     "2022-02-07"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2022-01-31"
+    ],
+    "Canterbury": [
+     "2022-11-11"
+    ],
+    "Canterbury (South)": [
+     "2022-09-26"
+    ],
+    "Chatham Islands": [
+     "2022-11-28"
+    ],
+    "Hawke's Bay": [
+     "2022-10-21"
+    ],
+    "Marlborough": [
+     "2022-10-31"
+    ],
+    "Nelson": [
+     "2022-01-31"
+    ],
+    "Otago": [
+     "2022-03-21"
+    ],
+    "Southland": [
+     "2022-04-19"
+    ],
+    "Taranaki": [
+     "2022-03-14"
+    ],
+    "Wellington": [
+     "2022-01-24"
+    ],
+    "Westland": [
+     "2022-11-28"
+    ]
+   }
+  },
+  "2023": {
+   "national": {
+    "Anzac Day": [
+     "2023-04-25"
+    ],
+    "Boxing Day": [
+     "2023-12-26"
+    ],
+    "Christmas Day": [
+     "2023-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2023-01-02"
+    ],
+    "Easter Monday": [
+     "2023-04-10"
+    ],
+    "Good Friday": [
+     "2023-04-07"
+    ],
+    "King's Birthday": [
+     "2023-06-05"
+    ],
+    "Labour Day": [
+     "2023-10-23"
+    ],
+    "Matariki": [
+     "2023-07-14"
+    ],
+    "New Year's Day": [
+     "2023-01-01",
+     "2023-01-03"
+    ],
+    "Waitangi Day": [
+     "2023-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2023-01-30"
+    ],
+    "Canterbury": [
+     "2023-11-17"
+    ],
+    "Canterbury (South)": [
+     "2023-09-25"
+    ],
+    "Chatham Islands": [
+     "2023-11-27"
+    ],
+    "Hawke's Bay": [
+     "2023-10-20"
+    ],
+    "Marlborough": [
+     "2023-10-30"
+    ],
+    "Nelson": [
+     "2023-01-30"
+    ],
+    "Otago": [
+     "2023-03-20"
+    ],
+    "Southland": [
+     "2023-04-11"
+    ],
+    "Taranaki": [
+     "2023-03-13"
+    ],
+    "Wellington": [
+     "2023-01-23"
+    ],
+    "Westland": [
+     "2023-12-04"
+    ]
+   }
+  },
+  "2024": {
+   "national": {
+    "Anzac Day": [
+     "2024-04-25"
+    ],
+    "Boxing Day": [
+     "2024-12-26"
+    ],
+    "Christmas Day": [
+     "2024-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2024-01-02"
+    ],
+    "Easter Monday": [
+     "2024-04-01"
+    ],
+    "Good Friday": [
+     "2024-03-29"
+    ],
+    "King's Birthday": [
+     "2024-06-03"
+    ],
+    "Labour Day": [
+     "2024-10-28"
+    ],
+    "Matariki": [
+     "2024-06-28"
+    ],
+    "New Year's Day": [
+     "2024-01-01"
+    ],
+    "Waitangi Day": [
+     "2024-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2024-01-29"
+    ],
+    "Canterbury": [
+     "2024-11-15"
+    ],
+    "Canterbury (South)": [
+     "2024-09-23"
+    ],
+    "Chatham Islands": [
+     "2024-12-02"
+    ],
+    "Hawke's Bay": [
+     "2024-10-25"
+    ],
+    "Marlborough": [
+     "2024-11-04"
+    ],
+    "Nelson": [
+     "2024-01-29"
+    ],
+    "Otago": [
+     "2024-03-25"
+    ],
+    "Southland": [
+     "2024-04-02"
+    ],
+    "Taranaki": [
+     "2024-03-11"
+    ],
+    "Wellington": [
+     "2024-01-22"
+    ],
+    "Westland": [
+     "2024-12-02"
+    ]
+   }
+  },
+  "2025": {
+   "national": {
+    "Anzac Day": [
+     "2025-04-25"
+    ],
+    "Boxing Day": [
+     "2025-12-26"
+    ],
+    "Christmas Day": [
+     "2025-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2025-01-02"
+    ],
+    "Easter Monday": [
+     "2025-04-21"
+    ],
+    "Good Friday": [
+     "2025-04-18"
+    ],
+    "King's Birthday": [
+     "2025-06-02"
+    ],
+    "Labour Day": [
+     "2025-10-27"
+    ],
+    "Matariki": [
+     "2025-06-20"
+    ],
+    "New Year's Day": [
+     "2025-01-01"
+    ],
+    "Waitangi Day": [
+     "2025-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2025-01-27"
+    ],
+    "Canterbury": [
+     "2025-11-14"
+    ],
+    "Canterbury (South)": [
+     "2025-09-22"
+    ],
+    "Chatham Islands": [
+     "2025-12-01"
+    ],
+    "Hawke's Bay": [
+     "2025-10-24"
+    ],
+    "Marlborough": [
+     "2025-11-03"
+    ],
+    "Nelson": [
+     "2025-02-03"
+    ],
+    "Otago": [
+     "2025-03-24"
+    ],
+    "Southland": [
+     "2025-04-22"
+    ],
+    "Taranaki": [
+     "2025-03-10"
+    ],
+    "Wellington": [
+     "2025-01-20"
+    ],
+    "Westland": [
+     "2025-12-01"
+    ]
+   }
+  },
+  "2026": {
+   "national": {
+    "Anzac Day": [
+     "2026-04-25",
+     "2026-04-27"
+    ],
+    "Boxing Day": [
+     "2026-12-26",
+     "2026-12-28"
+    ],
+    "Christmas Day": [
+     "2026-12-25"
+    ],
+    "Day after New Year's Day": [
+     "2026-01-02"
+    ],
+    "Easter Monday": [
+     "2026-04-06"
+    ],
+    "Good Friday": [
+     "2026-04-03"
+    ],
+    "King's Birthday": [
+     "2026-06-01"
+    ],
+    "Labour Day": [
+     "2026-10-26"
+    ],
+    "Matariki": [
+     "2026-07-10"
+    ],
+    "New Year's Day": [
+     "2026-01-01"
+    ],
+    "Waitangi Day": [
+     "2026-02-06"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2026-01-26"
+    ],
+    "Canterbury": [
+     "2026-11-13"
+    ],
+    "Canterbury (South)": [
+     "2026-09-28"
+    ],
+    "Chatham Islands": [
+     "2026-11-30"
+    ],
+    "Hawke's Bay": [
+     "2026-10-23"
+    ],
+    "Marlborough": [
+     "2026-11-02"
+    ],
+    "Nelson": [
+     "2026-02-02"
+    ],
+    "Otago": [
+     "2026-03-23"
+    ],
+    "Southland": [
+     "2026-04-07"
+    ],
+    "Taranaki": [
+     "2026-03-09"
+    ],
+    "Wellington": [
+     "2026-01-19"
+    ],
+    "Westland": [
+     "2026-11-30"
+    ]
+   }
+  },
+  "2027": {
+   "national": {
+    "ANZAC Day": [
+     "2027-04-25",
+     "2027-04-26"
+    ],
+    "Boxing Day": [
+     "2027-12-26",
+     "2027-12-28"
+    ],
+    "Christmas Day": [
+     "2027-12-25",
+     "2027-12-27"
+    ],
+    "Day after New Year's Day": [
+     "2027-01-02",
+     "2027-01-04"
+    ],
+    "Easter Monday": [
+     "2027-03-29"
+    ],
+    "Good Friday": [
+     "2027-03-26"
+    ],
+    "King's Birthday": [
+     "2027-06-07"
+    ],
+    "Labour Day": [
+     "2027-10-25"
+    ],
+    "Matariki": [
+     "2027-06-25"
+    ],
+    "New Year's Day": [
+     "2027-01-01"
+    ],
+    "Waitangi Day": [
+     "2027-02-06",
+     "2027-02-08"
+    ]
+   },
+   "provincial": {
+    "Auckland": [
+     "2027-02-01"
+    ],
+    "Canterbury": [
+     "2027-11-12"
+    ],
+    "Canterbury (South)": [
+     "2027-09-27"
+    ],
+    "Chatham Islands": [
+     "2027-11-29"
+    ],
+    "Hawke's Bay": [
+     "2027-10-22"
+    ],
+    "Marlborough": [
+     "2027-11-01"
+    ],
+    "Nelson": [
+     "2027-02-01"
+    ],
+    "Otago": [
+     "2027-03-22"
+    ],
+    "Southland": [
+     "2027-03-30"
+    ],
+    "Taranaki": [
+     "2027-03-08"
+    ],
+    "Wellington": [
+     "2027-01-25"
+    ],
+    "Westland": [
+     "2027-11-29"
+    ]
+   }
+  }
+ }
+}
