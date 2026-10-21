@@ -1,11 +1,12 @@
-/* Singh Studio Plugins: storefront behaviour. Buy buttons, analytics, the NZ clock, demo controls, reveals. */
+/* Singh Studio Plugins: storefront behaviour. The licence switch, buy buttons, the buy bar, analytics, the NZ clock, demo controls, reveals. */
 (function () {
   'use strict';
   var cfgEl = document.getElementById('store-config');
   var CFG = cfgEl ? JSON.parse(cfgEl.textContent) : { checkout: {}, email: 'kris@singhstudio.co.nz', analytics: {} };
-  document.documentElement.classList.remove('no-js');
+  var root = document.documentElement;
+  root.classList.remove('no-js');
 
-  /* Analytics: GA4 loads only when an ID is set in catalog.json */
+  /* Analytics: GA4 loads only when an ID is set in catalog.json. Events use GA4's ecommerce names. */
   function track(name, props) { if (window.gtag) window.gtag('event', name, props || {}); }
   if (CFG.analytics && CFG.analytics.ga4) {
     window.dataLayer = window.dataLayer || [];
@@ -17,33 +18,88 @@
     document.head.appendChild(s);
   }
   var page = document.body.getAttribute('data-product');
-  if (page) track('view_item', { item_id: page, item_name: document.body.getAttribute('data-product-name') });
+  if (page) track('view_item', { currency: 'USD', value: +document.body.getAttribute('data-price') || undefined, items: [{ item_id: page, item_name: document.body.getAttribute('data-product-name') }] });
+  var tiles = document.querySelectorAll('.tile[data-slug]');
+  if (tiles.length) {
+    track('view_item_list', { item_list_id: 'plugins', items: Array.prototype.map.call(tiles, function (t, i) {
+      return { item_id: t.getAttribute('data-slug'), item_name: t.getAttribute('data-name'), price: +t.getAttribute('data-price'), index: i };
+    }) });
+  }
 
-  /* Buy buttons: a Lemon Squeezy (or any) checkout link when set, otherwise an email to Kris */
+  /* Licence: one website or unlimited. Both prices are in the page, this shows one, and the choice lasts for the visit. */
+  var switches = document.querySelectorAll('[data-set-licence]');
+  function setLicence(l, chosen) {
+    root.setAttribute('data-licence', l);
+    switches.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-set-licence') === l ? 'true' : 'false'); });
+    if (!chosen) return;
+    try { sessionStorage.setItem('ssp-licence', l); } catch (e) {}
+    track('select_licence', { licence: l });
+  }
+  switches.forEach(function (b) { b.addEventListener('click', function () { setLicence(b.getAttribute('data-set-licence'), true); }); });
+  setLicence(root.getAttribute('data-licence') === 'unlimited' ? 'unlimited' : 'single');
+
+  /* Buy buttons carry their checkout link (or an email to Kris) from the build. This adds tracking and Lemon Squeezy's overlay. */
   var usesLemon = false;
   document.querySelectorAll('[data-buy]').forEach(function (a) {
     var parts = a.getAttribute('data-buy').split(':'), slug = parts[0], tier = parts[1] || 'single';
-    var url = CFG.checkout[slug] && CFG.checkout[slug][tier];
-    var name = a.getAttribute('data-name') || slug;
-    if (url) {
-      a.href = url;
-      if (/lemonsqueezy\.com/.test(url)) { a.classList.add('lemonsqueezy-button'); usesLemon = true; }
-    } else {
-      a.href = 'mailto:' + CFG.email + '?subject=' + encodeURIComponent(name + ', ' + (tier === 'unlimited' ? 'unlimited' : 'single-site') + ' licence') +
-        '&body=' + encodeURIComponent('Hi Kris,\n\nI’d like to buy ' + name + ' (' + (tier === 'unlimited' ? 'unlimited sites' : 'one site') + ').\n\nMy website: \n\nThanks!');
+    if (a.getAttribute('href') === '#') {
+      var url = CFG.checkout[slug] && CFG.checkout[slug][tier], name = a.getAttribute('data-name') || slug;
+      a.href = url || 'mailto:' + CFG.email + '?subject=' + encodeURIComponent(name + ', ' + (tier === 'unlimited' ? 'unlimited' : 'single-site') + ' licence');
+      if (url && /lemonsqueezy\.com/.test(url)) a.classList.add('lemonsqueezy-button');
     }
+    if (a.classList.contains('lemonsqueezy-button')) usesLemon = true;
     a.addEventListener('click', function () {
-      track('begin_checkout', { item_id: slug, item_variant: tier, currency: 'USD', value: +a.getAttribute('data-price') || undefined });
+      var price = +a.getAttribute('data-price') || undefined;
+      track('begin_checkout', { currency: 'USD', value: price, items: [{ item_id: slug, item_name: a.getAttribute('data-name') || slug, item_variant: tier, price: price, quantity: 1 }] });
     });
   });
   if (usesLemon) {
     var ls = document.createElement('script');
     ls.src = 'https://app.lemonsqueezy.com/js/lemon.js'; ls.defer = true;
+    ls.onload = function () {
+      // Report finished orders to analytics. If Lemon Squeezy's setup call isn't there, the checkout works as before.
+      setTimeout(function () {
+        try {
+          if (!window.LemonSqueezy || !window.LemonSqueezy.Setup) return;
+          window.LemonSqueezy.Setup({ eventHandler: function (e) {
+            if (!e || e.event !== 'Checkout.Success') return;
+            var order = e.data && e.data.order && e.data.order.data, at = (order && order.attributes) || {};
+            track('purchase', { transaction_id: order && order.id, currency: at.currency || 'USD', value: at.total ? at.total / 100 : undefined });
+          } });
+        } catch (err) {}
+      }, 0);
+    };
     document.head.appendChild(ls);
   }
   document.querySelectorAll('[data-track]').forEach(function (el) {
     el.addEventListener('click', function () { track(el.getAttribute('data-track'), { label: el.getAttribute('data-track-label') || '' }); });
   });
+
+  /* The buy bar slides up once the buy box has scrolled off the top, and steps aside while
+     the pricing section or the footer is on screen, because they have their own buttons. */
+  var bar = document.querySelector('.buybar'), box = document.getElementById('buybox');
+  if (bar && box && 'IntersectionObserver' in window) {
+    var past = false, quiet = [];
+    var show = function () {
+      var on = past && !quiet.length;
+      bar.classList.toggle('show', on);
+      bar.inert = !on;
+      bar.setAttribute('aria-hidden', on ? 'false' : 'true');
+    };
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { past = !e.isIntersecting && e.boundingClientRect.top < 0; });
+      show();
+    }).observe(box);
+    var calm = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var i = quiet.indexOf(e.target);
+        if (e.isIntersecting && i < 0) quiet.push(e.target);
+        if (!e.isIntersecting && i > -1) quiet.splice(i, 1);
+      });
+      show();
+    });
+    document.querySelectorAll('#pricing, .foot').forEach(function (el) { calm.observe(el); });
+  }
 
   /* NZ clock, as on the studio site */
   var clock = document.querySelector('.clock');
