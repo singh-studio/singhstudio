@@ -317,3 +317,8 @@ section.block--tight { padding: clamp(64px, 8vw, 110px) 0; }
 .tile.rise.in { transition: opacity .9s var(--ease), transform .5s var(--ease), border-color .4s var(--ease); }
 .tile.in:hover, .no-js .tile:hover { transform: translateY(-3px); }
 @media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } .tile, .tile-shot img, .buybar { transition: none; } }
+
+/* Search guides */
+.prose .guide-next{margin-top:48px;padding:28px;background:var(--bone,#e4ddd0);border-top:1px solid #b4ada3}.prose .guide-next h2{margin-top:0}.prose .guide-next .btn{margin-top:12px}.prose li{margin-block:10px}.prose h1{overflow-wrap:break-word}
+
+.guide-list .arrow{white-space:nowrap}@media(max-width:600px){.guide-list a{display:block}.guide-list .arrow{display:flex;margin-top:16px;gap:8px;font-size:14px}.guide-list .arrow svg{width:18px;height:18px}}
