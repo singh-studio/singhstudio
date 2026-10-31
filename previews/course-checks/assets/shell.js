@@ -1,34 +1,22 @@
-// Demo chrome for every product demo: embed mode, section-colour switcher, toasts for links that go nowhere.
-// A demo names its made-up organisation on <html data-demo-org="…">; without it, the toasts call it a church site.
 (function () {
-  var root = document.documentElement, params = new URLSearchParams(location.search), org = root.getAttribute('data-demo-org');
-  if (params.has('embed')) root.classList.add('is-embed'); else root.classList.add('has-ribbon');
-  var toastEl = document.createElement('div');
-  toastEl.className = 'demo-toast'; toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
-  document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(toastEl); });
-  var tt;
-  window.demoToast = function (msg) {
-    toastEl.textContent = msg; toastEl.classList.add('on');
-    clearTimeout(tt); tt = setTimeout(function () { toastEl.classList.remove('on'); }, 2600);
-  };
-  // Links into pages that only exist on a real site
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[data-demo-link], a[href="#"], a[href^="/team/"], a[href^="/resources/"], a[href^="/events/"], a[href^="/give"], a[href^="/sermons/"]');
-    if (!a || a.hasAttribute('download')) return;
-    e.preventDefault();
-    window.demoToast(a.getAttribute('href') !== '#' ? 'On your site, this opens that page.' : org ? org + ' is made up, so the rest of its site is scenery.' : 'This is a made-up church site, so the rest of it is scenery.');
-  });
-  // Section colours: every plugin re-reads the theme through its own retheme()
-  window.setDemoTheme = function (name) {
-    document.querySelectorAll('[data-section-theme]').forEach(function (s) { s.setAttribute('data-section-theme', name); });
-    var sec = document.querySelector('.page-section');
-    if (sec) document.body.style.background = getComputedStyle(sec).backgroundColor;
-    document.querySelectorAll('[data-ssk]').forEach(function (el) { if (el.__ssk && el.__ssk.retheme) el.__ssk.retheme(); });
-    document.querySelectorAll('[data-theme]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-theme') === name ? 'true' : 'false'); });
-  };
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('[data-theme]');
-    if (b) window.setDemoTheme(b.getAttribute('data-theme'));
-  });
-  document.addEventListener('DOMContentLoaded', function () { if (params.get('theme')) window.setDemoTheme(params.get('theme')); });
+  var params = new URLSearchParams(location.search), mode = ['revision', 'matching'].includes(params.get('mode')) ? params.get('mode') : 'quiz', rev = mode !== 'quiz';
+  var source = document.getElementById(rev ? 'block-demo-accordion' : 'block-demo-form');
+  document.getElementById(rev ? 'block-demo-form' : 'block-demo-accordion').remove(); source.hidden = false;
+  var answers = [['Study B'], ['Move into open shade', 'Use a large diffuser'], ['Behind the subject']];
+  var feedback = ['Look at the transition between light and shadow, rather than brightness alone.', 'A larger apparent light source creates softer transitions between light and shade.', 'Backlight can create a bright rim around the subject.'];
+  var qs = rev ? Array.from(source.querySelectorAll('.accordion-item')).map(function (r) { return { type: 'revision', prompt: r.querySelector('.accordion-item__title').textContent.trim(), options: [], answer: r.querySelector('.accordion-item__description').textContent.trim() }; }) : Array.from(source.querySelectorAll('fieldset')).map(function (f) { return { type: f.classList.contains('checkbox') ? 'multiple' : 'single', prompt: f.querySelector('legend').textContent.trim(), options: Array.from(f.querySelectorAll('label')).map(function (l) { return l.textContent.trim(); }) }; });
+  var config = { version: 1, title: mode === 'matching' ? 'The language of light' : rev ? 'A moment to recall' : 'Read the light', mode: mode, appearance: { layout: 'editorial', surface: 'card', corners: 'inherit', accent: '' }, pass: rev ? 0 : 80, questions: qs.map(function (q, i) { return { signature: JSON.stringify([q.type, q.prompt, q.options.slice().sort(), q.answer || '']), correct: rev ? [] : answers[i], feedback: rev ? '' : feedback[i] }; }) };
+  if (!rev) {
+    config.questions[0].hint = 'Compare the edges of the shadows on the pedestal.';
+    config.questions[0].choiceFeedback = [{ option: 'Study A', text: 'The crisp shadow edge suggests a small, direct light source.' }, { option: 'Study B', text: 'Yes. The shadow fades gradually, which is characteristic of diffused light.' }, { option: 'Study C', text: 'The illuminated rim tells you the light is behind the subject. Direction and softness are different qualities.' }];
+    config.questions[0].media = { options: [{ option: 'Study A', src: new URL('assets/direct.svg', location.href).href, alt: 'A sphere on a pedestal casts a long shadow with a sharply defined edge.' }, { option: 'Study B', src: new URL('assets/diffused.svg', location.href).href, alt: 'A sphere on a pedestal has gentle tonal transitions and a faint, blurred shadow.' }, { option: 'Study C', src: new URL('assets/backlit.svg', location.href).href, alt: 'A dark sphere has a bright edge on its right side and casts a shadow toward the viewer.' }] };
+  }
+  var s = document.createElement('script'); s.type = 'application/json'; s.dataset.ccConfig = ''; s.textContent = JSON.stringify(config); document.querySelector('[data-course-checks]').appendChild(s);
+  window.demoFormSubmits = 0; document.addEventListener('submit', function (e) { e.preventDefault(); window.demoFormSubmits++; });
+  window.setDemoTheme = function (name) { var theme = name === 'dark' ? 'ink' : name; document.body.dataset.theme = theme; document.querySelector('.page-section').dataset.sectionTheme = theme === 'ink' ? 'dark' : 'light'; document.getElementById('theme').value = theme; document.querySelectorAll('[data-course-checks]').forEach(function (e) { if (e.__ssk) e.__ssk.retheme(); }); };
+  document.querySelector('[data-mode="' + mode + '"]').setAttribute('aria-current', 'page');
+  document.getElementById('setup-link').href = '?mode=' + mode + '&coursechecks=setup';
+  if (innerWidth > 900) document.querySelector('.design-options').open = true;
+  document.getElementById('theme').addEventListener('change', function (e) { window.setDemoTheme(e.target.value); });
+  ['layout', 'surface', 'corners', 'accent', 'custom-accent'].forEach(function (name) { document.getElementById(name).addEventListener('change', function () { var e = document.querySelector('[data-course-checks]'); if (e.__ssk) e.__ssk.updateAppearance({ layout: document.getElementById('layout').value, surface: document.getElementById('surface').value, corners: document.getElementById('corners').value, accent: document.getElementById('custom-accent').checked ? document.getElementById('accent').value : '' }); }); });
 })();
