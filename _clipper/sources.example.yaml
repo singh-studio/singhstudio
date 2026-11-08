@@ -1,0 +1,20 @@
+# Every source must declare a licence. Sources that don't are rejected at load.
+#   owned       footage you recorded
+#   permission  another creator's VODs you have WRITTEN permission to clip
+#               (needs `evidence:` file in ~/Clipper/licenses and `credit:`)
+#   cc-by       Creative Commons Attribution footage (needs `credit:`)
+
+sources:
+  - id: my-capture
+    kind: watch_folder
+    path: ~/Clipper/inbox
+    license: owned
+
+  # Example: a streamer who hired you to clip their GTA VI streams.
+  # - id: streamer-x
+  #   kind: url_list
+  #   license: permission
+  #   evidence: streamer-x-agreement.pdf      # relative to ~/Clipper/licenses
+  #   credit: "@streamerx on Twitch"
+  #   urls:
+  #     - https://www.twitch.tv/videos/1234567890

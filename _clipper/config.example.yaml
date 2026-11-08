@@ -1,0 +1,63 @@
+# Clipper config — copy to ~/Clipper/config.yaml (`clipper init` does this).
+# Only override what you need; everything else uses the defaults in clipper/config.py.
+
+# Posting times are planned in your AUDIENCE's timezone. Most GTA short-form
+# views come from North America; change if your audience is elsewhere.
+audience_timezone: America/New_York
+
+audio:
+  # OBS: Settings > Output > Recording > Audio Track 1 + 2.
+  # Track 1 (index 0) = game audio, Track 2 (index 1) = your mic.
+  tracks: [0, 1]
+  detect_track: 1        # your reactions are the best highlight signal
+
+detect:
+  clips_per_hour: 8      # how many highlights to keep per hour of footage
+  min_clip_s: 14
+  max_clip_s: 45
+
+render:
+  layout: blur_fill      # blur_fill (full frame + blurred backdrop) | crop
+  fg_zoom: 1.3
+  watermark: "@yourhandle"
+
+copy:
+  provider: anthropic    # uses ~/Clipper/secrets/anthropic_api_key; falls back to templates
+  model: claude-opus-5-5
+  effort: low
+  channel_voice: "Hyped but genuine. Short punchy hooks. Never claims to be official or affiliated with Rockstar."
+  default_hashtags: ["#GTA6", "#GTAVI", "#gaming"]
+
+schedule:
+  platforms:
+    youtube:   {enabled: true,  per_day: [3, 5], max_per_day: 6}   # API quota ≈ 6 uploads/day by default
+    tiktok:    {enabled: true,  per_day: [3, 6], max_per_day: 10}
+    instagram: {enabled: false, per_day: [1, 3], max_per_day: 5}
+  windows:
+    - {start: "07:15", end: "09:30", weight: 1}
+    - {start: "11:30", end: "14:00", weight: 2}
+    - {start: "16:30", end: "23:15", weight: 5}
+  min_gap_minutes: 70
+  runway_days: 3
+  # Launch surge: post harder while search interest peaks.
+  surge: {start: "2026-11-19", days: 21, multiplier: 1.4}
+
+publish:
+  dry_run: true          # flip to false once `clipper doctor` is all green
+  youtube: {privacy: public}
+  tiktok:
+    mode: inbox          # inbox until your TikTok app passes audit, then: direct
+    redirect_uri: ""     # must match the redirect URI registered on your TikTok app
+  instagram:
+    ig_user_id: ""
+
+notify:
+  ntfy_topic: ""         # e.g. clipper-<random>; install the ntfy app and subscribe
+  daily_digest_hour: 9
+
+ingest:
+  delete_source_after_days: null   # raw recordings are yours: kept unless you set a number
+  delete_render_after_days: 30
+
+daemon:
+  min_free_gb: 25

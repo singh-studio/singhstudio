@@ -1,3 +1,6 @@
 .DS_Store
 *.swp
 .claude/
+__pycache__/
+*.egg-info/
+.pytest_cache/

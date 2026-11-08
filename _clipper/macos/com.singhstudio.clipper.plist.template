@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.singhstudio.clipper</string>
+  <key>ProgramArguments</key>
+  <array>
+    <!-- caffeinate keeps the Mac awake (idle + system sleep) for as long as clipper runs -->
+    <string>/usr/bin/caffeinate</string>
+    <string>-ims</string>
+    <string>__VENV__/bin/python</string>
+    <string>-m</string>
+    <string>clipper</string>
+    <string>run</string>
+  </array>
+  <key>WorkingDirectory</key><string>__APP__</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    <key>CLIPPER_CONFIG</key><string>__ROOT__/config.yaml</string>
+    <key>PYTHONUNBUFFERED</key><string>1</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <!-- restart on any exit, crash or kill -->
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>30</integer>
+  <key>ProcessType</key><string>Standard</string>
+  <key>StandardOutPath</key><string>__ROOT__/logs/launchd.out.log</string>
+  <key>StandardErrorPath</key><string>__ROOT__/logs/launchd.err.log</string>
+</dict>
+</plist>
