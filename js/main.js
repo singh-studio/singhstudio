@@ -452,6 +452,16 @@ document.addEventListener("click", (e) => {
       );
     }
   }
+  [document.getElementById("gcBookAgain"), document.getElementById("gcBookSent")].forEach((a) => {
+    if (!a) return;
+    if (CONFIG.bookingUrl) {
+      a.href = CONFIG.bookingUrl;
+      a.target = "_blank";
+      a.rel = "noopener";
+    } else {
+      a.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Intro call — Singh Studio")}`;
+    }
+  });
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
@@ -787,13 +797,17 @@ document.addEventListener("click", (e) => {
   });
 })();
 
-/* Enquiry form — posts through Web3Forms once CONFIG.web3formsKey is set.
-   Until then, submitting composes a structured email instead, so the
-   written path works either way. Also: an honest reply-time line from
-   the NZ clock, a locally saved draft so an interrupted visitor never
-   loses their words, and context carried in from templates and cases
-   via the ?about= parameter. */
+/* ============================================================
+   GUIDED CONTACT — pick needs, then a way to talk. The call card is a
+   real link to the booking page; quote and question reveal one short
+   form. Posts through Web3Forms once CONFIG.web3formsKey is set; until
+   then, submitting composes a structured email instead. Also: an honest
+   reply-time line from the NZ clock, a locally saved draft, and context
+   carried in from templates and cases via the ?about= parameter.
+   ============================================================ */
 (() => {
+  const gc = document.getElementById("gc");
+  if (!gc) return;
   const form = document.getElementById("enquiryForm");
   if (!form) return;
   const btn = form.querySelector('button[type="submit"]');
@@ -801,21 +815,105 @@ document.addEventListener("click", (e) => {
   const keyField = form.querySelector('input[name="access_key"]');
   if (CONFIG.web3formsKey && keyField) keyField.value = CONFIG.web3formsKey;
 
+  const ctx = document.getElementById("gcCtx");
+  const ctxText = document.getElementById("gcCtxText");
+  const details = [...gc.querySelectorAll("[data-detail]")];
+  const callCard = gc.querySelector('[data-way="call"]');
+  const modeBtns = [...gc.querySelectorAll('button[data-way]')];
+  const needChips = [...gc.querySelectorAll("[data-need]")];
+  const soloChips = [...gc.querySelectorAll("[data-solo]")];
+  const quoteOnly = gc.querySelector("[data-quote-only]");
+  const textEl = gc.querySelector("[data-mode-text]");
+  const hintEl = gc.querySelector("[data-mode-hint]");
+  const labelEl = gc.querySelector("[data-mode-label]");
+  const timingEl = form.elements.timing;
+  const message = form.elements.message;
+
+  const COPY = {
+    quote: {
+      text: "Tell me about <em>the job.</em>",
+      hint: "A few lines is plenty. I’ll reply with a scoped quote, or a question if I need one.",
+      label: "What’s the job?",
+    },
+    ask: {
+      text: "Ask <em>away.</em>",
+      hint: "No brief needed. I’ll answer it straight.",
+      label: "Your question",
+    },
+  };
+  let mode = "quote";
+
   // Context from ?about= — a template or case name travels with the enquiry
   let about = "";
   try {
     const raw = new URLSearchParams(location.search).get("about") || "";
     about = raw.replace(/[^\w\s&-]/g, "").trim().slice(0, 60);
   } catch { /* no URL API, no context */ }
+
+  const setPlaceholder = () => {
+    message.placeholder = about && mode === "quote" ? `Keen on ${about}? Tell me what you’re working on.` : "";
+  };
+
+  const reveal = (name) => {
+    details.forEach((d) => {
+      const on = d.dataset.detail === name;
+      d.hidden = !on;
+      if (on) { d.classList.remove("enter"); void d.offsetWidth; d.classList.add("enter"); }
+    });
+    if (callCard) callCard.classList.toggle("is-on", name === "call");
+    modeBtns.forEach((b) => {
+      b.setAttribute("aria-pressed", String((name === "form" || name === "sent") && b.dataset.way === mode));
+    });
+  };
+
+  const setMode = (m) => {
+    mode = m;
+    const c = COPY[m];
+    if (textEl) textEl.innerHTML = c.text;
+    if (hintEl) hintEl.textContent = c.hint;
+    if (labelEl) labelEl.textContent = c.label;
+    if (quoteOnly) quoteOnly.hidden = m !== "quote";
+    setPlaceholder();
+  };
+
+  needChips.forEach((b) => b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on));
+    if (on) track("contact_need", { label: b.dataset.need });
+  }));
+
   if (about) {
-    const ctx = document.createElement("input");
-    ctx.type = "hidden"; ctx.name = "context"; ctx.value = about;
-    form.appendChild(ctx);
-    const subj = document.createElement("input");
-    subj.type = "hidden"; subj.name = "subject"; subj.value = "Enquiry — " + about;
-    form.appendChild(subj);
-    form.elements.message.placeholder = "Keen on " + about + "? Tell me what you're working on.";
+    if (ctx) ctx.hidden = false;
+    if (ctxText) ctxText.textContent = about;
+    if (/template/i.test(about)) {
+      const tb = gc.querySelector('[data-need="Template build"]');
+      if (tb) tb.setAttribute("aria-pressed", "true");
+    }
+    setPlaceholder();
   }
+
+  if (callCard) callCard.addEventListener("click", () => reveal("call"));
+
+  const chooseWay = (m) => {
+    setMode(m);
+    reveal("form");
+    setTimeout(() => {
+      form.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "nearest" });
+    }, 60);
+    track("contact_way", { label: m });
+  };
+  modeBtns.forEach((b) => b.addEventListener("click", () => chooseWay(b.dataset.way)));
+  gc.querySelectorAll('[data-show="quote"]').forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    chooseWay("quote");
+  }));
+
+  soloChips.forEach((b) => b.addEventListener("click", () => {
+    const was = b.getAttribute("aria-pressed") === "true";
+    soloChips.forEach((x) => x.setAttribute("aria-pressed", "false"));
+    b.setAttribute("aria-pressed", String(!was));
+    if (timingEl) timingEl.value = was ? "" : b.textContent.trim();
+  }));
 
   // Honest reply expectation from the NZ clock
   try {
@@ -869,11 +967,30 @@ document.addEventListener("click", (e) => {
     if (form.botcheck.checked) return; // honeypot
     const name = form.elements.name.value.trim();
     const email = form.elements.email.value.trim();
-    const message = form.elements.message.value.trim();
+    const text = form.elements.message.value.trim();
+
+    const needs = needChips
+      .filter((b) => b.getAttribute("aria-pressed") === "true")
+      .map((b) => b.dataset.need)
+      .join(", ");
+    const timing = mode === "quote" && timingEl ? timingEl.value : "";
+    form.elements.needs.value = needs;
+    form.elements.way.value = mode;
+    if (timingEl && mode !== "quote") timingEl.value = "";
+    const subject = (mode === "quote" ? "Quote request" : "Quick question") +
+      (needs ? ": " + needs : "") + (about ? " (" + about + ")" : "");
+    form.elements.subject.value = subject;
+    if (about && !form.elements.context) {
+      const c = document.createElement("input");
+      c.type = "hidden"; c.name = "context"; c.value = about;
+      form.appendChild(c);
+    }
 
     if (!CONFIG.web3formsKey) {
-      const subject = "Project enquiry — " + (name || "via singhstudio.co.nz") + (about ? " (" + about + ")" : "");
-      const body = message + "\n\n— " + name + "\n" + email;
+      const body = text +
+        (needs ? "\n\nNeeds: " + needs : "") +
+        (timing ? "\nTiming: " + timing : "") +
+        "\n\n— " + name + "\n" + email;
       location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       return;
     }
@@ -888,17 +1005,13 @@ document.addEventListener("click", (e) => {
         body: new FormData(form),
       });
       if (!res.ok) throw new Error(String(res.status));
-      track("enquiry_submit", about ? { label: about } : {});
+      track("enquiry_submit", { label: mode + (about ? " / " + about : "") });
       clearDraft();
-      form.innerHTML =
-        '<div class="cf-done" role="status">' +
-        '<p class="cf-done-lede">Got it. It’s with me now.</p>' +
-        '<ul class="cf-next">' +
-        '<li>A real reply within one business day, from me, not an autoresponder</li>' +
-        '<li>If it’s a fit, a 20-minute kōrero on Google Meet</li>' +
-        "</ul>" +
-        '<a class="btn btn-solid" href="' + CONFIG.bookingUrl + '" target="_blank" rel="noopener">Skip ahead: book the call</a>' +
-        "</div>";
+      form.reset();
+      soloChips.forEach((x) => x.setAttribute("aria-pressed", "false"));
+      btn.disabled = false;
+      btn.innerHTML = prev;
+      reveal("sent");
     } catch {
       errEl.hidden = false;
       btn.disabled = false;

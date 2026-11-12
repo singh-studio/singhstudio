@@ -308,7 +308,7 @@ def extract_labels(block_html):
     return labels
 
 
-EXPECTED_NAV = ["Disciplines", "Work", "Thoughts", "Kris", "Shop"]
+EXPECTED_NAV = ["Disciplines", "Work", "Kris", "Shop"]
 EXPECTED_MENU = EXPECTED_NAV + ["Book a call"]
 EXPECTED_FOOTER = ["Disciplines", "Work", "Templates", "Shop", "Engagements", "Thoughts", "Kris", "Contact"]
 
