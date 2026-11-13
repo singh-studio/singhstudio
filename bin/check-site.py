@@ -310,7 +310,7 @@ def extract_labels(block_html):
 
 EXPECTED_NAV = ["Disciplines", "Work", "Kris", "Shop"]
 EXPECTED_MENU = EXPECTED_NAV + ["Book a call"]
-EXPECTED_FOOTER = ["Disciplines", "Work", "Templates", "Shop", "Engagements", "Thoughts", "Kris", "Contact"]
+EXPECTED_FOOTER = ["Disciplines", "Work", "Shop", "Kris", "Contact"]
 
 
 def check_nav_consistency():

@@ -376,7 +376,7 @@ document.addEventListener("click", (e) => {
   if (!dialog) return; // only index/archive carry the lightbox — must bail everywhere else or every module below dies
   const img = document.getElementById("lightboxImg");
   const cap = document.getElementById("lightboxCap");
-  document.querySelectorAll(".lt-item:not(.lt-end)").forEach((item) => {
+  document.querySelectorAll(".lt-item:not(.lt-end):not(.lt-film)").forEach((item) => {
     item.addEventListener("click", () => {
       const src = item.querySelector("img");
       img.src = src.src;
@@ -581,7 +581,8 @@ document.addEventListener("click", (e) => {
   });
 })();
 
-/* Voices — focused testimonial slider (scroll-snap + controls) */
+/* Voices — focused testimonial slider (scroll-snap + controls).
+   The homepage now uses a static grid, so this bails when #voicesTrack is missing. */
 (() => {
   const track = document.getElementById("voicesTrack");
   if (!track) return;
@@ -634,6 +635,24 @@ document.addEventListener("click", (e) => {
       v.controls = false;
     });
     v.addEventListener("pause", () => { if (v.ended) return; });
+  });
+})();
+
+/* Archive film — inline play inside the light-table strip */
+(() => {
+  const fig = document.querySelector(".lt-film");
+  if (!fig) return;
+  const v = fig.querySelector("video");
+  const overlay = fig.querySelector(".voice-play");
+  if (!v || !overlay) return;
+  overlay.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    v.controls = true;
+    v.play();
+  });
+  v.addEventListener("ended", () => {
+    overlay.classList.remove("hidden");
+    v.controls = false;
   });
 })();
 

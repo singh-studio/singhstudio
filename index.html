@@ -22,7 +22,7 @@
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="css/style.css?v=4044adf315">
+  <link rel="stylesheet" href="css/style.css?v=9464bfb918">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -143,6 +143,32 @@
         <span>NDCU</span>
       </p>
     </div>
+
+    <!-- ///////////////////////////////////// VOICES -->
+    <section class="voices" id="voices">
+      <div class="section-head">
+        <p class="eyebrow"><span class="red">/</span> In their words</p>
+      </div>
+      <div class="voices-grid">
+
+          <article class="voice" data-kind="text">
+            <p class="voice-quote">“He made the whole process easy and straightforward, was great to work with, and delivered work that we are extremely pleased with.”</p>
+            <footer>
+              <span class="voice-name">Peniel Trust</span>
+              <span class="voice-role">Website, Growth Fund brochure, forms &amp; content</span>
+            </footer>
+          </article>
+
+          <article class="voice" data-kind="text">
+            <p class="voice-quote">“Working with Kris is the perfect combination: a technical professional who also takes the time to listen to the client and ‘get it right’.”</p>
+            <footer>
+              <span class="voice-name">Kirsty, Future Partners</span>
+              <span class="voice-role">Website rebuild, 2026</span>
+            </footer>
+          </article>
+
+      </div>
+    </section>
 
     <!-- ///////////////////////////////////// POSITION -->
     <section class="position section-light" id="position">
@@ -276,7 +302,7 @@
     <section class="work section-light" id="work">
       <div class="section-head">
         <p class="eyebrow"><span class="red">03 /</span> Selected work</p>
-        <p class="section-note">Web, app and audio, one desk. Open a card for the full case.</p>
+        <p class="section-note">Web, app and audio. Open a card for the full case.</p>
       </div>
 
       <div class="work-grid">
@@ -353,90 +379,63 @@
 
     </section>
 
-    <!-- ///////////////////////////////////// VOICES -->
-    <section class="voices" id="voices">
+    <!-- ///////////////////////////////////// SHOP -->
+    <section class="shop-band" id="shop">
       <div class="section-head">
-        <p class="eyebrow"><span class="red">04 /</span> Voices</p>
-        <p class="section-note">Two minutes with the people I make for.</p>
+        <p class="eyebrow"><span class="red">04 /</span> Shop</p>
+        <p class="section-note">Templates and Squarespace plugins, ready to download.</p>
       </div>
-      <div class="voices-slider">
-        <div class="voices-track" id="voicesTrack" tabindex="0" aria-label="Testimonials — use arrow buttons to browse">
-
-          <article class="voice" data-kind="video">
-            <div class="voice-media">
-              <video src="assets/video/joy-florals-feature.mp4" poster="assets/img/voice-joy-poster.jpg" preload="none" playsinline></video>
-              <button class="voice-play" aria-label="Play — Joy Florals brand feature">
-                <span class="vp-pill">▶&nbsp;&nbsp;Play the film — 1:57</span>
-              </button>
-              <span class="voice-badge">Film / shot &amp; scored in-house</span>
-            </div>
-            <footer>
-              <span class="voice-name">Joy Florals</span>
-              <span class="voice-role">Brand feature: direction, camera, edit, score</span>
-            </footer>
-          </article>
-
-          <article class="voice" data-kind="text">
-            <p class="voice-quote">“He made the whole process easy and straightforward, was great to work with, and delivered work that we are extremely pleased with.”</p>
-            <footer>
-              <span class="voice-name">Peniel Trust</span>
-              <span class="voice-role">Website, Growth Fund brochure, forms &amp; content</span>
-            </footer>
-          </article>
-
-          <article class="voice" data-kind="text">
-            <p class="voice-quote">“Working with Kris is the perfect combination: a technical professional who also takes the time to listen to the client and ‘get it right’.”</p>
-            <footer>
-              <span class="voice-name">Kirsty, Future Partners</span>
-              <span class="voice-role">Website rebuild, 2026</span>
-            </footer>
-          </article>
-
-        </div>
-        <div class="voices-ctl">
-          <button id="voicePrev" aria-label="Previous voice">←</button>
-          <span id="voiceCount">01 / 02</span>
-          <button id="voiceNext" aria-label="Next voice">→</button>
-        </div>
+      <div class="shop-grid">
+        <a class="work-card shop-card" href="shop/small-charity-impact-kit/" data-cursor="VIEW">
+          <figure class="wc-media"><img src="/shop/assets/small-charity-impact-kit/product-preview.jpg" alt="Small Charity Impact Kit preview" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>Small Charity Impact Kit</h3>
+            <p class="wc-desc">Report layouts, a content workbook and an evidence tracker for your annual report and donor updates.</p>
+            <p class="wc-tags">US$49</p>
+          </div>
+        </a>
+        <a class="work-card shop-card" href="shop/website-handover-kit/" data-cursor="VIEW">
+          <figure class="wc-media"><img src="/shop/assets/website-handover-kit/website-handover-kit.jpg" alt="Website Handover Kit preview" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>Website Handover Kit</h3>
+            <p class="wc-desc">Client handover documents, an ownership inventory and training materials for the people taking over a website.</p>
+            <p class="wc-tags">US$59</p>
+          </div>
+        </a>
+        <a class="work-card shop-card" href="shop/community-event-sponsorship-kit/" data-cursor="VIEW">
+          <figure class="wc-media"><img src="/shop/assets/community-event-sponsorship-kit/cover.jpg" alt="Community Event Sponsorship Kit preview" loading="lazy" decoding="async"></figure>
+          <div class="wc-meta">
+            <h3>Community Event Sponsorship Kit</h3>
+            <p class="wc-desc">A sponsor proposal, budget worksheet and delivery tracker for planning sponsorship and fulfilling the promises you make.</p>
+            <p class="wc-tags">US$39</p>
+          </div>
+        </a>
+        <a class="work-card shop-card shop-card-text" href="plugins/bundle/" data-cursor="VIEW">
+          <div class="wc-meta">
+            <h3>Squarespace plugin bundle</h3>
+            <p class="wc-desc">All six plugins: Team Directory, Resource Library, Events Explorer, Sermon Shelf, Giving Kit and Service Times.</p>
+            <p class="wc-tags">From US$129</p>
+          </div>
+        </a>
       </div>
+      <p class="section-note shop-more"><a href="shop/">Browse the whole shop →</a></p>
+      <p class="shop-currency">Prices in US dollars</p>
     </section>
 
-    <!-- ///////////////////////////////////// PROCESS -->
+    <!-- ///////////////////////////////////// PROCESS (CTA) -->
     <section class="process" id="process">
       <div class="section-head">
-        <p class="eyebrow"><span class="red">05 /</span> How it runs</p>
-        <p class="section-note">Four steps. No account managers in between.</p>
+        <p class="eyebrow"><span class="red">05 /</span> How I work</p>
       </div>
-      <div class="process-grid">
-        <div class="step" data-reveal>
-          <span class="step-num">/01</span>
-          <h3>Kōrero</h3>
-          <p>A 20-minute call. The problem in your words, no deck, no discovery-phase invoice.</p>
-        </div>
-        <div class="step" data-reveal style="--i:1">
-          <span class="step-num">/02</span>
-          <h3>The message</h3>
-          <p>Strategy first: what you’re saying, who it’s for, and where it has to land.</p>
-        </div>
-        <div class="step" data-reveal style="--i:2">
-          <span class="step-num">/03</span>
-          <h3>Production</h3>
-          <p>Design and build first: sites, apps, campaigns, films. Whatever carries it best, made in-house.</p>
-        </div>
-        <div class="step" data-reveal style="--i:3">
-          <span class="step-num">/04</span>
-          <h3>Ship &amp; steer</h3>
-          <p>Launch, measure, adjust. The one who took the brief stays to steer it.</p>
-        </div>
-      </div>
-      <p class="process-tail" data-reveal>Most briefs go from first call to shipped inside a month. <a href="together.html">See how engagements work&nbsp;→</a></p>
+      <h2 class="process-cta-title" data-reveal>Want to see how a project runs?</h2>
+      <p class="process-cta-copy" data-reveal style="--i:1">From the first meeting to launch and the care afterwards: the steps, the three ways to work with me, and answers to the usual questions.</p>
+      <a class="btn btn-solid btn-big" href="together.html" data-magnetic data-cursor="GO" data-reveal style="--i:2">Explore how I work <span class="btn-arrow">→</span></a>
     </section>
 
     <!-- ///////////////////////////////////// STUDIO -->
     <section class="studio section-light" id="studio">
       <div class="section-head">
         <p class="eyebrow"><span class="red">06 /</span> Kris</p>
-        <p class="section-note">One desk, on purpose.</p>
       </div>
       <figure class="studio-bleed" data-reveal>
         <picture>
@@ -449,19 +448,19 @@
       <div class="studio-grid">
         <div class="studio-copy studio-copy-lead">
           <h2 data-reveal>Run by Kris Singh.<br>Built around <em>your message.</em></h2>
-          <p class="studio-quote" data-reveal style="--i:1">“If it carries the message, <em>it’s in scope.”</em></p>
         </div>
         <div class="studio-copy">
-          <p class="studio-lede" data-reveal style="--i:1">I’ve spent the last decade in communications for organisations doing good work. The studio extends that across every craft I’ve picked up along the way: web, photography, film, audio, apps.</p>
-          <p data-reveal style="--i:2">It stays one person on purpose. You talk to me on the first call, I design and build the thing, and I’m the one who answers when something needs adjusting later. Web leads the work; photography, film and audio come along when the job wants them.</p>
-          <dl class="studio-facts" data-reveal style="--i:3">
+          <p class="studio-lede" data-reveal style="--i:1">I’ve worked in communications since 2014, almost all of it for organisations doing good work. The core of it is strategy and writing: positioning and messaging, brand voice, editorial, press and media, fundraising appeals, and the policy that keeps a whole team saying the same thing.</p>
+          <p data-reveal style="--i:2">Singh Studio is where I do the hands-on work. I started it in 2020 to build websites for teams I already knew, including The Salvation Army’s Next Gen and Creative Ministries teams, and it now covers apps and AI workflows as well, with photography, film and sound when a job needs them. Having spent so long on the client side, I know what an appeal, a board paper or a press release has to achieve before anyone looks at the design.</p>
+          <p data-reveal style="--i:3">You’ll deal with me from the first meeting through to launch and the fixes afterwards. I write the words, design and build the thing, and I’m the person who answers when something needs to change.</p>
+          <dl class="studio-facts" data-reveal style="--i:4">
             <div class="fact">
               <dt>Base</dt>
               <dd>Aotearoa New Zealand, working anywhere</dd>
             </div>
             <div class="fact">
               <dt>Background</dt>
-              <dd>In communications since 2014</dd>
+              <dd>In communications since 2014. BA in Media Studies and Sociology</dd>
             </div>
             <div class="fact">
               <dt>Range</dt>
@@ -472,7 +471,7 @@
               <dd data-booking-window>Currently booking</dd>
             </div>
           </dl>
-          <p class="studio-more" data-reveal style="--i:4"><a class="btn btn-ghost" href="kris.html" data-cursor="GO">Full profile &amp; CV →</a></p>
+          <p class="studio-more" data-reveal style="--i:5"><a class="btn btn-ghost" href="kris.html" data-cursor="GO">Full profile &amp; CV →</a></p>
         </div>
       </div>
     </section>
@@ -485,6 +484,14 @@
           <p class="section-note lt-note"><span class="lt-drag-hint">Keep scrolling — the table moves sideways. </span><a href="archive.html">Browse the full archive →</a></p>
         </div>
         <div class="lt-track" id="ltTrack">
+
+          <figure class="lt-item lt-film">
+            <video src="assets/video/joy-florals-feature.mp4" poster="assets/img/voice-joy-poster.jpg" preload="none" playsinline></video>
+            <button class="voice-play" aria-label="Play — Joy Florals brand feature">
+              <span class="vp-pill">▶&nbsp;&nbsp;Play the film — 1:57</span>
+            </button>
+            <figcaption>Film: Joy Florals brand feature / direction, camera, edit, score</figcaption>
+          </figure>
 
           <figure class="lt-item lt-tall" data-cursor="VIEW">
             <picture>
@@ -681,10 +688,7 @@
       <nav class="footer-links" aria-label="Footer">
         <a href="#index">Disciplines</a>
         <a href="#work">Work</a>
-        <a href="templates.html">Templates</a>
         <a href="shop/">Shop</a>
-        <a href="together.html">Engagements</a>
-        <a href="thoughts.html">Thoughts</a>
         <a href="#studio">Kris</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -706,6 +710,6 @@
     </figure>
   </dialog>
 
-  <script src="js/main.js?v=778eb9c1e1" defer></script>
+  <script src="js/main.js?v=f2d63f013c" defer></script>
 </body>
 </html>
