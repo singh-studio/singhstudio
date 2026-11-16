@@ -21,7 +21,7 @@
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="css/style.css?v=9464bfb918">
+  <link rel="stylesheet" href="css/style.css?v=e27588a566">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -106,10 +106,10 @@
 
       <ul class="case-scope"><li>Format &amp; show design</li><li>Recording, edit &amp; production</li><li>Publishing &amp; syndication</li><li>Co-hosting, 26 episodes</li></ul>
 
-      <figure class="case-shot cs-object">
+      <figure class="case-shot">
         <picture>
-          <source type="image/webp" srcset="assets/img/art-rhythms.webp">
-          <img src="assets/img/art-rhythms.jpg" alt="Kris and Hannah, hosts of The Rhythms Podcast" width="1100" height="1100" loading="lazy" decoding="async">
+          <source type="image/webp" srcset="assets/img/shot-rhythms-800.webp 800w, assets/img/shot-rhythms.webp 1500w" sizes="(max-width: 1200px) 100vw, 1200px">
+          <img src="assets/img/shot-rhythms.jpg" srcset="assets/img/shot-rhythms-800.jpg 800w, assets/img/shot-rhythms.jpg 1500w" sizes="(max-width: 1200px) 100vw, 1200px" alt="Kris and Hannah, hosts of The Rhythms Podcast" width="1500" height="938" loading="lazy" decoding="async">
         </picture>
       </figure>
 
@@ -125,12 +125,18 @@
         </div>
       </div>
 
+      <figure class="case-shot cs-object">
+        <picture>
+          <source type="image/webp" srcset="assets/img/art-rhythms.webp">
+          <img src="assets/img/art-rhythms.jpg" alt="The Rhythms Podcast cover artwork" width="1100" height="1100" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+
       <div class="case-next">
         <a href="case-nextgen.html" data-cursor="NEXT">
           <span class="cn-label">Back to the start</span>
           <span class="cn-title">Tino Taonga →</span>
         </a>
-        <a class="cc-link case-tpl-link" href="templates.html">Want this shape, sooner? Templates →</a>
         <a class="btn btn-solid" href="index.html?about=the%20Rhythms%20case#contact" data-magnetic data-cursor="BOOK">Start your brief</a>
       </div>
     </section>

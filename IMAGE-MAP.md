@@ -115,7 +115,7 @@ Most of these frames appear in **both** index.html's horizontal light-table stri
 | `assets/img/work-butterfly.jpg` | 1600×1000 | index.html work-grid card; case-butterfly.html hero shot; og:image for case-butterfly.html | Same pattern | Project photography from the live butterflybuilds.co.nz homepage hero. |
 | `assets/img/work-wcn.jpg` | 1600×1000 | index.html work-grid card; case-wcn.html hero shot; og:image for case-wcn.html | Same pattern | Homepage hero image from the live wellingtonchurchnetwork.co.nz site (their licensed imagery). |
 | `assets/img/work-bearers.jpg` | 1600×1000 | index.html work-grid card; case-bearers.html hero shot; og:image for case-bearers.html | Same pattern | This Is Who We Are EP artwork centred on an ink ground (pad, not crop — keep the square art whole). |
-| `assets/img/work-rhythms.jpg` | 1600×1000 | index.html work-grid card; case-rhythms.html hero shot; og:image for case-rhythms.html | Same pattern | Podcast cover photo (Kris and Hannah, B&W, Nov 2026) centred on an ink ground, same pad treatment as Bearers. |
+| `assets/img/work-rhythms.jpg` | 1500×938 | index.html work-grid card; case-rhythms.html hero shot; og:image for case-rhythms.html | Same pattern | Kris and Hannah laughing, B&W grade (Nov 2026), 16:10 crop; also the homepage card (with -800 and .webp). The case page's main shot is `shot-rhythms` (the smiling photo, same grade); the original podcast cover `art-rhythms` sits lower on the case page. |
 
 Every `work-*.jpg` above has a `.webp` sibling wired into its `<picture>` (including work-amplify, added 2026-07-13). None are reused inside the template demos — safe to swap independently. (work-more / work-bandcamp / work-firezone were removed 2026-07-13 with their case pages.)
 

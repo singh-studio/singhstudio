@@ -90,6 +90,10 @@ h1, h2, h3 { color: var(--bone); }
 .bundle-feature>div>p:not(.eyebrow) { max-width: 36em; font-size: 17px; line-height: 1.6; }
 .button.light { background: var(--bone); color: var(--ink); margin-top: 28px; }
 .button.light:hover { background: #fff; }
+.templates-feature { display: flex; justify-content: space-between; align-items: center; gap: 32px 64px; margin-top: 24px; padding: clamp(32px,5vw,64px); border: 1px solid var(--line); border-radius: 24px; }
+.templates-feature h2 { color: var(--bone); font-size: clamp(30px,3vw,46px); font-weight: 570; letter-spacing: -.03em; line-height: 1.05; margin: 20px 0 16px; }
+.templates-feature>div>p:not(.eyebrow) { max-width: 36em; font-size: 17px; line-height: 1.6; margin: 0; }
+.templates-feature .button { flex: none; }
 .bundle-price { padding-left: clamp(32px,5vw,64px); border-left: 1px solid rgba(255,255,255,.4); }
 .bundle-price>span { display: block; font: 12px var(--mono); text-transform: uppercase; }
 .bundle-price strong { display: block; font-size: clamp(54px,5vw,76px); font-weight: 600; letter-spacing: -.04em; line-height: 1.2; margin-top: 12px; }
@@ -201,6 +205,7 @@ h1, h2, h3 { color: var(--bone); }
   .card-meta>span:last-child { font-size: 20px; }
   .card-bottom { padding-top: 24px; }
   .bundle-feature { grid-template-columns: 1fr; margin-top: 48px; padding: 32px 28px; }
+  .templates-feature { flex-direction: column; align-items: flex-start; padding: 32px 28px; }
   .bundle-price { padding: 28px 0 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.4); }
   .bundle-price strong { font-size: 60px; }
   .shopping-info { grid-template-columns: 1fr; gap: 36px; padding-block: 64px 72px; }
