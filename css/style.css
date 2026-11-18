@@ -388,6 +388,9 @@ body[data-loading] { overflow: hidden; }
 body.ready .ht-inner { transform: none; }
 [data-hero-line]:nth-child(1) { transition-delay: 0.05s; }
 .ht-line-2 .ht-inner { transition-delay: 0.16s; }
+/* Brand note (Nov 2026): SINGH / STUDIO sits tighter. Pull the second
+   mask up rather than cutting line-height, so cap tops never clip. */
+.hero-title .ht-line-2 { margin-top: -0.11em; }
 .ht-slash {
   color: var(--red); font-style: normal; font-family: var(--font-display);
   display: inline-block;
