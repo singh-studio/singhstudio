@@ -1335,7 +1335,7 @@ kbd {
   line-height: 2.1;
   color: var(--mute);
 }
-.proof-names span { transition: color 0.3s; }
+.proof-names span { transition: color 0.3s; white-space: nowrap; }
 .proof-names span:hover { color: var(--red-hot); }
 .proof-names i { font-style: normal; color: var(--red); margin: 0 0.35em; }
 @media (max-width: 800px) { .proof { grid-template-columns: 1fr; } }
