@@ -20,8 +20,10 @@
   <link rel="preload" href="assets/fonts/switzer-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("cx-js")</script>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
   <link rel="stylesheet" href="css/style.css?v=38f0be56fa">
+  <link rel="stylesheet" href="css/case.css?v=28170876d3">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -79,65 +81,90 @@
     <p class="menu-foot">Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz</p>
   </div>
 
-  <main id="main">
+  <main class="cx" id="main" style="--cx-band:#b8665a;--cx-quote:#8f4a40">
 
-    <header class="sub-hero">
-      <p class="eyebrow"><span class="red">Case /07</span> Selected work<a class="cc-link" href="index.html#work" style="margin-left: 1em;">← All work</a></p>
-      <h1 class="sub-title"><span class="ht-line"><span class="ht-inner" data-letters>Rhythms<em class="ht-slash" aria-hidden="true">/</em>Podcast</span></span></h1>
-      <dl class="case-meta">
-        <div><dt>Project</dt><dd>Independent — co-hosted with Hannah Medland</dd></div>
-        <div><dt>Years</dt><dd>2023 – 2024</dd></div>
-        <div><dt>Scope</dt><dd>Audio · Podcast production</dd></div>
-        <div><dt>Listen</dt><dd><a class="cc-link" href="https://podcasts.apple.com/nz/podcast/the-rhythms-podcast/id1690238080" target="_blank" rel="noopener">Apple Podcasts ↗</a></dd></div>
-      </dl>
+    <header class="cx-head">
+      <div class="cx-wrap">
+        <div class="cx-head-grid">
+          <div class="cx-head-text">
+            <a class="cx-back" href="index.html#work">← All work</a>
+            <h1 class="cx-title" aria-label="Rhythms Podcast">Rhythms<span class="cx-slash" aria-hidden="true">/</span><wbr>Podcast</h1>
+            <p class="cx-result">A fortnightly podcast I co&#8209;hosted and produced, published to Apple, Spotify and iHeart.</p>
+            <div class="cx-actions">
+              <a class="cx-btn cx-btn-solid" href="https://podcasts.apple.com/nz/podcast/the-rhythms-podcast/id1690238080" target="_blank" rel="noopener">Listen on Apple Podcasts ↗</a>
+              <a class="cx-btn cx-btn-quiet" href="index.html?about=the%20Rhythms%20case#contact">Book a call</a>
+            </div>
+          </div>
+          <aside class="cx-facts" aria-label="Project facts">
+            <dl>
+<div><dt>Project</dt><dd>Independent, co-hosted with Hannah Medland</dd></div><div><dt>Years</dt><dd>2023 to 2024</dd></div><div><dt>My part</dt><dd><ul><li>Format &amp; show design</li><li>Recording, edit &amp; production</li><li>Publishing &amp; syndication</li><li>Co-hosting, 26 episodes</li></ul></dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
     </header>
 
-    <section>
-      <div class="case-grid cg-brief">
-        <div class="case-block">
-          <h2>/ The brief</h2>
-          <p>Are you tired of living the same day, every day? The Rhythms Podcast starts there, and asks the harder question underneath: what if those same days, deliberately curated, could be the best of your life? It’s a show about habits and routines, chosen on purpose.</p>
-        </div>
-        <div class="case-block">
-          <h2>/ The approach</h2>
-          <p>Every episode opens with a ten-minute reflection before the conversation begins, and the show came out fortnightly for the whole run, which gave it a rhythm of its own. It was recorded, edited and produced in-house, then published to Apple, Spotify and iHeart.</p>
+    <div class="cx-hero">
+      <div class="cx-hero-frame" data-rise>
+        <div class="cx-art"><picture><source type="image/webp" srcset="assets/img/shot-rhythms.webp"><img src="assets/img/shot-rhythms.jpg" alt="Kris and Hannah, hosts of The Rhythms Podcast" width="1500" height="938" fetchpriority="high" decoding="async"></picture></div>
+      </div>
+    </div>
+
+    <section class="cx-glance cx-section" aria-labelledby="glance-h">
+      <div class="cx-wrap">
+        <h2 class="cx-sr" id="glance-h">At a glance</h2>
+        <div class="cx-glance-grid" data-reveal>
+          <div><h3 class="cx-label">The idea</h3><p>The show asks whether the same days, deliberately curated, could be the best of your life. It’s about habits and routines chosen on purpose.</p></div><div><h3 class="cx-label">What I did</h3><p>I designed the format and co&#8209;hosted every episode with Hannah Medland.</p></div><div><h3 class="cx-label">How it went</h3><p>The show ran across 2023 and 2024, and every episode kept to the format.</p></div>
         </div>
       </div>
+    </section>
 
-      <ul class="case-scope"><li>Format &amp; show design</li><li>Recording, edit &amp; production</li><li>Publishing &amp; syndication</li><li>Co-hosting, 26 episodes</li></ul>
-
-      <figure class="case-shot">
-        <picture>
-          <source type="image/webp" srcset="assets/img/shot-rhythms-800.webp 800w, assets/img/shot-rhythms.webp 1500w" sizes="(max-width: 1200px) 100vw, 1200px">
-          <img src="assets/img/shot-rhythms.jpg" srcset="assets/img/shot-rhythms-800.jpg 800w, assets/img/shot-rhythms.jpg 1500w" sizes="(max-width: 1200px) 100vw, 1200px" alt="Kris and Hannah, hosts of The Rhythms Podcast" width="1500" height="938" loading="lazy" decoding="async">
-        </picture>
-      </figure>
-
-      <div class="case-grid cg-outcome">
-        <div class="case-block">
-          <h2>/ The outcome</h2>
-          <dl class="case-facts">
-            <div class="fact"><dt>26 episodes</dt><dd>A full run across 2023 – 2024, released fortnightly</dd></div><div class="fact"><dt>Everywhere</dt><dd>Published to Apple Podcasts, Spotify and iHeart</dd></div><div class="fact"><dt>Format held</dt><dd>Every episode opened with the reflection, then moved to the conversation</dd></div>
-          </dl>
+    <div class="cx-body">
+      <section class="cx-sec cx-section" aria-labelledby="format">
+        <div class="cx-wrap">
+          <div class="cx-split">
+            <div class="cx-copy" data-reveal>
+              <h2 id="format">The format</h2>
+              <p>Every episode opens with a ten-minute reflection before the conversation begins.</p>
+              <p>The show came out fortnightly for the whole run, which gave it a rhythm of its own.</p>
+            </div>
+            <figure class="cx-media" data-reveal style="--i:1">
+              <div class="cx-art cx-art-solo"><picture><source type="image/webp" srcset="assets/img/art-rhythms.webp"><img src="assets/img/art-rhythms.jpg" alt="The Rhythms Podcast cover artwork: the show title above portraits of Kris and Hannah on a pink panel" width="1100" height="1100" loading="lazy" decoding="async"></picture></div>
+            </figure>
+          </div>
         </div>
-        <div class="case-block">
-          <p class="case-pull">“A podcast about rhythms needed one of its own, so it came out every fortnight, with a reflection first every time.”</p>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="making">
+        <div class="cx-wrap">
+          <div class="cx-split flip">
+            <div class="cx-copy" data-reveal>
+              <h2 id="making">Making and publishing it</h2>
+              <p>I recorded, edited and produced the whole run in-house, then sent it out to the podcast apps.</p>
+            </div>
+            <div class="cx-media" data-reveal style="--i:1">
+              <div class="cx-callout">
+                <span class="cx-callout-num">26</span>
+                <span class="cx-callout-text">episodes, one each fortnight.</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+    </div>
 
-      <figure class="case-shot cs-object">
-        <picture>
-          <source type="image/webp" srcset="assets/img/art-rhythms.webp">
-          <img src="assets/img/art-rhythms.jpg" alt="The Rhythms Podcast cover artwork" width="1100" height="1100" loading="lazy" decoding="async">
-        </picture>
-      </figure>
-
-      <div class="case-next">
-        <a href="case-futurepartners.html" data-cursor="NEXT">
-          <span class="cn-label">Back to the start</span>
-          <span class="cn-title">Future Partners →</span>
-        </a>
-        <a class="btn btn-solid" href="index.html?about=the%20Rhythms%20case#contact" data-magnetic data-cursor="BOOK">Start your brief</a>
+    <section class="cx-end-sec cx-section" aria-label="Next steps">
+      <div class="cx-wrap">
+        <div class="cx-end" data-reveal>
+          <div class="cx-cta">
+            <h2>Want something like this?</h2>
+            <a class="cx-btn cx-btn-solid" href="index.html?about=the%20Rhythms%20case#contact">Book a call</a>
+          </div>
+          <a class="cx-next" href="case-futurepartners.html">
+            <span class="cx-next-img"><picture><source type="image/webp" srcset="assets/img/work-futurepartners.webp"><img src="assets/img/work-futurepartners.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async"></picture></span>
+            <span class="cx-next-text">Next: Future Partners <span class="cx-next-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -163,5 +190,6 @@
   </footer>
 
   <script src="js/main.js?v=cc89abca62" defer></script>
+  <script src="js/case.js?v=cf3875cc4e" defer></script>
 </body>
 </html>

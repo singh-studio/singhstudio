@@ -188,3 +188,32 @@
     select(0);
   });
 })();
+
+/* Bearers: "Play here" puts one Spotify player on the page at a time. Nothing is requested from Spotify until a press. */
+(() => {
+  "use strict";
+  const rels = [...document.querySelectorAll(".bx-rel")].filter((r) => r.querySelector(".bx-play"));
+  if (!rels.length) return;
+  const clear = (r) => {
+    const slot = r.querySelector(".bx-player");
+    if (slot) slot.textContent = "";
+    r.querySelector(".bx-play").hidden = false;
+  };
+  rels.forEach((r) => {
+    const btn = r.querySelector(".bx-play");
+    btn.hidden = false;
+    btn.addEventListener("click", () => {
+      rels.forEach(clear);
+      const f = document.createElement("iframe");
+      f.src = "https://open.spotify.com/embed/album/" + btn.dataset.spotify;
+      f.width = "100%"; f.height = "152"; f.setAttribute("frameborder", "0");
+      f.style.border = "0"; f.style.borderRadius = "12px";
+      f.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+      f.loading = "lazy";
+      f.title = btn.dataset.title + " by Bearers, Spotify player";
+      r.querySelector(".bx-player").appendChild(f);
+      btn.hidden = true;
+      f.focus();
+    });
+  });
+})();
