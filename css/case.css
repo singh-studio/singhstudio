@@ -428,11 +428,8 @@
 
 /* ==== extras: live sites ==== */
 .cx-fig-gap { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
-.cx-pan:focus-visible { outline: 3px solid var(--bone); outline-offset: -3px; }
-@media (max-width: 700px) {
-  .cx-pan { overflow-x: auto; overscroll-behavior-x: contain; }
-  .cx-frame .cx-pan img { width: var(--pan, 900px); max-width: none; }
-}
+.cx-nb { white-space: nowrap; }
+.cx-fade picture { display: block; -webkit-mask-image: linear-gradient(#000 80%, transparent); mask-image: linear-gradient(#000 80%, transparent); }
 
 /* ==== end live sites ==== */
 
