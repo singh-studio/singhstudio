@@ -22,6 +22,8 @@
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
   <link rel="stylesheet" href="css/style.css?v=38f0be56fa">
+  <link rel="stylesheet" href="css/templates.css?v=cfc98514f8">
+  <noscript><style>[data-reveal]{opacity:1;transform:none}</style></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -89,386 +91,403 @@
 
   <main id="main">
 
-    <!-- ///////////////////////////////////// HERO -->
-    <header class="sub-hero">
-      <p class="eyebrow"><span class="red">/</span> Templates</p>
-      <h1 class="sub-title"><span class="ht-line"><span class="ht-inner" data-letters>Ready<em class="ht-slash" aria-hidden="true">/</em>to go</span></span></h1>
-      <p class="sub-lede">Proven layouts, tailored to your brand and content and built by me, so there are no files for you to wrangle yourself.</p>
-
-      <dl class="case-meta tpl-hero-meta">
-        <div>
-          <dt>Format</dt>
-          <dd>A proven layout with a working demo, tailored to you</dd>
-        </div>
-        <div>
-          <dt>Includes</dt>
-          <dd>Design, build, content load, launch</dd>
-        </div>
-        <div>
-          <dt>Timeline</dt>
-          <dd>Quoted on the intro call</dd>
-        </div>
-        <div>
-          <dt>Custom instead?</dt>
-          <dd><a class="tpl-meta-link" href="together.html">See engagements →</a></dd>
-        </div>
-      </dl>
+    <!-- ///////////////////////////////////// HEADER -->
+    <header class="tp-hero">
+      <div class="tp-hero-main">
+        <nav class="tp-crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="shop/">Shop</a></li>
+            <li aria-hidden="true" class="tp-crumb-sep">/</li>
+            <li><span aria-current="page">Templates</span></li>
+          </ol>
+        </nav>
+        <h1 class="sub-title tp-title"><span class="ht-line"><span class="ht-inner" data-letters>Ready<em class="ht-slash" aria-hidden="true">/</em>to go</span></span></h1>
+        <p class="tp-lede">Proven layouts, tailored to your brand and content and built by me, so there are no files for you to wrangle yourself.</p>
+      </div>
+      <ul class="tp-ticks">
+        <li><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg>Design, build, content load and launch included</li>
+        <li><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg>A working demo of every layout</li>
+        <li><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg>Quoted on the intro call</li>
+      </ul>
     </header>
 
-    <!-- ///////////////////////////////////// THE FINDER -->
-    <section class="tpl-block tpl-finder">
-      <div class="tpl-block-head">
-        <div>
-          <p class="eyebrow"><span class="red">01 /</span> Find your fit</p>
-          <h2>Tell me who<br>you are.</h2>
-        </div>
-        <p class="tpl-lead">Pick what you are, then what the site has to do first. The shelf narrows and one template steps forward.</p>
-      </div>
+    <div class="tp-shop">
 
-      <div class="finder" id="finder" data-reveal>
-
-        <!-- Row 1 — business type -->
-        <div class="finder-row">
-          <p class="finder-label" id="finderTypeLabel">I&rsquo;m a&hellip;</p>
-          <div class="finder-chips" role="group" aria-labelledby="finderTypeLabel">
-            <button class="finder-chip" type="button" aria-pressed="false" data-type="trade"><i aria-hidden="true">/</i>Trade or service business</button>
-            <button class="finder-chip" type="button" aria-pressed="false" data-type="cafe"><i aria-hidden="true">/</i>Caf&eacute;, food or retail</button>
-            <button class="finder-chip" type="button" aria-pressed="false" data-type="practice"><i aria-hidden="true">/</i>Professional practice</button>
-            <button class="finder-chip" type="button" aria-pressed="false" data-type="community"><i aria-hidden="true">/</i>Community, church or charity</button>
-            <button class="finder-chip" type="button" aria-pressed="false" data-type="event"><i aria-hidden="true">/</i>Event or conference</button>
-            <button class="finder-chip" type="button" aria-pressed="false" data-type="creative"><i aria-hidden="true">/</i>Creative or portfolio</button>
-            <button class="finder-chip finder-reset" type="button" data-reset><i aria-hidden="true">↺</i>Show everything</button>
-          </div>
-        </div>
-
-        <!-- Row 2 — priority (muted until a type is picked) -->
-        <div class="finder-row is-locked" id="finderPriorityRow">
-          <p class="finder-label" id="finderPriorityLabel">&hellip;and I mostly need</p>
-          <div class="finder-chips" role="group" aria-labelledby="finderPriorityLabel">
-            <button class="finder-chip" type="button" aria-pressed="false" disabled data-priority="found"><i aria-hidden="true">/</i>Get found locally</button>
-            <button class="finder-chip" type="button" aria-pressed="false" disabled data-priority="book"><i aria-hidden="true">/</i>Take bookings or registrations</button>
-            <button class="finder-chip" type="button" aria-pressed="false" disabled data-priority="trust"><i aria-hidden="true">/</i>Look established</button>
-            <button class="finder-chip" type="button" aria-pressed="false" disabled data-priority="sell"><i aria-hidden="true">/</i>Sell or showcase work</button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ///////////////////////////////////// THE SHELF -->
-    <section class="tpl-block tpl-shelf">
-      <div class="tpl-block-head">
-        <div>
-          <p class="eyebrow"><span class="red">02 /</span> The shelf</p>
-          <h2>Seven starting<br>points.</h2>
-        </div>
-        <p class="tpl-lead">Each one is a real layout I’ve built before, with a working demo, ready to carry your brand and your words.</p>
-      </div>
-
-      <div class="tpl-grid" id="tplGrid">
-
-        <!-- 1 Toolbelt -->
-        <article class="tpl-card" data-tpl="toolbelt" data-filter="trade" data-reveal>
-          <a class="tpl-mock-link" href="templates/toolbelt.html" aria-label="View The Toolbelt demo" data-cursor="OPEN" data-track="demo_view" data-track-label="toolbelt">
-          <div class="tpl-mock mk-toolbelt">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-block mk-hero mk-lift"><div class="mk-block mk-red mk-cta"></div><i class="mk-hazard" aria-hidden="true"></i></div>
-              <div class="mk-row mk-cards">
-                <div class="mk-block"></div><div class="mk-block"></div><div class="mk-block"></div>
-              </div>
+      <!-- ///////////////////////////////////// FILTER BAR -->
+      <div class="tp-filter" id="tpFilter">
+        <div class="tp-filter-in">
+          <p class="tp-filter-label" id="tpFilterLabel">I need a site for</p>
+          <div class="tp-chips-wrap">
+            <div class="tp-chips" role="group" aria-labelledby="tpFilterLabel" id="tpChips">
+              <button class="tp-chip" type="button" data-key="all" aria-pressed="true">All (7)</button>
+              <button class="tp-chip" type="button" data-key="trades" aria-pressed="false">Trades &amp; services</button>
+              <button class="tp-chip" type="button" data-key="cafes" aria-pressed="false">Cafés &amp; food</button>
+              <button class="tp-chip" type="button" data-key="practice" aria-pressed="false">Professional practice</button>
+              <button class="tp-chip" type="button" data-key="community" aria-pressed="false">Community &amp; charity</button>
+              <button class="tp-chip" type="button" data-key="events" aria-pressed="false">Events</button>
+              <button class="tp-chip" type="button" data-key="creative" aria-pressed="false">Creative portfolio</button>
+              <button class="tp-chip" type="button" data-key="retail" aria-pressed="false">Small retail</button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- ///////////////////////////////////// PRODUCT GRID -->
+      <section class="tp-floor" aria-label="Templates">
+        <p class="tp-status" id="tpStatus" role="status" aria-live="polite">Showing 7 templates</p>
+        <div class="tp-grid" id="tpGrid" data-view="all">
+
+        <article class="tp-card tp-wide" data-type="trades" data-reveal>
+          <a class="tp-shot" href="templates/toolbelt.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Toolbelt</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/toolbelt-960.webp 960w, assets/img/templates/toolbelt-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/toolbelt-960.jpg" srcset="assets/img/templates/toolbelt-960.jpg 960w, assets/img/templates/toolbelt-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Toolbelt demo: a builder website with a large headline, quote button and hazard stripe on a dark background" loading="eager" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Trades &amp; services</p>
-            <h3 class="tpl-name">The Toolbelt</h3>
-            <p class="tpl-desc">For sparkies, builders, plumbers and cleaners who need to be found, trusted and phoned before the competition.</p>
-            <ul class="tpl-includes">
-              <li>Home, services, gallery, contact</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Trades &amp; services</p>
+              <h3 class="tp-name">The Toolbelt</h3>
+              <p class="tp-desc">For sparkies, builders, plumbers and cleaners who need to be found, trusted and phoned before the competition.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Click-to-call &amp; quote form</li>
               <li>Service-area &amp; local SEO setup</li>
               <li>Reviews and past-job strip</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Services &middot; Jobs &middot; Reviews &middot; Quote docket</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Local</span><span class="tpl-tag">Direct</span><span class="tpl-tag">Trust-first</span>
-            </div>
-          </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/toolbelt.html" data-cursor="OPEN" data-track="demo_view" data-track-label="toolbelt">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Toolbelt%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="toolbelt">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
-        </article>
-
-        <!-- 2 Counter -->
-        <article class="tpl-card" data-tpl="counter" data-filter="cafe" data-reveal style="--i:1">
-          <a class="tpl-mock-link" href="templates/counter.html" aria-label="View The Counter demo" data-cursor="OPEN" data-track="demo_view" data-track-label="counter">
-          <div class="tpl-mock mk-counter">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-row mk-split" style="flex:1 1 auto">
-                <div class="mk-block mk-lift"><i class="mk-steam" aria-hidden="true"></i><i class="mk-steam mk-steam-2" aria-hidden="true"></i></div>
-                <div class="mk-col mk-menu">
-                  <div class="mk-block"></div><div class="mk-block"></div><div class="mk-block"></div>
-                  <div class="mk-block mk-red mk-pill"></div>
-                </div>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/toolbelt.html" data-track="demo_view" data-track-label="toolbelt">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Toolbelt</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Toolbelt%20template#contact" data-track="template_enquiry" data-track-label="toolbelt">Ask about this one<span class="tp-sr"> (The Toolbelt)</span></a>
               </div>
             </div>
           </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, services, gallery, contact</li>
+                <li>Click-to-call &amp; quote form</li>
+                <li>Service-area &amp; local SEO setup</li>
+                <li>Reviews and past-job strip</li>
+              </ul>
+              <p>Pages: Home · Services · Jobs · Reviews · Quote docket</p>
+            </div>
+          </details>
+        </article>
+
+        <article class="tp-card" data-type="cafes" data-reveal>
+          <a class="tp-shot" href="templates/counter.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Counter</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/counter-960.webp 960w, assets/img/templates/counter-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/counter-960.jpg" srcset="assets/img/templates/counter-960.jpg 960w, assets/img/templates/counter-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Counter demo: a café website with a portrait photo, a warm cream background and a menu button" loading="eager" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Café &amp; hospitality</p>
-            <h3 class="tpl-name">The Counter</h3>
-            <p class="tpl-desc">For cafés, eateries and small venues: appetite on the homepage, hours and location one tap away.</p>
-            <ul class="tpl-includes">
-              <li>Home, menu, hours, find us</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Cafés &amp; food</p>
+              <h3 class="tp-name">The Counter</h3>
+              <p class="tp-desc">For cafés, eateries and small venues: appetite on the homepage, hours and location one tap away.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Menu that’s easy to update</li>
               <li>Map, parking &amp; booking link</li>
               <li>Gallery and socials feed</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Menu &middot; Story &middot; Gallery &middot; Find us + live open/closed</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Warm</span><span class="tpl-tag">Appetising</span><span class="tpl-tag">Mobile-first</span>
-            </div>
-          </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/counter.html" data-cursor="OPEN" data-track="demo_view" data-track-label="counter">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Counter%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="counter">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
-        </article>
-
-        <!-- 3 Ledger -->
-        <article class="tpl-card" data-tpl="ledger" data-filter="practice" data-reveal style="--i:2">
-          <a class="tpl-mock-link" href="templates/ledger.html" aria-label="View The Ledger demo" data-cursor="OPEN" data-track="demo_view" data-track-label="ledger">
-          <div class="tpl-mock mk-ledger">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-block mk-headline"></div>
-              <div class="mk-block mk-headline-2"></div>
-              <div class="mk-block mk-red mk-rule mk-grow"></div>
-              <div class="mk-col mk-para">
-                <div class="mk-block"></div><div class="mk-block"></div><div class="mk-block"></div>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/counter.html" data-track="demo_view" data-track-label="counter">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Counter</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Counter%20template#contact" data-track="template_enquiry" data-track-label="counter">Ask about this one<span class="tp-sr"> (The Counter)</span></a>
               </div>
             </div>
           </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, menu, hours, find us</li>
+                <li>Menu that’s easy to update</li>
+                <li>Map, parking &amp; booking link</li>
+                <li>Gallery and socials feed</li>
+              </ul>
+              <p>Pages: Home · Menu · Story · Gallery · Find us + live open/closed</p>
+            </div>
+          </details>
+        </article>
+
+        <article class="tp-card" data-type="practice" data-reveal>
+          <a class="tp-shot" href="templates/ledger.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Ledger</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/ledger-960.webp 960w, assets/img/templates/ledger-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/ledger-960.jpg" srcset="assets/img/templates/ledger-960.jpg 960w, assets/img/templates/ledger-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Ledger demo: an accountancy website with a serif headline and an at-a-glance panel" loading="eager" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Professional practice</p>
-            <h3 class="tpl-name">The Ledger</h3>
-            <p class="tpl-desc">For accountants, consultants and legal practices: quiet authority, clear services, an easy way to make contact.</p>
-            <ul class="tpl-includes">
-              <li>Home, services, about, contact</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Professional practice</p>
+              <h3 class="tp-name">The Ledger</h3>
+              <p class="tp-desc">For accountants, consultants and legal practices: quiet authority, clear services, an easy way to make contact.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Team &amp; credentials layout</li>
               <li>Enquiry form &amp; booking link</li>
               <li>Insights or resources page</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Services &middot; Approach &middot; People &middot; Contact + fee estimator</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Assured</span><span class="tpl-tag">Editorial</span><span class="tpl-tag">Restrained</span>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/ledger.html" data-track="demo_view" data-track-label="ledger">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Ledger</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Ledger%20template#contact" data-track="template_enquiry" data-track-label="ledger">Ask about this one<span class="tp-sr"> (The Ledger)</span></a>
+              </div>
             </div>
           </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/ledger.html" data-cursor="OPEN" data-track="demo_view" data-track-label="ledger">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Ledger%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="ledger">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, services, about, contact</li>
+                <li>Team &amp; credentials layout</li>
+                <li>Enquiry form &amp; booking link</li>
+                <li>Insights or resources page</li>
+              </ul>
+              <p>Pages: Home · Services · Approach · People · Contact + fee estimator</p>
+            </div>
+          </details>
         </article>
 
-        <!-- 4 Commons -->
-        <article class="tpl-card" data-tpl="commons" data-filter="community" data-reveal style="--i:3">
-          <a class="tpl-mock-link" href="templates/commons.html" aria-label="View The Commons demo" data-cursor="OPEN" data-track="demo_view" data-track-label="commons">
-          <div class="tpl-mock mk-commons">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-block mk-badge"></div>
-              <div class="mk-block mk-title mk-lift"></div>
-              <div class="mk-block mk-sub"></div>
-              <i class="mk-card" aria-hidden="true"></i>
-              <div class="mk-block mk-red mk-give mk-pill"></div>
-            </div>
-          </div>
+        <article class="tp-card" data-type="community" data-reveal>
+          <a class="tp-shot" href="templates/commons.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Commons</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/commons-960.webp 960w, assets/img/templates/commons-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/commons-960.jpg" srcset="assets/img/templates/commons-960.jpg 960w, assets/img/templates/commons-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Commons demo: a community trust website with a photo of dancers, volunteer and donate buttons and a weekly events board" loading="lazy" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Community &amp; charity</p>
-            <h3 class="tpl-name">The Commons</h3>
-            <p class="tpl-desc">For churches, clubs and charities: gather people, tell the story, and make giving or joining simple.</p>
-            <ul class="tpl-includes">
-              <li>Home, about, events, give</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Community &amp; charity</p>
+              <h3 class="tp-name">The Commons</h3>
+              <p class="tp-desc">For churches, clubs and charities: gather people, tell the story, and make giving or joining simple.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Service or meeting times</li>
               <li>Donate &amp; sign-up links</li>
               <li>News and newsletter capture</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Programmes &middot; Events &middot; Volunteer &middot; Donate</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Welcoming</span><span class="tpl-tag">Clear</span><span class="tpl-tag">Human</span>
-            </div>
-          </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/commons.html" data-cursor="OPEN" data-track="demo_view" data-track-label="commons">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Commons%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="commons">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
-        </article>
-
-        <!-- 5 Programme -->
-        <article class="tpl-card" data-tpl="programme" data-filter="event" data-reveal style="--i:4">
-          <a class="tpl-mock-link" href="templates/programme.html" aria-label="View The Programme demo" data-cursor="OPEN" data-track="demo_view" data-track-label="programme">
-          <div class="tpl-mock mk-programme">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-block mk-banner mk-lift"><div class="mk-block mk-red mk-reg"></div></div>
-              <div class="mk-col mk-agenda">
-                <div class="mk-row"><span class="mk-time"></span><span class="mk-slot"></span></div>
-                <div class="mk-row"><span class="mk-time"></span><span class="mk-slot"></span></div>
-                <div class="mk-row"><span class="mk-time"></span><span class="mk-slot"></span></div>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/commons.html" data-track="demo_view" data-track-label="commons">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Commons</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Commons%20template#contact" data-track="template_enquiry" data-track-label="commons">Ask about this one<span class="tp-sr"> (The Commons)</span></a>
               </div>
             </div>
           </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, about, events, give</li>
+                <li>Service or meeting times</li>
+                <li>Donate &amp; sign-up links</li>
+                <li>News and newsletter capture</li>
+              </ul>
+              <p>Pages: Home · Programmes · Events · Volunteer · Donate</p>
+            </div>
+          </details>
+        </article>
+
+        <article class="tp-card" data-type="events" data-reveal>
+          <a class="tp-shot" href="templates/programme.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Programme</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/programme-960.webp 960w, assets/img/templates/programme-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/programme-960.jpg" srcset="assets/img/templates/programme-960.jpg 960w, assets/img/templates/programme-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Programme demo: a conference website with the GATHER 2027 headline, a countdown to the event and a list of speakers on a dark background" loading="lazy" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Events &amp; conferences</p>
-            <h3 class="tpl-name">The Programme</h3>
-            <p class="tpl-desc">For conferences and one-off events: sell the line-up, then send people straight to register.</p>
-            <ul class="tpl-includes">
-              <li>Home, speakers, schedule, register</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Events</p>
+              <h3 class="tp-name">The Programme</h3>
+              <p class="tp-desc">For conferences and one-off events: sell the line-up, then send people straight to register.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Registration &amp; ticketing link</li>
               <li>Speakers and sessions grid</li>
               <li>Venue, travel &amp; FAQ</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Speakers &middot; Timetable &middot; Tickets + countdown</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Bold</span><span class="tpl-tag">Timed</span><span class="tpl-tag">Register-led</span>
-            </div>
-          </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/programme.html" data-cursor="OPEN" data-track="demo_view" data-track-label="programme">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Programme%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="programme">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
-        </article>
-
-        <!-- 6 Folio -->
-        <article class="tpl-card" data-tpl="folio" data-filter="showcase" data-reveal style="--i:5">
-          <a class="tpl-mock-link" href="templates/folio.html" aria-label="View The Folio demo" data-cursor="OPEN" data-track="demo_view" data-track-label="folio">
-          <div class="tpl-mock mk-folio">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-grid">
-                <div class="mk-tile"><i class="mk-pan" aria-hidden="true"></i></div><div class="mk-red mk-lift"></div><div></div>
-                <div></div><div></div><div></div>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/programme.html" data-track="demo_view" data-track-label="programme">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Programme</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Programme%20template#contact" data-track="template_enquiry" data-track-label="programme">Ask about this one<span class="tp-sr"> (The Programme)</span></a>
               </div>
             </div>
           </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, speakers, schedule, register</li>
+                <li>Registration &amp; ticketing link</li>
+                <li>Speakers and sessions grid</li>
+                <li>Venue, travel &amp; FAQ</li>
+              </ul>
+              <p>Pages: Home · Speakers · Timetable · Tickets + countdown</p>
+            </div>
+          </details>
+        </article>
+
+        <article class="tp-card" data-type="creative" data-reveal>
+          <a class="tp-shot" href="templates/folio.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Folio</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/folio-960.webp 960w, assets/img/templates/folio-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/folio-960.jpg" srcset="assets/img/templates/folio-960.jpg 960w, assets/img/templates/folio-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Folio demo: a photographer’s website with a full-bleed portrait photograph and a large name" loading="lazy" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Creative portfolio</p>
-            <h3 class="tpl-name">The Folio</h3>
-            <p class="tpl-desc">For photographers, designers and makers: the work up front, big and uncluttered, with an easy way to commission.</p>
-            <ul class="tpl-includes">
-              <li>Home, work, about, contact</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Creative portfolio</p>
+              <h3 class="tp-name">The Folio</h3>
+              <p class="tp-desc">For photographers, designers and makers: the work up front, big and uncluttered, with an easy way to commission.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Project pages &amp; galleries</li>
               <li>Lightbox and captions</li>
               <li>Enquiry form &amp; socials</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Work index &middot; Project pages &middot; About &middot; Contact</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Visual</span><span class="tpl-tag">Spacious</span><span class="tpl-tag">Work-first</span>
-            </div>
-          </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/folio.html" data-cursor="OPEN" data-track="demo_view" data-track-label="folio">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Folio%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="folio">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
-        </article>
-
-        <!-- 7 Storefront -->
-        <article class="tpl-card" data-tpl="storefront" data-filter="showcase" data-reveal style="--i:6">
-          <a class="tpl-mock-link" href="templates/storefront.html" aria-label="View The Storefront demo" data-cursor="OPEN" data-track="demo_view" data-track-label="storefront">
-          <div class="tpl-mock mk-store">
-            <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url"></span></div>
-            <div class="mk-canvas">
-              <div class="mk-block mk-bleed"></div>
-              <div class="mk-panel mk-lift">
-                <div></div><div></div>
-                <div class="mk-red mk-buy"></div>
-                <i class="mk-cart-dot" aria-hidden="true"></i>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/folio.html" data-track="demo_view" data-track-label="folio">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Folio</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Folio%20template#contact" data-track="template_enquiry" data-track-label="folio">Ask about this one<span class="tp-sr"> (The Folio)</span></a>
               </div>
             </div>
           </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, work, about, contact</li>
+                <li>Project pages &amp; galleries</li>
+                <li>Lightbox and captions</li>
+                <li>Enquiry form &amp; socials</li>
+              </ul>
+              <p>Pages: Home · Work index · Project pages · About · Contact</p>
+            </div>
+          </details>
+        </article>
+
+        <article class="tp-card" data-type="retail" data-reveal>
+          <a class="tp-shot" href="templates/storefront.html" tabindex="-1" aria-hidden="true">
+            <span class="tp-win">
+              <span class="tp-bar"><i></i><i></i><i></i><b>The Storefront</b></span>
+              <span class="tp-view"><picture>
+                <source type="image/webp" srcset="assets/img/templates/storefront-960.webp 960w, assets/img/templates/storefront-1920.webp 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw">
+                <img src="assets/img/templates/storefront-960.jpg" srcset="assets/img/templates/storefront-960.jpg 960w, assets/img/templates/storefront-1920.jpg 1920w" sizes="(min-width:1100px) 440px, (min-width:700px) 46vw, 92vw" width="1920" height="2250" alt="The Storefront demo: a candle shop with one hero product, a price and an add to cart button" loading="lazy" decoding="async">
+              </picture></span>
+            </span>
           </a>
-          <div class="tpl-body">
-            <p class="tpl-kicker"><i>/</i>Small retail &amp; product</p>
-            <h3 class="tpl-name">The Storefront</h3>
-            <p class="tpl-desc">For a tight range of products: one hero product forward, checkout close, nothing in the way of the buy.</p>
-            <ul class="tpl-includes">
-              <li>Home, shop, product, cart</li>
+          <div class="tp-body">
+            <div class="tp-head">
+              <p class="tp-cat">Small retail</p>
+              <h3 class="tp-name">The Storefront</h3>
+              <p class="tp-desc">For a tight range of products: one hero product forward, checkout close, nothing in the way of the buy.</p>
+            </div>
+            <ul class="tp-facts" aria-label="Highlights">
               <li>Small catalogue &amp; checkout</li>
               <li>Product pages with gallery</li>
               <li>Shipping, returns &amp; contact</li>
             </ul>
-            <p class="tpl-pages">Pages: Home &middot; Shop &middot; Product pages &middot; Story &middot; Stockists + working cart</p>
-            <div class="tpl-tags">
-              <span class="tpl-tag">Focused</span><span class="tpl-tag">Buy-ready</span><span class="tpl-tag">Tidy</span>
+            <div class="tp-buy">
+              <p class="tp-price">Quoted on your call</p><!-- Real price goes here, e.g. From NZ$X,XXX -->
+              <div class="tp-actions">
+                <a class="tp-btn tp-btn-solid" href="templates/storefront.html" data-track="demo_view" data-track-label="storefront">View the demo <span aria-hidden="true">→</span><span class="tp-sr"> of The Storefront</span></a>
+                <a class="tp-btn tp-btn-line" href="index.html?about=The%20Storefront%20template#contact" data-track="template_enquiry" data-track-label="storefront">Ask about this one<span class="tp-sr"> (The Storefront)</span></a>
+              </div>
             </div>
           </div>
-          <div class="tpl-foot">
-            <a class="tpl-cta" href="templates/storefront.html" data-cursor="OPEN" data-track="demo_view" data-track-label="storefront">View the demo <span class="tc-ar" aria-hidden="true">→</span></a>
-            <a class="tpl-cta tpl-cta-2" href="index.html?about=The%20Storefront%20template#contact" data-cursor="MAIL" data-track="template_enquiry" data-track-label="storefront">Enquire</a>
-            <!-- <p class="tpl-price">From NZ$X,XXX</p> -->
-          </div>
+          <details class="tp-more">
+            <summary>Everything included</summary>
+            <div class="tp-more-body">
+              <ul>
+                <li>Home, shop, product, cart</li>
+                <li>Small catalogue &amp; checkout</li>
+                <li>Product pages with gallery</li>
+                <li>Shipping, returns &amp; contact</li>
+              </ul>
+              <p>Pages: Home · Shop · Product pages · Story · Stockists + working cart</p>
+            </div>
+          </details>
         </article>
 
-      </div>
-    </section>
+          <aside class="tp-card tp-help" aria-labelledby="tpHelpTitle">
+            <span class="tp-help-slash" aria-hidden="true">/</span>
+            <h3 id="tpHelpTitle" class="tp-name">Not sure which one fits?</h3>
+            <p class="tp-desc">Tell me what you need and I’ll point you to one, or tell you if you’d be better with something custom.</p>
+            <div class="tp-actions">
+              <a class="tp-btn tp-btn-solid" href="index.html#contact" data-track="book_click" data-track-label="templates-help">Book a call</a>
+              <a class="tp-link" href="together.html">See custom engagements <span aria-hidden="true">→</span></a>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
 
     <!-- ///////////////////////////////////// HOW IT WORKS -->
-    <section class="tpl-block tpl-how">
-      <div class="tpl-block-head">
-        <div>
-          <p class="eyebrow"><span class="red">03 /</span> How template builds run</p>
-          <h2>A head start,<br>not a shortcut.</h2>
-        </div>
-        <p class="tpl-lead">The layout is settled, so the work goes into your brand and your words, not into starting from a blank page.</p>
-      </div>
-
-      <div class="process-grid">
-        <div class="step" data-reveal>
-          <span class="step-num">/01</span>
-          <h3>Pick</h3>
-          <p>Browse the shelf, or use the finder above to narrow it to your fit. Open any demo to see it working. There&rsquo;s no wrong answer; we confirm it together.</p>
-        </div>
-        <div class="step" data-reveal style="--i:1">
-          <span class="step-num">/02</span>
-          <h3>Meet</h3>
-          <p>Twenty minutes on a call covering your content, your brand, and what the site has to do first.</p>
-        </div>
-        <div class="step" data-reveal style="--i:2">
-          <span class="step-num">/03</span>
-          <h3>Tailor</h3>
-          <p>Your brand, your words, your photos, dropped into the layout and shaped to fit. Never a stock demo with your logo dropped on top.</p>
-        </div>
-        <div class="step" data-reveal style="--i:3">
-          <span class="step-num">/04</span>
-          <h3>Live</h3>
-          <p>Launch, a proper handover, and a light care arrangement if you want one for the tweaks that follow.</p>
-        </div>
-      </div>
-
-      <p class="tpl-how-tail">A settled layout is the fastest honest way to a good website. The timeline still depends on your content, so I quote it on the call rather than promise a number here.</p>
+    <section class="tp-how" aria-labelledby="tpHowTitle">
+      <h2 id="tpHowTitle" class="tp-h2">How a template build works</h2>
+      <ol class="tp-steps">
+        <li data-reveal><span class="tp-step-num" aria-hidden="true">01</span><h3>Pick</h3><p>Browse the shop and open any demo to see it working.</p></li>
+        <li data-reveal><span class="tp-step-num" aria-hidden="true">02</span><h3>Meet</h3><p>Twenty minutes on a call covering your content, your brand, and what the site has to do first.</p></li>
+        <li data-reveal><span class="tp-step-num" aria-hidden="true">03</span><h3>Tailor</h3><p>Your brand, your words and your photos, dropped into the layout and shaped to fit.</p></li>
+        <li data-reveal><span class="tp-step-num" aria-hidden="true">04</span><h3>Live</h3><p>Launch, a proper handover, and a light care arrangement if you want one for the tweaks that follow.</p></li>
+      </ol>
     </section>
 
-    <!-- ///////////////////////////////////// CLOSER -->
-    <section class="tpl-block">
-      <div class="case-next">
-        <a href="together.html" data-cursor="GO">
-          <span class="cn-label">Prefer fully custom</span>
-          <span class="cn-title">Engagements →</span>
-        </a>
-        <a class="btn btn-solid btn-big" href="index.html#contact" data-magnetic data-cursor="BOOK">Not sure? Book the intro call <span class="btn-arrow">→</span></a>
+    <!-- ///////////////////////////////////// GOOD TO KNOW -->
+    <section class="tp-faq" aria-labelledby="tpFaqTitle">
+      <h2 id="tpFaqTitle" class="tp-h2">Good to know</h2>
+      <div class="tp-qs">
+        <details class="tp-q">
+          <summary>How long does it take?</summary>
+          <p>A settled layout is the fastest honest way to a good website. The timeline still depends on your content, so I quote it on the call rather than promise a number here.</p>
+        </details>
+        <details class="tp-q">
+          <summary>What’s included?</summary>
+          <p>Design, build, content load and launch, plus a proper handover. If you want a light care arrangement for the tweaks that follow, we can set that up too.</p>
+        </details>
+        <details class="tp-q">
+          <summary>Can I have something fully custom?</summary>
+          <p>Yes. If none of these fit, I also build fully custom sites, and the intro call is the place to talk it through.</p>
+          <a class="tp-link tp-link-block" href="together.html">See custom engagements <span aria-hidden="true">→</span></a>
+        </details>
+      </div>
+    </section>
+
+    <!-- ///////////////////////////////////// CLOSING BAND -->
+    <section class="tp-close" aria-labelledby="tpCloseTitle">
+      <h2 id="tpCloseTitle" class="tp-h2">Found one you like?</h2>
+      <div class="tp-actions">
+        <a class="tp-btn tp-btn-solid" href="index.html#contact" data-track="book_click" data-track-label="templates-close">Book a call</a>
+        <a class="tp-btn tp-btn-line" href="shop/">Browse the rest of the shop</a>
       </div>
     </section>
 
@@ -494,6 +513,6 @@
   </footer>
 
   <script src="js/main.js?v=cc89abca62" defer></script>
-  <script src="js/templates.js" defer></script>
+  <script src="js/templates.js?v=eaa8469813" defer></script>
 </body>
 </html>
