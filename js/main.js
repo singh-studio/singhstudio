@@ -33,6 +33,7 @@ const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").mat
 const isCoarse = window.matchMedia("(pointer: coarse)").matches;
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const lerp = (a, b, t) => a + (b - a) * t;
+let restoringFocus = false; // set while the lightbox hands focus back, so that never scrolls the light table
 
 /* ============================================================
    TRACKING — provider-agnostic wrapper. No provider is loaded
@@ -351,6 +352,30 @@ document.addEventListener("click", (e) => {
   const track = document.getElementById("ltTrack");
   if (!section || !track) return;
   const mq = window.matchMedia("(max-width: 900px)");
+  const sticky = section.querySelector(".lt-sticky");
+
+  // Keyboard focus: bring the focused card on screen. Mouse focus never scrolls.
+  track.addEventListener("focusin", (e) => {
+    if (restoringFocus || !e.target.matches(":focus-visible")) return;
+    const item = e.target.closest(".lt-item");
+    if (!item) return;
+    // Keep the browser from sliding the clipped stage sideways
+    [sticky, section].forEach((el) => { if (el) el.scrollLeft = 0; });
+    if (mq.matches || prefersReduced) {
+      item.scrollIntoView({ inline: "center", block: "nearest" });
+      return;
+    }
+    // Desktop: the track is driven by page scroll, so invert the travel maths
+    // (translate = p * travel; p = -rect.top / (height - innerHeight)).
+    const travel = Math.max(0, track.scrollWidth - innerWidth);
+    const total = section.offsetHeight - innerHeight;
+    const want = clamp(item.offsetLeft + item.offsetWidth / 2 - innerWidth / 2, 0, travel);
+    const p = travel ? want / travel : 0;
+    const top = section.getBoundingClientRect().top + window.scrollY + p * total;
+    window.scrollTo({ top, behavior: "instant" });
+    requestAnimationFrame(() => { [sticky, section].forEach((el) => { if (el) el.scrollLeft = 0; }); });
+  });
+
   if (prefersReduced) return;
   let current = 0;
 
@@ -376,8 +401,11 @@ document.addEventListener("click", (e) => {
   if (!dialog) return; // only index/archive carry the lightbox — must bail everywhere else or every module below dies
   const img = document.getElementById("lightboxImg");
   const cap = document.getElementById("lightboxCap");
+  let opener = null;
   document.querySelectorAll(".lt-item:not(.lt-end):not(.lt-film)").forEach((item) => {
-    item.addEventListener("click", () => {
+    item.addEventListener("click", (e) => {
+      opener = item.querySelector(".ph-open");
+      restoringFocus = e.detail > 0; // pointer open: the focus handed back on close must not scroll the page
       const src = item.querySelector("img");
       img.src = src.src;
       img.alt = src.alt;
@@ -387,6 +415,10 @@ document.addEventListener("click", (e) => {
   });
   document.getElementById("lightboxClose").addEventListener("click", () => dialog.close());
   dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+  dialog.addEventListener("close", () => {
+    if (opener) { restoringFocus = true; opener.focus({ preventScroll: true }); restoringFocus = false; }
+    opener = null;
+  });
 })();
 
 /* ============================================================

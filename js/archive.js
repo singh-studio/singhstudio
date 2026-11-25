@@ -76,9 +76,12 @@
     });
   };
 
+  // One listener per figure: a click on the inner button (mouse, Enter or Space) bubbles up to it, so it opens once.
+  let opener = null;
   frames.forEach((f, i) => {
-    f.addEventListener("click", () => { show(i); dialog.showModal(); });
+    f.addEventListener("click", () => { opener = f.querySelector(".ph-open"); show(i); dialog.showModal(); });
   });
+  dialog.addEventListener("close", () => { if (opener) opener.focus(); opener = null; });
   prevBtn.addEventListener("click", () => show(current - 1));
   nextBtn.addEventListener("click", () => show(current + 1));
   dialog.addEventListener("keydown", (e) => {
