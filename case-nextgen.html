@@ -20,8 +20,10 @@
   <link rel="preload" href="assets/fonts/switzer-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("cx-js")</script>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
   <link rel="stylesheet" href="css/style.css?v=38f0be56fa">
+  <link rel="stylesheet" href="css/case.css?v=aa965b0806">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -81,303 +83,215 @@
     <p class="menu-foot">Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz</p>
   </div>
 
-  <main id="main">
+  <main class="cx" id="main" style="--cx-band:#3b1c63;--cx-quote:#3b1c63">
 
-    <header class="sub-hero">
-      <p class="eyebrow"><span class="red">Case /02</span> Selected work<a class="cc-link" href="index.html#work" style="margin-left: 1em;">← All work</a></p>
-      <h1 class="sub-title"><span class="ht-line"><span class="ht-inner" data-letters>Tino<em class="ht-slash" aria-hidden="true">/</em>Taonga</span></span></h1>
-      <dl class="case-meta">
-        <div><dt>Client</dt><dd>The Salvation Army — Next Generation Ministry</dd></div>
-        <div><dt>Scope</dt><dd>Squarespace · Custom code · Editing guide</dd></div>
-        <div><dt>Role</dt><dd>Design, build &amp; code</dd></div>
-        <div><dt>Live</dt><dd><a class="cc-link" href="https://nextgen.salvationarmy.org.nz" target="_blank" rel="noopener">nextgen.salvationarmy.org.nz ↗</a></dd></div>
-      </dl>
+    <header class="cx-head">
+      <div class="cx-wrap">
+        <div class="cx-head-grid">
+          <div class="cx-head-text">
+            <a class="cx-back" href="index.html#work">← All work</a>
+            <h1 class="cx-title" aria-label="Tino Taonga"><span class="cx-nb">Tino<span class="cx-slash" aria-hidden="true">/</span></span><wbr>Taonga</h1>
+            <p class="cx-result">A Squarespace hub for Next Gen leaders, with a resource library, a team finder and pages the team edits as posts.</p>
+            <div class="cx-actions">
+              <a class="cx-btn cx-btn-solid" href="https://nextgen.salvationarmy.org.nz" target="_blank" rel="noopener">Visit the site ↗</a>
+              <a class="cx-btn cx-btn-quiet" href="index.html?about=the%20Tino%20Taonga%20case#contact">Book a call</a>
+            </div>
+          </div>
+          <aside class="cx-facts" aria-label="Project facts">
+            <dl>
+              <div><dt>Client</dt><dd>The Salvation Army, Next Generation Ministry</dd></div>
+              <div><dt>My part</dt><dd><ul><li>Squarespace build</li><li>Content model</li><li>Custom code</li><li>Resource library</li><li>Team finder &amp; profiles</li><li>Programme &amp; event pages</li><li>Editing guide</li></ul></dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
     </header>
 
-    <section>
-      <figure class="case-screen screen-hero">
-        <div class="screen-bar">
-          <span class="screen-url">nextgen.salvationarmy.org.nz</span>
-          <button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button>
-        </div>
-        <div class="screen-stage">
-          <picture>
-            <source type="image/webp" srcset="assets/img/tt-home.webp">
-            <img src="assets/img/tt-home.jpg" alt="The Tino Taonga homepage: the headline, a resource search and area shortcuts, beside a film playing inside a speech-bubble shape" width="1600" height="1000" decoding="async">
-          </picture>
-          <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-home.mp4" data-src-sm="assets/video/tt-home-960.mp4"></video>
-        </div>
-        <figcaption class="screen-cap"><b>Homepage</b><span>Recorded on the live site, from a first visit through to the statement the bubble opens into.</span></figcaption>
-      </figure>
-
-      <div class="case-grid cg-brief">
-        <div class="case-block">
-          <h2>/ The brief</h2>
-          <p>Tino Taonga takes its name from the idea at the centre of the Next Gen team’s work: that children and young people are invaluable treasures. The team supports everyone leading children’s, youth and intergenerational ministry in The Salvation Army across Aotearoa, Fiji, Tonga and Samoa. Leaders usually arrive wanting one thing: a resource for this week, the right person to talk to, or the details of a camp.</p>
-        </div>
-        <div class="case-block">
-          <h2>/ The approach</h2>
-          <p>The Next Gen team runs the site themselves, so I built it on Squarespace and wrote custom code for what Squarespace can’t do out of the box. The content lives in four blogs. Two of them are hidden from visitors and work like databases: one post per team member, and one post per programme or event page. Scripts read those posts and build what visitors see: a team finder with a map, programme pages with the key facts in a panel, a filterable resource library, and a homepage that keeps itself current. The team only ever edits posts. If a post is missing or half filled in, the custom part steps aside and the page falls back to standard Squarespace.</p>
-        </div>
+    <div class="cx-hero">
+      <div class="cx-hero-frame" data-rise>
+        <figure class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">nextgen.salvationarmy.org.nz</span><button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-home.webp"><img src="assets/img/tt-home.jpg" alt="The Tino Taonga homepage: the headline, a resource search and area shortcuts, beside a film playing inside a speech-bubble shape" width="1600" height="1000" fetchpriority="high" decoding="async"></picture><video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-home.mp4" data-src-sm="assets/video/tt-home-960.mp4"></video></div><figcaption class="screen-cap"><b>Homepage</b> Recorded on the live site, from a first visit through to the statement the bubble opens into.</figcaption></figure>
       </div>
+    </div>
 
-      <ul class="case-scope"><li>Squarespace build</li><li>Content model</li><li>Custom code</li><li>Resource library</li><li>Team finder &amp; profiles</li><li>Programme &amp; event pages</li><li>Editing guide</li></ul>
-
-      <dl class="case-stats">
-        <div><dt><span data-count-to="17">17</span></dt><dd>programme &amp; event pages, one layout</dd></div>
-        <div><dt><span data-count-to="34">34</span></dt><dd>resources in the library</dd></div>
-        <div><dt><span data-count-to="16">16</span></dt><dd>people in the team finder</dd></div>
-        <div><dt><span data-count-to="37">37</span></dt><dd>pages in the editing guide</dd></div>
-      </dl>
-
-      <h2 class="case-label">/ Highlights</h2>
-
-      <article class="case-hl hl-phone">
-        <div class="hl-media">
-          <figure class="case-screen screen-phone">
-            <div class="screen-bar">
-              <span class="screen-url">On a phone</span>
-              <button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button>
-            </div>
-            <div class="screen-stage">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-phone.webp">
-                <img src="assets/img/tt-phone.jpg" alt="The homepage on a phone: an Events and camps row with Kids Camp marked as on now" width="720" height="1558" loading="lazy" decoding="async">
-              </picture>
-              <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-phone.mp4"></video>
-            </div>
-          </figure>
+    <section class="cx-glance cx-section" aria-labelledby="glance-h">
+      <div class="cx-wrap">
+        <h2 class="cx-sr" id="glance-h">At a glance</h2>
+        <div class="cx-glance-grid" data-reveal>
+          <div><h3 class="cx-label">What they needed</h3><p>The Next Gen team supports everyone leading children’s, youth and intergenerational ministry in The Salvation Army across Aotearoa, Fiji, Tonga and Samoa. Leaders usually arrive wanting one thing: a resource for this week, the right person to talk to, or the details of a camp.</p></div>
+          <div><h3 class="cx-label">What I did</h3><p>The team runs the site themselves, so I built it on Squarespace and wrote custom code for what Squarespace can’t do out of the box. The content lives in four blogs, two of them hidden from visitors and working like databases, and scripts read those posts to build what visitors see. The team only ever edits posts.</p></div>
+          <div><h3 class="cx-label">What changed</h3><p>The site is live, and the team runs it themselves.</p></div>
         </div>
-        <div class="hl-copy">
-          <p class="hl-num">/ 01</p>
-          <h3>The front door</h3>
-          <p>The homepage opens with a greeting in the territory’s languages and puts the three most common jobs up front: search the resources, jump to an area, or find your Next Gen person. The film plays inside the speech bubble from the brand, and scrolling opens it out into the Tino Taonga statement. Before any of that, a line of scripture comes up, chosen for the season of the church year.</p>
-          <p>Everything below the opening fills itself in: the next events and whether they’re open, programmes grouped by area, the team, the newest resources and the latest newsletter.</p>
-          <dl class="hl-ledger">
-            <div><dt>In Squarespace</dt><dd>One post holds the headline, greeting, film and statement. Every other section reads from the four blogs.</dd></div>
-            <div><dt>In code</dt><dd>A page-header script builds the page. The scripture intro sits in the site-wide header.</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <article class="case-hl">
-        <div class="hl-media">
-          <figure class="case-screen">
-            <div class="screen-bar">
-              <span class="screen-url">nextgen.salvationarmy.org.nz/resources</span>
-              <button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button>
-            </div>
-            <div class="screen-stage">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-hub.webp">
-                <img src="assets/img/tt-hub.jpg" alt="The Resource Hub filtered to Youth and Bible Study: six resources match, each card labelled PDF with its reading time" width="1600" height="1000" loading="lazy" decoding="async">
-              </picture>
-              <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-hub.mp4" data-src-sm="assets/video/tt-hub-960.mp4"></video>
-            </div>
-          </figure>
-        </div>
-        <div class="hl-copy">
-          <p class="hl-num">/ 02</p>
-          <h3>The resource library</h3>
-          <p>Guides, forms, Bible studies and session plans, filtered by area and programme, with a live count beside every option. Each card says what it is before you open it (PDF, form, guide or how-to) and roughly how long it takes to read. The filters write to the address bar, so a leader can send a colleague the exact list they’re looking at.</p>
-          <dl class="hl-ledger">
-            <div><dt>In Squarespace</dt><dd>An ordinary blog. Categories are the areas and tags are the programmes.</dd></div>
-            <div><dt>In code</dt><dd>A licensed filter plugin, set up and restyled, plus a script that reads each post to label its card.</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <article class="case-hl hl-flip">
-        <div class="hl-media">
-          <figure class="case-screen">
-            <div class="screen-bar">
-              <span class="screen-url">nextgen.salvationarmy.org.nz/team</span>
-              <button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button>
-            </div>
-            <div class="screen-stage">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-team.webp">
-                <img src="assets/img/tt-team.jpg" alt="The team finder after a search for kids camp: four people can help, with one profile open showing her role, bio, specialties and a Contact button" width="1600" height="1000" loading="lazy" decoding="async">
-              </picture>
-              <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-team.mp4" data-src-sm="assets/video/tt-team-960.mp4"></video>
-            </div>
-          </figure>
-        </div>
-        <div class="hl-copy">
-          <p class="hl-num">/ 03</p>
-          <h3>The team finder</h3>
-          <p>Sixteen people across eight regions, from Northland to Samoa. A leader can search for a corps, a town, a name or a need (“kids camp” works, and so do “Palmy” and “the Mount”), pick a region on the map, or finish the sentence “I’m in anywhere and I need help with anything”. The grid narrows as they go, and choosing someone opens their profile above it. Once the search scrolls off screen, a Find button sits next to Menu so it’s always to hand.</p>
-          <dl class="hl-ledger">
-            <div><dt>In Squarespace</dt><dd>A hidden blog, one post per person. Categories say what they help with, tags say where they work.</dd></div>
-            <div><dt>In code</dt><dd>One code block draws the map, search, grid and profiles from that blog’s feed.</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <article class="case-hl hl-wide">
-        <div class="hl-copy">
-          <p class="hl-num">/ 04</p>
-          <h3>Programme and event pages</h3>
-        </div>
-        <div class="hl-copy">
-          <p>Seventeen pages, from Kids Camp to Mainly Music, share one layout. The team writes each page as a post. Lines like When:, Where: and Cost: become the At a glance panel, a Status: line becomes the pill under the title (its dot turns red once a camp closes or fills), and the photo’s crop follows the focal point they set on the post’s image. Headings, lists and quotes from the editor’s own toolbar are styled to match the site, so nothing relies on code the team can’t see.</p>
-          <dl class="hl-ledger">
-            <div><dt>In Squarespace</dt><dd>A hidden blog, one post per page. The post’s address matches the page it fills.</dd></div>
-            <div><dt>In code</dt><dd>A footer script and stylesheet build the panel, the status pill and a strip of related resources.</dd></div>
-          </dl>
-        </div>
-        <div class="hl-media hl-pair">
-          <figure class="case-screen">
-            <div class="screen-bar is-editor"><span class="screen-url">Squarespace editor · Page Content</span></div>
-            <div class="screen-stage stage-editor">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-editor.webp">
-                <img src="assets/img/tt-editor.jpg" alt="The Kids Camp post open in the Squarespace editor, with lines for Status, When, Where, Who, Cost and Register above two paragraphs" width="760" height="1005" loading="lazy" decoding="async">
-              </picture>
-            </div>
-            <figcaption class="screen-cap"><b>The post</b><span>What the team types.</span></figcaption>
-          </figure>
-          <figure class="case-screen">
-            <div class="screen-bar"><span class="screen-url">nextgen.salvationarmy.org.nz/kids-camp</span></div>
-            <div class="screen-stage">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-kidscamp.webp">
-                <img src="assets/img/tt-kidscamp.jpg" alt="The Kids Camp page: a photograph with the title and a registrations-closed pill, beside an At a glance panel with the dates, places, ages and cost" width="1600" height="1000" loading="lazy" decoding="async">
-              </picture>
-            </div>
-            <figcaption class="screen-cap"><b>The page</b><span>What visitors see.</span></figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="case-hl">
-        <div class="hl-media hl-stack">
-          <figure class="case-screen">
-            <div class="screen-bar"><span class="screen-url">nextgen.salvationarmy.org.nz/resources/post-amplify-bible-study</span></div>
-            <div class="screen-stage">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-post.webp">
-                <img src="assets/img/tt-post.jpg" alt="The end of a resource post: a download card for the Post-Amplify Bible Study PDF, then a Talk to someone box suggesting two staff members" width="1400" height="875" loading="lazy" decoding="async">
-              </picture>
-            </div>
-          </figure>
-          <figure class="case-screen">
-            <div class="screen-bar"><span class="screen-url">nextgen.salvationarmy.org.nz/team/missy-ditchburn</span></div>
-            <div class="screen-stage">
-              <picture>
-                <source type="image/webp" srcset="assets/img/tt-person-help.webp">
-                <img src="assets/img/tt-person-help.jpg" alt="A team member’s page listing six resources, stories and events she can help with" width="1400" height="875" loading="lazy" decoding="async">
-              </picture>
-            </div>
-          </figure>
-        </div>
-        <div class="hl-copy">
-          <p class="hl-num">/ 05</p>
-          <h3>Resource posts and profiles</h3>
-          <p>On a resource post, the file becomes a proper download card named after the resource, and a Talk to someone box suggests the staff who help with that area. Each person’s page is built from the same record as the finder, and lists the resources and news that match what they help with. Nobody keeps these links up to date by hand. They come from the categories the team already uses.</p>
-          <dl class="hl-ledger">
-            <div><dt>In Squarespace</dt><dd>The same categories across the News, Resource Hub and Team Members blogs.</dd></div>
-            <div><dt>In code</dt><dd>Footer scripts that match posts and people by category and add the cards.</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <h2 class="case-label">/ Details</h2>
-
-      <div class="case-details">
-        <figure class="case-screen">
-          <div class="screen-bar">
-            <span class="screen-url">Menu</span>
-            <button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button>
-          </div>
-          <div class="screen-stage">
-            <picture>
-              <source type="image/webp" srcset="assets/img/tt-menu.webp">
-              <img src="assets/img/tt-menu.jpg" alt="The open menu: the Children section shows a photograph in the bubble shape, with its pages listed as small buttons" width="1600" height="1000" loading="lazy" decoding="async">
-            </picture>
-            <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-menu.mp4" data-src-sm="assets/video/tt-menu-960.mp4"></video>
-          </div>
-          <figcaption class="screen-cap"><span>Each section of the menu opens with its own photograph in the bubble shape, and lists its pages underneath.</span></figcaption>
-        </figure>
-        <figure class="case-screen">
-          <div class="screen-bar"><span class="screen-url">/team, scrolled</span></div>
-          <div class="screen-stage">
-            <picture>
-              <source type="image/webp" srcset="assets/img/tt-find.webp">
-              <img src="assets/img/tt-find.jpg" alt="The Find strip across the top of the team page, set to Lower North Island and Napier: two people connect with Napier, and the map lights that region" width="1600" height="1000" loading="lazy" decoding="async">
-            </picture>
-          </div>
-          <figcaption class="screen-cap"><span>The Find button opens the same filters in a strip on the Menu’s row. Here, a search for Napier.</span></figcaption>
-        </figure>
-        <figure class="case-screen">
-          <div class="screen-bar"><span class="screen-url">/team</span></div>
-          <div class="screen-stage">
-            <picture>
-              <source type="image/webp" srcset="assets/img/tt-hover.webp">
-              <img src="assets/img/tt-hover.jpg" alt="A portrait in the team grid with a hover label reading Intergenerational, Feilding, Napier" width="1400" height="875" loading="lazy" decoding="async">
-            </picture>
-          </div>
-          <figcaption class="screen-cap"><span>Hovering a portrait shows what that person helps with first and where they’re based.</span></figcaption>
-        </figure>
-        <figure class="case-screen">
-          <div class="screen-bar"><span class="screen-url">/resources, on a phone</span></div>
-          <div class="screen-stage stage-contain">
-            <picture>
-              <source type="image/webp" srcset="assets/img/tt-phone-filters.webp">
-              <img src="assets/img/tt-phone-filters.jpg" alt="The Resource Hub on a phone with its filter panel open: Area and Programme checklists with a count beside each option" width="600" height="1298" loading="lazy" decoding="async">
-            </picture>
-          </div>
-          <figcaption class="screen-cap"><span>On a phone the Hub’s filters slide in from the side, with the same live counts.</span></figcaption>
-        </figure>
+        <ul class="cx-stats four" data-reveal>
+          <li><span class="cx-num"><span data-count-to="17">17</span></span><span class="cx-numlabel">programme &amp; event pages, one layout</span></li>
+          <li><span class="cx-num"><span data-count-to="34">34</span></span><span class="cx-numlabel">resources in the library</span></li>
+          <li><span class="cx-num"><span data-count-to="16">16</span></span><span class="cx-numlabel">people in the team finder</span></li>
+          <li><span class="cx-num"><span data-count-to="37">37</span></span><span class="cx-numlabel">pages in the editing guide</span></li>
+        </ul>
       </div>
+    </section>
 
-      <div class="case-handover">
-        <div class="case-block">
-          <h2>/ The handover</h2>
-          <p>I handed the site over with a 37-page guide for the team, written for people who don’t think of themselves as technical and illustrated with screenshots from their own editor. It walks through every part they edit (programme pages, the team, News, the Resource Hub and the homepage) and ends with checklists and a one-page quick reference.</p>
+    <div class="cx-body">
+      <nav class="cx-bar" aria-label="On this page">
+        <div class="cx-wrap">
+          <div class="cx-bar-in">
+            <span class="cx-bar-label">On this page</span>
+            <a href="#front-door">Front door</a>
+            <a href="#library">Library</a>
+            <a href="#finder">Team finder</a>
+            <a href="#programme">Programme pages</a>
+            <a href="#posts">Posts &amp; profiles</a>
+            <a href="#details">Details</a>
+            <a href="#handover">Handover</a>
+            <a href="#result">Result</a>
+          </div>
         </div>
-        <div class="ho-pages">
-          <figure class="ho-page">
-            <span class="ho-sheet"><picture><source type="image/webp" srcset="assets/img/tt-guide-cover.webp"><img src="assets/img/tt-guide-cover.jpg" alt="Guide cover: How to update the Tino Taonga website" width="900" height="1274" loading="lazy" decoding="async"></picture></span>
-            <figcaption>Cover</figcaption>
-          </figure>
-          <figure class="ho-page">
-            <span class="ho-sheet"><picture><source type="image/webp" srcset="assets/img/tt-guide-fit.webp"><img src="assets/img/tt-guide-fit.jpg" alt="Guide page: How the pieces fit together, mapping each blog to the pages it feeds" width="900" height="1274" loading="lazy" decoding="async"></picture></span>
-            <figcaption>How the pieces fit</figcaption>
-          </figure>
-          <figure class="ho-page">
-            <span class="ho-sheet"><picture><source type="image/webp" srcset="assets/img/tt-guide-post.webp"><img src="assets/img/tt-guide-post.jpg" alt="Guide page: What each part of the post changes, with the Kids Camp page annotated" width="900" height="1274" loading="lazy" decoding="async"></picture></span>
-            <figcaption>What each part changes</figcaption>
-          </figure>
-        </div>
-      </div>
+      </nav>
 
-      <div class="case-grid cg-outcome">
-        <div class="case-block">
-          <h2>/ The outcome</h2>
-          <dl class="case-facts">
-            <div class="fact"><dt>Live</dt><dd>nextgen.salvationarmy.org.nz, for Next Gen leaders across the territory</dd></div><div class="fact"><dt>Team-run</dt><dd>Every page, person, resource and event is a post the team edits in Squarespace</dd></div><div class="fact"><dt>One platform</dt><dd>Hosting, editing and the newsletter sign-up all stay in Squarespace</dd></div>
-          </dl>
+      <section class="cx-sec cx-section" aria-labelledby="front-door">
+        <div class="cx-wrap">
+          <div class="cx-split">
+            <div class="cx-copy" data-reveal>
+              <h2 id="front-door">The front door</h2>
+              <p>Tino Taonga takes its name from the idea at the centre of the team’s work: that children and young people are invaluable treasures. The homepage opens with a greeting in the territory’s languages and puts the three most common jobs up front: search the resources, jump to an area, or find your Next Gen person.</p>
+              <p>The film plays inside the speech bubble from the brand, and scrolling opens it out into the Tino Taonga statement. Before any of that, a line of scripture comes up, chosen for the season of the church year.</p>
+              <p>Everything below the opening fills itself in: the next events and whether they’re open, programmes grouped by area, the team, the newest resources and the latest newsletter.</p>
+              <dl class="cx-ledger"><div><dt>In Squarespace</dt><dd>One post holds the headline, greeting, film and statement. Every other section reads from the four blogs.</dd></div><div><dt>In code</dt><dd>A page-header script builds the page. The scripture intro sits in the site-wide header.</dd></div></dl>
+            </div>
+            <div class="cx-media" data-reveal style="--i:1"><div class="case-screen cx-frame screen-phone"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">On a phone</span><button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-phone.webp"><img src="assets/img/tt-phone.jpg" alt="The homepage on a phone: an Events and camps row with Kids Camp marked as on now" width="720" height="1558" loading="lazy" decoding="async"></picture><video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-phone.mp4"></video></div></div></div>
+          </div>
         </div>
-        <!-- Testimonial slot: when the Next Gen team supplies a quote, add it here
-             verbatim as .case-pull + .case-pull-cite (see case-futurepartners.html). -->
-        <div class="case-built">
-          <p class="cb-head">Built with</p>
-          <dl>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="library">
+        <div class="cx-wrap">
+          <div class="cx-split media-wide">
+            <div class="cx-copy" data-reveal>
+              <h2 id="library">The resource library</h2>
+              <p>Guides, forms, Bible studies and session plans, filtered by area and programme, with a live count beside every option.</p>
+              <p>Each card says what it is before you open it (PDF, form, guide or how-to) and roughly how long it takes to read. The filters write to the address bar, so a leader can send a colleague the exact list they’re looking at.</p>
+              <dl class="cx-ledger"><div><dt>In Squarespace</dt><dd>An ordinary blog. Categories are the areas and tags are the programmes.</dd></div><div><dt>In code</dt><dd>A licensed filter plugin, set up and restyled, plus a script that reads each post to label its card.</dd></div></dl>
+            </div>
+            <div class="cx-media" data-reveal style="--i:1"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">nextgen.salvationarmy.org.nz/resources</span><button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-hub.webp"><img src="assets/img/tt-hub.jpg" alt="The Resource Hub filtered to Youth and Bible Study: six resources match, each card labelled PDF with its reading time" width="1600" height="1000" loading="lazy" decoding="async"></picture><video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-hub.mp4" data-src-sm="assets/video/tt-hub-960.mp4"></video></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="finder">
+        <div class="cx-wrap">
+          <div class="cx-split flip media-wide">
+            <div class="cx-copy" data-reveal>
+              <h2 id="finder">The team finder</h2>
+              <p>Sixteen people across eight regions, from Northland to Samoa. A leader can search for a corps, a town, a name or a need (“kids camp” works, and so do “Palmy” and “the Mount”), pick a region on the map, or finish the sentence “I’m in anywhere and I need help with anything”.</p>
+              <p>The grid narrows as they go, and choosing someone opens their profile above it. Once the search scrolls off screen, a Find button sits next to Menu so it’s always to hand.</p>
+              <dl class="cx-ledger"><div><dt>In Squarespace</dt><dd>A hidden blog, one post per person. Categories say what they help with, tags say where they work.</dd></div><div><dt>In code</dt><dd>One code block draws the map, search, grid and profiles from that blog’s feed.</dd></div></dl>
+            </div>
+            <div class="cx-media" data-reveal style="--i:1"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">nextgen.salvationarmy.org.nz/team</span><button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-team.webp"><img src="assets/img/tt-team.jpg" alt="The team finder after a search for kids camp: four people can help, with one profile open showing her role, bio, specialties and a Contact button" width="1600" height="1000" loading="lazy" decoding="async"></picture><video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-team.mp4" data-src-sm="assets/video/tt-team-960.mp4"></video></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="programme">
+        <div class="cx-wrap">
+          <h2 class="cx-wide-head" id="programme" data-reveal>Programme and event pages</h2>
+          <div class="cx-pair" data-reveal>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar is-editor"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">Squarespace editor · Page Content</span></div><div class="screen-stage stage-editor"><picture><source type="image/webp" srcset="assets/img/tt-editor.webp"><img src="assets/img/tt-editor.jpg" alt="The Kids Camp post open in the Squarespace editor, with lines for Status, When, Where, Who, Cost and Register above two paragraphs" width="760" height="1005" loading="lazy" decoding="async"></picture></div></div><figcaption><b>The post</b> What the team types.</figcaption></figure>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">nextgen.salvationarmy.org.nz/kids-camp</span></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-kidscamp.webp"><img src="assets/img/tt-kidscamp.jpg" alt="The Kids Camp page: a photograph with the title and a registrations-closed pill, beside an At a glance panel with the dates, places, ages and cost" width="1600" height="1000" loading="lazy" decoding="async"></picture></div></div><figcaption><b>The page</b> What visitors see.</figcaption></figure>
+          </div>
+          <div class="cx-cols2" data-reveal>
+            <div>
+              <p>Seventeen pages, from Kids Camp to Mainly Music, share one layout. The team writes each page as a post.</p>
+              <p>Lines like When:, Where: and Cost: become the At a glance panel, a Status: line becomes the pill under the title (its dot turns red once a camp closes or fills), and the photo’s crop follows the focal point they set on the post’s image.</p>
+              <p>Headings, lists and quotes from the editor’s own toolbar are styled to match the site, so nothing relies on code the team can’t see. If a post is missing or half filled in, the custom part steps aside and the page falls back to standard Squarespace.</p>
+            </div>
+            <div>
+              <dl class="cx-ledger"><div><dt>In Squarespace</dt><dd>The other hidden blog, with one post for each page. The post’s address matches the page it fills.</dd></div><div><dt>In code</dt><dd>A footer script and stylesheet build the panel, the status pill and a strip of related resources.</dd></div></dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="posts">
+        <div class="cx-wrap">
+          <h2 class="cx-wide-head" id="posts" data-reveal>Resource posts and profiles</h2>
+          <div class="cx-pair even" data-reveal>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">nextgen.salvationarmy.org.nz/resources/post-amplify-bible-study</span></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-post.webp"><img src="assets/img/tt-post.jpg" alt="The end of a resource post: a download card for the Post-Amplify Bible Study PDF, then a Talk to someone box suggesting two staff members" width="1400" height="875" loading="lazy" decoding="async"></picture></div></div></figure>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">nextgen.salvationarmy.org.nz/team/missy-ditchburn</span></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-person-help.webp"><img src="assets/img/tt-person-help.jpg" alt="A team member’s page listing six resources, stories and events she can help with" width="1400" height="875" loading="lazy" decoding="async"></picture></div></div></figure>
+          </div>
+          <div class="cx-cols2" data-reveal>
+            <div>
+              <p>On a resource post, the file becomes a proper download card named after the resource, and a Talk to someone box suggests the staff who help with that area.</p>
+              <p>Each person’s page is built from the same record as the finder, and lists the resources and news that match what they help with. Nobody keeps these links up to date by hand. They come from the categories the team already uses.</p>
+            </div>
+            <div>
+              <dl class="cx-ledger"><div><dt>In Squarespace</dt><dd>The same categories across the News, Resource Hub and Team Members blogs.</dd></div><div><dt>In code</dt><dd>Footer scripts that match posts and people by category and add the cards.</dd></div></dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="details">
+        <div class="cx-wrap">
+          <h2 class="cx-wide-head" id="details" data-reveal>More details</h2>
+          <div class="cx-grid2" data-reveal>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">Menu</span><button class="screen-toggle is-paused" type="button" aria-label="Play the recording" hidden><svg class="st-pause" viewBox="0 0 10 10" aria-hidden="true"><rect x="2" y="1.5" width="2" height="7" rx="0.4"/><rect x="6" y="1.5" width="2" height="7" rx="0.4"/></svg><svg class="st-play" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1.4 8.6 5 3 8.6Z"/></svg><span class="st-label">Play</span></button></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-menu.webp"><img src="assets/img/tt-menu.jpg" alt="The open menu: the Children section shows a photograph in the bubble shape, with its pages listed as small buttons" width="1600" height="1000" loading="lazy" decoding="async"></picture><video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="assets/video/tt-menu.mp4" data-src-sm="assets/video/tt-menu-960.mp4"></video></div></div><figcaption>Each section of the menu opens with its own photograph in the bubble shape, and lists its pages underneath.</figcaption></figure>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">/team, scrolled</span></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-find.webp"><img src="assets/img/tt-find.jpg" alt="The Find strip across the top of the team page, set to Lower North Island and Napier: two people connect with Napier, and the map lights that region" width="1600" height="1000" loading="lazy" decoding="async"></picture></div></div><figcaption>The Find button opens the same filters in a strip on the Menu’s row. Here, a search for Napier.</figcaption></figure>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">/team</span></div><div class="screen-stage"><picture><source type="image/webp" srcset="assets/img/tt-hover.webp"><img src="assets/img/tt-hover.jpg" alt="A portrait in the team grid with a hover label reading Intergenerational, Feilding, Napier" width="1400" height="875" loading="lazy" decoding="async"></picture></div></div><figcaption>Hovering a portrait shows what that person helps with first and where they’re based.</figcaption></figure>
+            <figure class="cx-fig"><div class="case-screen cx-frame"><div class="screen-bar"><span class="cx-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="screen-url">/resources, on a phone</span></div><div class="screen-stage stage-contain"><picture><source type="image/webp" srcset="assets/img/tt-phone-filters.webp"><img src="assets/img/tt-phone-filters.jpg" alt="The Resource Hub on a phone with its filter panel open: Area and Programme checklists with a count beside each option" width="600" height="1298" loading="lazy" decoding="async"></picture></div></div><figcaption>On a phone the Hub’s filters slide in from the side, with the same live counts.</figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="handover">
+        <div class="cx-wrap">
+          <div class="cx-split media-wide">
+            <div class="cx-copy" data-reveal>
+              <h2 id="handover">The handover</h2>
+              <p>I handed the site over with a 37-page guide for the team, written for people who don’t think of themselves as technical and illustrated with screenshots from their own editor.</p>
+              <p>It walks through every part they edit (programme pages, the team, News, the Resource Hub and the homepage) and ends with checklists and a one-page quick reference.</p>
+            </div>
+            <div class="cx-media cx-pages" data-reveal style="--i:1">
+              <figure><span class="cx-sheet"><picture><source type="image/webp" srcset="assets/img/tt-guide-cover.webp"><img src="assets/img/tt-guide-cover.jpg" alt="Guide cover: How to update the Tino Taonga website" width="900" height="1274" loading="lazy" decoding="async"></picture></span><figcaption>Cover</figcaption></figure>
+              <figure><span class="cx-sheet"><picture><source type="image/webp" srcset="assets/img/tt-guide-fit.webp"><img src="assets/img/tt-guide-fit.jpg" alt="Guide page: How the pieces fit together, mapping each blog to the pages it feeds" width="900" height="1274" loading="lazy" decoding="async"></picture></span><figcaption>How the pieces fit</figcaption></figure>
+              <figure><span class="cx-sheet"><picture><source type="image/webp" srcset="assets/img/tt-guide-post.webp"><img src="assets/img/tt-guide-post.jpg" alt="Guide page: What each part of the post changes, with the Kids Camp page annotated" width="900" height="1274" loading="lazy" decoding="async"></picture></span><figcaption>What each part changes</figcaption></figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="result">
+        <div class="cx-wrap">
+          <h2 id="result" data-reveal>The result</h2>
+          <ul class="cx-rows" data-reveal>
+            <li><strong>Live</strong><span>nextgen.salvationarmy.org.nz, for Next Gen leaders across the territory</span></li>
+            <li><strong>Team-run</strong><span>Every page, person, resource and event is a post the team edits in Squarespace</span></li>
+            <li><strong>One platform</strong><span>Hosting, editing and the newsletter sign-up all stay in Squarespace</span></li>
+          </ul>
+          <h3 class="cx-label cx-built-head" data-reveal>Built with</h3>
+          <dl class="cx-ledger cx-built" data-reveal>
             <div><dt>Platform</dt><dd>Squarespace 7.1</dd></div>
             <div><dt>Content</dt><dd>Four blogs: News, Resource Hub, and two hidden ones for people and pages</dd></div>
             <div><dt>Code</dt><dd>Site header and footer injection, Custom CSS, page-header code on two pages, one code block</dd></div>
             <div><dt>Plugin</dt><dd>Custom Filter by Squarewebsites, restyled</dd></div>
           </dl>
         </div>
-      </div>
+      </section>
+      <!-- Testimonial slot: when the Next Gen team supplies a quote, add it here
+           verbatim as a .cx-quote-band holding a .cx-quote with its blockquote and
+           figcaption (see case-futurepartners.html). -->
+    </div>
 
-      <div class="case-next">
-        <a href="case-littlethings.html" data-cursor="NEXT">
-          <span class="cn-label">Next case</span>
-          <span class="cn-title">Noted &amp; Known →</span>
-        </a>
-        <a class="btn btn-solid" href="index.html?about=the%20Tino%20Taonga%20case#contact" data-magnetic data-cursor="BOOK">Start your brief</a>
+    <section class="cx-end-sec cx-section" aria-label="Next steps">
+      <div class="cx-wrap">
+        <div class="cx-end" data-reveal>
+          <div class="cx-cta">
+            <h2>Want something like this?</h2>
+            <a class="cx-btn cx-btn-solid" href="index.html?about=the%20Tino%20Taonga%20case#contact">Book a call</a>
+          </div>
+          <a class="cx-next" href="case-littlethings.html">
+            <span class="cx-next-img"><picture><source type="image/webp" srcset="assets/img/work-littlethings.webp"><img src="assets/img/work-littlethings.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async"></picture></span>
+            <span class="cx-next-text">Next: Noted &amp; Known <span class="cx-next-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -403,5 +317,6 @@
   </footer>
 
   <script src="js/main.js?v=cc89abca62" defer></script>
+  <script src="js/case.js?v=b153ed66cc" defer></script>
 </body>
 </html>

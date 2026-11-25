@@ -20,8 +20,10 @@
   <link rel="preload" href="assets/fonts/switzer-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("cx-js")</script>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
   <link rel="stylesheet" href="css/style.css?v=38f0be56fa">
+  <link rel="stylesheet" href="css/case.css?v=aa965b0806">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -81,135 +83,209 @@
     <p class="menu-foot">Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz</p>
   </div>
 
-  <main id="main">
+  <main class="cx" id="main" style="--cx-band:#1b7c6b;--cx-quote:#176b5c">
 
-    <header class="sub-hero">
-      <p class="eyebrow"><span class="red">Case /01</span> Selected work<a class="cc-link" href="index.html#work" style="margin-left: 1em;">← All work</a></p>
-      <h1 class="sub-title"><span class="ht-line"><span class="ht-inner" data-letters>Future<em class="ht-slash" aria-hidden="true">/</em>Partners</span></span></h1>
-      <dl class="case-meta">
-        <div><dt>Client</dt><dd>Future Partners — development consulting, NZ &amp; the Pacific</dd></div>
-        <div><dt>Years</dt><dd>2026</dd></div>
-        <div><dt>Scope</dt><dd>Web · Atlas · CMS · Search migration</dd></div>
-        <div><dt>Live</dt><dd><a class="cc-link" href="https://www.futurepartners.co.nz" target="_blank" rel="noopener">futurepartners.co.nz ↗</a></dd></div>
-      </dl>
+    <header class="cx-head">
+      <div class="cx-wrap">
+        <div class="cx-head-grid">
+          <div class="cx-head-text">
+            <a class="cx-back" href="index.html#work">← All work</a>
+            <h1 class="cx-title" aria-label="Future Partners"><span class="cx-nb">Future<span class="cx-slash" aria-hidden="true">/</span></span><wbr>Partners</h1>
+            <p class="cx-result">A 105-page rebuild around an interactive atlas, live since August 2026.</p>
+            <div class="cx-actions">
+              <a class="cx-btn cx-btn-solid" href="https://www.futurepartners.co.nz" target="_blank" rel="noopener">Visit the site ↗</a>
+              <a class="cx-btn cx-btn-quiet" href="index.html?about=the%20Future%20Partners%20case#contact">Book a call</a>
+            </div>
+          </div>
+          <aside class="cx-facts" aria-label="Project facts">
+            <dl>
+              <div><dt>Client</dt><dd>Future Partners, development consulting, NZ &amp; the Pacific</dd></div>
+              <div><dt>Year</dt><dd>2026</dd></div>
+              <div><dt>My part</dt><dd><ul><li>Design &amp; Astro build</li><li>Interactive atlas of the work</li><li>Content migration &amp; copy rewrite</li><li>Editing screen &amp; client handbook</li></ul></dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
     </header>
 
-    <section>
-      <div class="case-grid cg-brief">
-        <div class="case-block">
-          <h2>/ The brief</h2>
-          <p>Future Partners is a network of development professionals delivering assignments across Asia and the Pacific. The website hadn’t kept up with the work, so the rebuild had three jobs: to show how broad the network is, to carry years of search history through the move, and to leave the team able to run the site themselves.</p>
-        </div>
-        <div class="case-block">
-          <h2>/ The approach</h2>
-          <p>The project ran in stages, reviewed with the client at each one: inventory first, then structure, then design, then content. The centrepiece is an interactive atlas, a map of the region that glows where the network has worked, with every point opening into real case studies. Around that I rebuilt the services, people and news sections, moved the site off the old platform onto a static build the client owns outright, and added an editing screen so the team can keep it all current themselves.</p>
-        </div>
+    <div class="cx-hero">
+      <div class="cx-hero-frame" data-rise>
+        <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">futurepartners.co.nz</span></div><picture><source type="image/webp" srcset="assets/img/fp-shot-home.webp"><img src="assets/img/fp-shot-home.jpg" alt="The new Future Partners homepage: a mosaic of field photographs behind the headline, stats beneath" width="1500" height="990" fetchpriority="high" decoding="async"></picture></div>
       </div>
+    </div>
 
-      <ul class="case-scope"><li>Design &amp; Astro build</li><li>Interactive atlas of the work</li><li>Content migration &amp; copy rewrite</li><li>Editing screen &amp; client handbook</li></ul>
-
-      <figure class="case-shot">
-        <picture>
-          <source type="image/webp" srcset="assets/img/fp-shot-atlas.webp">
-          <img src="assets/img/fp-shot-atlas.jpg" alt="The Future Partners work page: an interactive atlas of the Pacific with glowing project pins and a where-we-work filter panel" width="1500" height="990" loading="lazy" decoding="async">
-        </picture>
-      </figure>
-
-      <dl class="case-stats" data-reveal>
-        <div><dt><span data-count-to="105">0</span></dt><dd>pages shipped</dd></div>
-        <div><dt><span data-count-to="39">0</span></dt><dd>case studies migrated</dd></div>
-        <div><dt><span data-count-to="29">0</span></dt><dd>people profiled</dd></div>
-        <div><dt><span data-count-to="144">0</span></dt><dd>redirect rules, so old links still work</dd></div>
-      </dl>
-
-      <div class="case-cs">
-        <div class="cs-row" data-reveal>
-          <h3><i>/</i>Start with the inventory</h3>
-          <p>The old site had years of Google standing, and every URL was about to change. So the first week went on listing every page before touching anything, and the build now ships 144 redirect rules, so old links, bookmarks and search results all still land where they should. It’s not glamorous, but it had to come first.</p>
+    <section class="cx-glance cx-section" aria-labelledby="glance-h">
+      <div class="cx-wrap">
+        <h2 class="cx-sr" id="glance-h">At a glance</h2>
+        <div class="cx-glance-grid" data-reveal>
+          <div><h3 class="cx-label">What they needed</h3><p>Their website hadn’t kept up with the work. The rebuild had three jobs: show how broad the network is, carry years of search history through the move, and leave the team able to run the site themselves.</p></div>
+          <div><h3 class="cx-label">What I did</h3><p>I built an interactive atlas of the region, rebuilt the services, people and news sections, and moved the site onto a static build the client owns outright.</p></div>
+          <div><h3 class="cx-label">What changed</h3><p>Launched at futurepartners.co.nz in August 2026, ahead of the November plan.</p></div>
         </div>
-        <div class="cs-row" data-reveal style="--i:1">
-          <h3><i>/</i>The atlas took the longest, and should have</h3>
-          <p>A map works easily on a desktop and awkwardly on a phone, where pinch and pan fight the page scroll. The mobile version became its own piece of work: a full-screen view with proper touch gestures, tap-a-country navigation and a bottom sheet for reading case studies one-handed. It went through more revisions than anything else on the site.</p>
-        </div>
-        <div class="cs-row" data-reveal style="--i:2">
-          <h3><i>/</i>Feedback, folded straight back in</h3>
-          <p>The client reviewed the site in staged rounds rather than once at the end. Copy corrections, pin legibility on the map, photo crops, links that needed a better home: each round of notes shipped within the week, and a few of the better details on the site started as the client’s margin notes.</p>
-        </div>
-        <div class="cs-row" data-reveal style="--i:3">
-          <h3><i>/</i>Built to be run by the client</h3>
-          <p>The site is plain files in Future Partners’ own accounts: their code, their hosting, their domain. There’s no database behind it, which keeps the running costs and the security risk close to nothing. The team edits case studies, profiles and news through an editing screen at its own address, with a plain-English handbook for everything else. The next stage is already designed: a members’ area for the network’s associates, where documents come straight from the network’s own filing instead of being uploaded twice.</p>
-        </div>
+        <ul class="cx-stats" data-reveal>
+          <li><span class="cx-num"><span data-count-to="105">105</span></span><span class="cx-numlabel">pages shipped</span></li>
+          <li><span class="cx-num"><span data-count-to="39">39</span></span><span class="cx-numlabel">case studies migrated</span></li>
+          <li><span class="cx-num"><span data-count-to="29">29</span></span><span class="cx-numlabel">people profiled</span></li>
+        </ul>
       </div>
+    </section>
 
-      <div class="cs-gallery cs-2" data-reveal>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-before.webp"><img src="assets/img/fp-before.jpg" alt="The old homepage: teal template with long text passages" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>Home, before</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-home.webp"><img src="assets/img/fp-shot-home.jpg" alt="The new homepage: a mosaic of field photographs behind the headline, stats beneath" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>Home, after</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-old-work.webp"><img src="assets/img/fp-old-work.jpg" alt="The old projects page: a plain list" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>The work, before</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-atlas.webp"><img src="assets/img/fp-shot-atlas.jpg" alt="The new work page: the atlas, glowing where the network has worked" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>The work, after: the atlas</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-old-services.webp"><img src="assets/img/fp-old-services.jpg" alt="The old services page: text blocks on teal" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>Services, before</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-services.webp"><img src="assets/img/fp-shot-services.jpg" alt="The new services page: the project cycle as an interactive wheel, scope to review" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>Services, after: the project cycle</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-old-news.webp"><img src="assets/img/fp-old-news.jpg" alt="The old insights page" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>News, before</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-news.webp"><img src="assets/img/fp-shot-news.jpg" alt="The new news page: a featured story with the latest list beside it" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>News, after</figcaption>
-        </figure>
-      </div>
-
-      <div class="cs-gallery" data-reveal>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-case.webp"><img src="assets/img/fp-shot-case.jpg" alt="One of the 39 migrated case studies on the new site" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>One of the 39 case studies</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-people.webp"><img src="assets/img/fp-shot-people.jpg" alt="The people page: 29 associate profiles as a consistent grid" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>The network, 29 profiles</figcaption>
-        </figure>
-        <figure>
-          <picture><source type="image/webp" srcset="assets/img/fp-shot-editor.webp"><img src="assets/img/fp-shot-editor.jpg" alt="The editing screen the team uses to update the site" width="1500" height="990" loading="lazy" decoding="async"></picture>
-          <figcaption>The editing screen</figcaption>
-        </figure>
-      </div>
-
-      <div class="case-grid cg-outcome">
-        <div class="case-block">
-          <h2>/ The outcome</h2>
-          <dl class="case-facts">
-            <div class="fact"><dt>Live</dt><dd>Launched at futurepartners.co.nz in August 2026, ahead of the November plan</dd></div><div class="fact"><dt>Self-run</dt><dd>The team edits case studies, profiles and news through their own screen</dd></div><div class="fact"><dt>Owned outright</dt><dd>Code, content, hosting and domain all sit in Future Partners’ name</dd></div>
-          </dl>
+    <div class="cx-body">
+      <nav class="cx-bar" aria-label="On this page">
+        <div class="cx-wrap">
+          <div class="cx-bar-in">
+            <span class="cx-bar-label">On this page</span>
+            <a href="#search-history">Search history</a>
+            <a href="#atlas">The atlas</a>
+            <a href="#feedback">Feedback</a>
+            <a href="#before-after">Before and after</a>
+            <a href="#self-run">Running it themselves</a>
+            <a href="#result">The result</a>
+          </div>
         </div>
-        <div class="case-block">
-          <p class="case-pull">“His patient approach and clear advice make the process easy and saves time in the long run.”</p>
-          <p class="case-pull-cite">Kirsty, Future Partners</p>
-        </div>
-      </div>
+      </nav>
 
-      <div class="case-next">
-        <a href="case-nextgen.html" data-cursor="NEXT">
-          <span class="cn-label">Next case</span>
-          <span class="cn-title">Tino Taonga →</span>
-        </a>
-        <a class="btn btn-solid" href="index.html?about=the%20Future%20Partners%20case#contact" data-magnetic data-cursor="BOOK">Start your brief</a>
+      <section class="cx-sec cx-section" aria-labelledby="search-history">
+        <div class="cx-wrap">
+          <div class="cx-split">
+            <div class="cx-copy" data-reveal>
+              <h2 id="search-history">Keeping the search history</h2>
+              <p>The old site had years of Google standing, and every URL was about to change.</p>
+              <p>So the first week went on listing every page before touching anything. It’s not glamorous, but it had to come first.</p>
+            </div>
+            <div class="cx-media" data-reveal style="--i:1">
+              <div class="cx-callout">
+                <span class="cx-callout-num">144</span>
+                <span class="cx-callout-text">redirect rules in the build, so old links, bookmarks and search results all still land where they should.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="atlas">
+        <div class="cx-wrap">
+          <h2 class="cx-wide-head" id="atlas" data-reveal>The atlas</h2>
+          <figure class="cx-fig" data-reveal>
+            <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">futurepartners.co.nz/work</span></div><picture><source type="image/webp" srcset="assets/img/fp-atlas.webp"><img src="assets/img/fp-atlas.jpg" alt="The Future Partners work page: an interactive atlas of the Pacific with glowing project pins and a where-we-work filter panel" width="1500" height="700" loading="lazy" decoding="async"></picture></div>
+          </figure>
+          <div class="cx-cols2" data-reveal>
+            <div>
+              <p>The centrepiece is an interactive atlas, a map of the region that glows where the network has worked, with every point opening into real case studies.</p>
+              <p>It took the longest, and should have. A map works easily on a desktop and awkwardly on a phone, where pinch and pan fight the page scroll.</p>
+            </div>
+            <div>
+              <p>The mobile version became its own piece of work: a full-screen view with proper touch gestures, tap-a-country navigation and a bottom sheet for reading case studies one-handed.</p>
+              <p>It went through more revisions than anything else on the site.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="feedback">
+        <div class="cx-wrap">
+          <div class="cx-split flip">
+            <div class="cx-copy" data-reveal>
+              <h2 id="feedback">Working through feedback</h2>
+              <p>The project ran in stages, reviewed with the client at each one: inventory first, then structure, then design, then content.</p>
+              <p>Copy corrections, pin legibility on the map, photo crops, links that needed a better home: each round of notes shipped within the week, and a few of the better details on the site started as the client’s margin notes.</p>
+            </div>
+            <figure class="cx-media cx-fig" data-reveal style="--i:1">
+              <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">futurepartners.co.nz/people</span></div><picture><source type="image/webp" srcset="assets/img/fp-shot-people.webp"><img src="assets/img/fp-shot-people.jpg" alt="The people page: 29 associate profiles as a consistent grid" width="1500" height="990" loading="lazy" decoding="async"></picture></div>
+              <figcaption>The network, 29 profiles</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-inv section-light cx-section" aria-labelledby="before-after">
+        <div class="cx-wrap">
+          <div class="cx-cmp-head" data-reveal>
+            <h2 id="before-after">Before and after</h2>
+            <div role="tablist" aria-label="Page to compare" class="cx-cmp-tabs" data-cmp-tabs hidden></div>
+          </div>
+          <p class="cx-sr" data-cmp-caption aria-live="polite"></p>
+          <div data-cmp data-reveal>
+              <div class="cmp-panel" data-title="Home" data-caption="Home, before and after">
+                <h3 class="cmp-panel-title">Home</h3>
+                <div class="cmp-pair">
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-before.webp"><img src="assets/img/fp-before.jpg" alt="The old homepage: teal template with long text passages" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">Before</span></div>
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-shot-home.webp"><img src="assets/img/fp-shot-home.jpg" alt="The new homepage: a mosaic of field photographs behind the headline, stats beneath" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">After</span></div>
+                </div>
+              </div>
+              
+              <div class="cmp-panel" data-title="The work" data-caption="The work, before and after: the atlas">
+                <h3 class="cmp-panel-title">The work</h3>
+                <div class="cmp-pair">
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-old-work.webp"><img src="assets/img/fp-old-work.jpg" alt="The old projects page: a plain list" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">Before</span></div>
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-shot-atlas.webp"><img src="assets/img/fp-shot-atlas.jpg" alt="The new work page: the atlas, glowing where the network has worked" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">After</span></div>
+                </div>
+              </div>
+              
+              <div class="cmp-panel" data-title="Services" data-caption="Services, before and after: the project cycle">
+                <h3 class="cmp-panel-title">Services</h3>
+                <div class="cmp-pair">
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-old-services.webp"><img src="assets/img/fp-old-services.jpg" alt="The old services page: text blocks on teal" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">Before</span></div>
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-shot-services.webp"><img src="assets/img/fp-shot-services.jpg" alt="The new services page: the project cycle as an interactive wheel, scope to review" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">After</span></div>
+                </div>
+              </div>
+              
+              <div class="cmp-panel" data-title="News" data-caption="News, before and after">
+                <h3 class="cmp-panel-title">News</h3>
+                <div class="cmp-pair">
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-old-news.webp"><img src="assets/img/fp-old-news.jpg" alt="The old insights page" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">Before</span></div>
+                  <div class="cmp-side"><picture><source type="image/webp" srcset="assets/img/fp-shot-news.webp"><img src="assets/img/fp-shot-news.jpg" alt="The new news page: a featured story with the latest list beside it" width="1500" height="990" loading="lazy" decoding="async"></picture><span class="cmp-tag">After</span></div>
+                </div>
+              </div>
+          <p class="cx-cmp-note">Drag the handle, or tab to it and use the arrow keys.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="self-run">
+        <div class="cx-wrap">
+          <div class="cx-split">
+            <div class="cx-copy" data-reveal>
+              <h2 id="self-run">Running it themselves</h2>
+              <p>The site is plain files in Future Partners’ own accounts: their code, their hosting, their domain. There’s no database behind it, which keeps the running costs and the security risk close to nothing.</p>
+              <p>The team edits case studies, profiles and news through an editing screen at its own address, with a plain-English handbook for everything else.</p>
+              <p>The next stage is already designed: a members’ area for the network’s associates, where documents come straight from the network’s own filing instead of being uploaded twice.</p>
+            </div>
+            <figure class="cx-media cx-fig" data-reveal style="--i:1">
+              <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i></div><div class="cx-crop"><picture><source type="image/webp" srcset="assets/img/fp-shot-editor.webp"><img src="assets/img/fp-shot-editor.jpg" alt="The editing screen the team uses to update the site" width="1402" height="510" loading="lazy" decoding="async"></picture></div></div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="result">
+        <div class="cx-wrap">
+          <h2 id="result" data-reveal>The result</h2>
+          <p class="cx-plain" data-reveal>Code, content, hosting and domain all sit in Future Partners’ name.</p>
+        </div>
+      </section>
+      <section class="cx-quote-band cx-section" aria-label="What the client said">
+        <div class="cx-wrap">
+          <figure class="cx-quote" data-reveal>
+            <blockquote><p>“His patient approach and clear advice make the process easy and saves time in the long run.”</p></blockquote>
+            <figcaption>Kirsty, Future Partners</figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
+
+    <section class="cx-end-sec cx-section" aria-label="Next steps">
+      <div class="cx-wrap">
+        <div class="cx-end" data-reveal>
+          <div class="cx-cta">
+            <h2>Want something like this?</h2>
+            <a class="cx-btn cx-btn-solid" href="index.html?about=the%20Future%20Partners%20case#contact">Book a call</a>
+          </div>
+          <a class="cx-next" href="case-nextgen.html">
+            <span class="cx-next-img"><picture><source type="image/webp" srcset="assets/img/work-nextgen-800.webp"><img src="assets/img/work-nextgen-800.jpg" alt="" width="800" height="500" loading="lazy" decoding="async"></picture></span>
+            <span class="cx-next-text">Next: Tino Taonga <span class="cx-next-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -235,5 +311,6 @@
   </footer>
 
   <script src="js/main.js?v=cc89abca62" defer></script>
+  <script src="js/case.js?v=b153ed66cc" defer></script>
 </body>
 </html>
