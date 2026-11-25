@@ -56,7 +56,7 @@ Most of these frames appear in **both** index.html's horizontal light-table stri
 |---|---|---|---|---|
 | `assets/img/gal-dancer-floor.jpg` | 1600×1200 | Landscape | Light table FR 002; Archive Movement set | Light table: standard card. Archive: masonry tile. |
 | `assets/img/gal-brass-rain.jpg` | 1447×1600 | Portrait | Light table FR 003 (`lt-tall`); Archive Documentary set; `templates/folio.html` gallery grid | Tall card / masonry / folio grid cell (600×663 in the demo). |
-| `assets/img/gal-pasifika.jpg` | 1600×1079 | Landscape | Light table FR 004; Archive Documentary set; **`templates/commons.html`** community-gathering photo | Standard card / masonry / commons demo hero-adjacent image. **Cross-use in a demo — see note below.** |
+| `assets/img/gal-pasifika.jpg` | 1600×1079 | Landscape | Light table FR 004; Archive Documentary set | Standard card / masonry / commons demo hero-adjacent image. **Cross-use in a demo — see note below.** |
 | `assets/img/gal-onset-bts.jpg` | 1200×1600 | Portrait | Light table FR 005 (`lt-tall`); Archive Movement set | Tall card / masonry. |
 | `assets/img/gal-joy-florals.jpg` | 1600×982 | Landscape | Light table FR 006; Archive People set; **`templates/counter.html`** ×2 (menu photo strip) | Standard card / masonry / counter demo. **Cross-use in a demo.** |
 | `assets/img/gal-kakahu.jpg` | 1600×901 | Landscape | Light table FR 007; Archive People set; `templates/folio.html` gallery grid | Standard card / masonry / folio grid cell (600×338). |
@@ -167,7 +167,7 @@ Total font weight ~74KB, matching the README's "74KB total, zero dependencies" c
 
 The seven template demos in `templates/` borrow real Singh Studio photography as placeholder set-dressing for their fictional businesses. If you replace one of these source files sitewide (e.g. reshoot and re-export `gal-cafe-doc.jpg`), the matching demo will pick up the new photo automatically since it points at the same path — usually desirable, but check the demo's `alt` text still makes sense for the new image before you consider the swap done:
 
-- **`templates/commons.html`** — uses `gal-pasifika.jpg` (community gathering) and `archive/ar-kitchen.jpg` (volunteers preparing food).
+- **`templates/commons.html`** — uses `archive/ar-kitchen.jpg` (home hero) and `gal-ferry-teal.jpg` (programmes strip).
 - **`templates/counter.html`** — uses `gal-cafe-doc.jpg` ×2 (café interior, counter) and `gal-joy-florals.jpg` ×2 (flowers on a café table).
 - **`templates/folio.html`** — uses the most: `hero-dancer-red.jpg` (as its own hero image), plus a 10-image gallery grid drawing on `gal-brass-rain.jpg`, `archive/ar-dancer-dark.jpg`, `gal-braided-river.jpg`, `archive/ar-window-light.jpg`, `gal-kakahu.jpg`, `archive/ar-dancers-leap.jpg`, `archive/ar-orange-cloth.jpg`, `gal-ferry-teal.jpg`, `archive/ar-alley-bw.jpg`, `archive/ar-bride-bouquet.jpg`, `archive/ar-snow-range.jpg`.
 - **`templates/toolbelt.html`, `templates/ledger.html`, `templates/programme.html`, `templates/storefront.html`** — do not reference any real Singh Studio photography; their imagery (if any) is CSS mockup blocks, not real files.

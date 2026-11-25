@@ -642,7 +642,7 @@
           </div>
         </div>
         <div class="hero-photo-wrap">
-          <img src="../assets/img/gal-pasifika.jpg" alt="A community gathering in full swing, with people dancing and celebrating together." loading="eager">
+          <img src="../assets/img/archive/ar-kitchen.jpg" width="1400" height="933" alt="Two people cooking side by side in a kitchen, with dough and a rolling pin on the bench." loading="eager">
         </div>
       </div>
     </div>
@@ -702,7 +702,7 @@
     <div class="wrap">
       <h1 class="page-h1" data-anim>The board.</h1>
       <div class="photo-strip">
-        <img src="../assets/img/gal-kakahu.jpg" alt="Kākahu detail at a community celebration" loading="lazy">
+        <img src="../assets/img/gal-ferry-teal.jpg" alt="A ferry crossing the harbour below the hills." loading="lazy">
       </div>
       <div class="board">
         <div class="notice-grid cols-4">
@@ -762,42 +762,42 @@
 
       <div class="events-list">
         <div class="ev" data-type="kai">
-          <div class="ev-date"><span class="ev-day">14</span><span class="ev-mon">Jul</span></div>
+          <div class="ev-date" data-next="2,0"><span class="ev-day">Tue</span><span class="ev-mon"></span></div>
           <span class="ev-name">Kai Night</span>
           <span class="ev-tag">Kai</span>
         </div>
         <div class="ev" data-type="whanau">
-          <div class="ev-date"><span class="ev-day">18</span><span class="ev-mon">Jul</span></div>
-          <span class="ev-name">Matariki Whānau Day</span>
+          <div class="ev-date" data-next="6,3"><span class="ev-day">Sat</span><span class="ev-mon"></span></div>
+          <span class="ev-name">Whānau Day</span>
           <span class="ev-tag">Whānau</span>
         </div>
         <div class="ev" data-type="learning">
-          <div class="ev-date"><span class="ev-day">23</span><span class="ev-mon">Jul</span></div>
+          <div class="ev-date" data-next="4,7"><span class="ev-day">Thu</span><span class="ev-mon"></span></div>
           <span class="ev-name">Te Reo — new intake pōwhiri</span>
           <span class="ev-tag">Learning</span>
         </div>
         <div class="ev" data-type="whanau">
-          <div class="ev-date"><span class="ev-day">1</span><span class="ev-mon">Aug</span></div>
+          <div class="ev-date" data-next="6,8"><span class="ev-day">Sat</span><span class="ev-mon"></span></div>
           <span class="ev-name">Repair Café</span>
           <span class="ev-tag">Whānau</span>
         </div>
         <div class="ev" data-type="kai">
-          <div class="ev-date"><span class="ev-day">4</span><span class="ev-mon">Aug</span></div>
-          <span class="ev-name">Kai Night — 400th dinner!</span>
+          <div class="ev-date" data-next="2,11"><span class="ev-day">Tue</span><span class="ev-mon"></span></div>
+          <span class="ev-name">Kai Night</span>
           <span class="ev-tag">Kai</span>
         </div>
         <div class="ev" data-type="fundraiser">
-          <div class="ev-date"><span class="ev-day">8</span><span class="ev-mon">Aug</span></div>
+          <div class="ev-date" data-next="6,15"><span class="ev-day">Sat</span><span class="ev-mon"></span></div>
           <span class="ev-name">Quiz Night at the Workingmen's Club</span>
           <span class="ev-tag">Fundraiser</span>
         </div>
         <div class="ev" data-type="learning">
-          <div class="ev-date"><span class="ev-day">12</span><span class="ev-mon">Aug</span></div>
+          <div class="ev-date" data-next="3,18"><span class="ev-day">Wed</span><span class="ev-mon"></span></div>
           <span class="ev-name">Homework Club showcase</span>
           <span class="ev-tag">Learning</span>
         </div>
         <div class="ev" data-type="whanau">
-          <div class="ev-date"><span class="ev-day">30</span><span class="ev-mon">Aug</span></div>
+          <div class="ev-date" data-next="0,24"><span class="ev-day">Sun</span><span class="ev-mon"></span></div>
           <span class="ev-name">Harbour Clean-up + sausage sizzle</span>
           <span class="ev-tag">Whānau</span>
         </div>
@@ -873,9 +873,9 @@
       </div>
       <div class="notice donate-details" style="--tilt:1deg" data-tilt="1">
         <p class="dd-line">Harbourside Community Trust</p>
-        <p class="dd-line">02-0500-0345678-00</p>
+        <p class="dd-line">Your bank account here</p>
         <p class="dd-line">Ref: KOHA</p>
-        <p class="dd-fine">Registered charity CC-58214. Receipts for anything over $5 — email us.</p>
+        <p class="dd-fine">Your charity number goes here. This is a demo, so no donations are taken.</p>
       </div>
     </div>
   </section>
@@ -886,7 +886,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <span class="footer-charity">Registered Charitable Trust — Lower Hutt, New Zealand</span>
-      <span><a href="mailto:hello@harboursidetrust.org.nz">hello@harboursidetrust.org.nz</a> · <a href="tel:+6445661029">04 566 1029</a></span>
+      <span><a href="mailto:hello@harboursidetrust.example">hello@harboursidetrust.example</a> · 04 555 0129</span>
       <span>© 2026 Harbourside Community Trust. Fictional trust, built for demonstration.</span>
     </div>
   </div>
@@ -897,6 +897,22 @@
   <span class="ss-demo-links"><a href="../templates.html">All templates</a><a href="mailto:kris@singhstudio.co.nz?subject=Template%20enquiry%20%E2%80%94%20The%20Commons">Make it yours →</a></span>
 </div>
 
+<script>
+/* Demo events always fall in the weeks ahead: data-next="weekday,minimum days from today" */
+(function () {
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.querySelectorAll('.ev-date[data-next]').forEach(function (el) {
+    var r = el.getAttribute('data-next').split(','), d = new Date();
+    d.setDate(d.getDate() + (+r[1]));
+    while (d.getDay() !== +r[0]) d.setDate(d.getDate() + 1);
+    el.querySelector('.ev-day').textContent = d.getDate();
+    el.querySelector('.ev-mon').textContent = M[d.getMonth()];
+    el.parentNode.__t = d.getTime();
+  });
+  var list = document.querySelector('.events-list');
+  [].slice.call(list.children).sort(function (x, y) { return x.__t - y.__t; }).forEach(function (n) { list.appendChild(n); });
+})();
+</script>
 <script>
 (function () {
   // Events filter
