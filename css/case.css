@@ -416,6 +416,106 @@
 
 /* ==== extras: screen recordings and phones ==== */
 
+/* Recordings keep the site's .case-screen / .screen-toggle markup so js/main.js
+   still drives them; here they take the browser-frame look of .cx-frame. */
+.cx .case-screen { margin: 0; }
+.cx .screen-bar {
+  min-height: 52px; padding: 4px 10px 4px 14px; gap: 0.75rem;
+  justify-content: flex-start;
+  background: #f1eee8; border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  font-family: inherit; font-size: 13px; letter-spacing: 0; text-transform: none; color: #55504a;
+}
+.cx .cx-dots { display: flex; gap: 7px; flex: none; }
+.cx .cx-dots i { width: 11px; height: 11px; border-radius: 50%; background: #cdc8bd; }
+.cx .screen-url {
+  flex: 0 1 auto; margin-left: 6px; padding: 6px 14px; border-radius: 99px;
+  background: #e5e1d7; font-size: 13px; line-height: 1; color: #55504a;
+}
+.cx .screen-url::before { display: none; }
+.cx .screen-toggle {
+  margin-left: auto; min-height: 44px; min-width: 44px; padding: 0 1rem 0 0.85rem; gap: 0.5em;
+  font-family: var(--font-display); font-size: 15px; font-weight: 560; line-height: 1;
+  letter-spacing: 0; text-transform: none; color: #1c1a17;
+  background: #fff; border: 1px solid #8a847a; border-radius: 999px;
+}
+.cx .screen-toggle:hover { border-color: #a42512; color: #a42512; }
+.cx .screen-toggle:focus-visible { outline: 3px solid #0c0b09; outline-offset: 2px; }
+.cx .screen-toggle svg { width: 12px; height: 12px; }
+.cx .screen-stage { border-radius: 0; }
+.cx .screen-stage.stage-contain { padding: 3% 0; aspect-ratio: 4 / 3; }
+@media (max-width: 640px) { .cx .screen-stage.stage-contain { aspect-ratio: 1 / 1; } }
+.cx .screen-cap {
+  display: block; padding: 0.8rem 1rem 0.9rem; background: #f1eee8; color: #55504a;
+  border-top: 1px solid rgba(0, 0, 0, 0.09); font-size: 15px; line-height: 1.45;
+}
+.cx .screen-cap b { font-family: inherit; font-size: 15px; font-weight: 650; letter-spacing: 0; text-transform: none; color: #1c1a17; margin-right: 0.5em; }
+.cx .screen-phone { width: min(100%, 320px); }
+.cx .screen-phone .cx-dots { display: none; }
+.cx-fig figcaption b { font-weight: 650; color: var(--bone); margin-right: 0.5em; }
+
+.cx-stats.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 760px) { .cx-stats.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* two-row list: what lives in Squarespace, what the code adds */
+.cx-ledger { margin-top: 1.75rem; border-top: 1px solid var(--hairline); max-width: 36rem; }
+.cx-ledger > div {
+  display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 1.25rem;
+  padding: 0.95rem 0; border-bottom: 1px solid var(--hairline);
+}
+.cx-ledger dt { font-size: 1rem; font-weight: 650; line-height: 1.5; color: var(--bone); }
+.cx-ledger dd { font-size: 1rem; line-height: 1.5; color: var(--cx-text); }
+.cx-cols2 .cx-ledger { margin-top: 0.4rem; max-width: none; }
+.cx-built-head { margin-top: clamp(2rem, 4vw, 3rem); }
+.cx-built { margin-top: 0.6rem; max-width: none; }
+
+.cx-split.media-wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); }
+.cx-split.flip.media-wide { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+.cx-pair {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: clamp(1rem, 2.5vw, 2rem); align-items: center;
+}
+.cx-pair.even { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.cx-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.75rem, 3vw, 2.75rem) clamp(1rem, 2.5vw, 2rem); align-items: start; }
+.cx-pages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.6rem, 1.5vw, 1.25rem); align-items: start; }
+.cx-pages figure { min-width: 0; }
+.cx-sheet { display: block; border: 1px solid var(--hairline); background: #fff; box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.5); }
+.cx-sheet img { display: block; width: 100%; height: auto; }
+.cx-pages figcaption { font-size: 1rem; line-height: 1.4; color: var(--cx-text); margin-top: 0.7rem; }
+
+/* phone screens: a plain rounded rectangle with a thin border */
+.cx-phone {
+  border: 2px solid #2b2823; border-radius: 30px; overflow: hidden; background: #ecebe7;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22), 0 30px 60px -26px rgba(0, 0, 0, 0.55);
+}
+.cx-phone img { display: block; width: 100%; height: auto; }
+.cx-phone.crop { aspect-ratio: 760 / 1010; }
+.cx-phone.crop img { height: 100%; object-fit: cover; object-position: top; }
+.cx-phonefig { display: flex; justify-content: center; }
+.cx-phonefig .cx-phone { width: min(100%, 290px); }
+.cx-phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(0.75rem, 3vw, 2.5rem); }
+.cx-phones .cx-phone { width: min(30%, 280px); flex: none; }
+.cx-phones .p-mid { margin-top: 0; }
+.cx-phones .p-left, .cx-phones .p-right { margin-top: clamp(1rem, 3vw, 2.5rem); }
+
+@media (max-width: 860px) {
+  .cx-split.media-wide, .cx-split.flip.media-wide { grid-template-columns: minmax(0, 1fr); }
+  .cx-pair { grid-template-columns: minmax(0, 1fr); }
+  .cx-phonefig .cx-phone { width: min(100%, 260px); }
+}
+@media (max-width: 700px) {
+  .cx-phones .p-left { display: none; }
+  .cx-phones .cx-phone { width: min(44%, 260px); }
+  .cx-phones .p-right { margin-top: clamp(1rem, 3vw, 2.5rem); }
+}
+@media (max-width: 640px) {
+  .cx-pair.even, .cx-grid2 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  .cx-ledger > div { grid-template-columns: minmax(0, 1fr); }
+  .cx-pages figcaption { font-size: 0.9375rem; }
+}
+@media (max-width: 359px) { .cx-phones .p-right { display: none; } .cx-phones .cx-phone { width: min(70%, 260px); } }
+
 /* ==== end recordings and phones ==== */
 
 
