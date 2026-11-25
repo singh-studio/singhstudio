@@ -427,9 +427,7 @@
   box-shadow: 0 34px 70px -28px rgba(0, 0, 0, 0.5), 0 8px 20px -10px rgba(0, 0, 0, 0.3);
 }
 .cx-art img { width: 100%; height: auto; display: block; }
-.cx-hero.is-art { padding-top: 1.25rem; }
-.cx-hero-frame.is-square { width: min(100%, 300px, 40vh); min-width: min(100%, 220px); }
-@media (min-width: 1001px) { .cx-hero.is-art { margin-top: -2rem; } }
+.cx-hero-frame.is-square { width: min(100%, 460px); }
 .cx-art-solo { max-width: 420px; margin-inline: auto; }
 /* ==== end artwork ==== */
 
