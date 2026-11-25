@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stamp css/style.css and js/main.js references with a content hash.
+"""Stamp the stylesheet and script references with a content hash.
 
 GitHub Pages lets browsers cache every file for 10 minutes, so after a
 deploy a returning visitor can get the new HTML with the old script or
@@ -13,7 +13,11 @@ import re
 import subprocess
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ASSETS = ["css/style.css", "js/main.js"]
+ASSETS = [rel for rel in (
+    "css/style.css", "js/main.js",
+    "css/templates.css", "js/templates.js",
+    "css/case.css", "js/case.js",
+) if (ROOT / rel).exists()]
 
 
 def short_hash(rel):
