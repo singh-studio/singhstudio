@@ -20,8 +20,10 @@
   <link rel="preload" href="assets/fonts/switzer-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("cx-js")</script>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
   <link rel="stylesheet" href="css/style.css?v=38f0be56fa">
+  <link rel="stylesheet" href="css/case.css?v=28170876d3">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -80,58 +82,130 @@
     <p class="menu-foot">Singh Studio, Aotearoa New Zealand<br>kris@singhstudio.co.nz</p>
   </div>
 
-  <main id="main">
+  <main class="cx" id="main" style="--cx-band:#3f5248;--cx-quote:#3f5248">
 
-    <header class="sub-hero">
-      <p class="eyebrow"><span class="red">Case /05</span> Selected work<a class="cc-link" href="index.html#work" style="margin-left: 1em;">← All work</a></p>
-      <h1 class="sub-title"><span class="ht-line"><span class="ht-inner" data-letters>Butterfly<em class="ht-slash" aria-hidden="true">/</em>Builds</span></span></h1>
-      <dl class="case-meta">
-        <div><dt>Client</dt><dd>Butterfly Builds — Tauranga &amp; Wellington</dd></div>
-        <div><dt>Scope</dt><dd>Web · Brand elevation · Portfolio</dd></div>
-        <div><dt>Role</dt><dd>Design &amp; build</dd></div>
-        <div><dt>Live</dt><dd><a class="cc-link" href="https://www.butterflybuilds.co.nz" target="_blank" rel="noopener">butterflybuilds.co.nz ↗</a></dd></div>
-      </dl>
+    <header class="cx-head">
+      <div class="cx-wrap">
+        <div class="cx-head-grid">
+          <div class="cx-head-text">
+            <a class="cx-back" href="index.html#work">← All work</a>
+            <h1 class="cx-title" aria-label="Butterfly Builds">Butterfly<span class="cx-slash" aria-hidden="true">/</span><wbr>Builds</h1>
+            <p class="cx-result">A site rebuilt around process and proof, as carefully made as the joinery.</p>
+            <div class="cx-actions">
+              <a class="cx-btn cx-btn-solid" href="https://www.butterflybuilds.co.nz" target="_blank" rel="noopener">Visit the site ↗</a>
+              <a class="cx-btn cx-btn-quiet" href="index.html?about=the%20Butterfly%20Builds%20case#contact">Book a call</a>
+            </div>
+          </div>
+          <aside class="cx-facts" aria-label="Project facts">
+            <dl>
+              <div><dt>Client</dt><dd>Butterfly Builds, Tauranga &amp; Wellington</dd></div>
+              
+              <div><dt>My part</dt><dd><ul><li>Brand elevation online</li><li>Architectural site redesign</li><li>Custom buttons &amp; interactions</li><li>Named-project portfolio</li></ul></dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
     </header>
 
-    <section>
-      <div class="case-grid cg-brief">
-        <div class="case-block">
-          <h2>/ The brief</h2>
-          <p>Butterfly Builds has two decades of renovations, new builds and alterations across two regions, and a brand built on integrity. The old site undersold all of it, so I wanted the work to have a home that looked as carefully made as the joinery.</p>
-        </div>
-        <div class="case-block">
-          <h2>/ The approach</h2>
-          <p>I rebuilt the structure of the site around process and proof, and updated the look to suit the houses, with a restrained palette, big photography and custom-drawn buttons. Five named projects, from Rothsay to Wainscott House, make the case for the work, with the Master Builder credentials and client reviews close behind.</p>
+    <div class="cx-hero">
+      <div class="cx-hero-frame" data-rise>
+        <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">butterflybuilds.co.nz</span></div><picture><source type="image/webp" srcset="assets/img/case-butterfly-home.webp"><img src="assets/img/case-butterfly-home.jpg" alt="The Butterfly Builds homepage: the headline Building Homes With Craftsmanship over a close photograph of oak cabinetry and a steel tap" width="1500" height="990" fetchpriority="high" decoding="async"></picture></div>
+      </div>
+    </div>
+
+    <section class="cx-glance cx-section" aria-labelledby="glance-h">
+      <div class="cx-wrap">
+        <h2 class="cx-sr" id="glance-h">At a glance</h2>
+        <div class="cx-glance-grid" data-reveal>
+          <div><h3 class="cx-label">What they needed</h3><p>Butterfly Builds has two decades of renovations, new builds and alterations across two regions, and a brand built on integrity. The old site undersold all of it.</p></div>
+          <div><h3 class="cx-label">What I did</h3><p>I rebuilt the structure of the site around process and proof, and updated the look to suit the houses, with a restrained palette, big photography and custom-drawn buttons.</p></div>
+          <div><h3 class="cx-label">What changed</h3><p>A site that finally matches the standard of the building work.</p></div>
         </div>
       </div>
+    </section>
 
-      <ul class="case-scope"><li>Brand elevation online</li><li>Architectural site redesign</li><li>Custom buttons &amp; interactions</li><li>Named-project portfolio</li></ul>
-
-      <figure class="case-shot">
-        <picture>
-          <source type="image/webp" srcset="assets/img/work-butterfly.webp">
-          <img src="assets/img/work-butterfly.jpg" alt="Butterfly Builds project photography from the redesigned site" width="1600" height="1000" loading="lazy" decoding="async">
-        </picture>
-      </figure>
-
-      <div class="case-grid cg-outcome">
-        <div class="case-block">
-          <h2>/ The outcome</h2>
-          <dl class="case-facts">
-            <div class="fact"><dt>Portfolio-led</dt><dd>Five named projects show the work, from Rothsay to Wainscott House</dd></div><div class="fact"><dt>Trust visible</dt><dd>Master Builder and LBP credentials, reviews and the Monarch Guarantee, all easy to find</dd></div><div class="fact"><dt>Brand elevated</dt><dd>A site that finally matches the standard of the building work</dd></div>
-          </dl>
+    <div class="cx-body">
+      <nav class="cx-bar" aria-label="On this page">
+        <div class="cx-wrap">
+          <div class="cx-bar-in">
+            <span class="cx-bar-label">On this page</span>
+            <a href="#process">Process and proof</a>
+            <a href="#projects">Five named projects</a>
+            <a href="#trust">Trust</a>
+            <a href="#result">The result</a>
+          </div>
         </div>
-        <div class="case-block">
-          <p class="case-pull">“Their houses are finished properly, and I wanted the website to be too.”</p>
-        </div>
-      </div>
+      </nav>
 
-      <div class="case-next">
-        <a href="case-wcn.html" data-cursor="NEXT">
-          <span class="cn-label">Next case</span>
-          <span class="cn-title">Wellington Church Network →</span>
-        </a>
-        <a class="btn btn-solid" href="index.html?about=the%20Butterfly%20Builds%20case#contact" data-magnetic data-cursor="BOOK">Start your brief</a>
+      <section class="cx-sec cx-section" aria-labelledby="process">
+        <div class="cx-wrap">
+          <h2 class="cx-wide-head" id="process" data-reveal>Process and proof</h2>
+          <figure class="cx-fig" data-reveal>
+            <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">butterflybuilds.co.nz/process</span></div><div class="cx-pan" style="--pan:1000px" tabindex="0" role="group" aria-label="Screenshot, scrolls sideways on small screens"><picture><source type="image/webp" srcset="assets/img/case-butterfly-process.webp"><img src="assets/img/case-butterfly-process.jpg" alt="The step-by-step building process block: numbered tabs from Initial contact to Preliminary budget, with the first step shown beside a photograph of a builder on the phone at a red front door" width="1500" height="940" loading="lazy" decoding="async"></picture></div></div>
+          </figure>
+          <div class="cx-cols2" data-reveal>
+            <div>
+              <p>I wanted the work to have a home that looked as carefully made as the joinery.</p>
+              <p>The process page sets out the step-by-step building process in numbered tabs, starting with the initial contact.</p>
+            </div>
+            <div>
+              <p>The same page answers the questions people ask before they begin, from consent to hiring a Licensed Building Practitioner.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="cx-sec cx-section" aria-labelledby="projects">
+        <div class="cx-wrap">
+          <div class="cx-split flip">
+            <div class="cx-copy" data-reveal>
+              <h2 id="projects">Five named projects</h2>
+              <p>Five named projects, from Rothsay to Wainscott House, make the case for the work.</p>
+              <p>Each has its own page. Wainscott House shows the care taken to preserve the original wall panelling.</p>
+            </div>
+            <figure class="cx-media cx-fig" data-reveal style="--i:1">
+              <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">butterflybuilds.co.nz/wainscott-house</span></div><picture><source type="image/webp" srcset="assets/img/case-butterfly-wainscott.webp"><img src="assets/img/case-butterfly-wainscott.jpg" alt="The Wainscott House page: a photograph of a restored lounge with green walls and period windows, above the project name" width="1500" height="920" loading="lazy" decoding="async"></picture></div>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section class="cx-sec cx-section" aria-labelledby="trust">
+        <div class="cx-wrap">
+          <h2 class="cx-wide-head" id="trust" data-reveal>Trust, easy to find</h2>
+          <figure class="cx-fig" data-reveal>
+            <div class="cx-frame"><div class="cx-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span class="cx-frame-url">butterflybuilds.co.nz/about</span></div><div class="cx-pan" style="--pan:1000px" tabindex="0" role="group" aria-label="Screenshot, scrolls sideways on small screens"><picture><source type="image/webp" srcset="assets/img/case-butterfly-monarch.webp"><img src="assets/img/case-butterfly-monarch.jpg" alt="The Monarch Guarantee block on the about page: a butterfly emblem, a personal promise and the first two of four reasons to trust the work" width="1500" height="700" loading="lazy" decoding="async"></picture></div></div>
+          </figure>
+          <div class="cx-cols2" data-reveal>
+            <div>
+              <p>Master Builder and LBP credentials, reviews and the Monarch Guarantee are all easy to find.</p>
+              <p>The guarantee has its own block on the about page.</p>
+            </div>
+            <div>
+              <p>It opens with a personal promise and sets out four reasons to trust the work, from true value for your money to meeting and exceeding industry standards.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cx-sec cx-section" aria-labelledby="result">
+        <div class="cx-wrap">
+          <h2 id="result" data-reveal>The result</h2>
+          <p class="cx-plain" data-reveal>Their houses are finished properly, and I wanted the website to be too.</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="cx-end-sec cx-section" aria-label="Next steps">
+      <div class="cx-wrap">
+        <div class="cx-end" data-reveal>
+          <div class="cx-cta">
+            <h2>Want something like this?</h2>
+            <a class="cx-btn cx-btn-solid" href="index.html?about=the%20Butterfly%20Builds%20case#contact">Book a call</a>
+          </div>
+          <a class="cx-next" href="case-wcn.html">
+            <span class="cx-next-img"><picture><source type="image/webp" srcset="assets/img/work-wcn-800.webp"><img src="assets/img/work-wcn-800.jpg" alt="" width="800" height="500" loading="lazy" decoding="async"></picture></span>
+            <span class="cx-next-text">Next: Wellington Church Network <span class="cx-next-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -157,5 +231,6 @@
   </footer>
 
   <script src="js/main.js?v=cc89abca62" defer></script>
+  <script src="js/case.js?v=cf3875cc4e" defer></script>
 </body>
 </html>
