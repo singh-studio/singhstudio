@@ -488,7 +488,7 @@
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22), 0 30px 60px -26px rgba(0, 0, 0, 0.55);
 }
 .cx-phone img { display: block; width: 100%; height: auto; }
-.cx-phone.crop { aspect-ratio: 760 / 1010; }
+.cx-phone.crop { aspect-ratio: 760 / 1010; -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
 .cx-phone.crop img { height: 100%; object-fit: cover; object-position: top; }
 .cx-phonefig { display: flex; justify-content: center; }
 .cx-phonefig .cx-phone { width: min(100%, 290px); }
