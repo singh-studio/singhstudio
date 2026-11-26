@@ -1,0 +1,5 @@
+/* The Commons, stub pages: a colour block, the breadcrumb, the page name and one true sentence. */
+.stub { background: var(--main); min-height: min(62vh, 520px); padding-block: clamp(28px, 4vw, 56px) clamp(56px, 7vw, 104px); }
+.stub-in { display: grid; gap: clamp(20px, 2.6vw, 32px); align-content: start; }
+.stub h1 { font-size: clamp(2.25rem, 9.2vw, 6.5rem); overflow-wrap: break-word; max-width: 14ch; }
+.stub-line { font-size: clamp(1.1875rem, 1.6vw, 1.5rem); line-height: 1.45; max-width: 40ch; }
