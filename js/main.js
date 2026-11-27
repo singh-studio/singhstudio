@@ -23,6 +23,9 @@ const CONFIG = {
   // personalisation and signals off) from that moment. Empty = no
   // analytics script is ever loaded.
   ga4Id: "",
+  // Cloudflare Web Analytics beacon token. Empty = the beacon is never
+  // loaded and no request is made.
+  cfBeaconToken: "",
   // Studio Hub: each enquiry also becomes a lead in the hub, alongside the
   // Web3Forms email. Leave either value empty and only Web3Forms is used.
   hubEnquiryUrl: "https://hub.singhstudio.co.nz/api/public/enquiry",
@@ -80,6 +83,31 @@ document.addEventListener("click", (e) => {
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
   });
+})();
+
+/* Cloudflare Web Analytics — loads only when CONFIG.cfBeaconToken is set,
+   once per page. Empty token = nothing loads, no request is made. */
+(() => {
+  if (!CONFIG.cfBeaconToken) return;
+  if (document.querySelector("script[data-cf-beacon]")) return;
+  const s = document.createElement("script");
+  s.defer = true;
+  s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+  s.setAttribute("data-cf-beacon", JSON.stringify({ token: CONFIG.cfBeaconToken }));
+  document.head.appendChild(s);
+})();
+
+/* Landing page and referrer for this visit, kept for the enquiry form */
+(() => {
+  try {
+    if (!sessionStorage.getItem("ss_landing")) {
+      sessionStorage.setItem("ss_landing", location.pathname);
+      if (document.referrer) {
+        const h = new URL(document.referrer).hostname;
+        if (h && h !== location.hostname) sessionStorage.setItem("ss_ref", h);
+      }
+    }
+  } catch { /* storage or URL unavailable: no attribution */ }
 })();
 
 /* ============================================================
@@ -926,6 +954,17 @@ document.addEventListener("click", (e) => {
     if (ctxText) ctxText.textContent = "Re: " + about;
     if (ctx) ctx.hidden = false;
     applyAbout();
+  }
+  // No ?about=: fall back to the landing page and referrer (not shown on the page)
+  if (!about) {
+    try {
+      const landing = sessionStorage.getItem("ss_landing");
+      if (landing) {
+        const path = landing === "/" ? "home" : landing.replace(/\.html$/, "").replace(/\//g, " ").trim() || "home";
+        const ref = (sessionStorage.getItem("ss_ref") || "").replace(/^www\./, "");
+        about = ("landed on " + path + (ref ? " via " + ref : "")).replace(/[^\w\s&-]/g, "").trim().slice(0, 60);
+      }
+    } catch { /* storage unavailable */ }
   }
   fitAll();
 
