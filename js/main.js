@@ -23,7 +23,20 @@ const CONFIG = {
   // personalisation and signals off) from that moment. Empty = no
   // analytics script is ever loaded.
   ga4Id: "",
+  // Studio Hub: each enquiry also becomes a lead in the hub, alongside the
+  // Web3Forms email. Leave either value empty and only Web3Forms is used.
+  hubEnquiryUrl: "https://hub.singhstudio.co.nz/api/public/enquiry",
+  // Cloudflare Turnstile site key for the hub post (public by design).
+  turnstileSiteKey: "",
 };
+
+// Local preview: post to the hub's dev server with Cloudflare's test keys.
+// ?ts=quiet, ?ts=fail or ?ts=challenge pick the other test keys.
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+  const ts = new URLSearchParams(location.search).get("ts");
+  CONFIG.hubEnquiryUrl = "http://localhost:5173/api/public/enquiry";
+  CONFIG.turnstileSiteKey = { quiet: "1x00000000000000000000BB", fail: "2x00000000000000000000AB", challenge: "3x00000000000000000000FF" }[ts] || "1x00000000000000000000AA";
+}
 
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isCoarse = window.matchMedia("(pointer: coarse)").matches;
@@ -973,6 +986,68 @@ document.addEventListener("click", (e) => {
     el.addEventListener("change", () => clearInvalid(el));
   });
 
+  // Studio Hub post. Turnstile loads on the first touch of the form, never on page load.
+  const hubOn = !!(CONFIG.hubEnquiryUrl && CONFIG.turnstileSiteKey);
+  const newId = () => (crypto.randomUUID ? crypto.randomUUID()
+    : [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join(""));
+  let submissionId = newId();
+  let tsToken = "", tsWidget = null, tsStarted = false;
+  const tsWaiters = [];
+  const tsBox = document.createElement("div");
+  tsBox.className = "se-ts";
+  tsBox.style.lineHeight = "0";
+  const tsShow = (on) => { tsBox.style.lineHeight = on ? "" : "0"; tsBox.style.marginTop = on ? "1.4rem" : ""; };
+  if (hubOn) form.querySelector(".se-actions").before(tsBox);
+  const loadTurnstile = () => {
+    if (!hubOn || tsStarted) return;
+    tsStarted = true;
+    window.ssTurnstileReady = () => {
+      tsWidget = window.turnstile.render(tsBox, {
+        sitekey: CONFIG.turnstileSiteKey, action: "enquiry", appearance: "interaction-only",
+        theme: document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+        "response-field": false, "refresh-expired": "auto",
+        callback: (t) => { tsToken = t; tsWaiters.splice(0).forEach((w) => w(t)); },
+        "expired-callback": () => { tsToken = ""; },
+        "error-callback": () => { tsToken = ""; },
+        "before-interactive-callback": () => tsShow(true),
+        "after-interactive-callback": () => tsShow(false),
+      });
+    };
+    const s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=ssTurnstileReady";
+    s.async = true;
+    document.head.appendChild(s);
+  };
+  form.addEventListener("focusin", loadTurnstile);
+  form.addEventListener("pointerdown", loadTurnstile);
+  const tokenWithin = (ms) => tsToken ? Promise.resolve(tsToken) : new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error("no token")), ms);
+    tsWaiters.push((v) => { clearTimeout(t); resolve(v); });
+  });
+  const sendToHub = async (payload) => {
+    loadTurnstile();
+    const token = await tokenWithin(8000);
+    tsToken = "";
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), 10000);
+    try {
+      const res = await fetch(CONFIG.hubEnquiryUrl, {
+        method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", signal: ac.signal,
+        body: JSON.stringify({ ...payload, turnstileToken: token }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      return true;
+    } finally {
+      clearTimeout(timer);
+      try { if (tsWidget !== null) window.turnstile.reset(tsWidget); } catch { /* widget gone */ }
+    }
+  };
+  // Resolves on the first success; rejects only when every post failed.
+  const firstSuccess = (list) => new Promise((resolve, reject) => {
+    let left = list.length;
+    list.forEach((p) => p.then(resolve, () => { if (--left === 0) reject(new Error("not sent")); }));
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (btn.getAttribute("aria-disabled") === "true") return; // already sending
@@ -1019,14 +1094,14 @@ document.addEventListener("click", (e) => {
     btn.setAttribute("aria-disabled", "true");
     const prev = btn.innerHTML;
     btn.innerHTML = "Sending…";
+    const payload = { name, email, need, timing, message: text, about, submissionId, botcheck: false };
+    const viaEmail = fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) })
+      .then((res) => { if (!res.ok) throw new Error(String(res.status)); return res.json(); })
+      .then((data) => { if (!data || data.success === false) throw new Error("rejected"); return true; });
+    const viaHub = hubOn ? sendToHub(payload) : Promise.reject(new Error("hub off"));
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: new FormData(form),
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      const data = await res.json();
-      if (!data || data.success === false) throw new Error("rejected");
+      await firstSuccess([viaEmail, viaHub]);
+      submissionId = newId();
       track("enquiry_submit", { label: need + (about ? " / " + about : "") });
       form.reset();
       applyAbout();
