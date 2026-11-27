@@ -868,13 +868,21 @@ document.addEventListener("click", (e) => {
     mirror.style.font = cs.font;
     mirror.style.letterSpacing = cs.letterSpacing;
     mirror.textContent = sel ? el.options[el.selectedIndex].text : (el.value || el.placeholder);
+    let w = mirror.getBoundingClientRect().width;
+    // While typing, keep at least the placeholder's width so the sentence
+    // doesn't jump on the first keystroke; it hugs the value again on blur
+    if (!sel && el.value && document.activeElement === el) {
+      mirror.textContent = el.placeholder;
+      w = Math.max(w, mirror.getBoundingClientRect().width);
+    }
     const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-    el.style.width = Math.ceil(mirror.getBoundingClientRect().width + pad + (sel ? 0 : 1)) + "px";
+    el.style.width = Math.ceil(w + pad + (sel ? 0 : 1)) + "px";
   };
   const fitAll = () => blanks.forEach(fit);
   blanks.forEach((el) => {
     el.addEventListener("input", () => fit(el));
     el.addEventListener("change", () => fit(el));
+    el.addEventListener("blur", () => fit(el));
   });
   window.addEventListener("resize", fitAll);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);

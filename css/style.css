@@ -1226,6 +1226,11 @@ body.ready .lz-load .ch { transform: none; }
   transition: border-color 0.25s;
 }
 input.se-blank { field-sizing: content; }
+/* Safari's AutoFill buttons sit inside the field and push into the next word */
+input.se-blank::-webkit-contacts-auto-fill-button,
+input.se-blank::-webkit-credentials-auto-fill-button {
+  visibility: hidden; display: none !important; pointer-events: none; width: 0; margin: 0;
+}
 .se-blank::placeholder { color: var(--mute); opacity: 1; }
 .se-blank:hover { border-bottom-color: var(--bone); }
 .se-blank:focus-visible {
