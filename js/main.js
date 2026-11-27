@@ -23,10 +23,6 @@ const CONFIG = {
   // personalisation and signals off) from that moment. Empty = no
   // analytics script is ever loaded.
   ga4Id: "",
-  // Honest availability. Set e.g. "September 2026" to state your actual
-  // booking window; leave "" to fall back to the automatic next-month
-  // label (which is a guess, not a promise — set this when it drifts).
-  bookingWindow: "",
 };
 
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -455,18 +451,6 @@ document.addEventListener("click", (e) => {
 (() => {
   const btn = document.getElementById("bookBtn");
   const navBtns = document.querySelectorAll(".btn-book");
-  const windowEl = document.getElementById("bookingWindow");
-
-  // Availability label: CONFIG.bookingWindow states the real window;
-  // the next-month date math is only the fallback guess when it's unset.
-  const now = new Date();
-  const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  const label = CONFIG.bookingWindow ||
-    new Intl.DateTimeFormat("en-NZ", { month: "long", year: "numeric", timeZone: "Pacific/Auckland" }).format(next);
-  if (windowEl) windowEl.textContent = `Currently booking — ${label}`;
-  document.querySelectorAll("[data-booking-window]").forEach((el) => {
-    el.textContent = `Booking new briefs — ${label}`;
-  });
 
   if (btn) {
     const mailto = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Intro call — Singh Studio")}&body=${encodeURIComponent(
@@ -484,7 +468,7 @@ document.addEventListener("click", (e) => {
       );
     }
   }
-  [document.getElementById("gcBookAgain"), document.getElementById("gcBookSent")].forEach((a) => {
+  [document.getElementById("gcBookSent")].forEach((a) => {
     if (!a) return;
     if (CONFIG.bookingUrl) {
       a.href = CONFIG.bookingUrl;
@@ -849,50 +833,51 @@ document.addEventListener("click", (e) => {
 })();
 
 /* ============================================================
-   GUIDED CONTACT — pick needs, then a way to talk. The call card is a
-   real link to the booking page; quote and question reveal one short
-   form. Posts through Web3Forms once CONFIG.web3formsKey is set; until
-   then, submitting composes a structured email instead. Also: an honest
-   reply-time line from the NZ clock, a locally saved draft, and context
-   carried in from templates and cases via the ?about= parameter.
+   SENTENCE ENQUIRY — one sentence the visitor completes. Posts through
+   Web3Forms once CONFIG.web3formsKey is set; until then, submitting
+   composes a structured email instead. Blanks size to their content;
+   context from templates and cases arrives via the ?about= parameter.
    ============================================================ */
 (() => {
   const gc = document.getElementById("gc");
-  if (!gc) return;
   const form = document.getElementById("enquiryForm");
-  if (!form) return;
+  if (!gc || !form) return;
+  const sent = document.getElementById("enquirySent");
+  const sentHead = document.getElementById("enquirySentHead");
   const btn = form.querySelector('button[type="submit"]');
-  const errEl = document.getElementById("enquiryStatus");
+  const err = document.getElementById("enquiryStatus");
   const keyField = form.querySelector('input[name="access_key"]');
   if (CONFIG.web3formsKey && keyField) keyField.value = CONFIG.web3formsKey;
 
-  const ctx = document.getElementById("gcCtx");
-  const ctxText = document.getElementById("gcCtxText");
-  const details = [...gc.querySelectorAll("[data-detail]")];
-  const callCard = gc.querySelector('[data-way="call"]');
-  const modeBtns = [...gc.querySelectorAll('button[data-way]')];
-  const needChips = [...gc.querySelectorAll("[data-need]")];
-  const soloChips = [...gc.querySelectorAll("[data-solo]")];
-  const quoteOnly = gc.querySelector("[data-quote-only]");
-  const textEl = gc.querySelector("[data-mode-text]");
-  const hintEl = gc.querySelector("[data-mode-hint]");
-  const labelEl = gc.querySelector("[data-mode-label]");
-  const timingEl = form.elements.timing;
-  const message = form.elements.message;
-
-  const COPY = {
-    quote: {
-      text: "Tell me about <em>the job.</em>",
-      hint: "A few lines is plenty. I’ll reply with a scoped quote, or a question if I need one.",
-      label: "What’s the job?",
-    },
-    ask: {
-      text: "Ask <em>away.</em>",
-      hint: "No brief needed. I’ll answer it straight.",
-      label: "Your question",
-    },
+  const f = {
+    name: form.elements.name, need: form.elements.need,
+    timing: form.elements.timing, email: form.elements.email,
   };
-  let mode = "quote";
+  const label = { name: "your name", need: "what you need", timing: "when you’d like to start", email: "your email" };
+  const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  // Blanks size to their content: a hidden mirror span measures the text
+  const mirror = document.createElement("span");
+  mirror.className = "se-mirror";
+  mirror.setAttribute("aria-hidden", "true");
+  document.body.appendChild(mirror);
+  const blanks = [...form.querySelectorAll(".se-blank")];
+  const fit = (el) => {
+    const cs = getComputedStyle(el);
+    const sel = el.tagName === "SELECT";
+    mirror.style.font = cs.font;
+    mirror.style.letterSpacing = cs.letterSpacing;
+    mirror.textContent = sel ? el.options[el.selectedIndex].text : (el.value || el.placeholder);
+    const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    el.style.width = Math.ceil(mirror.getBoundingClientRect().width + pad + (sel ? 0 : 1)) + "px";
+  };
+  const fitAll = () => blanks.forEach(fit);
+  blanks.forEach((el) => {
+    el.addEventListener("input", () => fit(el));
+    el.addEventListener("change", () => fit(el));
+  });
+  window.addEventListener("resize", fitAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
 
   // Context from ?about= — a template or case name travels with the enquiry
   let about = "";
@@ -900,136 +885,54 @@ document.addEventListener("click", (e) => {
     const raw = new URLSearchParams(location.search).get("about") || "";
     about = raw.replace(/[^\w\s&-]/g, "").trim().slice(0, 60);
   } catch { /* no URL API, no context */ }
-
-  const setPlaceholder = () => {
-    message.placeholder = about && mode === "quote" ? `Keen on ${about}? Tell me what you’re working on.` : "";
-  };
-
-  const reveal = (name) => {
-    details.forEach((d) => {
-      const on = d.dataset.detail === name;
-      d.hidden = !on;
-      if (on) { d.classList.remove("enter"); void d.offsetWidth; d.classList.add("enter"); }
-    });
-    if (callCard) callCard.classList.toggle("is-on", name === "call");
-    modeBtns.forEach((b) => {
-      b.setAttribute("aria-pressed", String((name === "form" || name === "sent") && b.dataset.way === mode));
-    });
-  };
-
-  const setMode = (m) => {
-    mode = m;
-    const c = COPY[m];
-    if (textEl) textEl.innerHTML = c.text;
-    if (hintEl) hintEl.textContent = c.hint;
-    if (labelEl) labelEl.textContent = c.label;
-    if (quoteOnly) quoteOnly.hidden = m !== "quote";
-    setPlaceholder();
-  };
-
-  needChips.forEach((b) => b.addEventListener("click", () => {
-    const on = b.getAttribute("aria-pressed") !== "true";
-    b.setAttribute("aria-pressed", String(on));
-    if (on) track("contact_need", { label: b.dataset.need });
-  }));
-
+  const ctx = document.getElementById("gcCtx");
+  const ctxText = document.getElementById("gcCtxText");
+  const applyAbout = () => { if (about && /template/i.test(about)) f.need.value = "a template build"; };
   if (about) {
+    if (ctxText) ctxText.textContent = "Re: " + about;
     if (ctx) ctx.hidden = false;
-    if (ctxText) ctxText.textContent = about;
-    if (/template/i.test(about)) {
-      const tb = gc.querySelector('[data-need="Template build"]');
-      if (tb) tb.setAttribute("aria-pressed", "true");
-    }
-    setPlaceholder();
+    applyAbout();
   }
+  fitAll();
 
-  if (callCard) callCard.addEventListener("click", () => reveal("call"));
-
-  const chooseWay = (m) => {
-    setMode(m);
-    reveal("form");
-    setTimeout(() => {
-      form.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "nearest" });
-    }, 60);
-    track("contact_way", { label: m });
+  const clearInvalid = (el) => {
+    el.removeAttribute("aria-invalid");
+    if (!form.querySelector('[aria-invalid="true"]')) err.hidden = true;
   };
-  modeBtns.forEach((b) => b.addEventListener("click", () => chooseWay(b.dataset.way)));
-  gc.querySelectorAll('[data-show="quote"]').forEach((a) => a.addEventListener("click", (e) => {
-    e.preventDefault();
-    chooseWay("quote");
-  }));
-
-  soloChips.forEach((b) => b.addEventListener("click", () => {
-    const was = b.getAttribute("aria-pressed") === "true";
-    soloChips.forEach((x) => x.setAttribute("aria-pressed", "false"));
-    b.setAttribute("aria-pressed", String(!was));
-    if (timingEl) timingEl.value = was ? "" : b.textContent.trim();
-  }));
-
-  // Honest reply expectation from the NZ clock
-  try {
-    const parts = new Intl.DateTimeFormat("en-NZ", {
-      hour: "numeric", minute: "2-digit", hour12: false,
-      weekday: "short", timeZone: "Pacific/Auckland",
-    }).formatToParts(new Date());
-    const get = (t) => (parts.find((p) => p.type === t) || {}).value;
-    const hour = parseInt(get("hour"), 10);
-    const hm = get("hour") + ":" + get("minute");
-    const day = get("weekday");
-    let when;
-    if (day === "Sat" || day === "Sun") when = "It’s the weekend here in New Zealand, so expect a reply on Monday.";
-    else if (hour >= 7 && hour < 12) when = "It’s " + hm + " here in New Zealand. You’ll likely hear back today.";
-    else if (hour >= 12 && hour < 17) when = "It’s " + hm + " here in New Zealand. Expect a reply today or first thing tomorrow.";
-    else if (hour >= 17 && hour < 22) when = "It’s " + hm + " in New Zealand this evening. Expect a reply tomorrow morning.";
-    else when = "It’s the middle of the night here in New Zealand. Expect a reply in the morning.";
-    const p = document.createElement("p");
-    p.className = "cf-clock";
-    p.textContent = when;
-    btn.insertAdjacentElement("beforebegin", p);
-  } catch { /* clock line is a nicety, never a requirement */ }
-
-  // Draft saving — an interrupted enquiry survives the closed tab
-  const DRAFT = "ss-enquiry-draft";
-  try {
-    const saved = JSON.parse(localStorage.getItem(DRAFT) || "null");
-    if (saved && !form.elements.name.value && !form.elements.message.value) {
-      form.elements.name.value = saved.n || "";
-      form.elements.email.value = saved.e || "";
-      form.elements.message.value = saved.m || "";
-    }
-  } catch { /* corrupt or unavailable storage — start clean */ }
-  let saveTimer;
-  form.addEventListener("input", () => {
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      try {
-        localStorage.setItem(DRAFT, JSON.stringify({
-          n: form.elements.name.value,
-          e: form.elements.email.value,
-          m: form.elements.message.value,
-        }));
-      } catch { /* storage full or blocked — drafts just don't persist */ }
-    }, 400);
+  Object.values(f).forEach((el) => {
+    el.addEventListener("input", () => clearInvalid(el));
+    el.addEventListener("change", () => clearInvalid(el));
   });
-  const clearDraft = () => { try { localStorage.removeItem(DRAFT); } catch { /* already gone */ } };
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (btn.getAttribute("aria-disabled") === "true") return; // already sending
     if (form.botcheck.checked) return; // honeypot
-    const name = form.elements.name.value.trim();
-    const email = form.elements.email.value.trim();
-    const text = form.elements.message.value.trim();
 
-    const needs = needChips
-      .filter((b) => b.getAttribute("aria-pressed") === "true")
-      .map((b) => b.dataset.need)
-      .join(", ");
-    const timing = mode === "quote" && timingEl ? timingEl.value : "";
-    form.elements.needs.value = needs;
-    form.elements.way.value = mode;
-    if (timingEl && mode !== "quote") timingEl.value = "";
-    const subject = (mode === "quote" ? "Quote request" : "Quick question") +
-      (needs ? ": " + needs : "") + (about ? " (" + about + ")" : "");
+    const bad = [];
+    for (const k of ["name", "need", "timing", "email"]) {
+      const v = f[k].value.trim();
+      const ok = k === "email" ? emailOk(v) : v !== "";
+      if (ok) f[k].removeAttribute("aria-invalid");
+      else { f[k].setAttribute("aria-invalid", "true"); bad.push(k); }
+    }
+    if (bad.length) {
+      const names = bad.map((k) => label[k]);
+      const list = names.length > 1 ? names.slice(0, -1).join(", ") + " and " + names.slice(-1) : names[0];
+      err.textContent = "Add " + list + " so I can reply.";
+      err.hidden = false;
+      f[bad[0]].focus();
+      return;
+    }
+    err.hidden = true;
+
+    const name = f.name.value.trim();
+    const email = f.email.value.trim();
+    const need = f.need.value;
+    const timing = f.timing.value;
+    const org = form.elements.organisation.value.trim();
+    const text = form.elements.message.value.trim();
+    const subject = "Enquiry from " + name + ": " + need + (about ? " (" + about + ")" : "");
     form.elements.subject.value = subject;
     if (about && !form.elements.context) {
       const c = document.createElement("input");
@@ -1038,34 +941,38 @@ document.addEventListener("click", (e) => {
     }
 
     if (!CONFIG.web3formsKey) {
-      const body = text +
-        (needs ? "\n\nNeeds: " + needs : "") +
-        (timing ? "\nTiming: " + timing : "") +
+      const body = (text ? text + "\n\n" : "") +
+        "Need: " + need + "\nTiming: " + timing +
+        (org ? "\nOrganisation: " + org : "") +
         "\n\n— " + name + "\n" + email;
       location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       return;
     }
 
-    btn.disabled = true;
+    btn.setAttribute("aria-disabled", "true");
     const prev = btn.innerHTML;
     btn.innerHTML = "Sending…";
-    errEl.hidden = true;
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: new FormData(form),
       });
       if (!res.ok) throw new Error(String(res.status));
-      track("enquiry_submit", { label: mode + (about ? " / " + about : "") });
-      clearDraft();
+      const data = await res.json();
+      if (!data || data.success === false) throw new Error("rejected");
+      track("enquiry_submit", { label: need + (about ? " / " + about : "") });
       form.reset();
-      soloChips.forEach((x) => x.setAttribute("aria-pressed", "false"));
-      btn.disabled = false;
+      applyAbout();
+      fitAll();
+      btn.removeAttribute("aria-disabled");
       btn.innerHTML = prev;
-      reveal("sent");
+      form.hidden = true;
+      sent.hidden = false;
+      sentHead.focus();
     } catch {
-      errEl.hidden = false;
-      btn.disabled = false;
+      err.textContent = "That didn’t send. Try again, or write to kris@singhstudio.co.nz.";
+      err.hidden = false;
+      btn.removeAttribute("aria-disabled");
       btn.innerHTML = prev;
     }
   });
