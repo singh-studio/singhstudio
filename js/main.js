@@ -962,7 +962,7 @@ document.addEventListener("click", (e) => {
       if (landing) {
         const path = landing === "/" ? "home" : landing.replace(/\.html$/, "").replace(/\//g, " ").trim() || "home";
         const ref = (sessionStorage.getItem("ss_ref") || "").replace(/^www\./, "");
-        about = ("landed on " + path + (ref ? " via " + ref : "")).replace(/[^\w\s&-]/g, "").trim().slice(0, 60);
+        about = ("landed on " + path + (ref ? " via " + ref : "")).replace(/[^\w\s.&-]/g, "").trim().slice(0, 60);
       }
     } catch { /* storage unavailable */ }
   }
