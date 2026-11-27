@@ -22,7 +22,7 @@
   <link rel="preload" href="assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="css/style.css?v=4f9d829d11">
+  <link rel="stylesheet" href="css/style.css?v=91d3f19a93">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -649,10 +649,10 @@
         <input type="checkbox" name="botcheck" class="cf-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
       <span class="gc-ctx" id="gcCtx" hidden><i>/</i> <span id="gcCtxText"></span></span>
 
+      <p class="se-lead">Fill in the gaps, then send it.</p>
+
       <p class="se-sentence">Hi Kris, I’m
-        <label class="se-vh" for="seName">Your name</label><input class="se-blank se-name" id="seName" name="name" type="text" autocomplete="name" placeholder="your name" required>
-        from
-        <label class="se-vh" for="seOrg">Your organisation</label><span class="se-nw"><input class="se-blank se-org" id="seOrg" name="organisation" type="text" autocomplete="organization" placeholder="your organisation (optional)">.</span>
+        <label class="se-vh" for="seName">Your name</label><span class="se-nw"><span class="se-curwrap"><input class="se-blank se-name" id="seName" name="name" type="text" autocomplete="name" placeholder="your name" required><span class="se-cursor" id="seCursor" aria-hidden="true"></span></span>.</span>
         I’m after
         <span class="se-nw"><label class="se-vh" for="seNeed">What you need</label><span class="se-selwrap"><select class="se-blank se-need" id="seNeed" name="need" required>
           <option value="" selected disabled hidden>what you need</option>
@@ -678,10 +678,11 @@
 
       <p class="se-err" id="enquiryStatus" role="alert" hidden></p>
 
-      <label class="se-more"><span>Anything else (optional)</span><textarea name="message" rows="3"></textarea></label>
+      <label class="se-more" id="seMore" hidden><span>A note (optional)</span><textarea name="message" rows="3"></textarea></label>
 
       <div class="se-actions">
-        <button class="btn btn-solid" type="submit" data-cursor="SEND">Send it <span class="btn-arrow">→</span></button>
+        <button class="btn btn-solid" type="submit" id="seSend" data-cursor="SEND"><span id="seSendLabel">4 gaps to go</span></button>
+        <button class="cc-alt se-addnote" type="button" id="seAddNote" aria-expanded="false" aria-controls="seMore">Add a note</button>
         <a class="cc-alt" id="bookBtn" href="mailto:kris@singhstudio.co.nz" data-track="book_click" data-track-label="contact_panel" data-cursor="BOOK">Or book a call</a>
       </div>
       </form>
@@ -734,6 +735,6 @@
     </figure>
   </dialog>
 
-  <script src="js/main.js?v=6f0fec6106" defer></script>
+  <script src="js/main.js?v=18082cfd6a" defer></script>
 </body>
 </html>

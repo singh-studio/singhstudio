@@ -879,10 +879,23 @@ document.addEventListener("click", (e) => {
     el.style.width = Math.ceil(w + pad + (sel ? 0 : 1)) + "px";
   };
   const fitAll = () => blanks.forEach(fit);
+  // A blank that shrinks on blur can pull the Send button out from under a
+  // press that's still in progress, so the click is lost (seen in Safari).
+  // While a pointer is down, hold the re-fit until just after the click lands.
+  let pressing = false;
+  const pendingFit = new Set();
+  document.addEventListener("pointerdown", () => { pressing = true; }, true);
+  const release = () => {
+    pressing = false;
+    if (!pendingFit.size) return;
+    setTimeout(() => { pendingFit.forEach(fit); pendingFit.clear(); }, 0);
+  };
+  document.addEventListener("pointerup", release, true);
+  document.addEventListener("pointercancel", release, true);
   blanks.forEach((el) => {
     el.addEventListener("input", () => fit(el));
     el.addEventListener("change", () => fit(el));
-    el.addEventListener("blur", () => fit(el));
+    el.addEventListener("blur", () => { if (pressing) pendingFit.add(el); else fit(el); });
   });
   window.addEventListener("resize", fitAll);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
@@ -902,6 +915,54 @@ document.addEventListener("click", (e) => {
     applyAbout();
   }
   fitAll();
+
+  // Send button counts the gaps left; the arrow appears only when all are filled
+  const keys = ["name", "need", "timing", "email"];
+  const cursor = document.getElementById("seCursor");
+  let cursorGone = false;
+  const dropCursor = () => { cursorGone = true; if (cursor) { cursor.classList.remove("on"); cursor.remove(); } };
+  const updateCount = () => {
+    const left = keys.filter((k) => f[k].value.trim() === "").length;
+    // looked up each time: the button's markup is replaced while sending
+    // Only write when the words change: Safari fires "change" on blur, mid-press
+    // on Send, and replacing the label's text then swallows the click
+    const label = document.getElementById("seSendLabel");
+    const text = left === 0 ? "Send it " : left + (left === 1 ? " gap" : " gaps") + " to go";
+    if (label.textContent !== text) label.textContent = text;
+    const arrow = btn.querySelector(".btn-arrow");
+    if (left === 0 && !arrow) {
+      const a = document.createElement("span");
+      a.className = "btn-arrow"; a.textContent = "→";
+      btn.appendChild(a);
+    } else if (left > 0 && arrow) arrow.remove();
+    if (left < 4) dropCursor();
+  };
+  // Blinking cursor invites the first word; it starts once the form is in view
+  // and goes for good as soon as any gap is touched
+  if (cursor && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((es) => {
+      if (!es.some((x) => x.isIntersecting)) return;
+      if (!cursorGone && !document.activeElement.closest(".se-form")) cursor.classList.add("on");
+      io.disconnect();
+    }, { threshold: 0.5 });
+    io.observe(form);
+  }
+  form.addEventListener("focusin", dropCursor);
+  Object.values(f).forEach((el) => {
+    el.addEventListener("input", updateCount);
+    el.addEventListener("change", updateCount);
+  });
+  updateCount();
+
+  // Optional note stays tucked away until asked for
+  const more = document.getElementById("seMore");
+  const addNote = document.getElementById("seAddNote");
+  addNote.addEventListener("click", () => {
+    more.hidden = false;
+    addNote.setAttribute("aria-expanded", "true");
+    addNote.hidden = true;
+    more.querySelector("textarea").focus();
+  });
 
   const clearInvalid = (el) => {
     el.removeAttribute("aria-invalid");
@@ -938,7 +999,6 @@ document.addEventListener("click", (e) => {
     const email = f.email.value.trim();
     const need = f.need.value;
     const timing = f.timing.value;
-    const org = form.elements.organisation.value.trim();
     const text = form.elements.message.value.trim();
     const subject = "Enquiry from " + name + ": " + need + (about ? " (" + about + ")" : "");
     form.elements.subject.value = subject;
@@ -951,7 +1011,6 @@ document.addEventListener("click", (e) => {
     if (!CONFIG.web3formsKey) {
       const body = (text ? text + "\n\n" : "") +
         "Need: " + need + "\nTiming: " + timing +
-        (org ? "\nOrganisation: " + org : "") +
         "\n\n— " + name + "\n" + email;
       location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       return;
@@ -974,6 +1033,8 @@ document.addEventListener("click", (e) => {
       fitAll();
       btn.removeAttribute("aria-disabled");
       btn.innerHTML = prev;
+      updateCount();
+      more.hidden = true; addNote.hidden = false; addNote.setAttribute("aria-expanded", "false");
       form.hidden = true;
       sent.hidden = false;
       sentHead.focus();
@@ -982,6 +1043,7 @@ document.addEventListener("click", (e) => {
       err.hidden = false;
       btn.removeAttribute("aria-disabled");
       btn.innerHTML = prev;
+      updateCount();
     }
   });
 })();

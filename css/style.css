@@ -1261,6 +1261,28 @@ select.se-blank option { color: var(--bone); background: var(--ink-2); }
 }
 .se-err[hidden] { display: none; }
 
+.se-lead {
+  font-family: inherit; font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+  font-weight: 400; letter-spacing: normal; text-transform: none;
+  color: var(--mute); line-height: 1.4; margin: 0 0 0.75em;
+}
+.se-curwrap { position: relative; display: inline-block; max-width: 100%; vertical-align: baseline; }
+.se-curwrap > .se-blank { max-width: 100%; }
+.se-nw > .se-curwrap { max-width: calc(100% - 0.4em); }
+.se-name { padding-left: 0.12em; }
+.se-cursor {
+  position: absolute; left: 0; top: 50%; width: 2px; height: 0.9em;
+  transform: translateY(-50%); background: var(--red);
+  pointer-events: none; display: none;
+}
+.se-cursor.on { display: block; animation: se-blink 1s steps(1, end) infinite; }
+@keyframes se-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .se-cursor.on { animation: none; } }
+.se-addnote { background: none; border-width: 0 0 1px; border-style: solid; border-color: var(--hairline); padding: 0 0 2px; cursor: pointer; }
+.se-addnote:hover { border-color: var(--red); }
+.se-addnote:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+.se-actions .se-addnote[hidden] { display: none; }
+.se-more[hidden] { display: none; }
 .se-more { display: block; margin-top: clamp(1.8rem, 4vw, 2.8rem); max-width: 40rem; }
 .se-more span {
   display: block; font-family: var(--font-mono); font-size: 0.75rem;
@@ -1284,7 +1306,7 @@ select.se-blank option { color: var(--bone); background: var(--ink-2); }
 
 @media (max-width: 640px) {
   .se-sentence { font-size: 1.6rem; line-height: 1.7; }
-  .se-actions .btn { width: 100%; justify-content: center; }
+  .se-actions .btn { flex: 0 0 100%; width: 100%; justify-content: center; }
 }
 @media (max-width: 360px) {
   .se-sentence { font-size: 1.3rem; }
