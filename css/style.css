@@ -2301,7 +2301,7 @@ sup.mref {
   --ink-3: #ddd6c7;
   --bone: #171410;
   --bone-2: #262019;
-  --mute: #6a655b;
+  --mute: #625d53;
   --mute-dark: #a09a90;
   --copy: #45403a;
   --hairline: rgba(23, 20, 16, 0.16);
@@ -2456,7 +2456,7 @@ body, section, .footer, .menu, .set-tabs, .proof {
 /* Burger + mark stay legible when the paper menu opens over a dark hero */
 [data-theme="light"] .nav-hero.menu-open:not(.scrolled) {
   --bone: #171410;
-  --mute: #6a655b;
+  --mute: #625d53;
   --red-text: #ae2b16;
   color: var(--bone);
 }
@@ -3147,7 +3147,7 @@ body, section, .footer, .menu, .set-tabs, .proof {
 .cfg-in { min-height: 0; overflow: hidden; padding: 8px; margin: -8px; }
 @media (prefers-reduced-motion: reduce) { .cfg-step, .cfg-step.is-off { transition: none; } }
 .cfg-step fieldset { border: 0; padding: 0; margin: 0 0 clamp(2.2rem, 5vh, 3.2rem); min-width: 0; scroll-margin-top: 6rem; }
-.cfg-step legend { float: left; width: 100%; padding: 0; margin: 0 0 20px; font-family: var(--font-mono); font-size: clamp(0.9rem, 1.3vw, 1.05rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone); line-height: 1.4; }
+.cfg-step legend { text-wrap: balance; float: left; width: 100%; padding: 0; margin: 0 0 20px; font-family: var(--font-mono); font-size: clamp(0.9rem, 1.3vw, 1.05rem); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone); line-height: 1.4; }
 .cfg-step legend + * { clear: both; }
 .cfg-step legend .red { margin-right: 0.35em; color: var(--mute); }
 .cfg-step legend .cfg-opt { color: var(--mute); margin-left: 0.5em; }
@@ -3184,7 +3184,7 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
 .opt-lab > .opt-ind { grid-column: 1; grid-row: 2; }
 .opt-lab > .opt-chip { grid-column: 2; grid-row: 1; justify-self: start; margin: 0 0 6px; }
 .opt-lab > .opt-name { grid-column: 2; grid-row: 2; min-width: 0; overflow-wrap: normal; hyphens: manual; }
-.opt-name { font-size: 1.1rem; font-weight: 600; line-height: 1.3; letter-spacing: 0; text-transform: none; color: var(--bone); }
+.opt-name { text-wrap: balance; font-size: 1.1rem; font-weight: 600; line-height: 1.3; letter-spacing: 0; text-transform: none; color: var(--bone); }
 .opt-chip { display: inline-block; padding: 2px 8px; border: 1px solid currentColor; border-radius: 999px; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 400; letter-spacing: 0.08em; line-height: 1.3; text-transform: uppercase; white-space: nowrap; color: var(--mute); }
 .opt-card .sv-price { grid-column: 3; grid-row: 2; display: grid; grid-template-columns: auto auto; justify-content: end; justify-items: end; margin: 0; white-space: nowrap; text-align: right; }
 .opt-card .sv-from { grid-column: 1; grid-row: 1; margin-right: 4px; }
@@ -3264,6 +3264,10 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
 
 .cfg-sum .se-actions { margin-top: 1.4rem; }
 .cfg-sum .se-actions .btn { flex: 0 0 100%; width: 100%; justify-content: center; }
+@media (min-width: 1024px) {
+  /* the send area stays inside the panel's visible area while the panel scrolls */
+  .cfg-sum .se-actions { position: sticky; bottom: 0; z-index: 1; background: var(--ink-2); margin-inline: -1.4rem; padding: 12px 1.4rem 1.1rem; margin-bottom: -1.1rem; }
+}
 .sum-fine { color: var(--mute); font-size: 0.92rem; line-height: 1.55; margin-top: 1rem; }
 .sv-pay { margin-top: 0.7rem; font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--copy); }
 .sv-pay .red { margin-right: 0.4em; }
@@ -3499,7 +3503,8 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
   .sv-bar.on { transform: none; visibility: visible; transition: transform 0.3s var(--ease-swift); }
   .sv-bar-text.is-empty { color: var(--mute); }
   .sv-bar-text { display: flex; flex-direction: column; justify-content: center; align-self: center; font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bone); line-height: 1.35; flex: 0 1 auto; min-width: 0; }
-  .sv-bar-text .sb-name, .sv-bar-text .sb-price { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sv-bar-text .sb-name { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .sv-bar-text .sb-price { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sv-bar-text .sb-price { color: var(--copy); }
   .sv-bar .btn { flex: 0 0 auto; margin-left: auto; min-width: 8rem; min-height: 48px; padding: 0 1.6rem; border: 1px solid transparent; border-radius: 999px; justify-content: center; font-size: 0.82rem; }
   .sv-bar .btn:disabled { background: transparent; border-color: var(--hairline); color: var(--mute) !important; cursor: not-allowed; }
@@ -3633,6 +3638,9 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
 .sheet-steps + .sheet-fine { margin-top: 24px; }
 .sheet-body .cmp-table { margin-bottom: 0; }
 body.sheet-open .sv-bar { visibility: hidden !important; }
+body.sheet-open { overflow: hidden; }
+@media (max-width: 1023.98px) { html { scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom) + 16px); } }
+.sl-keep { white-space: nowrap; }
 @media (max-width: 1023.98px) {
   .sheet { width: 100%; max-width: 100%; margin: auto 0 0; max-height: 85dvh; border-radius: 16px 16px 0 0; }
   @keyframes sheet-in { from { transform: translateY(100%); } to { transform: none; } }
@@ -3666,7 +3674,7 @@ body.sheet-open .sv-bar { visibility: hidden !important; }
 .opt.has-band .opt-in:checked ~ .opt-card { border-color: var(--red); box-shadow: inset 0 0 0 0.5px var(--red); }
 @media (hover: hover) and (pointer: fine) { .opt.has-band:hover .opt-in:not(:checked) ~ .opt-card { border-color: var(--bone); } }
 
-.cfg-help { margin-top: 40px; border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+.cfg-help { margin-top: 40px; border: 1px solid var(--hairline); border-radius: 0; overflow: hidden; }
 .cfg-sum .cfg-help { margin-top: 20px; }
 .cfg-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 12px 16px; background: none; border: 0; cursor: pointer; text-align: left; font: inherit; font-size: 0.95rem; line-height: 1.3; color: var(--bone); }
 .cfg-row + .cfg-row { border-top: 1px solid var(--hairline); }

@@ -25,7 +25,7 @@
   <link rel="preload" href="../assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="../css/style.css?v=2f9bf7be26">
+  <link rel="stylesheet" href="../css/style.css?v=830a6d4ed8">
   <noscript><style>[data-reveal]{opacity:1;transform:none}.ht-inner{transform:none}</style></noscript>
   <script type="application/ld+json">
   {
@@ -359,8 +359,8 @@
                     </div>
 
                     <div class="opt is-rec has-band">
-                      <input class="opt-in" type="radio" name="site" id="site-designed" value="designed" aria-describedby="sd-designed" checked>
-                      <div class="opt-card"><span class="opt-band"><span>Recommended</span><span class="opt-band-x">What I’d suggest for most organisations</span></span>
+                      <input class="opt-in" type="radio" name="site" id="site-designed" value="designed" aria-describedby="sd-designed band-designed" checked>
+                      <div class="opt-card"><span class="opt-band" id="band-designed"><span>Recommended</span><span class="opt-band-x">What I’d suggest for most organisations</span></span>
                         
                         <label class="opt-lab" for="site-designed"><span class="opt-ind" aria-hidden="true"></span><span class="opt-name">Designed</span><span class="sv-price"><span class="sv-amt">NZ$7,500</span></span></label>
                         <div class="opt-desc" id="sd-designed">
@@ -469,7 +469,7 @@
                       <div class="opt-card">
                         
                         <label class="opt-lab" for="pace-rush"><span class="opt-ind" aria-hidden="true"></span><span class="opt-name">Rush: about half the time</span><span class="sv-price"><span class="sv-amt" id="paceRushAmt">NZ$9,750</span><span class="sv-per">+30%</span></span></label>
-                        <div class="opt-desc" id="pd-rush"><p class="tg-meta" id="paceRushTime">About 3 to 4 weeks</p><p class="opt-up"><span id="paceRushUp"><strong class="opt-up-lead">For a launch date that can’t move:</strong> live in about 3 to 4 weeks instead of 5 to 7.</span></p></div>
+                        <div class="opt-desc" id="pd-rush"><p class="tg-meta" id="paceRushTime">About 3 to 4 weeks</p><p class="opt-up"><span id="paceRushUp"><strong class="opt-up-lead">For a launch date that can’t move:</strong> same scope and care, finished sooner.</span></p></div>
                       </div>
                     </div>
                   </div>
@@ -498,19 +498,20 @@
                         
                         <label class="opt-lab" for="care-care"><span class="opt-ind" aria-hidden="true"></span><span class="opt-name">Care</span><span class="sv-price"><span class="sv-amt">NZ$150</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-care">
+                          <p class="opt-up"><span><strong class="opt-up-lead">For a site that stays safe and current:</strong> monthly checks and updates, and small changes each month.</span></p>
                           <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-care">What’s included</button><div class="opt-more-body" id="om-care"><ul class="sv-list"><li>Monthly checks and plugin updates</li><li>Up to an hour of changes</li></ul></div></div>
                         </div>
                       </div>
                     </div>
 
                     <div class="opt is-rec has-band">
-                      <input class="opt-in" type="radio" name="care" id="care-plus" value="plus" aria-describedby="cd-plus">
-                      <div class="opt-card"><span class="opt-band"><span>Recommended</span><span class="opt-band-x">What I’d suggest after launch</span></span>
+                      <input class="opt-in" type="radio" name="care" id="care-plus" value="plus" aria-describedby="cd-plus band-plus">
+                      <div class="opt-card"><span class="opt-band" id="band-plus"><span>Recommended</span><span class="opt-band-x">What I’d suggest after launch</span></span>
                         
                         <label class="opt-lab" for="care-plus"><span class="opt-ind" aria-hidden="true"></span><span class="opt-name">Care Plus</span><span class="sv-price"><span class="sv-amt">NZ$450</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-plus">
-                          <p class="opt-up"><span><strong class="opt-up-lead">For a site that keeps improving after launch:</strong> up to four hours of changes a month, a report every quarter on visits, searches and enquiries, and your changes go first.</span></p>
-                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-plus">What’s included</button><div class="opt-more-body" id="om-plus"><ul class="sv-list"><li>Up to four hours of changes</li><li>A report every quarter on visits, searches and enquiries</li><li>Your changes go to the front of the queue</li></ul></div></div>
+                          <p class="opt-up"><span><strong class="opt-up-lead">For a site that keeps improving after launch:</strong> up to four hours of changes a month, a report every quarter on visits, searches and enquiries, and your changes are done first.</span></p>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-plus">What’s included</button><div class="opt-more-body" id="om-plus"><ul class="sv-list"><li>Up to four hours of changes</li><li>A report every quarter on visits, searches and enquiries</li><li>Your changes are done first</li></ul></div></div>
                         </div>
                       </div>
                     </div>
@@ -668,8 +669,8 @@
                         <tbody>
                           <tr><th scope="row">Price</th><td>NZ$3,500</td><td>NZ$7,500</td><td>From NZ$15,000</td></tr>
                           <tr><th scope="row">Pages</th><td>Up to 6</td><td>Up to 12</td><td>Scoped</td></tr>
-                          <tr><th scope="row">Designed for you</th><td><span aria-hidden="true">—</span><span class="se-vh">Not included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td></tr>
-                          <tr><th scope="row">Content written together</th><td><span aria-hidden="true">—</span><span class="se-vh">Not included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td></tr>
+                          <tr><th scope="row">Designed for you</th><td><span>No</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td></tr>
+                          <tr><th scope="row">Content written together</th><td><span>No</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td></tr>
                           <tr><th scope="row">Features</th><td>Forms</td><td>1 plugin</td><td>Custom</td></tr>
                           <tr><th scope="row">Training</th><td>1 hour</td><td>Guide</td><td>Guide and videos</td></tr>
                           <tr><th scope="row">Care included</th><td>3 months</td><td>3 months</td><td>3 months Plus</td></tr>
@@ -732,7 +733,7 @@
               <li><span class="nx-n">/01</span><span class="nx-t">Meet</span><span class="nx-x">Twenty minutes on Google Meet. I listen, ask questions, and we work out if it’s a fit.</span></li>
               <li><span class="nx-n">/02</span><span class="nx-t">Scope</span><span class="nx-x">A written proposal inside two working days, scope and number set out together.</span></li>
               <li><span class="nx-n">/03</span><span class="nx-t">Build</span><span class="nx-x">Weekly check-ins, then shipped. The person who took the brief does the work.</span></li>
-              <li><span class="nx-n">/04</span><span class="nx-t">Care</span><span class="nx-x">Handover, then a light ongoing arrangement if you want one: updates, tweaks, a fast lane.</span></li>
+              <li><span class="nx-n">/04</span><span class="nx-t">Care</span><span class="nx-x">Handover, then a light ongoing arrangement if you want one: updates, tweaks and priority changes.</span></li>
             </ol>
             <p class="sheet-fine">You own it all: the site and domain are in your name, and everything written for it is yours.</p>
             <p class="sheet-fine">Half when we start, half at launch.</p>
@@ -843,6 +844,6 @@
     </div>
   </article>
 
-<script src="../js/main.js?v=aaac83e66b" defer></script>
+<script src="../js/main.js?v=247d3f07eb" defer></script>
 </body>
 </html>
