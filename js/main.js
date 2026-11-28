@@ -1247,7 +1247,8 @@ const makeEnquirySender = (form) => {
   };
   var EXTRA_KEYS = ["words", "film", "audio"];
   var EXTRA_PRICE = "From NZ$950 a day";
-  var natList = function (a) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]; };
+  /* items like "film and photography" already hold an "and", so the last join gets a comma to keep the list readable */
+  var natList = function (a) { if (a.length < 2) return a.join(""); var sep = a.some(function (x) { return / and /.test(x); }) ? ", and " : " and "; return a.slice(0, -1).join(", ") + sep + a[a.length - 1]; };
   var PLATFORM_WORDS = { squarespace: "on Squarespace", current: "on the platform we already use", choose: "on whichever platform suits" };
   /* short labels for the enquiry's "need" line */
   var SITE_SHORT = {
