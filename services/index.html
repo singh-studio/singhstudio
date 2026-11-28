@@ -25,7 +25,7 @@
   <link rel="preload" href="../assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="../css/style.css?v=830a6d4ed8">
+  <link rel="stylesheet" href="../css/style.css?v=2cfa49eb89">
   <noscript><style>[data-reveal]{opacity:1;transform:none}.ht-inner{transform:none}</style></noscript>
   <script type="application/ld+json">
   {
@@ -642,7 +642,7 @@
                 <button class="cc-alt se-addnote" type="button" id="seAddNote" aria-expanded="false" aria-controls="seMore">Add a note</button>
                 <a class="cc-alt" id="bookBtn" href="mailto:kris@singhstudio.co.nz">Or book a call</a>
               </div>
-              <p class="sum-fine">No payment now. I’ll reply within one business day, New Zealand time, with a written scope.</p>
+              <p class="sum-fine">No payment now. I’ll reply within one business day, New Zealand time.</p>
               <div class="cfg-help" id="revSec">
                 <button class="cfg-row" type="button" data-sheet="sh-next"><svg class="cfg-ico" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 5.5V10l3 1.8"/></svg><span class="cfg-row-t">What happens after you send</span><span class="cfg-row-chev" aria-hidden="true">›</span></button>
                 <button class="cfg-row" type="button" data-sheet="sh-rq"><svg class="cfg-ico" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.9 7.9a2.2 2.2 0 1 1 3.2 1.9c-.7.4-1.1.9-1.1 1.7"/><path d="M10 14.2h.01"/></svg><span class="cfg-row-t">Questions (3)</span><span class="cfg-row-chev" aria-hidden="true">›</span></button>
@@ -651,10 +651,42 @@
 
             <div class="gc-part se-sent" id="enquirySent" hidden>
               <h3 class="gc-q" id="enquirySentHead" tabindex="-1">Got it. <em>It’s with me now.</em></h3>
-              <p class="gc-done">I’ll reply to the address you gave within one business day, New Zealand time. If it’s urgent, you can still grab a 20-minute call.</p>
-              <div class="gc-actions">
-                <a class="cc-alt" href="mailto:kris@singhstudio.co.nz">Book a call</a>
+              <p class="gc-done sn-reply" id="snReply">Expect my reply by <strong id="snDate"></strong>, New Zealand time.</p>
+
+              <figure class="sn-note" id="snNote">
+                <span class="sn-stamp">Sent</span>
+                <blockquote class="sn-sent"><p id="snSentence"></p></blockquote>
+                <figcaption class="sn-meta" id="snMeta"></figcaption>
+              </figure>
+
+              <div class="sn-next">
+                <p class="sn-h">What happens next</p>
+                <ol class="sn-steps">
+                  <li><span class="nx-n">/01</span><span class="nx-t">Meet <span class="sn-tag">Next</span></span><span class="nx-x">Twenty minutes on Google Meet. I listen, ask questions, and we work out if it’s a fit.</span></li>
+                  <li><span class="nx-n">/02</span><span class="nx-t">Scope</span><span class="nx-x">A written proposal inside two working days, scope and number set out together.</span></li>
+                  <li><span class="nx-n">/03</span><span class="nx-t">Build</span><span class="nx-x">Weekly check-ins, then shipped. The person who took the brief does the work.</span></li>
+                  <li><span class="nx-n">/04</span><span class="nx-t">Care</span><span class="nx-x">Handover, then a light ongoing arrangement if you want one: updates, tweaks and priority changes.</span></li>
+                </ol>
               </div>
+
+              <div class="sn-sign">
+                <picture><source type="image/webp" srcset="../assets/img/kris-portrait.webp"><img src="../assets/img/kris-portrait.jpg" alt="" width="52" height="52" loading="lazy" decoding="async"></picture>
+                <p>Ngā mihi,<br><strong>Kris</strong><span class="sn-co">Singh Studio</span></p>
+              </div>
+
+              <div class="sn-actions">
+                <a class="btn btn-solid" id="gcBookSent" href="mailto:kris@singhstudio.co.nz" target="_blank" rel="noopener">Book the 20-minute call now</a>
+                <button class="cc-alt" type="button" id="snSave">Save your quote</button>
+              </div>
+
+              <a class="sn-case" id="snCaseNg" href="../case-nextgen.html" hidden>
+                <picture><source type="image/webp" srcset="../assets/img/work-nextgen-800.webp"><img src="../assets/img/work-nextgen-800.jpg" alt="" width="800" height="500" loading="lazy" decoding="async"></picture>
+                <span class="sn-case-t"><strong>Tino Taonga</strong><span>The Salvation Army’s Next Gen hub, built on Squarespace with custom code.</span></span>
+              </a>
+              <a class="sn-case" id="snCaseFp" href="../case-futurepartners.html" hidden>
+                <picture><source type="image/webp" srcset="../assets/img/work-futurepartners.webp"><img src="../assets/img/work-futurepartners.jpg" alt="" width="1600" height="1000" loading="lazy" decoding="async"></picture>
+                <span class="sn-case-t"><strong>Future Partners</strong><span>A 105-page rebuild around an atlas of Pacific work.</span></span>
+              </a>
             </div>
           </aside>
         </div>
@@ -844,6 +876,6 @@
     </div>
   </article>
 
-<script src="../js/main.js?v=247d3f07eb" defer></script>
+<script src="../js/main.js?v=6bbd1a0af5" defer></script>
 </body>
 </html>

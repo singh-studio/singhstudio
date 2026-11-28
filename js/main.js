@@ -1766,7 +1766,46 @@ const makeEnquirySender = (form) => {
     }
   }
   window.addEventListener("beforeprint", paintDoc);
-  $("#svSave").addEventListener("click", async function () {
+  /* the sent screen: their sentence as a note, the reply date, and the next steps */
+  var NEXT_DAY = { Monday: 1, Tuesday: 1, Wednesday: 1, Thursday: 1, Friday: 3, Saturday: 2, Sunday: 1 };
+  function nzParts(fmt, d) {
+    var o = {};
+    fmt.formatToParts(d).forEach(function (p) { o[p.type] = p.value; });
+    return o;
+  }
+  function paintSent(s) {
+    paintDoc();
+    var sp = slotSpecs(s), now = new Date();
+    var parts = [sp.site, sp.plat, sp.pace, sp.care, sp.extra, sp.time].filter(function (x) { return x && x.filled; });
+    setText($("#snSentence"), "Hi Kris, I’m " + s.name + ". I’d like " + parts.map(function (x, i) { return (i ? x.prefix : "") + x.text; }).join("") + ". You can reach me at " + s.email + ".");
+    var when = "", reply = "";
+    var fDay = nzDate({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    var fTime = nzDate({ hour: "numeric", minute: "2-digit", hour12: true });
+    var fYmd = nzDate({ year: "numeric", month: "numeric", day: "numeric" });
+    if (fDay && fTime && fYmd) {
+      var dp = nzParts(fDay, now), ymd = nzParts(fYmd, now);
+      when = "Sent " + fTime.format(now).replace(/[\u202f\u00a0]/g, " ").toLowerCase() + ", " + dp.weekday + " " + dp.day + " " + dp.month;
+      var nx = new Date(Date.UTC(+ymd.year, +ymd.month - 1, +ymd.day + (NEXT_DAY[dp.weekday] || 1), 12));
+      var np = nzParts(new Intl.DateTimeFormat("en-NZ", { timeZone: "UTC", weekday: "long", day: "numeric", month: "long" }), nx);
+      reply = np.weekday + " " + np.day + " " + np.month;
+    }
+    setText($("#snMeta"), (when ? when + " · " : "") + "Ref " + docRef);
+    var rp = $("#snReply");
+    if (reply) setText($("#snDate"), reply);
+    else rp.textContent = "I’ll reply within one business day, New Zealand time.";
+    $("#snCaseNg").hidden = s.site !== "bespoke";
+    $("#snCaseFp").hidden = s.site === "bespoke";
+  }
+  function showSent() {
+    sent.classList.remove("sn-play");
+    void sent.offsetWidth;
+    sent.classList.add("sn-play");
+    summaryEl.scrollTop = 0;
+    sentHead.focus({ preventScroll: true });
+    if (flow) sentHead.scrollIntoView({ block: "start", behavior: motionOK() ? "smooth" : "auto" });
+  }
+
+  var saveQuote = async function () {
     paintDoc();
     try {
       if (document.fonts && document.fonts.ready) await document.fonts.ready;
@@ -1774,7 +1813,9 @@ const makeEnquirySender = (form) => {
       if (logo && logo.decode) await logo.decode();
     } catch (e) { /* print anyway */ }
     window.print();
-  });
+  };
+  $("#svSave").addEventListener("click", saveQuote);
+  $("#snSave").addEventListener("click", saveQuote);
 
   /* phone and tablet bar: the choice and total on the left, Next on the right, on steps 1 to 5 */
   var bar = $("#svBar"), goBtn = $("#svBarGo"), inBuilder = false;
@@ -2231,8 +2272,9 @@ const makeEnquirySender = (form) => {
       onSent: function (restore) {
         restore();
         done = true; paintFlow(s);
+        paintSent(s);
         sumBody.hidden = true; sent.hidden = false;
-        sentHead.focus();
+        showSent();
       }
     });
   });
