@@ -31,7 +31,7 @@ from urllib.parse import urlsplit
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Pages exempt from nav/indexability checks.
-NON_NAV_PAGES = {"404.html"}
+NON_NAV_PAGES = {"404.html", "together.html"}  # together.html is now a noindex redirect to services/
 
 # The plugin store's own sitemap, merged into sitemap.xml (see check 5).
 STORE_SITEMAP = "plugins/sitemap-plugins.xml"
@@ -96,8 +96,9 @@ ALL_FILES = site_files()
 ALL_FILES_SET = set(ALL_FILES)
 ROOT_HTML = sorted(f for f in ALL_FILES if "/" not in f and f.endswith(".html"))
 TEMPLATE_HTML = sorted(f for f in ALL_FILES if f.startswith("templates/") and f.endswith(".html"))
-ALL_HTML = ROOT_HTML + TEMPLATE_HTML
-INDEXABLE_PAGES = sorted(f for f in ROOT_HTML if f not in NON_NAV_PAGES)
+SERVICES_HTML = sorted(f for f in ALL_FILES if f == "services/index.html")
+ALL_HTML = ROOT_HTML + TEMPLATE_HTML + SERVICES_HTML
+INDEXABLE_PAGES = sorted([f for f in ROOT_HTML if f not in NON_NAV_PAGES] + SERVICES_HTML)
 NAV_PAGES = INDEXABLE_PAGES  # same set today; kept as a distinct name for clarity at call sites
 
 results = []  # list of (check_name, ok: bool, detail: str)
@@ -308,9 +309,9 @@ def extract_labels(block_html):
     return labels
 
 
-EXPECTED_NAV = ["Disciplines", "Work", "Kris", "Shop"]
+EXPECTED_NAV = ["Disciplines", "Work", "Services", "Kris", "Shop"]
 EXPECTED_MENU = EXPECTED_NAV + ["Book a call"]
-EXPECTED_FOOTER = ["Disciplines", "Work", "Shop", "Kris", "Contact"]
+EXPECTED_FOOTER = ["Disciplines", "Work", "Services", "Shop", "Kris", "Contact"]
 
 
 def check_nav_consistency():
@@ -398,7 +399,12 @@ def check_head_metadata():
             problems.append(f"{page}: no canonical link")
         else:
             canon = canon_m.group(1).strip()
-            expected = CANONICAL_HOST if page == "index.html" else CANONICAL_HOST + page
+            if page == "index.html":
+                expected = CANONICAL_HOST
+            elif page.endswith("/index.html"):
+                expected = CANONICAL_HOST + page[: -len("index.html")]
+            else:
+                expected = CANONICAL_HOST + page
             if canon != expected:
                 problems.append(f"{page}: canonical \"{canon}\" != expected \"{expected}\"")
 

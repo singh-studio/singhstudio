@@ -131,6 +131,14 @@ document.addEventListener("click", (e) => {
   try { seen = sessionStorage.getItem("ss-seen") !== null; } catch { /* private mode */ }
   if (seen) { finish(); return; }
 
+  // Arriving from another site: skip the animation, so a search result lands on the page at once
+  let fromElsewhere = false;
+  try {
+    const host = (h) => h.replace(/^www\./, "");
+    fromElsewhere = !!document.referrer && host(new URL(document.referrer).hostname) !== host(location.hostname);
+  } catch { /* no URL API: treat as a direct visit */ }
+  if (fromElsewhere) { finish(); markSeen(); return; }
+
   if (prefersReduced) { finish(); markSeen(); return; }
 
   const start = performance.now();
@@ -863,7 +871,12 @@ document.addEventListener("click", (e) => {
 /* Nav — mark the current page */
 (() => {
   const here = location.pathname.split("/").pop() || "index.html";
+  const onServices = /\/services(\/|$)/.test(location.pathname);
   document.querySelectorAll(".nav-links a").forEach((a) => {
+    if (onServices) {
+      if (/\/services\/?$/.test(a.pathname)) { a.classList.add("current"); a.setAttribute("aria-current", "page"); }
+      return;
+    }
     const target = a.getAttribute("href").split("#")[0];
     const isThoughts = target === "thoughts.html" && here.startsWith("thought");
     if ((target && target === here) || isThoughts) {
@@ -872,6 +885,109 @@ document.addEventListener("click", (e) => {
     }
   });
 })();
+
+/* ============================================================
+   ENQUIRY SENDER — the one send path for every enquiry form (the home
+   sentence and the Services configurator). Web3Forms email plus the Studio
+   Hub post with Turnstile; the first one to succeed wins.
+   ============================================================ */
+const makeEnquirySender = (form) => {
+  // Studio Hub post. Turnstile loads on the first touch of the form, never on page load.
+  const hubOn = !!(CONFIG.hubEnquiryUrl && CONFIG.turnstileSiteKey);
+  const newId = () => (crypto.randomUUID ? crypto.randomUUID()
+    : [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join(""));
+  let submissionId = newId();
+  let tsToken = "", tsWidget = null, tsStarted = false;
+  const tsWaiters = [];
+  const tsBox = document.createElement("div");
+  tsBox.className = "se-ts";
+  tsBox.style.lineHeight = "0";
+  const tsShow = (on) => { tsBox.style.lineHeight = on ? "" : "0"; tsBox.style.marginTop = on ? "1.4rem" : ""; };
+  if (hubOn) form.querySelector(".se-actions").before(tsBox);
+  const loadTurnstile = () => {
+    if (!hubOn || tsStarted) return;
+    tsStarted = true;
+    window.ssTurnstileReady = () => {
+      tsWidget = window.turnstile.render(tsBox, {
+        sitekey: CONFIG.turnstileSiteKey, action: "enquiry", appearance: "interaction-only",
+        theme: document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+        "response-field": false, "refresh-expired": "auto",
+        callback: (t) => { tsToken = t; tsWaiters.splice(0).forEach((w) => w(t)); },
+        "expired-callback": () => { tsToken = ""; },
+        "error-callback": () => { tsToken = ""; },
+        "before-interactive-callback": () => tsShow(true),
+        "after-interactive-callback": () => tsShow(false),
+      });
+    };
+    const s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=ssTurnstileReady";
+    s.async = true;
+    document.head.appendChild(s);
+  };
+  form.addEventListener("focusin", loadTurnstile);
+  form.addEventListener("pointerdown", loadTurnstile);
+  const tokenWithin = (ms) => tsToken ? Promise.resolve(tsToken) : new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error("no token")), ms);
+    tsWaiters.push((v) => { clearTimeout(t); resolve(v); });
+  });
+  const sendToHub = async (payload) => {
+    loadTurnstile();
+    const token = await tokenWithin(8000);
+    tsToken = "";
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), 10000);
+    try {
+      const res = await fetch(CONFIG.hubEnquiryUrl, {
+        method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", signal: ac.signal,
+        body: JSON.stringify({ ...payload, turnstileToken: token }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      return true;
+    } finally {
+      clearTimeout(timer);
+      try { if (tsWidget !== null) window.turnstile.reset(tsWidget); } catch { /* widget gone */ }
+    }
+  };
+  // Resolves on the first success; rejects only when every post failed.
+  const firstSuccess = (list) => new Promise((resolve, reject) => {
+    let left = list.length;
+    list.forEach((p) => p.then(resolve, () => { if (--left === 0) reject(new Error("not sent")); }));
+  });
+
+  // Honeypot ticked, or a send already in flight: do nothing
+  const blocked = (btn) => btn.getAttribute("aria-disabled") === "true" || !!(form.botcheck && form.botcheck.checked);
+
+  // fields: name, email, need, timing, message, about. formData() builds the Web3Forms body.
+  // onSent(restore) and onFailed() draw the form's own states; restore() puts the button back.
+  const send = async ({ btn, err, subject, mailBody, fields, formData, onSent, onFailed }) => {
+    if (!CONFIG.web3formsKey) {
+      location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(mailBody);
+      return;
+    }
+    btn.setAttribute("aria-disabled", "true");
+    const prev = btn.innerHTML;
+    btn.innerHTML = "Sending…";
+    const restore = () => { btn.removeAttribute("aria-disabled"); btn.innerHTML = prev; };
+    const payload = { ...fields, submissionId, botcheck: false };
+    const viaEmail = fetch("https://api.web3forms.com/submit", { method: "POST", body: formData() })
+      .then((res) => { if (!res.ok) throw new Error(String(res.status)); return res.json(); })
+      .then((data) => { if (!data || data.success === false) throw new Error("rejected"); return true; });
+    const viaHub = hubOn ? sendToHub(payload) : Promise.reject(new Error("hub off"));
+    try {
+      await firstSuccess([viaEmail, viaHub]);
+      submissionId = newId();
+      track("enquiry_submit", { label: fields.need + (fields.about ? " / " + fields.about : "") });
+      onSent(restore);
+    } catch {
+      err.textContent = "That didn’t send. Try again, or write to kris@singhstudio.co.nz.";
+      err.hidden = false;
+      restore();
+      if (onFailed) onFailed();
+    }
+  };
+
+  return { blocked, send };
+};
 
 /* ============================================================
    SENTENCE ENQUIRY — one sentence the visitor completes. Posts through
@@ -1025,72 +1141,11 @@ document.addEventListener("click", (e) => {
     el.addEventListener("change", () => clearInvalid(el));
   });
 
-  // Studio Hub post. Turnstile loads on the first touch of the form, never on page load.
-  const hubOn = !!(CONFIG.hubEnquiryUrl && CONFIG.turnstileSiteKey);
-  const newId = () => (crypto.randomUUID ? crypto.randomUUID()
-    : [...crypto.getRandomValues(new Uint8Array(16))].map((x) => x.toString(16).padStart(2, "0")).join(""));
-  let submissionId = newId();
-  let tsToken = "", tsWidget = null, tsStarted = false;
-  const tsWaiters = [];
-  const tsBox = document.createElement("div");
-  tsBox.className = "se-ts";
-  tsBox.style.lineHeight = "0";
-  const tsShow = (on) => { tsBox.style.lineHeight = on ? "" : "0"; tsBox.style.marginTop = on ? "1.4rem" : ""; };
-  if (hubOn) form.querySelector(".se-actions").before(tsBox);
-  const loadTurnstile = () => {
-    if (!hubOn || tsStarted) return;
-    tsStarted = true;
-    window.ssTurnstileReady = () => {
-      tsWidget = window.turnstile.render(tsBox, {
-        sitekey: CONFIG.turnstileSiteKey, action: "enquiry", appearance: "interaction-only",
-        theme: document.documentElement.dataset.theme === "dark" ? "dark" : "light",
-        "response-field": false, "refresh-expired": "auto",
-        callback: (t) => { tsToken = t; tsWaiters.splice(0).forEach((w) => w(t)); },
-        "expired-callback": () => { tsToken = ""; },
-        "error-callback": () => { tsToken = ""; },
-        "before-interactive-callback": () => tsShow(true),
-        "after-interactive-callback": () => tsShow(false),
-      });
-    };
-    const s = document.createElement("script");
-    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=ssTurnstileReady";
-    s.async = true;
-    document.head.appendChild(s);
-  };
-  form.addEventListener("focusin", loadTurnstile);
-  form.addEventListener("pointerdown", loadTurnstile);
-  const tokenWithin = (ms) => tsToken ? Promise.resolve(tsToken) : new Promise((resolve, reject) => {
-    const t = setTimeout(() => reject(new Error("no token")), ms);
-    tsWaiters.push((v) => { clearTimeout(t); resolve(v); });
-  });
-  const sendToHub = async (payload) => {
-    loadTurnstile();
-    const token = await tokenWithin(8000);
-    tsToken = "";
-    const ac = new AbortController();
-    const timer = setTimeout(() => ac.abort(), 10000);
-    try {
-      const res = await fetch(CONFIG.hubEnquiryUrl, {
-        method: "POST", headers: { "Content-Type": "application/json" }, credentials: "omit", signal: ac.signal,
-        body: JSON.stringify({ ...payload, turnstileToken: token }),
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      return true;
-    } finally {
-      clearTimeout(timer);
-      try { if (tsWidget !== null) window.turnstile.reset(tsWidget); } catch { /* widget gone */ }
-    }
-  };
-  // Resolves on the first success; rejects only when every post failed.
-  const firstSuccess = (list) => new Promise((resolve, reject) => {
-    let left = list.length;
-    list.forEach((p) => p.then(resolve, () => { if (--left === 0) reject(new Error("not sent")); }));
-  });
+  const sender = makeEnquirySender(form);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (btn.getAttribute("aria-disabled") === "true") return; // already sending
-    if (form.botcheck.checked) return; // honeypot
+    if (sender.blocked(btn)) return; // already sending, or the honeypot is ticked
 
     const bad = [];
     for (const k of ["name", "need", "timing", "email"]) {
@@ -1122,42 +1177,548 @@ document.addEventListener("click", (e) => {
       form.appendChild(c);
     }
 
-    if (!CONFIG.web3formsKey) {
-      const body = (text ? text + "\n\n" : "") +
-        "Need: " + need + "\nTiming: " + timing +
-        "\n\n— " + name + "\n" + email;
-      location.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    const mailBody = (text ? text + "\n\n" : "") +
+      "Need: " + need + "\nTiming: " + timing +
+      "\n\n— " + name + "\n" + email;
+    sender.send({
+      btn, err, subject, mailBody,
+      fields: { name, email, need, timing, message: text, about },
+      formData: () => new FormData(form),
+      onSent: (restore) => {
+        form.reset();
+        applyAbout();
+        fitAll();
+        restore();
+        updateCount();
+        more.hidden = true; addNote.hidden = false; addNote.setAttribute("aria-expanded", "false");
+        form.hidden = true;
+        sent.hidden = false;
+        sentHead.focus();
+      },
+      onFailed: () => updateCount(),
+    });
+  });
+})();
+
+/* ============================================================
+   SERVICES CONFIGURATOR — /services/. The visitor builds an enquiry from
+   choices; the summary is a sentence plus a price breakdown, and it sends
+   through the same sender as the home sentence. Runs only on that page.
+   ============================================================ */
+(function () {
+  "use strict";
+  var root = document.getElementById("svConfig");
+  var form = document.getElementById("enquiryForm");
+  if (!root || !form) return;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var reduce = prefersReduced;
+
+  var sent = $("#enquirySent"), sentHead = $("#enquirySentHead"), sumBody = $("#sumBody");
+  var btn = $("#seSend"), err = $("#enquiryStatus"), summaryEl = $("#summary");
+  var keyField = form.querySelector('input[name="access_key"]');
+  if (CONFIG.web3formsKey && keyField) keyField.value = CONFIG.web3formsKey;
+  var sender = makeEnquirySender(form);
+  var f = { name: $("#seName"), email: $("#seEmail") };
+  var talk = $("#talkRush");
+  var steps = { 1: $("#step1"), 2: $("#step2"), 3: $("#step3"), 4: $("#step4"), 5: $("#step5"), 6: $("#step6") };
+  var done = false;
+
+  var TIERS = {
+    template: { name: "Template", price: 3500, std: "About 2 to 3 weeks", rush: "About 1 to 2 weeks" },
+    designed: { name: "Designed", price: 7500, std: "About 5 to 7 weeks", rush: "About 3 to 4 weeks" },
+    bespoke: { name: "Bespoke", price: 15000, from: true, std: "About 8 to 14 weeks" }
+  };
+  var CARES = {
+    care: { name: "Care", month: 150 },
+    plus: { name: "Care Plus", month: 450 },
+    partner: { name: "Partner", month: 1500 },
+    none: { name: "No care" }
+  };
+  var SITE_WORDS = {
+    template: "a Template site", designed: "a Designed site", bespoke: "a Bespoke site",
+    refresh: "a refresh of our current site",
+    fix: "a website fix", words: "help with words, film or audio", unsure: "help working out what I need"
+  };
+  var PLATFORM_WORDS = { squarespace: "on Squarespace", current: "on the platform we already use", choose: "on whichever platform suits" };
+  /* short labels for the enquiry's "need" line */
+  var SITE_SHORT = {
+    template: "Template site", designed: "Designed site", bespoke: "Bespoke site", refresh: "Refresh",
+    fix: "Website fix", words: "Words, film or audio", unsure: "Not sure yet"
+  };
+  var PLATFORM_SHORT = { squarespace: "Squarespace", current: "Current platform", choose: "Platform to choose" };
+  var SQ_LINE = "Plus your Squarespace plan, paid to them, about NZ$228 a year.";
+  var money = function (n) { return "NZ$" + n.toLocaleString("en-NZ"); };
+  var emailOk = function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); };
+  var val = function (n) { var c = form.querySelector('input[name="' + n + '"]:checked'); return c ? c.value : ""; };
+  var setText = function (el, t) { if (el.textContent !== t) el.textContent = t; };
+
+  function state() {
+    var site = val("site"), tier = TIERS[site] || null;
+    var hasPlat = site === "designed" || site === "bespoke";
+    return {
+      site: site, tier: tier,
+      rushable: site === "template" || site === "designed",
+      hasPlat: hasPlat,
+      careOn: !!tier || site === "refresh",
+      platform: hasPlat ? val("platform") : "",
+      pace: val("pace"), care: val("care"), timing: val("timing"),
+      name: f.name.value.trim(), email: f.email.value.trim(), talk: talk.checked
+    };
+  }
+  /* Template is always Squarespace; Designed and Bespoke only when chosen */
+  function sqPath(s) { return s.site === "template" || (s.hasPlat && s.platform === "squarespace"); }
+
+  /* blanks size to their content (mirror span), as on the home page */
+  var mirror = document.createElement("span");
+  mirror.className = "se-mirror"; mirror.setAttribute("aria-hidden", "true");
+  document.body.appendChild(mirror);
+  var blanks = $$(".se-blank", form);
+  function fit(el) {
+    var cs = getComputedStyle(el);
+    if (el.offsetParent === null) return;
+    mirror.style.font = cs.font; mirror.style.letterSpacing = cs.letterSpacing;
+    mirror.textContent = el.value || el.placeholder;
+    var w = mirror.getBoundingClientRect().width;
+    if (el.value && document.activeElement === el) {
+      mirror.textContent = el.placeholder;
+      w = Math.max(w, mirror.getBoundingClientRect().width);
+    }
+    var pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    el.style.width = Math.ceil(w + pad + 1) + "px";
+  }
+  var pressing = false, pendingFit = [];
+  /* while a pointer is down, hold any re-fit until just after the click lands */
+  function fitSoon(el) { if (pressing) { if (pendingFit.indexOf(el) < 0) pendingFit.push(el); } else fit(el); }
+  function fitAll() { blanks.forEach(fitSoon); }
+  document.addEventListener("pointerdown", function () { pressing = true; }, true);
+  function release() {
+    pressing = false;
+    if (!pendingFit.length) return;
+    setTimeout(function () { pendingFit.forEach(fit); pendingFit = []; }, 0);
+  }
+  document.addEventListener("pointerup", release, true);
+  document.addEventListener("pointercancel", release, true);
+  blanks.forEach(function (el) {
+    el.addEventListener("input", function () { fitSoon(el); });
+    el.addEventListener("change", function () { fitSoon(el); });
+    el.addEventListener("blur", function () { fitSoon(el); });
+  });
+  window.addEventListener("resize", fitAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+
+  /* blinking cursor invites the first word, until anything is filled */
+  var cursor = $("#seCursor"), cursorGone = false;
+  function dropCursor() { cursorGone = true; if (cursor) { cursor.classList.remove("on"); cursor.remove(); cursor = null; } }
+  if (cursor && "IntersectionObserver" in window) {
+    var cio = new IntersectionObserver(function (es) {
+      if (!es.some(function (x) { return x.isIntersecting; })) return;
+      if (!cursorGone && cursor && !document.activeElement.closest(".se-form")) cursor.classList.add("on");
+      cio.disconnect();
+    }, { threshold: 0.5 });
+    cio.observe(summaryEl);
+  }
+  form.addEventListener("focusin", dropCursor);
+
+  /* keyboard or pointer: focus only follows a keyboard user */
+  var lastKb = false;
+  document.addEventListener("keydown", function (e) { if (!e.metaKey && !e.ctrlKey) lastKb = true; }, true);
+  document.addEventListener("pointerdown", function () { lastKb = false; }, true);
+
+  /* which gaps are left */
+  function gaps(s) {
+    var g = [];
+    if (!s.name) g.push("name");
+    if (!s.site) g.push("site");
+    if (s.hasPlat && !s.platform) g.push("platform");
+    if (s.rushable && !s.pace) g.push("pace");
+    if (s.careOn && !s.care) g.push("care");
+    if (s.site !== "unsure" && !s.timing) g.push("timing");
+    if (!s.email) g.push("email");
+    return g;
+  }
+  /* send button counts the gaps left; write the label only when its text changes (Safari) */
+  function updateCount(s) {
+    var left = gaps(s).length;
+    var label = $("#seSendLabel");
+    var text = left === 0 ? "Send it " : left + (left === 1 ? " gap" : " gaps") + " to go";
+    if (label.textContent !== text) label.textContent = text;
+    var arrow = btn.querySelector(".btn-arrow");
+    if (left === 0 && !arrow) {
+      var a = document.createElement("span");
+      a.className = "btn-arrow"; a.textContent = "→";
+      btn.appendChild(a);
+    } else if (left > 0 && arrow) arrow.remove();
+  }
+
+  /* the sentence: each phrase fills in, or shows as a gap you can click */
+  var slots = { site: $("#slSite"), plat: $("#slPlat"), pace: $("#slPace"), care: $("#slCare"), time: $("#slTime") };
+  function setSlot(el, spec) {
+    var sig = spec ? [spec.prefix, spec.text, spec.filled ? 1 : 0, spec.step].join("|") : "";
+    if (el._sig === sig) return;
+    el._sig = sig;
+    el.textContent = "";
+    if (!spec) return;
+    if (spec.prefix) el.appendChild(document.createTextNode(spec.prefix));
+    if (spec.filled) {
+      var s = document.createElement("span");
+      s.className = "fill pop"; s.textContent = spec.text;
+      el.appendChild(s);
+    } else {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "gap"; b.setAttribute("data-step", spec.step);
+      b.textContent = "[" + spec.text + "]";
+      b.setAttribute("aria-label", "Go to step " + spec.step + ": " + spec.text);
+      el.appendChild(b);
+    }
+  }
+  function slotSpecs(s) {
+    var sp = {};
+    sp.site = s.site
+      ? { prefix: "", text: SITE_WORDS[s.site], filled: true, step: 1 }
+      : { prefix: "", text: "a site", filled: false, step: 1 };
+    sp.plat = null;
+    if (s.hasPlat) {
+      sp.plat = s.platform
+        ? { prefix: ", ", text: PLATFORM_WORDS[s.platform], filled: true, step: 2 }
+        : { prefix: ", ", text: "platform", filled: false, step: 2 };
+    }
+    sp.pace = null;
+    if (s.rushable) {
+      sp.pace = s.pace
+        ? { prefix: ", ", text: s.pace === "rush" ? "as a rush build" : "at a standard pace", filled: true, step: 3 }
+        : { prefix: ", ", text: "pace", filled: false, step: 3 };
+    } else if (s.site === "bespoke" && s.talk) {
+      sp.pace = { prefix: ", ", text: "and I’d like to talk about a rush", filled: true, step: 3 };
+    }
+    sp.care = null;
+    if (s.careOn) {
+      var none = s.site === "refresh" ? "with no care plan" : "with no care after the first three months";
+      sp.care = s.care
+        ? { prefix: ", ", text: s.care === "none" ? none : "with " + CARES[s.care].name + " after launch", filled: true, step: 4 }
+        : { prefix: ", ", text: "care after launch", filled: false, step: 4 };
+    }
+    sp.time = null;
+    if (s.site) {
+      if (s.timing) sp.time = { prefix: ", and I’d like to start ", text: s.timing, filled: true, step: 5 };
+      else if (s.site !== "unsure") sp.time = { prefix: ", and I’d like to start ", text: "when", filled: false, step: 5 };
+    }
+    return sp;
+  }
+  function paintSentence(s) {
+    var sp = slotSpecs(s);
+    setSlot(slots.site, sp.site);
+    setSlot(slots.plat, sp.plat);
+    setSlot(slots.pace, sp.pace);
+    setSlot(slots.care, sp.care);
+    setSlot(slots.time, sp.time);
+  }
+
+  /* price breakdown */
+  function quote(s) {
+    var rows = [];
+    if (!s.site) return { rows: rows, total: { text: "Choose a site to see what it costs." } };
+    if (s.site === "fix") return { rows: rows, total: { text: "NZ$750, taken off a new site within three months" } };
+    if (s.site === "words") return { rows: rows, total: { text: "From NZ$950 a day, quoted per project" } };
+    if (s.site === "unsure") return { rows: rows, total: { text: "We’ll work it out together on a call" } };
+    var careRow = (s.care && CARES[s.care].month)
+      ? [CARES[s.care].name + (s.site === "refresh" ? ", monthly" : ", from month four"), money(CARES[s.care].month) + " a month"] : null;
+    if (s.site === "refresh") {
+      if (careRow) rows.push(careRow);
+      return { rows: rows, total: { text: "Refresh, from NZ$2,500, on the platform you already use" } };
+    }
+    var t = s.tier, rushOn = s.rushable && s.pace === "rush";
+    var otherPlat = s.hasPlat && s.platform && s.platform !== "squarespace";
+    if (s.site === "bespoke") {
+      rows.push(["Bespoke site", "From " + money(t.price)]);
+      if (otherPlat) rows.push(["Other platforms", "Price confirmed on a call"]);
+      if (s.talk) rows.push(["Rush", "Quoted on request"]);
+      if (careRow) rows.push(careRow);
+      return { rows: rows, total: { text: "From NZ$15,000, most land between NZ$15,000 and NZ$30,000" } };
+    }
+    rows.push([t.name + " site", money(t.price)]);
+    if (otherPlat) rows.push(["Other platforms", "Price confirmed on a call"]);
+    var add = Math.round(t.price * 0.3);
+    if (rushOn) rows.push(["Rush", "+" + money(add)]);
+    if (careRow) rows.push(careRow);
+    return { rows: rows, total: { label: "Total to build", amount: money(t.price + (rushOn ? add : 0)) } };
+  }
+  var pbList = $("#pbList"), pbTotal = $("#pbTotal");
+  function paintQuote(s) {
+    var q = quote(s);
+    var rsig = q.rows.map(function (r) { return r.join("|"); }).join("~");
+    if (pbList._sig !== rsig) {
+      pbList._sig = rsig; pbList.textContent = "";
+      q.rows.forEach(function (r) {
+        var li = document.createElement("li");
+        var a = document.createElement("span"), b = document.createElement("span");
+        a.textContent = r[0]; b.textContent = r[1];
+        li.appendChild(a); li.appendChild(b); pbList.appendChild(li);
+      });
+    }
+    var tsig = q.total.text || (q.total.label + "|" + q.total.amount);
+    if (pbTotal._sig !== tsig) {
+      pbTotal._sig = tsig; pbTotal.textContent = "";
+      if (q.total.text) {
+        var p = document.createElement("span"); p.className = "pb-text"; p.textContent = q.total.text; pbTotal.appendChild(p);
+      } else {
+        var l = document.createElement("span"); l.className = "pb-tl"; l.textContent = q.total.label;
+        var a2 = document.createElement("span"); a2.className = "pb-ta"; a2.textContent = q.total.amount;
+        pbTotal.appendChild(l); pbTotal.appendChild(a2);
+      }
+    }
+    return q;
+  }
+
+  /* the printable quote: filled from the same choices, shown only when printing */
+  var printEl = $("#svPrint");
+  function paintPrint(s, q) {
+    var sp = slotSpecs(s);
+    var part = function (x) { return x ? x.prefix + (x.filled ? x.text : "(not given)") : ""; };
+    var sentence = "Hi Kris, I’m " + (s.name || "(not given)") + ". I’d like " +
+      part(sp.site) + part(sp.plat) + part(sp.pace) + part(sp.care) + part(sp.time) +
+      ". You can reach me at " + (s.email || "(not given)") + ".";
+    var date = "";
+    try { date = new Intl.DateTimeFormat("en-NZ", { day: "numeric", month: "long", year: "numeric", timeZone: "Pacific/Auckland" }).format(new Date()); } catch (e) { date = new Date().toDateString(); }
+    printEl.textContent = "";
+    var add = function (tag, cls, text) {
+      var el = document.createElement(tag); if (cls) el.className = cls; el.textContent = text; printEl.appendChild(el); return el;
+    };
+    add("h1", "", "Singh Studio, quote summary");
+    add("p", "sp-date", date);
+    add("p", "sp-sent", sentence);
+    if (q.rows.length) {
+      var ul = document.createElement("ul");
+      q.rows.forEach(function (r) {
+        var li = document.createElement("li");
+        var a = document.createElement("span"), b = document.createElement("span");
+        a.textContent = r[0]; b.textContent = r[1];
+        li.appendChild(a); li.appendChild(b); ul.appendChild(li);
+      });
+      printEl.appendChild(ul);
+    }
+    if (q.total.text) add("p", "sp-total", q.total.text);
+    else {
+      var tot = add("p", "sp-total", "");
+      var l = document.createElement("span"), a2 = document.createElement("span");
+      l.textContent = q.total.label; a2.textContent = q.total.amount;
+      tot.appendChild(l); tot.appendChild(a2);
+    }
+    if (sqPath(s)) add("p", "sp-fine", SQ_LINE);
+    add("p", "sp-fine", "Prices in NZ dollars. Singh Studio is not GST-registered.");
+    add("p", "sp-fine", "Half when we start, half at launch.");
+    add("p", "sp-url", location.href.split("#")[0]);
+  }
+  window.addEventListener("beforeprint", function () { var s = state(); paintPrint(s, quote(s)); });
+  $("#svSave").addEventListener("click", function () { var s = state(); paintPrint(s, quote(s)); window.print(); });
+
+  /* mobile sticky bar */
+  var bar = $("#svBar"), barText = $("#svBarText"), sumInView = false;
+  function barLabel(s) {
+    if (!s.site) return "";
+    if (s.site === "fix") return "Website fix · NZ$750";
+    if (s.site === "refresh") return "Refresh · From NZ$2,500";
+    if (s.site === "words") return "Words, film or audio · From NZ$950 a day";
+    if (s.site === "unsure") return "Help working it out";
+    var t = s.tier;
+    if (s.site === "bespoke") return "Bespoke · From " + money(t.price);
+    var rushOn = s.pace === "rush";
+    return t.name + (rushOn ? " rush" : "") + " · " + money(t.price + (rushOn ? Math.round(t.price * 0.3) : 0));
+  }
+  function paintBar(s) {
+    var t = barLabel(s);
+    if (barText.textContent !== t) barText.textContent = t;
+    bar.classList.toggle("on", !!t && !sumInView && !done);
+    document.body.classList.toggle("sv-bar-room", !!t && !done);
+  }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { sumInView = es[0].isIntersecting; paintBar(state()); }, { threshold: 0 }).observe(summaryEl);
+  }
+
+  /* render everything from the choices; returns the steps that just opened */
+  var catalog = { amt: $("#paceStdAmt"), stdTime: $("#paceStdTime"), rushAmt: $("#paceRushAmt"), rushTime: $("#paceRushTime") };
+  function render() {
+    var s = state();
+    var vis = { 2: s.hasPlat, 3: !!s.tier, 4: s.careOn, 5: !!s.site };
+    var opened = [];
+    [2, 3, 4, 5].forEach(function (n) {
+      var el = steps[n], was = !el.classList.contains("is-off");
+      el.classList.toggle("is-off", !vis[n]);
+      if (vis[n]) el.removeAttribute("inert"); else el.setAttribute("inert", "");
+      if (vis[n] && !was) opened.push(n);
+    });
+    if (s.tier) {
+      $("#paceCards").hidden = !s.rushable;
+      $("#paceBespoke").hidden = s.rushable;
+      if (s.rushable) {
+        setText(catalog.amt, s.tier.price.toLocaleString("en-NZ"));
+        setText(catalog.stdTime, s.tier.std);
+        setText(catalog.rushAmt, Math.round(s.tier.price * 1.3).toLocaleString("en-NZ"));
+        setText(catalog.rushTime, s.tier.rush);
+      }
+    }
+    if (s.careOn) {
+      var refresh = s.site === "refresh";
+      setText($("#careIntro"), refresh ? "Care starts once the refresh is done. Pick a plan, or none:"
+        : s.site === "bespoke" ? "Three months of Care Plus are included. After that:" : "Three months of Care are included. After that:");
+      setText($("#careNoneName"), refresh ? "No care plan" : "No care after three months");
+      setText($("#careNoneLine"), refresh ? "No monthly charge." : "No monthly charge after the first three months.");
+    }
+    $("#timingOpt").hidden = s.site !== "unsure";
+    paintSentence(s);
+    var q = paintQuote(s);
+    $("#sqLine").hidden = !sqPath(s);
+    $("#svSave").hidden = !s.site;
+    paintPrint(s, q);
+    updateCount(s);
+    paintBar(s);
+    fitAll();
+    return opened;
+  }
+
+  function focusIn(step) {
+    var el = steps[step];
+    var target = el.querySelector("input:checked") || $$("input", el).filter(function (i) { return i.offsetParent !== null; })[0];
+    if (target) target.focus({ preventScroll: true });
+    return target;
+  }
+  /* a keyboard user's focus stays in view once the step has finished opening */
+  function keepInView(target) {
+    if (!target) return;
+    setTimeout(function () {
+      var r = target.closest(".opt, .sv-chip, .opt-q") ? target.closest(".opt, .sv-chip, .opt-q").getBoundingClientRect() : target.getBoundingClientRect();
+      if (r.top < 90 || r.bottom > window.innerHeight) target.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+    }, reduce ? 0 : 340);
+  }
+
+  function clearInvalid(el) {
+    if (el) el.removeAttribute("aria-invalid");
+    if (el && el.name) { var fs = el.closest("fieldset"); if (fs) fs.removeAttribute("data-invalid"); }
+    if (!form.querySelector('[aria-invalid="true"], fieldset[data-invalid="true"]')) err.hidden = true;
+  }
+  function onChange(e, quiet) {
+    var t = e.target;
+    if (!t || !t.name) return;
+    dropCursor();
+    clearInvalid(t);
+    var opened = render();
+    if (!quiet && lastKb && opened.length && e.type === "change") {
+      keepInView(focusIn(opened[0]));
+    }
+  }
+  form.addEventListener("change", function (e) { onChange(e, false); });
+  form.addEventListener("input", function (e) { if (e.target.type === "text" || e.target.type === "email") onChange(e, true); });
+
+  /* gaps in the sentence take you to the step */
+  function goStep(n) {
+    var fs = $("#fs" + n);
+    fs.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    focusIn(n);
+  }
+  $("#sentence").addEventListener("click", function (e) {
+    var g = e.target.closest(".gap");
+    if (g) goStep(+g.getAttribute("data-step"));
+  });
+
+  /* the two buttons that pick a path from elsewhere on the page */
+  function goForm() {
+    var h = $("#h-cfg");
+    h.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    setTimeout(function () { h.focus({ preventScroll: true }); }, reduce ? 0 : 700);
+  }
+  $$("[data-pick-site]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var r = $("#site-" + b.getAttribute("data-pick-site"));
+      r.checked = true;
+      dropCursor(); clearInvalid(r); render(); goForm();
+    });
+  });
+  function goSummary() {
+    summaryEl.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    f.name.focus({ preventScroll: true });
+  }
+  $("#svBarGo").addEventListener("click", goSummary);
+  $("#goSummary").addEventListener("click", goSummary);
+
+  /* optional note */
+  var more = $("#seMore"), addNote = $("#seAddNote");
+  addNote.addEventListener("click", function () {
+    more.hidden = false; addNote.setAttribute("aria-expanded", "true"); addNote.hidden = true;
+    $("textarea", more).focus();
+  });
+
+  /* the enquiry as the hub and the email carry it */
+  function needLine(s) {
+    var parts = [SITE_SHORT[s.site]];
+    if (s.rushable && s.pace) parts.push(s.pace === "rush" ? "rush" : "standard");
+    else if (s.site === "bespoke" && s.talk) parts.push("rush talk");
+    if (s.careOn && s.care) parts.push(s.care === "none" ? "no care" : CARES[s.care].name);
+    if (s.hasPlat && s.platform) parts.push(PLATFORM_SHORT[s.platform]);
+    else if (s.site === "template") parts.push("Squarespace");
+    return parts.join(", ").slice(0, 80);
+  }
+  function messageText(q, note) {
+    var lines = ["Configured on the Services page:"];
+    q.rows.forEach(function (r) { lines.push(r[0] + ": " + r[1]); });
+    lines.push(q.total.text ? q.total.text : q.total.label + ": " + q.total.amount);
+    var m = lines.join("\n");
+    return note ? m + "\n\n" + note : m;
+  }
+
+  var labels = { name: "your name", site: "the site you would like", platform: "which platform", pace: "how soon", care: "care after launch", timing: "when you’d like to start", email: "your email" };
+  var stepOf = { site: 1, platform: 2, pace: 3, care: 4, timing: 5 };
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (sender.blocked(btn)) return; // already sending, or the honeypot is ticked
+    var s = state(), bad = gaps(s);
+    if (s.email && !emailOk(s.email) && bad.indexOf("email") < 0) bad.push("email");
+    $$("[aria-invalid]", form).forEach(function (el) { el.removeAttribute("aria-invalid"); });
+    $$("fieldset[data-invalid]", form).forEach(function (el) { el.removeAttribute("data-invalid"); });
+    if (bad.length) {
+      var order = ["name", "site", "platform", "pace", "care", "timing", "email"];
+      bad.sort(function (a, b) { return order.indexOf(a) - order.indexOf(b); });
+      bad.forEach(function (k) {
+        if (k === "name" || k === "email") f[k].setAttribute("aria-invalid", "true");
+        else $("#fs" + stepOf[k]).setAttribute("data-invalid", "true");
+      });
+      var names = bad.map(function (k) { return labels[k]; });
+      var list = names.length > 1 ? names.slice(0, -1).join(", ") + " and " + names.slice(-1) : names[0];
+      err.textContent = "Add " + list + " so I can reply.";
+      err.hidden = false;
+      var first = bad[0];
+      if (first === "name" || first === "email") f[first].focus();
+      else goStep(stepOf[first]);
       return;
     }
+    err.hidden = true;
 
-    btn.setAttribute("aria-disabled", "true");
-    const prev = btn.innerHTML;
-    btn.innerHTML = "Sending…";
-    const payload = { name, email, need, timing, message: text, about, submissionId, botcheck: false };
-    const viaEmail = fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) })
-      .then((res) => { if (!res.ok) throw new Error(String(res.status)); return res.json(); })
-      .then((data) => { if (!data || data.success === false) throw new Error("rejected"); return true; });
-    const viaHub = hubOn ? sendToHub(payload) : Promise.reject(new Error("hub off"));
-    try {
-      await firstSuccess([viaEmail, viaHub]);
-      submissionId = newId();
-      track("enquiry_submit", { label: need + (about ? " / " + about : "") });
-      form.reset();
-      applyAbout();
-      fitAll();
-      btn.removeAttribute("aria-disabled");
-      btn.innerHTML = prev;
-      updateCount();
-      more.hidden = true; addNote.hidden = false; addNote.setAttribute("aria-expanded", "false");
-      form.hidden = true;
-      sent.hidden = false;
-      sentHead.focus();
-    } catch {
-      err.textContent = "That didn’t send. Try again, or write to kris@singhstudio.co.nz.";
-      err.hidden = false;
-      btn.removeAttribute("aria-disabled");
-      btn.innerHTML = prev;
-      updateCount();
-    }
+    var need = needLine(s);
+    var timing = s.timing || "(not given)";
+    var about = "services page";
+    var note = ((form.elements.message && form.elements.message.value) || "").trim();
+    var message = messageText(quote(s), note);
+    var subject = "Enquiry from " + s.name + ": " + need + " (" + about + ")";
+    form.elements.subject.value = subject;
+    var mailBody = message + "\n\nTiming: " + timing + "\n\n— " + s.name + "\n" + s.email;
+    sender.send({
+      btn: btn, err: err, subject: subject, mailBody: mailBody,
+      fields: { name: s.name, email: s.email, need: need, timing: timing, message: message, about: about },
+      formData: function () {
+        var fd = new FormData();
+        fd.append("access_key", keyField ? keyField.value : "");
+        fd.append("subject", subject);
+        fd.append("name", s.name); fd.append("need", need); fd.append("timing", timing);
+        fd.append("email", s.email); fd.append("message", message); fd.append("context", about);
+        return fd;
+      },
+      onSent: function (restore) {
+        restore();
+        done = true; paintBar(s);
+        sumBody.hidden = true; sent.hidden = false;
+        sentHead.focus();
+      }
+    });
   });
+
+  render();
 })();
