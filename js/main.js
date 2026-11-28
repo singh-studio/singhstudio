@@ -1899,44 +1899,67 @@ const makeEnquirySender = (form) => {
     if (cur < 7 && stepDone(cur, s)) showStep(stepAfter(s, cur, 1), { scroll: true, focus: true });
   });
   prog.back.addEventListener("click", function () { showStep(stepAfter(state(), cur, -1), { scroll: true, focus: true }); });
-  /* the "what happens next" list is a closed disclosure beside the form and always open in the phone flow */
-  var nextD = $("#cfgNext");
-  function syncNext() { if (nextD) nextD.open = flow; }
   flowMQ.addEventListener("change", function (e) {
     flow = e.matches;
-    syncNext();
     wrapSentence(flow);
     if (flow) { var s = state(); showStep(s.site ? entryStep(s) : 1, {}); }
     else { endReveal(); paintBar(state()); }
   });
 
-  /* disclosures: What's included on an option, and the other ways to start */
+  /* disclosures: What's included on an option */
   form.addEventListener("click", function (e) {
-    var b = e.target.closest(".opt-more-btn, .cfg-other-btn");
+    var b = e.target.closest(".opt-more-btn");
     if (!b) return;
     var box = b.parentNode, open = !box.classList.contains("is-open");
     box.classList.toggle("is-open", open);
     b.setAttribute("aria-expanded", open ? "true" : "false");
   });
-  /* the Choose row in the compare grid picks a site as tapping its option does, then closes the grid */
+  /* sheets: compare, other ways to start and the questions open in a native dialog, never inline */
+  var sheetFocus = null, sheetOpener = null;
+  function openSheet(id, opener) {
+    var d = $("#" + id);
+    if (!d || d.open) return;
+    sheetOpener = opener || null; sheetFocus = null;
+    d.showModal();
+    document.body.classList.add("sheet-open");
+  }
+  function closeSheet(d, focusEl) {
+    if (!d || !d.open) return;
+    if (focusEl) sheetFocus = focusEl;
+    d.close();
+  }
+  $$("dialog.sheet", document).forEach(function (d) {
+    d.addEventListener("close", function () {
+      if (!document.querySelector("dialog.sheet[open]")) document.body.classList.toggle("sheet-open", false);
+      var t = sheetFocus || sheetOpener; sheetFocus = null;
+      if (t) t.focus({ preventScroll: true });
+    });
+    d.addEventListener("click", function (e) { if (e.target === d) closeSheet(d); });
+  });
+  form.addEventListener("click", function (e) {
+    var o = e.target.closest("[data-sheet]");
+    if (o) { openSheet(o.getAttribute("data-sheet"), o); return; }
+    var x = e.target.closest("[data-sheet-close]");
+    if (x) closeSheet(x.closest("dialog"));
+  });
+  /* the Choose row in the compare sheet picks a site as tapping its option does, then closes the sheet */
   $$("[data-cmp-pick]").forEach(function (b) {
     b.addEventListener("click", function () {
       var r = $("#site-" + b.getAttribute("data-cmp-pick"));
       if (!r) return;
       r.checked = true;
       dropCursor(); clearInvalid(r); render();
-      var d = $("#cmpDetails");
-      if (d) d.open = false;
-      r.focus({ preventScroll: true });
+      closeSheet($("#sh-compare"), r);
       var card = r.closest(".opt");
       if (card) card.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
     });
   });
-  function openOther() {
-    var box = $(".cfg-other"), q = $(".opt-quiet .opt-in:checked");
-    if (!q) return;
-    box.classList.add("is-open");
-    $(".cfg-other-btn").setAttribute("aria-expanded", "true");
+  /* a route chosen from the other-ways sheet closes it and shows as the chosen route beside the links */
+  var secState = $("#secState");
+  function paintSecState(s) {
+    var q = ["refresh", "fix", "words", "unsure"].indexOf(s.site) >= 0;
+    secState.hidden = !q;
+    if (q) setText(secState, "Selected: " + SITE_SHORT[s.site]);
   }
 
   /* render everything from the choices; returns the steps that just opened */
@@ -1955,12 +1978,19 @@ const makeEnquirySender = (form) => {
       $("#paceCards").hidden = !s.rushable;
       $("#paceBespoke").hidden = s.rushable;
       if (s.rushable) {
-        setText(catalog.amt, s.tier.price.toLocaleString("en-NZ"));
+        setText(catalog.amt, money(s.tier.price));
         setText(catalog.stdTime, s.tier.std);
-        setText(catalog.rushAmt, Math.round(s.tier.price * 1.3).toLocaleString("en-NZ"));
+        setText(catalog.rushAmt, money(Math.round(s.tier.price * 1.3)));
         setText(catalog.rushTime, s.tier.rush);
         var wks = function (t) { return t.replace(/^About /, "").replace(/ weeks$/, ""); };
-        setText($("#paceRushUp"), "Live in about " + s.tier.rush.replace(/^About /, "") + " instead of " + wks(s.tier.std) + ", for " + money(Math.round(s.tier.price * 0.3)) + " more.");
+        var ru = $("#paceRushUp"), rm = money(Math.round(s.tier.price * 0.3));
+        var rsig = s.tier.rush + "|" + s.tier.std + "|" + rm;
+        if (ru._sig !== rsig) {
+          ru._sig = rsig; ru.textContent = "";
+          ru.appendChild(document.createTextNode("Live in about " + s.tier.rush.replace(/^About /, "") + " instead of " + wks(s.tier.std) + ", for "));
+          var st = document.createElement("strong"); st.className = "opt-up-lead"; st.textContent = rm; ru.appendChild(st);
+          ru.appendChild(document.createTextNode(" more."));
+        }
       }
     }
     if (s.careOn) {
@@ -1975,6 +2005,7 @@ const makeEnquirySender = (form) => {
     var q = paintQuote(s);
     $("#sqLine").hidden = !sqPath(s);
     $("#exLine").hidden = !s.extras.length;
+    paintSecState(s);
     $("#svSave").hidden = !s.site;
     updateCount(s);
     paintFlow(s);
@@ -2009,7 +2040,7 @@ const makeEnquirySender = (form) => {
     dropCursor();
     clearInvalid(t);
     var opened = render();
-    if (t.name === "site") openOther();
+    if (t.name === "site" && t.closest("dialog")) closeSheet(t.closest("dialog"), $("#lkOther"));
     if (!flow && !quiet && lastKb && opened.length && e.type === "change") {
       keepInView(focusIn(opened[0]));
     }
@@ -2136,9 +2167,7 @@ const makeEnquirySender = (form) => {
   });
 
   applyQ();
-  syncNext();
   render();
-  openOther();
   wrapSentence(flow);
   if (flow) { var s0 = state(); showStep(s0.site ? entryStep(s0) : 1, { initial: true }); }
 })();
