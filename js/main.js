@@ -1514,22 +1514,28 @@ const makeEnquirySender = (form) => {
 
   /* mobile sticky bar */
   var bar = $("#svBar"), barText = $("#svBarText"), sumInView = false;
+  /* two lines: the choice, then its price */
   function barLabel(s) {
-    if (!s.site) return "";
-    if (s.site === "fix") return "Website fix · NZ$750";
-    if (s.site === "refresh") return "Refresh · From NZ$2,500";
-    if (s.site === "words") return "Words, film or audio · From NZ$950 a day";
-    if (s.site === "unsure") return "Help working it out";
+    if (!s.site) return null;
+    if (s.site === "fix") return ["Website fix", "NZ$750"];
+    if (s.site === "refresh") return ["Refresh", "From NZ$2,500"];
+    if (s.site === "words") return ["Words, film or audio", "From NZ$950 a day"];
+    if (s.site === "unsure") return ["Help working it out", ""];
     var t = s.tier;
-    if (s.site === "bespoke") return "Bespoke · From " + money(t.price);
+    if (s.site === "bespoke") return ["Bespoke", "From " + money(t.price)];
     var rushOn = s.pace === "rush";
-    return t.name + (rushOn ? " rush" : "") + " · " + money(t.price + (rushOn ? Math.round(t.price * 0.3) : 0));
+    return [t.name + (rushOn ? ", rush" : ""), money(t.price + (rushOn ? Math.round(t.price * 0.3) : 0))];
   }
+  var barName = $("#svBarName"), barPrice = $("#svBarPrice");
   function paintBar(s) {
     var t = barLabel(s);
-    if (barText.textContent !== t) barText.textContent = t;
+    setText(barName, t ? t[0] : ""); setText(barPrice, t ? t[1] : "");
     bar.classList.toggle("on", !!t && !sumInView && !done);
     document.body.classList.toggle("sv-bar-room", !!t && !done);
+  }
+  /* the back-to-top button would sit on the sticky panel, so it steps aside while the configurator is in view */
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { document.body.classList.toggle("sv-cfg-view", es[0].isIntersecting); }, { threshold: 0 }).observe(root);
   }
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { sumInView = es[0].isIntersecting; paintBar(state()); }, { threshold: 0 }).observe(summaryEl);
