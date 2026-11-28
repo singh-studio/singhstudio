@@ -1827,6 +1827,20 @@ const makeEnquirySender = (form) => {
     box.classList.toggle("is-open", open);
     b.setAttribute("aria-expanded", open ? "true" : "false");
   });
+  /* the Choose row in the compare grid picks a site as tapping its option does, then closes the grid */
+  $$("[data-cmp-pick]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var r = $("#site-" + b.getAttribute("data-cmp-pick"));
+      if (!r) return;
+      r.checked = true;
+      dropCursor(); clearInvalid(r); render();
+      var d = $("#cmpDetails");
+      if (d) d.open = false;
+      r.focus({ preventScroll: true });
+      var card = r.closest(".opt");
+      if (card) card.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+    });
+  });
   function openOther() {
     var box = $(".cfg-other"), q = $(".opt-quiet .opt-in:checked");
     if (!q) return;
@@ -1854,6 +1868,8 @@ const makeEnquirySender = (form) => {
         setText(catalog.stdTime, s.tier.std);
         setText(catalog.rushAmt, Math.round(s.tier.price * 1.3).toLocaleString("en-NZ"));
         setText(catalog.rushTime, s.tier.rush);
+        var wks = function (t) { return t.replace(/^About /, "").replace(/ weeks$/, ""); };
+        setText($("#paceRushUp"), "Live in about " + s.tier.rush.replace(/^About /, "") + " instead of " + wks(s.tier.std) + ", for " + money(Math.round(s.tier.price * 0.3)) + " more.");
       }
     }
     if (s.careOn) {

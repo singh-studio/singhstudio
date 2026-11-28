@@ -25,7 +25,7 @@
   <link rel="preload" href="../assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="../css/style.css?v=e9e28efd42">
+  <link rel="stylesheet" href="../css/style.css?v=189c1ce81e">
   <noscript><style>[data-reveal]{opacity:1;transform:none}.ht-inner{transform:none}</style></noscript>
   <script type="application/ld+json">
   {
@@ -374,6 +374,7 @@
                         <label class="opt-lab" for="site-designed"><span class="opt-name">Designed</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">7,500</span></span></label>
                         <div class="opt-desc" id="sd-designed">
                           <p class="tg-tag">For organisations whose site has to carry their story.</p>
+                          <p class="opt-up"><span class="opt-up-mark" aria-hidden="true">+</span><span>NZ$4,000 more than Template: designed from a blank page, words written with you, 6 more pages and a plugin.</span></p>
                           <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-designed">What’s included</button><div class="opt-more-body" id="om-designed"><ul class="sv-list">
                             <li>Designed for you from a blank page</li>
                             <li>Up to 12 pages</li>
@@ -395,6 +396,7 @@
                         <label class="opt-lab" for="site-bespoke"><span class="opt-name">Bespoke</span><span class="sv-price"><span class="sv-from">From</span><span class="sv-cur">NZ$</span><span class="sv-amt">15,000</span></span></label>
                         <div class="opt-desc" id="sd-bespoke">
                           <p class="tg-tag">For bigger sites with features of their own.</p>
+                          <p class="opt-up"><span class="opt-up-mark" aria-hidden="true">+</span><span>From NZ$7,500 more than Designed: custom features, pages scoped together, video walkthroughs and Care Plus for three months.</span></p>
                           <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-bespoke">What’s included</button><div class="opt-more-body" id="om-bespoke"><ul class="sv-list">
                             <li>Everything in Designed</li>
                             <li>Custom features, like giving with receipts, a team finder or a resource library</li>
@@ -408,31 +410,33 @@
                     </div>
                   </div>
 
-                  <div class="cfg-other">
-                    <button class="cfg-other-btn" type="button" aria-expanded="false" aria-controls="cfgOtherBody">Not sure? Other ways to start</button>
-                    <div class="cfg-other-body" id="cfgOtherBody">
                   <div class="tg-faq sv-compare">
-                    <details>
+                    <details id="cmpDetails">
                       <summary>Compare all three</summary>
-                      <table class="sv-table" role="table">
-                        <thead role="rowgroup">
-                          <tr role="row"><th scope="col" role="columnheader"><span class="se-vh">Feature</span></th><th scope="col" role="columnheader">Template</th><th scope="col" role="columnheader">Designed</th><th scope="col" role="columnheader">Bespoke</th></tr>
+                      <table class="cmp-table">
+                        <caption class="se-vh">Compare Template, Designed and Bespoke</caption>
+                        <thead>
+                          <tr><th scope="col" class="cmp-corner"><span class="se-vh">Feature</span></th><th scope="col">Template</th><th scope="col">Designed</th><th scope="col">Bespoke</th></tr>
                         </thead>
-                        <tbody role="rowgroup">
-                          <tr role="row"><th scope="row" role="rowheader">Price</th><td role="cell" data-label="Template">NZ$3,500</td><td role="cell" data-label="Designed">NZ$7,500</td><td role="cell" data-label="Bespoke">From NZ$15,000</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Design</th><td role="cell" data-label="Template">A Squarespace template set up in your colours and type</td><td role="cell" data-label="Designed">Designed for you from a blank page</td><td role="cell" data-label="Bespoke">Everything in Designed</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Pages</th><td role="cell" data-label="Template">Up to 6</td><td role="cell" data-label="Designed">Up to 12</td><td role="cell" data-label="Bespoke">Scoped together</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Words</th><td role="cell" data-label="Template">Your words and photos loaded in</td><td role="cell" data-label="Designed">Written with you, before any design</td><td role="cell" data-label="Bespoke">Everything in Designed</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Features</th><td role="cell" data-label="Template">Contact and enquiry forms</td><td role="cell" data-label="Designed">One plugin: giving, events, a team directory or resources</td><td role="cell" data-label="Bespoke">Custom features, like giving with receipts, a team finder or a resource library</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Training</th><td role="cell" data-label="Template">An hour of training</td><td role="cell" data-label="Designed">An editing guide and training</td><td role="cell" data-label="Bespoke">Video walkthroughs for your team</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Care included</th><td role="cell" data-label="Template">Three months of Care</td><td role="cell" data-label="Designed">Three months of Care</td><td role="cell" data-label="Bespoke">Three months of Care Plus</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Time</th><td role="cell" data-label="Template">About 2 to 3 weeks</td><td role="cell" data-label="Designed">About 5 to 7 weeks</td><td role="cell" data-label="Bespoke">About 8 to 14 weeks</td></tr>
-                          <tr role="row"><th scope="row" role="rowheader">Rush</th><td role="cell" data-label="Template">+30%, about 1 to 2 weeks</td><td role="cell" data-label="Designed">+30%, about 3 to 4 weeks</td><td role="cell" data-label="Bespoke">Quoted on request</td></tr>
+                        <tbody>
+                          <tr><th scope="row">Price</th><td>NZ$3,500</td><td>NZ$7,500</td><td>From NZ$15,000</td></tr>
+                          <tr><th scope="row">Pages</th><td>Up to 6</td><td>Up to 12</td><td>Scoped</td></tr>
+                          <tr><th scope="row">Designed for you</th><td><span aria-hidden="true">—</span><span class="se-vh">Not included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td></tr>
+                          <tr><th scope="row">Words written with you</th><td><span aria-hidden="true">—</span><span class="se-vh">Not included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td><td><span aria-hidden="true">✓</span><span class="se-vh">Included</span></td></tr>
+                          <tr><th scope="row">Features</th><td>Forms</td><td>1 plugin</td><td>Custom</td></tr>
+                          <tr><th scope="row">Training</th><td>1 hour</td><td>Guide</td><td>Guide and videos</td></tr>
+                          <tr><th scope="row">Care included</th><td>3 months</td><td>3 months</td><td>3 months Plus</td></tr>
+                          <tr><th scope="row">Time</th><td>2 to 3 weeks</td><td>5 to 7 weeks</td><td>8 to 14 weeks</td></tr>
+                          <tr><th scope="row">Rush</th><td>1 to 2 weeks</td><td>3 to 4 weeks</td><td>On request</td></tr>
+                          <tr class="cmp-pick"><th scope="row"><span class="se-vh">Choose a site</span></th><td><button class="cmp-choose" type="button" data-cmp-pick="template">Choose<span class="se-vh"> Template</span></button></td><td><button class="cmp-choose" type="button" data-cmp-pick="designed">Choose<span class="se-vh"> Designed</span></button></td><td><button class="cmp-choose" type="button" data-cmp-pick="bespoke">Choose<span class="se-vh"> Bespoke</span></button></td></tr>
                         </tbody>
                       </table>
                     </details>
                   </div>
 
+                  <div class="cfg-other">
+                    <button class="cfg-other-btn" type="button" aria-expanded="false" aria-controls="cfgOtherBody">Not sure? Other ways to start</button>
+                    <div class="cfg-other-body" id="cfgOtherBody">
                   <div class="opt-quiet">
                     <div class="opt-q">
                       <input class="opt-in" type="radio" name="site" id="site-fix" value="fix">
@@ -515,7 +519,7 @@
                       <div class="opt-card">
                         <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="pace-rush"><span class="opt-name">Rush: about half the time</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt" id="paceRushAmt">9,750</span><span class="sv-per">+30%</span></span></label>
-                        <div class="opt-desc" id="pd-rush"><p class="tg-meta" id="paceRushTime">About 3 to 4 weeks</p></div>
+                        <div class="opt-desc" id="pd-rush"><p class="tg-meta" id="paceRushTime">About 3 to 4 weeks</p><p class="opt-up"><span class="opt-up-mark" aria-hidden="true">+</span><span id="paceRushUp">Live in about 3 to 4 weeks instead of 5 to 7, for NZ$2,250 more.</span></p></div>
                       </div>
                     </div>
                   </div>
@@ -524,7 +528,7 @@
                     <p class="cfg-intro">Bespoke timing is set together. Rush is available on request.</p>
                     <label class="sv-chip"><input class="se-vh" type="checkbox" name="talkRush" id="talkRush"><span class="sv-chip-box"><span class="sv-chip-state" aria-hidden="true">✓</span>I’d like to talk about a rush</span></label>
                   </div>
-                  <p class="cfg-note">One rush build at a time.</p>
+                  <p class="cfg-body">I take one rush build at a time.</p>
                 </fieldset>
               </div>
             </div>
@@ -543,8 +547,7 @@
                         <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="care-care"><span class="opt-name">Care</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">150</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-care">
-                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-care">What’s included</button><div class="opt-more-body" id="om-care"><ul class="sv-list"><li>Monthly checks and plugin updates</li><li>Up to an hour of changes</li></ul>
-                          <p class="tg-meta">About NZ$150 an hour</p></div></div>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-care">What’s included</button><div class="opt-more-body" id="om-care"><ul class="sv-list"><li>Monthly checks and plugin updates</li><li>Up to an hour of changes</li></ul></div></div>
                         </div>
                       </div>
                     </div>
@@ -555,8 +558,8 @@
                         <span class="opt-top"><span class="sv-flag">/ Recommended</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="care-plus"><span class="opt-name">Care Plus</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">450</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-plus">
-                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-plus">What’s included</button><div class="opt-more-body" id="om-plus"><ul class="sv-list"><li>Up to four hours of changes</li><li>A report every quarter on visits, searches and enquiries</li><li>Your changes go to the front of the queue</li></ul>
-                          <p class="tg-meta">About NZ$112 an hour</p></div></div>
+                          <p class="opt-up"><span class="opt-up-mark" aria-hidden="true">+</span><span>NZ$300 more a month than Care: three more hours of changes, a quarterly report, and your changes go first.</span></p>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-plus">What’s included</button><div class="opt-more-body" id="om-plus"><ul class="sv-list"><li>Up to four hours of changes</li><li>A report every quarter on visits, searches and enquiries</li><li>Your changes go to the front of the queue</li></ul></div></div>
                         </div>
                       </div>
                     </div>
@@ -567,8 +570,8 @@
                         <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="care-partner"><span class="opt-name">Partner</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">1,500</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-partner">
-                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-partner">What’s included</button><div class="opt-more-body" id="om-partner"><ul class="sv-list"><li>About 14 hours across web, words and film</li><li>A standing monthly check-in</li><li>Three-month minimum</li></ul>
-                          <p class="tg-meta">About NZ$107 an hour</p></div></div>
+                          <p class="opt-up"><span class="opt-up-mark" aria-hidden="true">+</span><span>NZ$1,050 more a month than Care Plus: about 14 hours across web, words and film, with a monthly check-in.</span></p>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-partner">What’s included</button><div class="opt-more-body" id="om-partner"><ul class="sv-list"><li>About 14 hours across web, words and film</li><li>A standing monthly check-in</li><li>Three-month minimum</li></ul></div></div>
                         </div>
                       </div>
                     </div>
@@ -895,6 +898,6 @@
     </div>
   </article>
 
-<script src="../js/main.js?v=7d0ceac182" defer></script>
+<script src="../js/main.js?v=4d5f1744b8" defer></script>
 </body>
 </html>
