@@ -1470,47 +1470,202 @@ const makeEnquirySender = (form) => {
     return q;
   }
 
-  /* the printable quote: filled from the same choices, shown only when printing */
-  var printEl = $("#svPrint");
-  function paintPrint(s, q) {
-    var sp = slotSpecs(s);
-    var part = function (x) { return x ? x.prefix + (x.filled ? x.text : "(not given)") : ""; };
-    var sentence = "Hi Kris, I’m " + (s.name || "(not given)") + ". I’d like " +
-      part(sp.site) + part(sp.plat) + part(sp.pace) + part(sp.care) + part(sp.time) +
-      ". You can reach me at " + (s.email || "(not given)") + ".";
-    var date = "";
-    try { date = new Intl.DateTimeFormat("en-NZ", { day: "numeric", month: "long", year: "numeric", timeZone: "Pacific/Auckland" }).format(new Date()); } catch (e) { date = new Date().toDateString(); }
-    printEl.textContent = "";
-    var add = function (tag, cls, text) {
-      var el = document.createElement(tag); if (cls) el.className = cls; el.textContent = text; printEl.appendChild(el); return el;
-    };
-    add("h1", "", "Singh Studio, quote summary");
-    add("p", "sp-date", date);
-    add("p", "sp-sent", sentence);
-    if (q.rows.length) {
-      var ul = document.createElement("ul");
-      q.rows.forEach(function (r) {
-        var li = document.createElement("li");
-        var a = document.createElement("span"), b = document.createElement("span");
-        a.textContent = r[0]; b.textContent = r[1];
-        li.appendChild(a); li.appendChild(b); ul.appendChild(li);
-      });
-      printEl.appendChild(ul);
+  /* restorable choices: a short ?q= code, choices only, never a name, email or note */
+  var Q_SITES = ["template", "designed", "bespoke", "refresh", "fix", "words", "unsure"];
+  var Q_PLAT = { squarespace: "sq", current: "cur", choose: "any" };
+  var Q_PACE = { standard: "std", rush: "rush" };
+  var Q_CARE = { care: "care", plus: "careplus", partner: "partner", none: "nocare" };
+  var Q_TIME = ["asap", "soon", "later"];
+  var inv = function (o) { var r = {}; Object.keys(o).forEach(function (k) { r[o[k]] = k; }); return r; };
+  function qCode(s) {
+    if (!s.site) return "";
+    var t = [s.site];
+    if (s.hasPlat && s.platform) t.push(Q_PLAT[s.platform]);
+    if (s.rushable && s.pace) t.push(Q_PACE[s.pace]);
+    else if (s.site === "bespoke" && s.talk) t.push("talk");
+    if (s.careOn && s.care) t.push(Q_CARE[s.care]);
+    if (s.timing) {
+      var ti = $$('input[name="timing"]', form).map(function (i) { return i.value; }).indexOf(s.timing);
+      if (ti >= 0) t.push(Q_TIME[ti]);
     }
-    if (q.total.text) add("p", "sp-total", q.total.text);
-    else {
-      var tot = add("p", "sp-total", "");
-      var l = document.createElement("span"), a2 = document.createElement("span");
-      l.textContent = q.total.label; a2.textContent = q.total.amount;
-      tot.appendChild(l); tot.appendChild(a2);
-    }
-    if (sqPath(s)) add("p", "sp-fine", SQ_LINE);
-    add("p", "sp-fine", "Prices in NZ dollars. Singh Studio is not GST-registered.");
-    add("p", "sp-fine", "Half when we start, half at launch.");
-    add("p", "sp-url", location.href.split("#")[0]);
+    return t.join(".");
   }
-  window.addEventListener("beforeprint", function () { var s = state(); paintPrint(s, quote(s)); });
-  $("#svSave").addEventListener("click", function () { var s = state(); paintPrint(s, quote(s)); window.print(); });
+  function applyQ() {
+    var raw = "";
+    try { raw = new URLSearchParams(location.search).get("q") || ""; } catch (e) { return; }
+    if (!raw || raw.length > 60 || !/^[a-z]+(\.[a-z]+)*$/.test(raw)) return;
+    var t = raw.split("."), site = t.shift();
+    if (Q_SITES.indexOf(site) < 0) return;
+    var hasPlat = site === "designed" || site === "bespoke";
+    var rushable = site === "template" || site === "designed";
+    var careOn = rushable || site === "bespoke" || site === "refresh";
+    var P = inv(Q_PLAT), A = inv(Q_PACE), C = inv(Q_CARE);
+    var got = {};
+    for (var n = 0; n < t.length; n++) {
+      var k = t[n], cat = null, v = null;
+      if (P[k]) { cat = "platform"; v = P[k]; }
+      else if (A[k]) { cat = "pace"; v = A[k]; }
+      else if (C[k]) { cat = "care"; v = C[k]; }
+      else if (Q_TIME.indexOf(k) >= 0) { cat = "timing"; v = k; }
+      else if (k === "talk") { cat = "talk"; v = true; }
+      if (!cat || got[cat] !== undefined) return;
+      if ((cat === "platform" && !hasPlat) || (cat === "pace" && !rushable) || (cat === "care" && !careOn) || (cat === "talk" && site !== "bespoke")) return;
+      got[cat] = v;
+    }
+    var radio = function (name, value) {
+      var r = $$('input[name="' + name + '"]', form).filter(function (i) { return i.value === value; })[0];
+      if (r) r.checked = true;
+    };
+    radio("site", site);
+    if (got.platform) radio("platform", got.platform);
+    if (got.pace) radio("pace", got.pace);
+    if (got.care) radio("care", got.care);
+    if (got.timing) {
+      var tv = $$('input[name="timing"]', form)[Q_TIME.indexOf(got.timing)];
+      if (tv) tv.checked = true;
+    }
+    if (got.talk) talk.checked = true;
+  }
+
+  /* the printable quote: one A4 page filled from the same choices, shown only when printing */
+  var docEl = $("#svDoc"), docRef = "";
+  var DOC_TITLES = {
+    designed: ["Designed", "Website"], template: ["Template", "Website"], bespoke: ["Bespoke", "Website"],
+    refresh: ["Website", "Refresh"], fix: ["Website", "Fix"], words: ["Words, film", "and audio"], unsure: ["Let’s work", "it out"]
+  };
+  var DOC_STEPS = ["Meet", "Scope", "Build", "Care"];
+  function nzDate(opts) {
+    try { return new Intl.DateTimeFormat("en-NZ", Object.assign({ timeZone: "Pacific/Auckland" }, opts)); } catch (e) { return null; }
+  }
+  function mk(tag, cls, text, parent) {
+    var el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (text != null) el.textContent = text;
+    if (parent) parent.appendChild(el);
+    return el;
+  }
+  function liTexts(sel) { return $$(sel + " li").map(function (li) { return li.textContent.trim(); }); }
+  function docList(parent, items, cls) {
+    var ul = mk("ul", cls || "sd-list", null, parent);
+    items.forEach(function (t) { mk("li", "", t, ul); });
+  }
+  function docRows(parent, rows) {
+    rows.forEach(function (r) {
+      var d = mk("div", "sd-row", null, parent);
+      mk("span", "", r[0], d); mk("span", "", r[1], d);
+    });
+  }
+  /* what the numbers column shows, from the same choices as the on-page breakdown */
+  function docNumbers(s, q) {
+    var n = { rows: [], monthly: [], monthHead: "Monthly, from month four", total: null, note: "", timing: "" };
+    if (s.careOn && s.care && CARES[s.care].month) n.monthly.push([CARES[s.care].name, money(CARES[s.care].month) + " a month"]);
+    if (s.site === "refresh") n.monthHead = "Monthly";
+    if (!s.site) return n;
+    if (s.site === "fix") {
+      n.rows.push(["Website fix", "NZ$750"]);
+      n.total = ["Fixed price", "NZ$750"]; n.note = "Taken off a new site within three months."; n.timing = "About a week";
+    } else if (s.site === "words") {
+      n.rows.push(["Words, film or audio", "From NZ$950 a day"]);
+      n.total = ["Day rate", "From NZ$950"]; n.note = "Quoted per project.";
+    } else if (s.site === "unsure") {
+      n.total = ["Price", "On a call"]; n.note = "We’ll work it out together.";
+    } else if (s.site === "refresh") {
+      n.rows.push(["Refresh", "From NZ$2,500"]);
+      n.total = ["Total to build", "From NZ$2,500"]; n.note = "On the platform you already use.";
+    } else {
+      n.rows = q.rows.filter(function (r) { return !/ a month$/.test(r[1]); });
+      if (s.site === "bespoke") {
+        n.total = ["Total to build", "From NZ$15,000"]; n.note = "Most land between NZ$15,000 and NZ$30,000.";
+        n.timing = TIERS.bespoke.std;
+      } else {
+        n.total = [q.total.label, q.total.amount];
+        n.timing = s.pace === "rush" ? s.tier.rush + " (rush)" : s.tier.std + (s.pace ? " (standard)" : "");
+      }
+    }
+    return n;
+  }
+  function paintDoc() {
+    var s = state(), q = quote(s), sp = slotSpecs(s);
+    if (!docRef) {
+      var ymd = nzDate({ year: "2-digit", month: "2-digit", day: "2-digit" }), code = "";
+      if (ymd) ymd.formatToParts(new Date()).forEach(function (p) { if (p.type === "year" || p.type === "month" || p.type === "day") code += p.value; });
+      var hex = Math.floor(Math.random() * 65536).toString(16).toUpperCase();
+      docRef = "SS-" + (code || "000000") + "-" + ("0000" + hex).slice(-4);
+    }
+    var dfmt = nzDate({ day: "numeric", month: "long", year: "numeric" });
+    setText($("#sdRef"), "Ref " + docRef);
+    setText($("#sdDate"), "Prepared " + (dfmt ? dfmt.format(new Date()) : new Date().toDateString()));
+
+    var T = DOC_TITLES[s.site] || ["Quote", "Summary"];
+    setText($("#sdT1"), T[0]);
+    var t2 = $("#sdT2"); t2.textContent = "";
+    mk("span", "sd-sl", "/", t2); t2.appendChild(document.createTextNode(T[1]));
+
+    var who = $("#sdFor"); who.textContent = "";
+    if (s.name) mk("p", "sd-name", s.name, who); else mk("p", "sd-blank", "Your name", who);
+    if (s.email) mk("p", "sd-sub", s.email, who); else mk("p", "sd-blank", "Your email", who);
+
+    var parts = [sp.site, sp.plat, sp.pace, sp.care, sp.time].filter(function (x) { return x && x.filled; });
+    $("#sdWords").hidden = !parts.length;
+    setText($("#sdSentence"), parts.length ? "I’d like " + parts.map(function (x, i) { return (i ? x.prefix : "") + x.text; }).join("") + "." : "");
+
+    var inc = $("#sdInc"); inc.textContent = "";
+    if (s.tier) docList(inc, liTexts("#sd-" + s.site + " .sv-list"));
+    else if (s.site === "fix") mk("p", "sd-para", $(".sv-door-text").textContent.trim(), inc);
+    else if (s.site === "refresh") mk("p", "sd-para", "Improve the site you have, on the platform you already use.", inc);
+    else if (s.site === "words") {
+      $$(".sv-beyond").forEach(function (p) {
+        var d = mk("div", "sd-item", null, inc);
+        mk("h3", "", p.parentNode.querySelector("h3").textContent.trim(), d);
+        mk("p", "", p.textContent.trim(), d);
+      });
+    } else if (s.site === "unsure") mk("p", "sd-para", "We’ll work out on a call which of these fits: a website, words, film or audio.", inc);
+    if (s.careOn && s.care && s.care !== "none") {
+      mk("p", "sd-mono sd-lab sd-sublab", null, inc).appendChild(document.createTextNode(""));
+      var lab = inc.lastChild;
+      mk("span", "sd-r", "/", lab);
+      lab.appendChild(document.createTextNode(CARES[s.care].name + (s.site === "refresh" ? ", monthly" : ", from month four")));
+      docList(inc, liTexts("#cd-" + s.care + " .sv-list"));
+    }
+
+    var N = docNumbers(s, q);
+    var rows = $("#sdRows"); rows.textContent = ""; docRows(rows, N.rows);
+    var tot = $("#sdTotal"); tot.textContent = "";
+    if (N.total) {
+      mk("p", "sd-mono", N.total[0], tot); mk("p", "sd-amt", N.total[1], tot);
+      if (N.note) mk("p", "sd-tnote", N.note, tot);
+    }
+    var mo = $("#sdMonth"); mo.textContent = "";
+    if (N.monthly.length) { mk("p", "sd-mono sd-lab", N.monthHead, mo); docRows(mo, N.monthly); }
+    var tm = $("#sdTime"); tm.textContent = "";
+    if (N.timing) { mk("p", "sd-mono sd-lab", "Timing", tm); mk("p", "sd-tv", N.timing, tm); }
+
+    var know = $("#sdKnow"); know.textContent = "";
+    ["Half when we start, half at launch."]
+      .concat(s.site === "template" || s.site === "designed" ? ["Two rounds of design changes."] : [])
+      .concat(["You own it all: the site, the domain and the words are in your name."])
+      .concat(sqPath(s) ? [SQ_LINE] : [])
+      .concat(["Prices in NZ dollars. Singh Studio is not GST-registered."])
+      .forEach(function (t) { mk("li", "", t, know); });
+
+    var again = $("#sdAgain"), qc = qCode(s);
+    again.textContent = "";
+    if (qc) {
+      again.appendChild(document.createTextNode("See this again: "));
+      var a = mk("a", "", "singhstudio.co.nz/services/?q=" + qc, again);
+      a.href = "https://www.singhstudio.co.nz/services/?q=" + qc;
+    }
+  }
+  window.addEventListener("beforeprint", paintDoc);
+  $("#svSave").addEventListener("click", async function () {
+    paintDoc();
+    try {
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      var logo = $("#sdLogo");
+      if (logo && logo.decode) await logo.decode();
+    } catch (e) { /* print anyway */ }
+    window.print();
+  });
 
   /* mobile sticky bar */
   var bar = $("#svBar"), barText = $("#svBarText"), sumInView = false;
@@ -1575,7 +1730,6 @@ const makeEnquirySender = (form) => {
     var q = paintQuote(s);
     $("#sqLine").hidden = !sqPath(s);
     $("#svSave").hidden = !s.site;
-    paintPrint(s, q);
     updateCount(s);
     paintBar(s);
     fitAll();
@@ -1726,5 +1880,6 @@ const makeEnquirySender = (form) => {
     });
   });
 
+  applyQ();
   render();
 })();

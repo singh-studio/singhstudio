@@ -25,7 +25,7 @@
   <link rel="preload" href="../assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="../css/style.css?v=493a2dac49">
+  <link rel="stylesheet" href="../css/style.css?v=83b9890b35">
   <noscript><style>[data-reveal]{opacity:1;transform:none}.ht-inner{transform:none}</style></noscript>
   <script type="application/ld+json">
   {
@@ -802,8 +802,72 @@
     </div>
   </footer>
 
-  <!-- Printable quote: only this shows when printing -->
-  <div class="sv-print" id="svPrint" aria-hidden="true"></div>
+  <!-- Printable quote: one A4 page, filled from the choices, shown only when printing -->
+  <article class="sv-doc" id="svDoc" aria-hidden="true">
+    <div class="sd-main">
+      <div class="sd-top">
+      <div class="sd-head">
+        <div class="sd-brand">
+          <img src="../assets/img/ss-logo.png" alt="" width="115" height="115" id="sdLogo">
+          <p class="sd-mono">Singh Studio · Wellington, Aotearoa</p>
+        </div>
+        <div class="sd-meta sd-mono">
+          <p class="sd-ink">Quote summary</p>
+          <p id="sdRef"></p>
+          <p id="sdDate"></p>
+        </div>
+      </div>
+      <h2 class="sd-title"><span class="sd-l" id="sdT1"></span><span class="sd-l" id="sdT2"></span></h2>
+      </div>
+      <div class="sd-parties">
+        <div class="sd-party">
+          <p class="sd-mono sd-lab">Prepared for</p>
+          <div id="sdFor"></div>
+        </div>
+        <div class="sd-party">
+          <p class="sd-mono sd-lab">Prepared by</p>
+          <p class="sd-name">Kris Singh</p>
+          <p class="sd-sub">kris@singhstudio.co.nz</p>
+          <p class="sd-sub">singhstudio.co.nz</p>
+        </div>
+      </div>
+      <div class="sd-words" id="sdWords"><span class="sd-wslash" aria-hidden="true">/</span><p id="sdSentence"></p></div>
+      <div class="sd-body">
+        <div class="sd-inc">
+          <p class="sd-mono sd-lab"><span class="sd-r">/</span> What’s included</p>
+          <div id="sdInc"></div>
+        </div>
+        <div class="sd-num">
+          <p class="sd-mono sd-lab"><span class="sd-r">/</span> The numbers</p>
+          <div id="sdRows"></div>
+          <div class="sd-total" id="sdTotal"></div>
+          <div class="sd-month" id="sdMonth"></div>
+          <div class="sd-time" id="sdTime"></div>
+        </div>
+      </div>
+      <div class="sd-how">
+        <p class="sd-mono sd-lab"><span class="sd-r">/</span> How it runs</p>
+        <div class="sd-steps">
+          <div><h3><span class="sd-mono sd-n">/01</span>Meet</h3><p>A 20-minute call to see if it’s a fit.</p></div>
+          <div><h3><span class="sd-mono sd-n">/02</span>Scope</h3><p>A written scope and fixed price within two working days.</p></div>
+          <div><h3><span class="sd-mono sd-n">/03</span>Build</h3><p>Weekly check-ins, then launch.</p></div>
+          <div><h3><span class="sd-mono sd-n">/04</span>Care</h3><p>Handover, then care if you want it.</p></div>
+        </div>
+      </div>
+      <div class="sd-know">
+        <p class="sd-mono sd-lab"><span class="sd-r">/</span> Good to know</p>
+        <ul id="sdKnow"></ul>
+      </div>
+    </div>
+    <div class="sd-foot">
+      <p class="sd-fine">This summary uses the published prices at singhstudio.co.nz/services. Your fixed price arrives in writing after a 20-minute call.</p>
+      <div class="sd-next sd-mono">
+        <p class="sd-mute">Next step</p>
+        <p class="sd-ml">Book 20 minutes: kris@singhstudio.co.nz</p>
+        <p class="sd-again" id="sdAgain"></p>
+      </div>
+    </div>
+  </article>
 
   <!-- Mobile sticky bar -->
   <div class="sv-bar" id="svBar" role="region" aria-label="Your choice">
@@ -811,6 +875,6 @@
     <button class="btn btn-solid" type="button" id="svBarGo">Review <span class="btn-arrow" aria-hidden="true">→</span></button>
   </div>
 
-<script src="../js/main.js?v=b33157572b" defer></script>
+<script src="../js/main.js?v=d7ed6d9fca" defer></script>
 </body>
 </html>
