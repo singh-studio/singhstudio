@@ -3541,7 +3541,7 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
   .cfg-sum.rev-play .rv { animation: rv-top 0.28s var(--ease-swift) var(--d) both; }
   .cfg-sum.rev-play .sum-sent .fill { animation: rv-ul 0.3s var(--ease-swift) calc(var(--d, 0ms) + 150ms) both; }
   .cfg-sum.rev-play :is(.se-err, .pb, .pb-total, #sqLine, #svSave, #exLine) { animation: rv-up 0.28s var(--ease-swift) 1000ms both; }
-  .cfg-sum.rev-play :is(.se-actions, .sum-fine:not(#sqLine, #exLine), .sv-pay, #seMore, .cfg-sec) { animation: rv-up 0.28s var(--ease-swift) 1200ms both; }
+  .cfg-sum.rev-play :is(.se-actions, .sum-fine:not(#sqLine, #exLine), .sv-pay, #seMore, .cfg-help) { animation: rv-up 0.28s var(--ease-swift) 1200ms both; }
   .cfg-sum.rev-hold, .cfg-sum.rev-hold * { animation-play-state: paused !important; }
 }
 
@@ -3651,4 +3651,41 @@ body.sheet-open .sv-bar { visibility: hidden !important; }
   .opt-desc { margin-left: 32px; }
   .opt-lab > .opt-name { font-size: 1.05rem; }
   .opt-card .sv-amt { font-size: 1rem; }
+}
+
+/* ============================================================
+   ROUND 6: the recommended band, help rows, a pull quote
+   ============================================================ */
+.opt-card { --cp: 20px; padding: var(--cp); container-type: inline-size; container-name: card; }
+@media (max-width: 1023.98px) { .opt-card { --cp: 16px; } }
+@media (max-width: 359.98px) { .opt-card { --cp: 14px; } }
+.opt-band { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 32px; margin: calc(var(--cp) * -1) calc(var(--cp) * -1) var(--cp); padding: 0 var(--cp); background: var(--bone); color: var(--ink); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+.opt-band-x { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: color-mix(in srgb, var(--ink) 70%, transparent); }
+@container card (max-width: 450px) { .opt-band-x { display: none; } }
+.opt.has-band .opt-card { border: 1.5px solid var(--bone); }
+.opt.has-band .opt-in:checked ~ .opt-card { border-color: var(--red); box-shadow: inset 0 0 0 0.5px var(--red); }
+@media (hover: hover) and (pointer: fine) { .opt.has-band:hover .opt-in:not(:checked) ~ .opt-card { border-color: var(--bone); } }
+
+.cfg-help { margin-top: 40px; border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+.cfg-sum .cfg-help { margin-top: 20px; }
+.cfg-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 12px 16px; background: none; border: 0; cursor: pointer; text-align: left; font: inherit; font-size: 0.95rem; line-height: 1.3; color: var(--bone); }
+.cfg-row + .cfg-row { border-top: 1px solid var(--hairline); }
+.cfg-ico { flex: none; color: var(--mute); }
+.cfg-row-t { flex: 1 1 auto; min-width: 0; }
+.cfg-row-chev { flex: none; color: var(--mute); font-size: 1.25rem; line-height: 1; }
+@media (hover: hover) and (pointer: fine) { .cfg-row:hover { background: color-mix(in srgb, var(--bone) 4%, transparent); } }
+.cfg-row:focus-visible { outline: 2px solid var(--bone); outline-offset: -2px; }
+.cfg-sec-state { margin: 12px 0 0; }
+
+/* the hero quote */
+.sub-quote { margin: 24px 0 0; max-width: 40rem; }
+.sub-quote::before { content: "\201C"; display: block; margin-bottom: -0.1rem; font-family: var(--font-serif); font-size: 3rem; line-height: 0.8; color: var(--mute); }
+.sub-quote blockquote p { font-family: var(--font-serif); font-style: italic; font-size: 1.25rem; line-height: 1.4; color: var(--bone); }
+.sub-quote figcaption { margin-top: 8px; }
+@media (min-width: 1024px) {
+  .sub-hero:has(> .sub-quote) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 27rem); column-gap: clamp(2rem, 6vw, 6rem); align-items: end; }
+  .sub-hero:has(> .sub-quote) > .eyebrow, .sub-hero:has(> .sub-quote) > .sub-title { grid-column: 1 / -1; }
+  .sub-hero:has(> .sub-quote) > .sub-quote { position: relative; margin: 0; padding-left: 0; }
+  .sub-hero:has(> .sub-quote) > .sub-quote::before { position: absolute; left: -2.4rem; top: -0.2rem; margin: 0; }
+  .sub-quote blockquote p { font-size: 1.5rem; }
 }

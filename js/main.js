@@ -1246,7 +1246,7 @@ const makeEnquirySender = (form) => {
     audio: { name: "Audio", short: "audio", phrase: "audio", code: "a" }
   };
   var EXTRA_KEYS = ["words", "film", "audio"];
-  var FIX_TEXT = "A website fix is NZ$750. I spend a week on the site you already have and sort out what’s hurting it most: speed, search, broken pieces and the words on the home page. If you go on to a new site within three months, the NZ$750 comes off its price.";
+  var FIX_TEXT = "A website fix is NZ$750. I spend a week on the site you already have and sort out what’s hurting it most: speed, search, broken pieces and your home page text. If you go on to a new site within three months, the NZ$750 comes off its price.";
   var EXTRA_PRICE = "From NZ$950 a day";
   /* items like "film and photography" already hold an "and", so the last join gets a comma to keep the list readable */
   var natList = function (a) { if (a.length < 2) return a.join(""); var sep = a.some(function (x) { return / and /.test(x); }) ? ", and " : " and "; return a.slice(0, -1).join(", ") + sep + a[a.length - 1]; };
@@ -1552,6 +1552,7 @@ const makeEnquirySender = (form) => {
     }
     if (got.talk) talk.checked = true;
     if (got.extras) got.extras.forEach(function (e) { var c = form.querySelector('input[name="extra"][value="' + e + '"]'); if (c) c.checked = true; });
+    return true;
   }
 
   /* the printable quote: one A4 page filled from the same choices, shown only when printing */
@@ -1728,7 +1729,7 @@ const makeEnquirySender = (form) => {
 
     var know = $("#sdKnow"); know.textContent = "";
     ["Half when we start, half at launch."]
-      .concat(["You own it all: the site, the domain and the words are in your name."])
+      .concat(["You own it all: the site and domain are in your name, and everything written for it is yours."])
       .concat(sqPath(s) ? [SQ_LINE] : [])
       .concat(["Prices in NZ dollars. Singh Studio is not GST-registered."])
       .forEach(function (t) { mk("li", "", t, know); });
@@ -1983,13 +1984,13 @@ const makeEnquirySender = (form) => {
         setText(catalog.rushAmt, money(Math.round(s.tier.price * 1.3)));
         setText(catalog.rushTime, s.tier.rush);
         var wks = function (t) { return t.replace(/^About /, "").replace(/ weeks$/, ""); };
-        var ru = $("#paceRushUp"), rm = money(Math.round(s.tier.price * 0.3));
-        var rsig = s.tier.rush + "|" + s.tier.std + "|" + rm;
+        var ru = $("#paceRushUp");
+        var rsig = s.tier.rush + "|" + s.tier.std;
         if (ru._sig !== rsig) {
           ru._sig = rsig; ru.textContent = "";
-          ru.appendChild(document.createTextNode("Live in about " + s.tier.rush.replace(/^About /, "") + " instead of " + wks(s.tier.std) + ", for "));
-          var st = document.createElement("strong"); st.className = "opt-up-lead"; st.textContent = rm; ru.appendChild(st);
-          ru.appendChild(document.createTextNode(" more."));
+          var st = document.createElement("strong"); st.className = "opt-up-lead"; st.textContent = "For a launch date that can’t move:";
+          ru.appendChild(st);
+          ru.appendChild(document.createTextNode(" live in about " + s.tier.rush.replace(/^About /, "") + " instead of " + wks(s.tier.std) + "."));
         }
       }
     }
@@ -2166,10 +2167,11 @@ const makeEnquirySender = (form) => {
     });
   });
 
-  applyQ();
+  var fromCode = applyQ() === true;
   render();
   wrapSentence(flow);
-  if (flow) { var s0 = state(); showStep(s0.site ? entryStep(s0) : 1, { initial: true }); }
+  /* a saved code opens where its answers run out; the Designed default always opens on step 1 */
+  if (flow) { var s0 = state(); showStep(s0.site && fromCode ? entryStep(s0) : 1, { initial: true }); }
 })();
 
 /* Services and landing pages on a phone: the swipe rows of quotes take a keyboard stop each */
