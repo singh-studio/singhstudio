@@ -25,7 +25,7 @@
   <link rel="preload" href="../assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="../css/style.css?v=3e27a955e3">
+  <link rel="stylesheet" href="../css/style.css?v=05ffbb0b9f">
   <noscript><style>[data-reveal]{opacity:1;transform:none}.ht-inner{transform:none}</style></noscript>
   <script type="application/ld+json">
   {
@@ -332,7 +332,7 @@
           <div class="cfg-prog" id="cfgProg">
             <div class="cfg-prog-row">
               <button class="cfg-back" type="button" id="cfgBack" hidden>Back</button>
-              <p class="cfg-prog-n" id="cfgProgN">Step 1 of 6</p>
+              <p class="cfg-prog-n" id="cfgProgN">Step 1 of 7</p>
             </div>
             <span class="cfg-prog-line" aria-hidden="true"><span class="cfg-prog-fill" id="cfgProgFill"></span></span>
           </div>
@@ -594,7 +594,46 @@
             <div class="cfg-step is-off" id="step5" inert>
               <div class="cfg-in">
                 <fieldset id="fs5">
-                  <legend tabindex="-1"><span class="red">/5</span> When would you like to start?<span class="cfg-opt" id="timingOpt" hidden>(optional)</span></legend>
+                  <legend tabindex="-1"><span class="red">/5</span> Anything else to go live with your site?</legend>
+                  <p class="cfg-intro">Optional. Each is quoted on the call, from NZ$950 a day.</p>
+                  <div class="opt-grid g3">
+
+                    <div class="opt">
+                      <input class="opt-in" type="checkbox" name="extra" id="extra-words" value="words" aria-describedby="xd-words">
+                      <div class="opt-card">
+                        <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
+                        <label class="opt-lab" for="extra-words"><span class="opt-name">Words and strategy</span><span class="sv-price"><span class="sv-from">From</span><span class="sv-cur">NZ$</span><span class="sv-amt">950</span><span class="sv-per">a day</span></span></label>
+                        <div class="opt-desc" id="xd-words"><p class="opt-line">What you say and how you say it: messages, campaigns, annual reports and appeals.</p></div>
+                      </div>
+                    </div>
+
+                    <div class="opt">
+                      <input class="opt-in" type="checkbox" name="extra" id="extra-film" value="film" aria-describedby="xd-film">
+                      <div class="opt-card">
+                        <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
+                        <label class="opt-lab" for="extra-film"><span class="opt-name">Film and photography</span><span class="sv-price"><span class="sv-from">From</span><span class="sv-cur">NZ$</span><span class="sv-amt">950</span><span class="sv-per">a day</span></span></label>
+                        <div class="opt-desc" id="xd-film"><p class="opt-line">Stories, appeals and events, shot and edited for the web and social.</p></div>
+                      </div>
+                    </div>
+
+                    <div class="opt">
+                      <input class="opt-in" type="checkbox" name="extra" id="extra-audio" value="audio" aria-describedby="xd-audio">
+                      <div class="opt-card">
+                        <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
+                        <label class="opt-lab" for="extra-audio"><span class="opt-name">Audio</span><span class="sv-price"><span class="sv-from">From</span><span class="sv-cur">NZ$</span><span class="sv-amt">950</span><span class="sv-per">a day</span></span></label>
+                        <div class="opt-desc" id="xd-audio"><p class="opt-line">Podcasts, mixing and sound for video.</p></div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="cfg-step is-off" id="step6" inert>
+              <div class="cfg-in">
+                <fieldset id="fs6">
+                  <legend tabindex="-1"><span class="red">/6</span> When would you like to start?<span class="cfg-opt" id="timingOpt" hidden>(optional)</span></legend>
                   <div class="sv-chips">
                     <label class="sv-chip"><input class="se-vh" type="radio" name="timing" value="as soon as I can"><span class="sv-chip-box"><span class="sv-chip-state" aria-hidden="true">✓</span>As soon as I can</span></label>
                     <label class="sv-chip"><input class="se-vh" type="radio" name="timing" value="in the next month or two"><span class="sv-chip-box"><span class="sv-chip-state" aria-hidden="true">✓</span>In the next month or two</span></label>
@@ -604,11 +643,11 @@
               </div>
             </div>
 
-            <!-- Step 6 -->
-            <div class="cfg-step" id="step6">
+            <!-- Step 7 -->
+            <div class="cfg-step" id="step7">
               <div class="cfg-in">
-                <fieldset id="fs6">
-                  <legend tabindex="-1"><span class="red">/6</span> Your details</legend>
+                <fieldset id="fs7">
+                  <legend tabindex="-1"><span class="red">/7</span> Your details</legend>
                   <p class="cfg-intro">Add your name and email to the summary, then send it.</p>
                   <button class="btn btn-ghost cfg-go" type="button" id="goSummary">Go to summary</button>
                 </fieldset>
@@ -630,7 +669,7 @@
 
               <p class="sum-sent" id="sentence">Hi Kris, I’m
                 <label class="se-vh" for="seName">Your name</label><span class="se-nw"><span class="se-curwrap"><input class="se-blank se-name" id="seName" name="name" type="text" autocomplete="name" placeholder="your name" required><span class="se-cursor" id="seCursor" aria-hidden="true"></span></span>.</span>
-                I’d like <span id="slSite"></span><span class="rv rv-2" id="slPlat"></span><span class="rv rv-3" id="slPace"></span><span class="rv rv-4" id="slCare"></span><span class="rv rv-5" id="slTime"></span>.
+                I’d like <span id="slSite"></span><span class="rv rv-2" id="slPlat"></span><span class="rv rv-3" id="slPace"></span><span class="rv rv-4" id="slCare"></span><span class="rv rv-4" id="slExtra"></span><span class="rv rv-5" id="slTime"></span>.
                 You can reach me at
                 <span class="se-nw"><label class="se-vh" for="seEmail">Your email</label><input class="se-blank se-email" id="seEmail" name="email" type="email" autocomplete="email" placeholder="your email" required>.</span>
               </p>
@@ -639,6 +678,7 @@
 
               <ul class="pb" id="pbList"></ul>
               <div class="pb-total" id="pbTotal" aria-live="polite"></div>
+              <p class="sum-fine" id="exLine" hidden>Extras are quoted on the call.</p>
               <p class="sum-fine" id="sqLine" hidden>Plus your Squarespace plan, paid to them, about NZ$228 a year.</p>
               <button class="cc-alt sv-save" type="button" id="svSave" hidden>Save this as a quote</button>
 
@@ -898,6 +938,6 @@
     </div>
   </article>
 
-<script src="../js/main.js?v=4d5f1744b8" defer></script>
+<script src="../js/main.js?v=a66d170442" defer></script>
 </body>
 </html>

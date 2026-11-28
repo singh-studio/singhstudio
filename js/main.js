@@ -1221,7 +1221,7 @@ const makeEnquirySender = (form) => {
   var sender = makeEnquirySender(form);
   var f = { name: $("#seName"), email: $("#seEmail") };
   var talk = $("#talkRush");
-  var steps = { 1: $("#step1"), 2: $("#step2"), 3: $("#step3"), 4: $("#step4"), 5: $("#step5"), 6: $("#step6") };
+  var steps = { 1: $("#step1"), 2: $("#step2"), 3: $("#step3"), 4: $("#step4"), 5: $("#step5"), 6: $("#step6"), 7: $("#step7") };
   var done = false;
 
   var TIERS = {
@@ -1240,6 +1240,14 @@ const makeEnquirySender = (form) => {
     refresh: "a refresh of our current site",
     fix: "a website fix", words: "help with words, film or audio", unsure: "help working out what I need"
   };
+  var EXTRAS = {
+    words: { name: "Words and strategy", short: "words", phrase: "words and strategy", code: "w" },
+    film: { name: "Film and photography", short: "film", phrase: "film and photography", code: "f" },
+    audio: { name: "Audio", short: "audio", phrase: "audio", code: "a" }
+  };
+  var EXTRA_KEYS = ["words", "film", "audio"];
+  var EXTRA_PRICE = "From NZ$950 a day";
+  var natList = function (a) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]; };
   var PLATFORM_WORDS = { squarespace: "on Squarespace", current: "on the platform we already use", choose: "on whichever platform suits" };
   /* short labels for the enquiry's "need" line */
   var SITE_SHORT = {
@@ -1256,7 +1264,10 @@ const makeEnquirySender = (form) => {
   function state() {
     var site = val("site"), tier = TIERS[site] || null;
     var hasPlat = site === "designed" || site === "bespoke";
+    var careOn0 = !!tier || site === "refresh";
+    var picked = EXTRA_KEYS.filter(function (k) { var c = form.querySelector('input[name="extra"][value="' + k + '"]'); return c && c.checked; });
     return {
+      extras: careOn0 ? picked : [],
       site: site, tier: tier,
       rushable: site === "template" || site === "designed",
       hasPlat: hasPlat,
@@ -1352,7 +1363,7 @@ const makeEnquirySender = (form) => {
   }
 
   /* the sentence: each phrase fills in, or shows as a gap you can click */
-  var slots = { site: $("#slSite"), plat: $("#slPlat"), pace: $("#slPace"), care: $("#slCare"), time: $("#slTime") };
+  var slots = { site: $("#slSite"), plat: $("#slPlat"), pace: $("#slPace"), care: $("#slCare"), extra: $("#slExtra"), time: $("#slTime") };
   function setSlot(el, spec) {
     var sig = spec ? [spec.prefix, spec.text, spec.filled ? 1 : 0, spec.step].join("|") : "";
     if (el._sig === sig) return;
@@ -1398,10 +1409,12 @@ const makeEnquirySender = (form) => {
         ? { prefix: ", ", text: s.care === "none" ? none : "with " + CARES[s.care].name + " after launch", filled: true, step: 4 }
         : { prefix: ", ", text: "care after launch", filled: false, step: 4 };
     }
+    sp.extra = null;
+    if (s.extras.length) sp.extra = { prefix: ", ", text: "plus " + natList(s.extras.map(function (k) { return EXTRAS[k].phrase; })) + " for launch", filled: true, step: 5 };
     sp.time = null;
     if (s.site) {
-      if (s.timing) sp.time = { prefix: ", and I’d like to start ", text: s.timing, filled: true, step: 5 };
-      else if (s.site !== "unsure") sp.time = { prefix: ", and I’d like to start ", text: "when", filled: false, step: 5 };
+      if (s.timing) sp.time = { prefix: ", and I’d like to start ", text: s.timing, filled: true, step: 6 };
+      else if (s.site !== "unsure") sp.time = { prefix: ", and I’d like to start ", text: "when", filled: false, step: 6 };
     }
     return sp;
   }
@@ -1411,6 +1424,7 @@ const makeEnquirySender = (form) => {
     setSlot(slots.plat, sp.plat);
     setSlot(slots.pace, sp.pace);
     setSlot(slots.care, sp.care);
+    setSlot(slots.extra, sp.extra);
     setSlot(slots.time, sp.time);
   }
 
@@ -1423,8 +1437,10 @@ const makeEnquirySender = (form) => {
     if (s.site === "unsure") return { rows: rows, total: { text: "We’ll work it out together on a call" } };
     var careRow = (s.care && CARES[s.care].month)
       ? [CARES[s.care].name + (s.site === "refresh" ? ", monthly" : ", from month four"), money(CARES[s.care].month) + " a month"] : null;
+    var extraRows = s.extras.map(function (k) { return [EXTRAS[k].name, EXTRA_PRICE]; });
     if (s.site === "refresh") {
       if (careRow) rows.push(careRow);
+      extraRows.forEach(function (r) { rows.push(r); });
       return { rows: rows, total: { text: "Refresh, from NZ$2,500, on the platform you already use" } };
     }
     var t = s.tier, rushOn = s.rushable && s.pace === "rush";
@@ -1434,6 +1450,7 @@ const makeEnquirySender = (form) => {
       if (otherPlat) rows.push(["Other platforms", "Price confirmed on a call"]);
       if (s.talk) rows.push(["Rush", "Quoted on request"]);
       if (careRow) rows.push(careRow);
+      extraRows.forEach(function (r) { rows.push(r); });
       return { rows: rows, total: { text: "From NZ$15,000, most land between NZ$15,000 and NZ$30,000" } };
     }
     rows.push([t.name + " site", money(t.price)]);
@@ -1441,6 +1458,7 @@ const makeEnquirySender = (form) => {
     var add = Math.round(t.price * 0.3);
     if (rushOn) rows.push(["Rush", "+" + money(add)]);
     if (careRow) rows.push(careRow);
+    extraRows.forEach(function (r) { rows.push(r); });
     return { rows: rows, total: { label: "Total to build", amount: money(t.price + (rushOn ? add : 0)) } };
   }
   var pbList = $("#pbList"), pbTotal = $("#pbTotal");
@@ -1484,6 +1502,7 @@ const makeEnquirySender = (form) => {
     if (s.rushable && s.pace) t.push(Q_PACE[s.pace]);
     else if (s.site === "bespoke" && s.talk) t.push("talk");
     if (s.careOn && s.care) t.push(Q_CARE[s.care]);
+    if (s.extras.length) t.push("x-" + s.extras.map(function (k) { return EXTRAS[k].code; }).join(""));
     if (s.timing) {
       var ti = $$('input[name="timing"]', form).map(function (i) { return i.value; }).indexOf(s.timing);
       if (ti >= 0) t.push(Q_TIME[ti]);
@@ -1493,7 +1512,7 @@ const makeEnquirySender = (form) => {
   function applyQ() {
     var raw = "";
     try { raw = new URLSearchParams(location.search).get("q") || ""; } catch (e) { return; }
-    if (!raw || raw.length > 60 || !/^[a-z]+(\.[a-z]+)*$/.test(raw)) return;
+    if (!raw || raw.length > 60 || !/^[a-z]+(\.[a-z]+(-[a-z]+)?)*$/.test(raw)) return;
     var t = raw.split("."), site = t.shift();
     if (Q_SITES.indexOf(site) < 0) return;
     var hasPlat = site === "designed" || site === "bespoke";
@@ -1508,8 +1527,13 @@ const makeEnquirySender = (form) => {
       else if (C[k]) { cat = "care"; v = C[k]; }
       else if (Q_TIME.indexOf(k) >= 0) { cat = "timing"; v = k; }
       else if (k === "talk") { cat = "talk"; v = true; }
+      else if (/^x-[wfa]+$/.test(k)) {
+        var xl = k.slice(2).split("");
+        if (xl.some(function (c, i) { return xl.indexOf(c) !== i; })) return;
+        cat = "extras"; v = EXTRA_KEYS.filter(function (e) { return xl.indexOf(EXTRAS[e].code) >= 0; });
+      }
       if (!cat || got[cat] !== undefined) return;
-      if ((cat === "platform" && !hasPlat) || (cat === "pace" && !rushable) || (cat === "care" && !careOn) || (cat === "talk" && site !== "bespoke")) return;
+      if ((cat === "platform" && !hasPlat) || (cat === "pace" && !rushable) || (cat === "care" && !careOn) || (cat === "talk" && site !== "bespoke") || (cat === "extras" && !careOn)) return;
       got[cat] = v;
     }
     var radio = function (name, value) {
@@ -1525,6 +1549,7 @@ const makeEnquirySender = (form) => {
       if (tv) tv.checked = true;
     }
     if (got.talk) talk.checked = true;
+    if (got.extras) got.extras.forEach(function (e) { var c = form.querySelector('input[name="extra"][value="' + e + '"]'); if (c) c.checked = true; });
   }
 
   /* the printable quote: one A4 page filled from the same choices, shown only when printing */
@@ -1573,7 +1598,7 @@ const makeEnquirySender = (form) => {
       n.rows.push(["Refresh", "From NZ$2,500"]);
       n.total = ["Total to build", "From NZ$2,500"]; n.note = "On the platform you already use.";
     } else {
-      n.rows = q.rows.filter(function (r) { return !/ a month$/.test(r[1]); });
+      n.rows = q.rows.filter(function (r) { return !/ a month$/.test(r[1]) && r[1] !== EXTRA_PRICE; });
       if (s.site === "bespoke") {
         n.total = ["Total to build", "From NZ$15,000"]; n.note = "Most land between NZ$15,000 and NZ$30,000.";
         n.timing = TIERS.bespoke.std;
@@ -1605,7 +1630,7 @@ const makeEnquirySender = (form) => {
     if (s.name) mk("p", "sd-name", s.name, who); else mk("p", "sd-blank", "Your name", who);
     if (s.email) mk("p", "sd-sub", s.email, who); else mk("p", "sd-blank", "Your email", who);
 
-    var parts = [sp.site, sp.plat, sp.pace, sp.care, sp.time].filter(function (x) { return x && x.filled; });
+    var parts = [sp.site, sp.plat, sp.pace, sp.care, sp.extra, sp.time].filter(function (x) { return x && x.filled; });
     $("#sdWords").hidden = !parts.length;
     setText($("#sdSentence"), parts.length ? "I’d like " + parts.map(function (x, i) { return (i ? x.prefix : "") + x.text; }).join("") + "." : "");
 
@@ -1626,6 +1651,13 @@ const makeEnquirySender = (form) => {
       mk("span", "sd-r", "/", lab);
       lab.appendChild(document.createTextNode(CARES[s.care].name + (s.site === "refresh" ? ", monthly" : ", from month four")));
       docList(inc, liTexts("#cd-" + s.care + " .sv-list"));
+    }
+    if (s.extras.length) {
+      mk("p", "sd-mono sd-lab sd-sublab", null, inc).appendChild(document.createTextNode(""));
+      var xlab = inc.lastChild;
+      mk("span", "sd-r", "/", xlab);
+      xlab.appendChild(document.createTextNode("Extras to go live with the site"));
+      docList(inc, s.extras.map(function (k) { return EXTRAS[k].name + ", from NZ$950 a day, quoted on the call"; }));
     }
 
     var N = docNumbers(s, q);
@@ -1672,20 +1704,21 @@ const makeEnquirySender = (form) => {
   function barLabel(s) {
     if (!s.site) return null;
     if (s.site === "fix") return ["Website fix", "NZ$750"];
-    if (s.site === "refresh") return ["Refresh", "From NZ$2,500"];
+    if (s.site === "refresh") return ["Refresh" + (s.extras.length ? ", + " + s.extras.map(function (k) { return EXTRAS[k].short; }).join(", ") : ""), "From NZ$2,500"];
     if (s.site === "words") return ["Words, film or audio", "From NZ$950 a day"];
     if (s.site === "unsure") return ["Help working it out", ""];
     var t = s.tier;
-    if (s.site === "bespoke") return ["Bespoke", "From " + money(t.price)];
+    var xs = s.extras.length ? ", + " + s.extras.map(function (k) { return EXTRAS[k].short; }).join(", ") : "";
+    if (s.site === "bespoke") return ["Bespoke" + xs, "From " + money(t.price)];
     var rushOn = s.pace === "rush";
-    return [t.name + (rushOn ? ", rush" : ""), money(t.price + (rushOn ? Math.round(t.price * 0.3) : 0))];
+    return [t.name + (rushOn ? ", rush" : "") + xs, money(t.price + (rushOn ? Math.round(t.price * 0.3) : 0))];
   }
   var barName = $("#svBarName"), barPrice = $("#svBarPrice");
   function paintBar(s) {
     var t = barLabel(s);
     setText(barName, t ? t[0] : "Choose a website"); setText(barPrice, t ? t[1] : "");
     $("#svBarText").classList.toggle("is-empty", !t);
-    bar.classList.toggle("on", flow && cur < 6 && inBuilder && !done);
+    bar.classList.toggle("on", flow && cur < 7 && inBuilder && !done);
   }
   /* the back-to-top button would sit on the sticky panel, so it steps aside while the configurator is in view */
   if ("IntersectionObserver" in window) {
@@ -1700,18 +1733,18 @@ const makeEnquirySender = (form) => {
   var revHead = $("#revHead"), actionsEl = $(".se-actions", summaryEl);
   var motionOK = function () { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; };
   function visSteps(s) {
-    return s.site ? [1, s.hasPlat ? 2 : 0, s.tier ? 3 : 0, s.careOn ? 4 : 0, 5, 6].filter(Boolean) : [1, 2, 3, 4, 5, 6];
+    return s.site ? [1, s.hasPlat ? 2 : 0, s.tier ? 3 : 0, s.careOn ? 4 : 0, s.careOn ? 5 : 0, 6, 7].filter(Boolean) : [1, 2, 3, 4, 5, 6, 7];
   }
   function stepDone(n, s) {
     if (n === 1) return !!s.site;
     if (n === 2) return !!s.platform;
     if (n === 3) return s.rushable ? !!s.pace : true;
     if (n === 4) return !!s.care;
-    return true;
+    return true; /* extras (5) and timing (6) never block Next */
   }
   function stepAfter(s, from, dir) {
     var v = visSteps(s), i = v.indexOf(from);
-    if (i < 0) return dir > 0 ? 6 : 1;
+    if (i < 0) return dir > 0 ? 7 : 1;
     return v[Math.min(v.length - 1, Math.max(0, i + dir))];
   }
   /* where to open: the first of steps 1 to 4 still to answer, or the review */
@@ -1719,7 +1752,7 @@ const makeEnquirySender = (form) => {
     if (!s.site) return 1;
     var v = visSteps(s);
     for (var i = 0; i < v.length; i++) if (v[i] <= 4 && !stepDone(v[i], s)) return v[i];
-    return 6;
+    return 7;
   }
   function paintFlow(s) {
     if (!flow) return;
@@ -1727,7 +1760,7 @@ const makeEnquirySender = (form) => {
     setText(prog.n, "Step " + (idx + 1) + " of " + v.length);
     prog.fill.style.width = ((idx + 1) / v.length * 100) + "%";
     prog.back.hidden = cur === 1;
-    goBtn.disabled = !(cur < 6 && stepDone(cur, s));
+    goBtn.disabled = !(cur < 7 && stepDone(cur, s));
     paintBar(s);
   }
 
@@ -1771,7 +1804,7 @@ const makeEnquirySender = (form) => {
   }
   function focusRevHead() {
     var a = document.activeElement;
-    if (flow && cur === 6 && (!a || a === document.body || a === goBtn || a === prog.back)) revHead.focus({ preventScroll: true });
+    if (flow && cur === 7 && (!a || a === document.body || a === goBtn || a === prog.back)) revHead.focus({ preventScroll: true });
   }
   function skipReveal() { if (endReveal()) focusRevHead(); }
   function startReveal(initial) {
@@ -1803,13 +1836,13 @@ const makeEnquirySender = (form) => {
     root.setAttribute("data-cur", String(n));
     paintFlow(state());
     fitAll();
-    if (n === 6) startReveal(!!o.initial); else endReveal();
+    if (n === 7) startReveal(!!o.initial); else endReveal();
     if (o.scroll) root.scrollIntoView({ block: "start", behavior: motionOK() ? "smooth" : "instant" });
-    if (o.focus && n !== 6) { var lg = $("#fs" + n + " legend"); if (lg) lg.focus({ preventScroll: true }); }
+    if (o.focus && n !== 7) { var lg = $("#fs" + n + " legend"); if (lg) lg.focus({ preventScroll: true }); }
   }
   goBtn.addEventListener("click", function () {
     var s = state();
-    if (cur < 6 && stepDone(cur, s)) showStep(stepAfter(s, cur, 1), { scroll: true, focus: true });
+    if (cur < 7 && stepDone(cur, s)) showStep(stepAfter(s, cur, 1), { scroll: true, focus: true });
   });
   prog.back.addEventListener("click", function () { showStep(stepAfter(state(), cur, -1), { scroll: true, focus: true }); });
   flowMQ.addEventListener("change", function (e) {
@@ -1852,9 +1885,9 @@ const makeEnquirySender = (form) => {
   var catalog = { amt: $("#paceStdAmt"), stdTime: $("#paceStdTime"), rushAmt: $("#paceRushAmt"), rushTime: $("#paceRushTime") };
   function render() {
     var s = state();
-    var vis = { 2: s.hasPlat, 3: !!s.tier, 4: s.careOn, 5: !!s.site };
+    var vis = { 2: s.hasPlat, 3: !!s.tier, 4: s.careOn, 5: s.careOn, 6: !!s.site };
     var opened = [];
-    [2, 3, 4, 5].forEach(function (n) {
+    [2, 3, 4, 5, 6].forEach(function (n) {
       var el = steps[n], was = !el.classList.contains("is-off");
       el.classList.toggle("is-off", !vis[n]);
       if (vis[n]) el.removeAttribute("inert"); else el.setAttribute("inert", "");
@@ -1883,6 +1916,7 @@ const makeEnquirySender = (form) => {
     paintSentence(s);
     var q = paintQuote(s);
     $("#sqLine").hidden = !sqPath(s);
+    $("#exLine").hidden = !s.extras.length;
     $("#svSave").hidden = !s.site;
     updateCount(s);
     paintFlow(s);
@@ -1972,7 +2006,13 @@ const makeEnquirySender = (form) => {
     if (s.careOn && s.care) parts.push(s.care === "none" ? "no care" : CARES[s.care].name);
     if (s.hasPlat && s.platform) parts.push(PLATFORM_SHORT[s.platform]);
     else if (s.site === "template") parts.push("Squarespace");
-    return parts.join(", ").slice(0, 80);
+    var base = parts.join(", ");
+    if (s.extras.length) {
+      var ext = " + " + s.extras.map(function (k) { return EXTRAS[k].short; }).join(", ");
+      if ((base + ext).length > 80) ext = " + extras";
+      base += ext;
+    }
+    return base.slice(0, 80);
   }
   function messageText(q, note) {
     var lines = ["Configured on the Services page:"];
@@ -1983,7 +2023,7 @@ const makeEnquirySender = (form) => {
   }
 
   var labels = { name: "your name", site: "the site you would like", platform: "which platform", pace: "how soon", care: "care after launch", timing: "when you’d like to start", email: "your email" };
-  var stepOf = { site: 1, platform: 2, pace: 3, care: 4, timing: 5 };
+  var stepOf = { site: 1, platform: 2, pace: 3, care: 4, timing: 6 };
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (sender.blocked(btn)) return; // already sending, or the honeypot is ticked

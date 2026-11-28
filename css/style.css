@@ -3183,6 +3183,10 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
 .opt-desc p.opt-line { color: var(--copy); font-size: 0.95rem; line-height: 1.5; }
 .opt-up { display: flex; align-items: baseline; gap: 0.55rem; margin: 0; color: var(--copy); font-size: 1rem; line-height: 1.45; }
 .opt-up-mark { flex: none; font-family: var(--font-mono); font-weight: 600; color: var(--red-text); }
+/* extras step: three equal cards, names never split mid-word */
+#fs5 .opt-name { font-size: clamp(1.05rem, 1.2cqi + 0.75rem, 1.35rem); overflow-wrap: normal; }
+#fs5 .opt-card .sv-amt { font-size: clamp(1.7rem, 4.5cqi, 2.3rem); }
+@container cfg (min-width: 40rem) { #fs5 .opt-name { min-height: 2.2em; } }
 .cfg-body { color: var(--copy); font-size: 1rem; line-height: 1.55; margin-top: 0.9rem; max-width: 60ch; }
 
 /* quiet text options in the same group */
@@ -3439,7 +3443,7 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
   /* one step shows; the review is the sixth */
   .cfg-step, .cfg-step.is-off { display: none; transition: none; }
   .cfg[data-cur="1"] #step1, .cfg[data-cur="2"] #step2, .cfg[data-cur="3"] #step3,
-  .cfg[data-cur="4"] #step4, .cfg[data-cur="5"] #step5 { display: grid; }
+  .cfg[data-cur="4"] #step4, .cfg[data-cur="5"] #step5, .cfg[data-cur="6"] #step6 { display: grid; }
   .cfg-in { overflow: visible; padding: 0; margin: 0; }
   .cfg-step fieldset { margin: 0; }
   .cfg-step legend { font-family: var(--font-display); font-size: clamp(1.5rem, 6.4vw, 2rem); font-weight: 560; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 1rem; }
@@ -3529,7 +3533,7 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
 
   /* step 6: review and send */
   .cfg-sum { display: none; border: 0; background: none; padding: 0; }
-  .cfg[data-cur="6"] .cfg-sum { display: block; }
+  .cfg[data-cur="7"] .cfg-sum { display: block; }
   .cfg-rev-h { display: block; font-family: var(--font-display); font-size: clamp(1.5rem, 6.4vw, 2rem); font-weight: 560; letter-spacing: -0.01em; line-height: 1.1; text-transform: uppercase; margin-bottom: 1rem; }
   .cfg-sum .sum-label { display: none; }
   .cfg-sum .sum-sent { font-size: 1.35rem; }
@@ -3561,8 +3565,8 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
   .cfg-sum .rv-e { --d: 850ms; }
   .cfg-sum.rev-play .rv { animation: rv-top 0.28s var(--ease-swift) var(--d) both; }
   .cfg-sum.rev-play .sum-sent .fill { animation: rv-ul 0.3s var(--ease-swift) calc(var(--d, 0ms) + 150ms) both; }
-  .cfg-sum.rev-play :is(.se-err, .pb, .pb-total, #sqLine, #svSave) { animation: rv-up 0.28s var(--ease-swift) 1000ms both; }
-  .cfg-sum.rev-play :is(.se-actions, .sum-fine:not(#sqLine), .sv-pay, #seMore) { animation: rv-up 0.28s var(--ease-swift) 1200ms both; }
+  .cfg-sum.rev-play :is(.se-err, .pb, .pb-total, #sqLine, #svSave, #exLine) { animation: rv-up 0.28s var(--ease-swift) 1000ms both; }
+  .cfg-sum.rev-play :is(.se-actions, .sum-fine:not(#sqLine, #exLine), .sv-pay, #seMore) { animation: rv-up 0.28s var(--ease-swift) 1200ms both; }
   .cfg-sum.rev-hold, .cfg-sum.rev-hold * { animation-play-state: paused !important; }
 }
 
