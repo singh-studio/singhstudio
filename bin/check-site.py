@@ -96,7 +96,7 @@ ALL_FILES = site_files()
 ALL_FILES_SET = set(ALL_FILES)
 ROOT_HTML = sorted(f for f in ALL_FILES if "/" not in f and f.endswith(".html"))
 TEMPLATE_HTML = sorted(f for f in ALL_FILES if f.startswith("templates/") and f.endswith(".html"))
-SERVICES_HTML = sorted(f for f in ALL_FILES if f == "services/index.html")
+SERVICES_HTML = sorted(f for f in ALL_FILES if f in ("services/index.html", "charity-websites/index.html", "web-design-wellington/index.html"))
 ALL_HTML = ROOT_HTML + TEMPLATE_HTML + SERVICES_HTML
 INDEXABLE_PAGES = sorted([f for f in ROOT_HTML if f not in NON_NAV_PAGES] + SERVICES_HTML)
 NAV_PAGES = INDEXABLE_PAGES  # same set today; kept as a distinct name for clarity at call sites
