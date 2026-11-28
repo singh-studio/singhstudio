@@ -3407,7 +3407,7 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
 .sv-sec .tg-grid.lp-prices { margin-top: clamp(1.4rem, 3vh, 2rem); }
 .lp-price { gap: 0.8rem; }
 .lp-price.is-rec { border-top: 3px solid var(--red); background: var(--ink-2); }
-.lp-price .sv-price { margin: 0; }
+.lp-price .sv-price { margin: 0; color: var(--bone); }
 .lp-price .sv-amt { font-size: clamp(2.2rem, 3.4vw, 3rem); }
 .lp-price .tg-tag { flex-grow: 1; }
 .lp-price .btn { min-height: 48px; justify-content: center; }
