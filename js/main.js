@@ -1389,7 +1389,7 @@ const makeEnquirySender = (form) => {
         ? { prefix: ", ", text: s.pace === "rush" ? "as a rush build" : "at a standard pace", filled: true, step: 3 }
         : { prefix: ", ", text: "pace", filled: false, step: 3 };
     } else if (s.site === "bespoke" && s.talk) {
-      sp.pace = { prefix: ", ", text: "and I’d like to talk about a rush", filled: true, step: 3 };
+      sp.pace = { prefix: ", ", text: "possibly as a rush build", filled: true, step: 3 };
     }
     sp.care = null;
     if (s.careOn) {
@@ -1642,7 +1642,6 @@ const makeEnquirySender = (form) => {
 
     var know = $("#sdKnow"); know.textContent = "";
     ["Half when we start, half at launch."]
-      .concat(s.site === "template" || s.site === "designed" ? ["Two rounds of design changes."] : [])
       .concat(["You own it all: the site, the domain and the words are in your name."])
       .concat(sqPath(s) ? [SQ_LINE] : [])
       .concat(["Prices in NZ dollars. Singh Studio is not GST-registered."])

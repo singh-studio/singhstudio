@@ -3390,5 +3390,6 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
   .sv-doc .sd-fine { font-size: 7.6pt; line-height: 1.5; max-width: 80mm; }
   .sv-doc .sd-ml { text-transform: none; letter-spacing: 0.06em; }
   .sv-doc .sd-next .sd-mute { color: var(--d-mute); }
+  .sv-doc .sd-again a { display: block; white-space: nowrap; }
   .sv-doc .sd-again { margin-top: 2.6mm; color: var(--d-mute); font-size: 5.6pt; letter-spacing: 0.06em; text-transform: none; line-height: 1.6; overflow-wrap: anywhere; }
 }
