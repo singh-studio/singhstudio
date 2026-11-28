@@ -1683,13 +1683,14 @@ const makeEnquirySender = (form) => {
   var barName = $("#svBarName"), barPrice = $("#svBarPrice");
   function paintBar(s) {
     var t = barLabel(s);
-    setText(barName, t ? t[0] : ""); setText(barPrice, t ? t[1] : "");
+    setText(barName, t ? t[0] : "Choose a website"); setText(barPrice, t ? t[1] : "");
+    $("#svBarText").classList.toggle("is-empty", !t);
     bar.classList.toggle("on", flow && cur < 6 && inBuilder && !done);
   }
   /* the back-to-top button would sit on the sticky panel, so it steps aside while the configurator is in view */
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { document.body.classList.toggle("sv-cfg-view", es[0].isIntersecting); }, { threshold: 0 }).observe(root);
-    new IntersectionObserver(function (es) { inBuilder = es[0].isIntersecting; paintBar(state()); }, { rootMargin: "0px 0px -64px 0px", threshold: 0 }).observe($("#start"));
+    new IntersectionObserver(function (es) { inBuilder = es[0].isIntersecting; paintBar(state()); }, { rootMargin: "-62% 0px -72px 0px", threshold: 0 }).observe(root);
   } else { inBuilder = true; }
 
   /* ---- phone and tablet: one step at a time ---- */
