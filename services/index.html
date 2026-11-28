@@ -25,7 +25,7 @@
   <link rel="preload" href="../assets/fonts/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plex-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var s=localStorage.getItem("ss-theme");var h=+new Intl.DateTimeFormat("en-NZ",{hour:"numeric",hour12:false,timeZone:"Pacific/Auckland"}).format(new Date());document.documentElement.dataset.theme=s||(h>=7&&h<19?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})()</script>
-  <link rel="stylesheet" href="../css/style.css?v=e48bf8133f">
+  <link rel="stylesheet" href="../css/style.css?v=a00b737abd">
   <noscript><style>[data-reveal]{opacity:1;transform:none}.ht-inner{transform:none}</style></noscript>
   <script type="application/ld+json">
   {
@@ -258,7 +258,7 @@
   }
   </script>
 </head>
-<body>
+<body class="pg-phone">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
@@ -329,13 +329,21 @@
         <input type="checkbox" name="botcheck" class="cf-botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="cfg" id="svConfig">
 
+          <div class="cfg-prog" id="cfgProg">
+            <div class="cfg-prog-row">
+              <button class="cfg-back" type="button" id="cfgBack" hidden>Back</button>
+              <p class="cfg-prog-n" id="cfgProgN">Step 1 of 6</p>
+            </div>
+            <span class="cfg-prog-line" aria-hidden="true"><span class="cfg-prog-fill" id="cfgProgFill"></span></span>
+          </div>
+
           <div class="cfg-steps">
 
             <!-- Step 1 -->
             <div class="cfg-step" id="step1">
               <div class="cfg-in">
                 <fieldset id="fs1">
-                  <legend><span class="red">/1</span> Which website?</legend>
+                  <legend tabindex="-1"><span class="red">/1</span> Which website?</legend>
                   <div class="opt-grid g3">
 
                     <div class="opt">
@@ -345,7 +353,7 @@
                         <label class="opt-lab" for="site-template"><span class="opt-name">Template</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">3,500</span></span></label>
                         <div class="opt-desc" id="sd-template">
                           <p class="tg-tag">For small teams who need a good site quickly.</p>
-                          <ul class="sv-list">
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-template">What’s included</button><div class="opt-more-body" id="om-template"><ul class="sv-list">
                             <li>A Squarespace template set up in your colours and type</li>
                             <li>Up to 6 pages</li>
                             <li>Two rounds of design changes</li>
@@ -354,7 +362,7 @@
                             <li>An hour of training</li>
                             <li>Three months of Care</li>
                           </ul>
-                          <p class="tg-meta">About 2 to 3 weeks</p>
+                          <p class="tg-meta">About 2 to 3 weeks</p></div></div>
                         </div>
                       </div>
                     </div>
@@ -366,7 +374,7 @@
                         <label class="opt-lab" for="site-designed"><span class="opt-name">Designed</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">7,500</span></span></label>
                         <div class="opt-desc" id="sd-designed">
                           <p class="tg-tag">For organisations whose site has to carry their story.</p>
-                          <ul class="sv-list">
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-designed">What’s included</button><div class="opt-more-body" id="om-designed"><ul class="sv-list">
                             <li>Designed for you from a blank page</li>
                             <li>Up to 12 pages</li>
                             <li>Two rounds of design changes</li>
@@ -375,7 +383,7 @@
                             <li>An editing guide and training</li>
                             <li>Three months of Care</li>
                           </ul>
-                          <p class="tg-meta">About 5 to 7 weeks</p>
+                          <p class="tg-meta">About 5 to 7 weeks</p></div></div>
                         </div>
                       </div>
                     </div>
@@ -387,19 +395,22 @@
                         <label class="opt-lab" for="site-bespoke"><span class="opt-name">Bespoke</span><span class="sv-price"><span class="sv-from">From</span><span class="sv-cur">NZ$</span><span class="sv-amt">15,000</span></span></label>
                         <div class="opt-desc" id="sd-bespoke">
                           <p class="tg-tag">For bigger sites with features of their own.</p>
-                          <ul class="sv-list">
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-bespoke">What’s included</button><div class="opt-more-body" id="om-bespoke"><ul class="sv-list">
                             <li>Everything in Designed</li>
                             <li>Custom features, like giving with receipts, a team finder or a resource library</li>
                             <li>Pages scoped together</li>
                             <li>Video walkthroughs for your team</li>
                             <li>Three months of Care Plus</li>
                           </ul>
-                          <p class="tg-meta">Most land between NZ$15,000 and NZ$30,000 · About 8 to 14 weeks</p>
+                          <p class="tg-meta">Most land between NZ$15,000 and NZ$30,000 · About 8 to 14 weeks</p></div></div>
                         </div>
                       </div>
                     </div>
                   </div>
 
+                  <div class="cfg-other">
+                    <button class="cfg-other-btn" type="button" aria-expanded="false" aria-controls="cfgOtherBody">Not sure? Other ways to start</button>
+                    <div class="cfg-other-body" id="cfgOtherBody">
                   <div class="tg-faq sv-compare">
                     <details>
                       <summary>Compare all three</summary>
@@ -440,6 +451,8 @@
                       <label class="opt-qbody" for="site-unsure"><span>Help me work it out</span><span class="opt-state" aria-hidden="true">✓ Selected</span></label>
                     </div>
                   </div>
+                    </div>
+                  </div>
                 </fieldset>
               </div>
             </div>
@@ -448,7 +461,7 @@
             <div class="cfg-step is-off" id="step2" inert>
               <div class="cfg-in">
                 <fieldset id="fs2">
-                  <legend><span class="red">/2</span> Which platform?</legend>
+                  <legend tabindex="-1"><span class="red">/2</span> Which platform?</legend>
                   <div class="opt-grid g3">
 
                     <div class="opt is-rec">
@@ -486,7 +499,7 @@
             <div class="cfg-step is-off" id="step3" inert>
               <div class="cfg-in">
                 <fieldset id="fs3">
-                  <legend><span class="red">/3</span> How soon?</legend>
+                  <legend tabindex="-1"><span class="red">/3</span> How soon?</legend>
 
                   <div class="opt-grid g2" id="paceCards">
                     <div class="opt">
@@ -520,7 +533,7 @@
             <div class="cfg-step is-off" id="step4" inert>
               <div class="cfg-in">
                 <fieldset id="fs4">
-                  <legend><span class="red">/4</span> Care after launch</legend>
+                  <legend tabindex="-1"><span class="red">/4</span> Care after launch</legend>
                   <p class="cfg-intro" id="careIntro">Three months of Care are included. After that:</p>
                   <div class="opt-grid g4">
 
@@ -530,8 +543,8 @@
                         <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="care-care"><span class="opt-name">Care</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">150</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-care">
-                          <ul class="sv-list"><li>Monthly checks and plugin updates</li><li>Up to an hour of changes</li></ul>
-                          <p class="tg-meta">About NZ$150 an hour</p>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-care">What’s included</button><div class="opt-more-body" id="om-care"><ul class="sv-list"><li>Monthly checks and plugin updates</li><li>Up to an hour of changes</li></ul>
+                          <p class="tg-meta">About NZ$150 an hour</p></div></div>
                         </div>
                       </div>
                     </div>
@@ -542,8 +555,8 @@
                         <span class="opt-top"><span class="sv-flag">/ Recommended</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="care-plus"><span class="opt-name">Care Plus</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">450</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-plus">
-                          <ul class="sv-list"><li>Up to four hours of changes</li><li>A report every quarter on visits, searches and enquiries</li><li>Your changes go to the front of the queue</li></ul>
-                          <p class="tg-meta">About NZ$112 an hour</p>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-plus">What’s included</button><div class="opt-more-body" id="om-plus"><ul class="sv-list"><li>Up to four hours of changes</li><li>A report every quarter on visits, searches and enquiries</li><li>Your changes go to the front of the queue</li></ul>
+                          <p class="tg-meta">About NZ$112 an hour</p></div></div>
                         </div>
                       </div>
                     </div>
@@ -554,8 +567,8 @@
                         <span class="opt-top"><span class="sv-flag" aria-hidden="true">&nbsp;</span><span class="opt-state" aria-hidden="true">✓ Selected</span></span>
                         <label class="opt-lab" for="care-partner"><span class="opt-name">Partner</span><span class="sv-price"><span class="sv-cur">NZ$</span><span class="sv-amt">1,500</span><span class="sv-per">a month</span></span></label>
                         <div class="opt-desc" id="cd-partner">
-                          <ul class="sv-list"><li>About 14 hours across web, words and film</li><li>A standing monthly check-in</li><li>Three-month minimum</li></ul>
-                          <p class="tg-meta">About NZ$107 an hour</p>
+                          <div class="opt-more"><button class="opt-more-btn" type="button" aria-expanded="false" aria-controls="om-partner">What’s included</button><div class="opt-more-body" id="om-partner"><ul class="sv-list"><li>About 14 hours across web, words and film</li><li>A standing monthly check-in</li><li>Three-month minimum</li></ul>
+                          <p class="tg-meta">About NZ$107 an hour</p></div></div>
                         </div>
                       </div>
                     </div>
@@ -578,7 +591,7 @@
             <div class="cfg-step is-off" id="step5" inert>
               <div class="cfg-in">
                 <fieldset id="fs5">
-                  <legend><span class="red">/5</span> When would you like to start?<span class="cfg-opt" id="timingOpt" hidden>(optional)</span></legend>
+                  <legend tabindex="-1"><span class="red">/5</span> When would you like to start?<span class="cfg-opt" id="timingOpt" hidden>(optional)</span></legend>
                   <div class="sv-chips">
                     <label class="sv-chip"><input class="se-vh" type="radio" name="timing" value="as soon as I can"><span class="sv-chip-box"><span class="sv-chip-state" aria-hidden="true">✓</span>As soon as I can</span></label>
                     <label class="sv-chip"><input class="se-vh" type="radio" name="timing" value="in the next month or two"><span class="sv-chip-box"><span class="sv-chip-state" aria-hidden="true">✓</span>In the next month or two</span></label>
@@ -592,7 +605,7 @@
             <div class="cfg-step" id="step6">
               <div class="cfg-in">
                 <fieldset id="fs6">
-                  <legend><span class="red">/6</span> Your details</legend>
+                  <legend tabindex="-1"><span class="red">/6</span> Your details</legend>
                   <p class="cfg-intro">Add your name and email to the summary, then send it.</p>
                   <button class="btn btn-ghost cfg-go" type="button" id="goSummary">Go to summary</button>
                 </fieldset>
@@ -600,14 +613,21 @@
             </div>
           </div>
 
+          <!-- Phone and tablet bar: sits here so Tab reaches Next beside the step -->
+          <div class="sv-bar" id="svBar" role="region" aria-label="Your choice">
+    <span class="sv-bar-text" id="svBarText"><span class="sb-name" id="svBarName"></span><span class="sb-price" id="svBarPrice"></span></span>
+    <button class="btn btn-solid" type="button" id="svBarGo" disabled>Next</button>
+  </div>
+
           <!-- Summary panel -->
           <aside class="cfg-sum" id="summary" aria-label="Your enquiry">
             <div id="sumBody">
+              <h3 class="cfg-rev-h" id="revHead" tabindex="-1">Review and send</h3>
               <p class="sum-label">/ Your enquiry</p>
 
               <p class="sum-sent" id="sentence">Hi Kris, I’m
                 <label class="se-vh" for="seName">Your name</label><span class="se-nw"><span class="se-curwrap"><input class="se-blank se-name" id="seName" name="name" type="text" autocomplete="name" placeholder="your name" required><span class="se-cursor" id="seCursor" aria-hidden="true"></span></span>.</span>
-                I’d like <span id="slSite"></span><span id="slPlat"></span><span id="slPace"></span><span id="slCare"></span><span id="slTime"></span>.
+                I’d like <span id="slSite"></span><span class="rv rv-2" id="slPlat"></span><span class="rv rv-3" id="slPace"></span><span class="rv rv-4" id="slCare"></span><span class="rv rv-5" id="slTime"></span>.
                 You can reach me at
                 <span class="se-nw"><label class="se-vh" for="seEmail">Your email</label><input class="se-blank se-email" id="seEmail" name="email" type="email" autocomplete="email" placeholder="your email" required>.</span>
               </p>
@@ -875,12 +895,6 @@
     </div>
   </article>
 
-  <!-- Mobile sticky bar -->
-  <div class="sv-bar" id="svBar" role="region" aria-label="Your choice">
-    <span class="sv-bar-text" id="svBarText"><span class="sb-name" id="svBarName"></span><span class="sb-price" id="svBarPrice"></span></span>
-    <button class="btn btn-solid" type="button" id="svBarGo">Review <span class="btn-arrow" aria-hidden="true">→</span></button>
-  </div>
-
-<script src="../js/main.js?v=5f5818cfca" defer></script>
+<script src="../js/main.js?v=c41baa5cc5" defer></script>
 </body>
 </html>

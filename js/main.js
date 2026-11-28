@@ -1666,8 +1666,8 @@ const makeEnquirySender = (form) => {
     window.print();
   });
 
-  /* mobile sticky bar */
-  var bar = $("#svBar"), barText = $("#svBarText"), sumInView = false;
+  /* phone and tablet bar: the choice and total on the left, Next on the right, on steps 1 to 5 */
+  var bar = $("#svBar"), goBtn = $("#svBarGo"), inBuilder = false;
   /* two lines: the choice, then its price */
   function barLabel(s) {
     if (!s.site) return null;
@@ -1684,15 +1684,153 @@ const makeEnquirySender = (form) => {
   function paintBar(s) {
     var t = barLabel(s);
     setText(barName, t ? t[0] : ""); setText(barPrice, t ? t[1] : "");
-    bar.classList.toggle("on", !!t && !sumInView && !done);
-    document.body.classList.toggle("sv-bar-room", !!t && !done);
+    bar.classList.toggle("on", flow && cur < 6 && inBuilder && !done);
   }
   /* the back-to-top button would sit on the sticky panel, so it steps aside while the configurator is in view */
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { document.body.classList.toggle("sv-cfg-view", es[0].isIntersecting); }, { threshold: 0 }).observe(root);
+    new IntersectionObserver(function (es) { inBuilder = es[0].isIntersecting; paintBar(state()); }, { rootMargin: "0px 0px -64px 0px", threshold: 0 }).observe($("#start"));
+  } else { inBuilder = true; }
+
+  /* ---- phone and tablet: one step at a time ---- */
+  var flowMQ = window.matchMedia("(max-width: 1023.98px)");
+  var flow = flowMQ.matches, cur = 1;
+  var prog = { n: $("#cfgProgN"), fill: $("#cfgProgFill"), back: $("#cfgBack") };
+  var revHead = $("#revHead"), actionsEl = $(".se-actions", summaryEl);
+  var motionOK = function () { return !window.matchMedia("(prefers-reduced-motion: reduce)").matches; };
+  function visSteps(s) {
+    return s.site ? [1, s.hasPlat ? 2 : 0, s.tier ? 3 : 0, s.careOn ? 4 : 0, 5, 6].filter(Boolean) : [1, 2, 3, 4, 5, 6];
   }
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) { sumInView = es[0].isIntersecting; paintBar(state()); }, { threshold: 0 }).observe(summaryEl);
+  function stepDone(n, s) {
+    if (n === 1) return !!s.site;
+    if (n === 2) return !!s.platform;
+    if (n === 3) return s.rushable ? !!s.pace : true;
+    if (n === 4) return !!s.care;
+    return true;
+  }
+  function stepAfter(s, from, dir) {
+    var v = visSteps(s), i = v.indexOf(from);
+    if (i < 0) return dir > 0 ? 6 : 1;
+    return v[Math.min(v.length - 1, Math.max(0, i + dir))];
+  }
+  /* where to open: the first of steps 1 to 4 still to answer, or the review */
+  function entryStep(s) {
+    if (!s.site) return 1;
+    var v = visSteps(s);
+    for (var i = 0; i < v.length; i++) if (v[i] <= 4 && !stepDone(v[i], s)) return v[i];
+    return 6;
+  }
+  function paintFlow(s) {
+    if (!flow) return;
+    var v = visSteps(s), idx = Math.max(0, v.indexOf(cur));
+    setText(prog.n, "Step " + (idx + 1) + " of " + v.length);
+    prog.fill.style.width = ((idx + 1) / v.length * 100) + "%";
+    prog.back.hidden = cur === 1;
+    goBtn.disabled = !(cur < 6 && stepDone(cur, s));
+    paintBar(s);
+  }
+
+  /* the reveal animates three phrase groups; they exist only below 1024px so the desktop text runs are untouched */
+  function wrapSentence(on) {
+    var p = $("#sentence"), has = !!p.querySelector(".rv-0");
+    if (!on) {
+      if (!has) return;
+      ["rv-0", "rv-1", "rv-e"].forEach(function (c) {
+        var w = p.querySelector("." + c);
+        while (w.firstChild) p.insertBefore(w.firstChild, w);
+        w.remove();
+      });
+      return;
+    }
+    if (has) return;
+    var kids = Array.prototype.slice.call(p.childNodes);
+    var iName = kids.indexOf(p.querySelector(".se-nw")), iSite = kids.indexOf($("#slSite")), iTime = kids.indexOf($("#slTime"));
+    var group = function (cls, from, to) {
+      var w = document.createElement("span"); w.className = "rv " + cls;
+      p.insertBefore(w, kids[from]);
+      for (var i = from; i <= to; i++) w.appendChild(kids[i]);
+    };
+    group("rv-0", 0, iName);
+    group("rv-1", iName + 1, iSite);
+    group("rv-e", iTime + 1, kids.length - 1);
+  }
+
+  /* the reveal: the sentence writes itself, then the numbers, then the buttons */
+  var revOn = false, revT = 0, revIO = null;
+  function endReveal() {
+    clearTimeout(revT);
+    if (revIO) { revIO.disconnect(); revIO = null; }
+    document.removeEventListener("keydown", skipReveal, true);
+    summaryEl.removeEventListener("pointerdown", skipReveal, true);
+    var was = revOn;
+    revOn = false;
+    summaryEl.classList.remove("rev-play", "rev-hold");
+    actionsEl.removeAttribute("inert");
+    return was;
+  }
+  function focusRevHead() {
+    var a = document.activeElement;
+    if (flow && cur === 6 && (!a || a === document.body || a === goBtn || a === prog.back)) revHead.focus({ preventScroll: true });
+  }
+  function skipReveal() { if (endReveal()) focusRevHead(); }
+  function startReveal(initial) {
+    endReveal();
+    if (!flow) return;
+    if (!motionOK()) { if (!initial) focusRevHead(); return; }
+    revOn = true;
+    summaryEl.classList.add("rev-play");
+    actionsEl.setAttribute("inert", "");
+    document.addEventListener("keydown", skipReveal, true);
+    summaryEl.addEventListener("pointerdown", skipReveal, true);
+    var arm = function () {
+      summaryEl.classList.remove("rev-hold");
+      revT = setTimeout(function () { if (endReveal() && !initial) focusRevHead(); }, 1500);
+    };
+    if (initial && "IntersectionObserver" in window) {
+      summaryEl.classList.add("rev-hold");
+      revIO = new IntersectionObserver(function (es) {
+        if (!es.some(function (x) { return x.isIntersecting; })) return;
+        revIO.disconnect(); revIO = null; arm();
+      }, { threshold: 0.2 });
+      revIO.observe(summaryEl);
+    } else arm();
+  }
+
+  function showStep(n, o) {
+    o = o || {};
+    cur = n;
+    root.setAttribute("data-cur", String(n));
+    paintFlow(state());
+    fitAll();
+    if (n === 6) startReveal(!!o.initial); else endReveal();
+    if (o.scroll) root.scrollIntoView({ block: "start", behavior: motionOK() ? "smooth" : "instant" });
+    if (o.focus && n !== 6) { var lg = $("#fs" + n + " legend"); if (lg) lg.focus({ preventScroll: true }); }
+  }
+  goBtn.addEventListener("click", function () {
+    var s = state();
+    if (cur < 6 && stepDone(cur, s)) showStep(stepAfter(s, cur, 1), { scroll: true, focus: true });
+  });
+  prog.back.addEventListener("click", function () { showStep(stepAfter(state(), cur, -1), { scroll: true, focus: true }); });
+  flowMQ.addEventListener("change", function (e) {
+    flow = e.matches;
+    wrapSentence(flow);
+    if (flow) { var s = state(); showStep(s.site ? entryStep(s) : 1, {}); }
+    else { endReveal(); paintBar(state()); }
+  });
+
+  /* disclosures: What's included on an option, and the other ways to start */
+  form.addEventListener("click", function (e) {
+    var b = e.target.closest(".opt-more-btn, .cfg-other-btn");
+    if (!b) return;
+    var box = b.parentNode, open = !box.classList.contains("is-open");
+    box.classList.toggle("is-open", open);
+    b.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  function openOther() {
+    var box = $(".cfg-other"), q = $(".opt-quiet .opt-in:checked");
+    if (!q) return;
+    box.classList.add("is-open");
+    $(".cfg-other-btn").setAttribute("aria-expanded", "true");
   }
 
   /* render everything from the choices; returns the steps that just opened */
@@ -1730,6 +1868,7 @@ const makeEnquirySender = (form) => {
     $("#sqLine").hidden = !sqPath(s);
     $("#svSave").hidden = !s.site;
     updateCount(s);
+    paintFlow(s);
     paintBar(s);
     fitAll();
     return opened;
@@ -1761,7 +1900,8 @@ const makeEnquirySender = (form) => {
     dropCursor();
     clearInvalid(t);
     var opened = render();
-    if (!quiet && lastKb && opened.length && e.type === "change") {
+    if (t.name === "site") openOther();
+    if (!flow && !quiet && lastKb && opened.length && e.type === "change") {
       keepInView(focusIn(opened[0]));
     }
   }
@@ -1770,6 +1910,7 @@ const makeEnquirySender = (form) => {
 
   /* gaps in the sentence take you to the step */
   function goStep(n) {
+    if (flow) { showStep(n, { scroll: true, focus: true }); return; }
     var fs = $("#fs" + n);
     fs.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     focusIn(n);
@@ -1781,6 +1922,7 @@ const makeEnquirySender = (form) => {
 
   /* the two buttons that pick a path from elsewhere on the page */
   function goForm() {
+    if (flow) { showStep(entryStep(state()), { scroll: true, focus: true }); return; }
     var h = $("#h-cfg");
     h.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     setTimeout(function () { h.focus({ preventScroll: true }); }, reduce ? 0 : 700);
@@ -1796,7 +1938,6 @@ const makeEnquirySender = (form) => {
     summaryEl.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     f.name.focus({ preventScroll: true });
   }
-  $("#svBarGo").addEventListener("click", goSummary);
   $("#goSummary").addEventListener("click", goSummary);
 
   /* optional note */
@@ -1881,4 +2022,22 @@ const makeEnquirySender = (form) => {
 
   applyQ();
   render();
+  openOther();
+  wrapSentence(flow);
+  if (flow) { var s0 = state(); showStep(s0.site ? entryStep(s0) : 1, { initial: true }); }
+})();
+
+/* Services and landing pages on a phone: the swipe rows of quotes take a keyboard stop each */
+(function () {
+  "use strict";
+  if (!document.body.classList.contains("pg-phone")) return;
+  var mq = window.matchMedia("(max-width: 759.98px)");
+  var quotes = Array.prototype.slice.call(document.querySelectorAll(".sv-quote"));
+  function set() {
+    quotes.forEach(function (q) {
+      if (mq.matches) q.setAttribute("tabindex", "0"); else q.removeAttribute("tabindex");
+    });
+  }
+  set();
+  mq.addEventListener("change", set);
 })();
