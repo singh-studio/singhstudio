@@ -1246,6 +1246,7 @@ const makeEnquirySender = (form) => {
     audio: { name: "Audio", short: "audio", phrase: "audio", code: "a" }
   };
   var EXTRA_KEYS = ["words", "film", "audio"];
+  var FIX_TEXT = "A website fix is NZ$750. I spend a week on the site you already have and sort out what’s hurting it most: speed, search, broken pieces and the words on the home page. If you go on to a new site within three months, the NZ$750 comes off its price.";
   var EXTRA_PRICE = "From NZ$950 a day";
   /* items like "film and photography" already hold an "and", so the last join gets a comma to keep the list readable */
   var natList = function (a) { if (a.length < 2) return a.join(""); var sep = a.some(function (x) { return / and /.test(x); }) ? ", and " : " and "; return a.slice(0, -1).join(", ") + sep + a[a.length - 1]; };
@@ -1637,7 +1638,59 @@ const makeEnquirySender = (form) => {
 
     var inc = $("#sdInc"); inc.textContent = "";
     if (s.tier) docList(inc, liTexts("#sd-" + s.site + " .sv-list"));
-    else if (s.site === "fix") mk("p", "sd-para", $(".sv-door-text").textContent.trim(), inc);
+    else if (s.site === "fix") mk("p", "sd-para", FIX_TEXT, inc);
+    else if (s.site === "refresh") mk("p", "sd-para", "Improve the site you have, on the platform you already use.", inc);
+    else if (s.site === "words") {
+      EXTRA_KEYS.forEach(function (k) {
+        var d = mk("div", "sd-item", null, inc);
+        mk("h3", "", $("#extra-" + k).closest(".opt").querySelector(".opt-name").textContent.trim(), d);
+        mk("p", "", $("#xd-" + k + " .opt-line").textContent.trim(), d);
+      });
+    } else if (s.site === "unsure") {
+      n.total = ["Price", "On a call"]; n.note = "We’ll work it out together.";
+    } else if (s.site === "refresh") {
+      n.rows.push(["Refresh", "From NZ$2,500"]);
+      n.total = ["Total to build", "From NZ$2,500"]; n.note = "On the platform you already use.";
+    } else {
+      n.rows = q.rows.filter(function (r) { return !/ a month$/.test(r[1]) && r[1] !== EXTRA_PRICE; });
+      if (s.site === "bespoke") {
+        n.total = ["Total to build", "From NZ$15,000"]; n.note = "Most land between NZ$15,000 and NZ$30,000.";
+        n.timing = TIERS.bespoke.std;
+      } else {
+        n.total = [q.total.label, q.total.amount];
+        n.timing = s.pace === "rush" ? s.tier.rush + " (rush)" : s.tier.std + (s.pace ? " (standard)" : "");
+      }
+    }
+    return n;
+  }
+  function paintDoc() {
+    var s = state(), q = quote(s), sp = slotSpecs(s);
+    if (!docRef) {
+      var ymd = nzDate({ year: "2-digit", month: "2-digit", day: "2-digit" }), code = "";
+      if (ymd) ymd.formatToParts(new Date()).forEach(function (p) { if (p.type === "year" || p.type === "month" || p.type === "day") code += p.value; });
+      var hex = Math.floor(Math.random() * 65536).toString(16).toUpperCase();
+      docRef = "SS-" + (code || "000000") + "-" + ("0000" + hex).slice(-4);
+    }
+    var dfmt = nzDate({ day: "numeric", month: "long", year: "numeric" });
+    setText($("#sdRef"), "Ref " + docRef);
+    setText($("#sdDate"), "Prepared " + (dfmt ? dfmt.format(new Date()) : new Date().toDateString()));
+
+    var T = DOC_TITLES[s.site] || ["Quote", "Summary"];
+    setText($("#sdT1"), T[0]);
+    var t2 = $("#sdT2"); t2.textContent = "";
+    mk("span", "sd-sl", "/", t2); t2.appendChild(document.createTextNode(T[1]));
+
+    var who = $("#sdFor"); who.textContent = "";
+    if (s.name) mk("p", "sd-name", s.name, who); else mk("p", "sd-blank", "Your name", who);
+    if (s.email) mk("p", "sd-sub", s.email, who); else mk("p", "sd-blank", "Your email", who);
+
+    var parts = [sp.site, sp.plat, sp.pace, sp.care, sp.extra, sp.time].filter(function (x) { return x && x.filled; });
+    $("#sdWords").hidden = !parts.length;
+    setText($("#sdSentence"), parts.length ? "I’d like " + parts.map(function (x, i) { return (i ? x.prefix : "") + x.text; }).join("") + "." : "");
+
+    var inc = $("#sdInc"); inc.textContent = "";
+    if (s.tier) docList(inc, liTexts("#sd-" + s.site + " .sv-list"));
+    else if (s.site === "fix") mk("p", "sd-para", FIX_TEXT, inc);
     else if (s.site === "refresh") mk("p", "sd-para", "Improve the site you have, on the platform you already use.", inc);
     else if (s.site === "words") {
       $$(".sv-beyond").forEach(function (p) {
@@ -1846,8 +1899,12 @@ const makeEnquirySender = (form) => {
     if (cur < 7 && stepDone(cur, s)) showStep(stepAfter(s, cur, 1), { scroll: true, focus: true });
   });
   prog.back.addEventListener("click", function () { showStep(stepAfter(state(), cur, -1), { scroll: true, focus: true }); });
+  /* the "what happens next" list is a closed disclosure beside the form and always open in the phone flow */
+  var nextD = $("#cfgNext");
+  function syncNext() { if (nextD) nextD.open = flow; }
   flowMQ.addEventListener("change", function (e) {
     flow = e.matches;
+    syncNext();
     wrapSentence(flow);
     if (flow) { var s = state(); showStep(s.site ? entryStep(s) : 1, {}); }
     else { endReveal(); paintBar(state()); }
@@ -2079,6 +2136,7 @@ const makeEnquirySender = (form) => {
   });
 
   applyQ();
+  syncNext();
   render();
   openOther();
   wrapSentence(flow);

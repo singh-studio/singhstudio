@@ -3612,3 +3612,36 @@ fieldset[data-invalid="true"] legend::after { content: " · choose one"; color: 
   .cmp-table tbody th, .cmp-table thead th { font-size: 0.62rem; letter-spacing: 0.02em; padding-right: 0.15rem; }
   .cmp-choose { font-size: 0.62rem; letter-spacing: 0; }
 }
+
+/* ---- Services: quotes, questions and what happens next live inside the builder ---- */
+.cfg-quote { margin: clamp(1.4rem, 3vh, 2rem) 0 0; border-left: 2px solid var(--red); padding-left: 1rem; max-width: 46rem; }
+.cfg-quote blockquote p { font-family: var(--font-serif); font-style: italic; font-size: 1rem; line-height: 1.55; color: var(--copy); }
+.cfg-quote figcaption { margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); }
+.cfg .cfg-faq { margin-top: clamp(1.4rem, 3vh, 2rem); border-top: 0; }
+.cfg-faq-h { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin: 0 0 0.3rem; }
+.cfg-faq details { border-top: 1px solid var(--hairline); border-bottom: 0; }
+.cfg-faq details:last-child { border-bottom: 1px solid var(--hairline); }
+.cfg-faq summary { min-height: 48px; padding: 0.7rem 0; align-items: center; font-weight: 500; font-size: 1rem; line-height: 1.35; }
+.cfg-faq summary:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.cfg .cfg-faq details p { max-width: 60ch; padding-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; color: var(--copy); }
+.cfg-work { margin-top: 1rem; }
+.cfg-other-body .cfg-faq { margin-top: 1.2rem; }
+.cfg .cfg-next { margin-top: 1.2rem; padding: 0; border: 0; }
+.cfg-next-h { display: none; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin: 0 0 0.6rem; }
+.cfg-next-d summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 44px; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--copy); }
+.cfg-next-d summary::-webkit-details-marker { display: none; }
+.cfg-next-d summary::after { content: "+"; color: var(--red-text); font-size: 1.15rem; }
+.cfg-next-d[open] summary::after { content: "\2212"; }
+.cfg-next-d summary:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.cfg-next-l { list-style: none; margin: 0; padding: 0.6rem 0 0; display: grid; gap: 0.7rem; }
+.cfg-next-l li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: 0 0.4rem; font-size: 0.92rem; line-height: 1.45; color: var(--copy); }
+.cfg-next-l .nx-n { grid-row: span 2; font-family: var(--font-mono); font-size: 0.72rem; color: var(--red-text); padding-top: 0.2em; }
+.cfg-next-l .nx-t { font-weight: 560; color: var(--bone); }
+@media (max-width: 1023.98px) {
+  .cfg-next-h { display: block; }
+  .cfg-next-d summary { display: none; }
+  .cfg-next-l { padding-top: 0; }
+  .cfg-sum .cfg-quote { margin-top: 1.4rem; }
+  .cfg-sum .cfg-faq { margin-top: 1.6rem; }
+  .cfg-sum.rev-play :is(.cfg-quote, .cfg-next, .cfg-faq) { animation: rv-up 0.28s var(--ease-swift) 1200ms both; }
+}
