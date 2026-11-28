@@ -1367,23 +1367,29 @@ const makeEnquirySender = (form) => {
   /* the sentence: each phrase fills in, or shows as a gap you can click */
   var slots = { site: $("#slSite"), plat: $("#slPlat"), pace: $("#slPace"), care: $("#slCare"), extra: $("#slExtra"), time: $("#slTime") };
   function setSlot(el, spec) {
-    var sig = spec ? [spec.prefix, spec.text, spec.filled ? 1 : 0, spec.step].join("|") : "";
+    var sig = spec ? [spec.prefix, spec.text, spec.filled ? 1 : 0, spec.step, spec.suffix || ""].join("|") : "";
     if (el._sig === sig) return;
     el._sig = sig;
     el.textContent = "";
     if (!spec) return;
     if (spec.prefix) el.appendChild(document.createTextNode(spec.prefix));
+    var node;
     if (spec.filled) {
-      var s = document.createElement("span");
-      s.className = "fill pop"; s.textContent = spec.text;
-      el.appendChild(s);
+      node = document.createElement("span");
+      node.className = "fill pop"; node.textContent = spec.text;
     } else {
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "gap"; b.setAttribute("data-step", spec.step);
-      b.textContent = "[" + spec.text + "]";
-      b.setAttribute("aria-label", "Go to step " + spec.step + ": " + spec.text);
-      el.appendChild(b);
+      node = document.createElement("button");
+      node.type = "button"; node.className = "gap"; node.setAttribute("data-step", spec.step);
+      node.textContent = "[" + spec.text + "]";
+      node.setAttribute("aria-label", "Go to step " + spec.step + ": " + spec.text);
     }
+    /* a gap button is an inline-block, so the browser may wrap before a comma that follows it; keep the two together */
+    if (spec.suffix) {
+      var keep = document.createElement("span");
+      keep.className = "sl-keep"; keep.style.whiteSpace = "nowrap";
+      keep.appendChild(node); keep.appendChild(document.createTextNode(spec.suffix));
+      el.appendChild(keep);
+    } else el.appendChild(node);
   }
   function slotSpecs(s) {
     var sp = {};
@@ -1422,6 +1428,15 @@ const makeEnquirySender = (form) => {
   }
   function paintSentence(s) {
     var sp = slotSpecs(s);
+    /* move each leading comma onto the end of the phrase before it, so a wrapped line never starts with ", " */
+    var order = ["site", "plat", "pace", "care", "extra", "time"], prev = null;
+    order.forEach(function (k) {
+      var x = sp[k];
+      if (!x) return;
+      x = sp[k] = Object.assign({}, x, { suffix: "" });
+      if (prev && /^,/.test(x.prefix)) { prev.suffix = ","; x.prefix = x.prefix.slice(1); }
+      prev = x;
+    });
     setSlot(slots.site, sp.site);
     setSlot(slots.plat, sp.plat);
     setSlot(slots.pace, sp.pace);
